@@ -32,45 +32,45 @@ to a similar DECORATE.
 
 For an example of ZDCode.
 
-  %FlemCell : Ammo *5251 {
-    &Inventory.Amount = 8;
-    &Inventory.MaxAmount = 80;
-    &Ammo.BackpackMaxAmount = 160;
-  };
-
-  %FlemPoweredBootspork : SuperBootspork *5250 {
-    &Damage=6;
-    &Weapon.AmmoType="FlemCell";
-    &Weapon.AmmoUse=1;
-    &Weapon.SlotNumber=1;
-    &Weapon.SlotPriority=0.5;
-
-    !WEAPON.WIMPY_WEAPON;
-
-    $Recharge(amount) {
-      :?amount==0->QuickRecharge;
-      :TNT1A0 @A_GiveInventory("FlemCell", 1);
-      :TNT1A0 @A_TakeInventory("amount", 1);
-      :?amount==1->F_Recharge;
+    %FlemCell : Ammo *5251 {
+      &Inventory.Amount = 8;
+      &Inventory.MaxAmount = 80;
+      &Ammo.BackpackMaxAmount = 160;
     };
 
-    #QuickRecharge {
-      :(Recharge)(5);
-      :^Goto Ready;
-    };
+    %FlemPoweredBootspork : SuperBootspork *5250 {
+      &Damage=6;
+      &Weapon.AmmoType="FlemCell";
+      &Weapon.AmmoUse=1;
+      &Weapon.SlotNumber=1;
+      &Weapon.SlotPriority=0.5;
 
-    #AltFire {
-      :SAWGAB5 @A_Saw;
-      :TNT1A0 @A_JumpIfCloser(64, "GetFlem");
-      :^Goto Ready;
-    };
+      !WEAPON.WIMPY_WEAPON;
 
-    #GetFlem {
-      :(Recharge)(2);
-      :TNT1A0 @A_Refire("AltFire");
-      :^Goto Ready;
+      $Recharge(amount) {
+        :?amount==0->QuickRecharge;
+        :TNT1A0 @A_GiveInventory("FlemCell", 1);
+        :TNT1A0 @A_TakeInventory("amount", 1);
+        :?amount==1->F_Recharge;
+      };
+
+      #QuickRecharge {
+        :(Recharge)(5);
+        :^Goto Ready;
+      };
+
+      #AltFire {
+        :SAWGAB5 @A_Saw;
+        :TNT1A0 @A_JumpIfCloser(64, "GetFlem");
+        :^Goto Ready;
+      };
+
+      #GetFlem {
+        :(Recharge)(2);
+        :TNT1A0 @A_Refire("AltFire");
+        :^Goto Ready;
+      };
     };
-  };
 
 ## How-to
 Converting an input .zdc file to an output .dec file is simple:
