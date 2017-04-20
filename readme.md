@@ -72,6 +72,13 @@ For an example of ZDCode.
     };
   };
 
+## How-to
+Converting an input .zdc file to an output .dec file is simple:
+
+    python zdcode.py <input> <output>
+
+Then you can use the .dec file as a DECORATE lump in your own WAD!
+
 ## Copyright
 Check `license.md` for more.
 ©2017 Gustavo Ramos "Gustavo6046" Rehermann. MIT license.
