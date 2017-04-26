@@ -1,3 +1,4 @@
+import re
 import textwrap
 
 from pyparsing import *
@@ -8,7 +9,7 @@ def decorate(o, *args, **kwargs):
     print "Getting DECORATE code for a {}...".format(type(o).__name__)
     return o.__decorate__(*args, **kwargs)
 
-def big_lit(s, indent=4, tab_size=4):
+def big_lit(s, indent=4, tab_size=4, strip_borders=True):
     """This function assists in the creation of
 fancier triple-quoted literals, by removing
 trailing indentation in lines and trailing
@@ -16,7 +17,8 @@ and leading spaces/newlines from formatting."""
 
     while s[0] in ("\n", "\r"): s = s[1:]
     while s[-1] in ("\n", "\r"): s = s[:-1]
-    lines = s.strip(" \t").splitlines()
+    if strip_borders: s = s.strip(" \t")
+    lines = s.splitlines()
     result = []
 
     for l in lines:
@@ -65,7 +67,7 @@ def redent(code, spaces=8, unindent_first=True):
     r = "\n".join(r)
 
     if unindent_first:
-        return r.lstrip(" ")
+        return r.lstrip("\t ")
 
     return r
 
@@ -79,7 +81,7 @@ class ZDProperty(object):
         self.code.properties[name] = self
 
     def __decorate__(self):
-        return "{} {}".format(self.name, self.value)
+        return "    {} {}".format(self.name, self.value)
 
 class ZDCall(object):
     def __init__(self, code, label, func, args=None):
@@ -107,7 +109,7 @@ class ZDCall(object):
         for i, a in enumerate(self.args):
             r += "TNT1 A 0 A_TakeInventory(\"{0}\")\n    TNT1 A 0 A_GiveInventory(\"{0}\", {1})\n".format(self.func.args[i], a)
 
-        return r + "    Goto F_{}\n_CLabel{}:".format(self.func.name, self.id)
+        return r + "TNT1 A 0 A_GiveInventory(\"_Call{1}\")\n        Goto F_{0}\n    _CLabel{1}:\n        TNT1 A 0 A_TakeInventory(\"_Call{1}\")".format(self.func.name, self.id)
 
 class ZDFunction(object):
     def __init__(self, code, actor, name, args=None, states=None):
@@ -147,15 +149,13 @@ class ZDFunction(object):
         for c in self.calls:
             result.append("TNT1 A 0 A_JumpIfInventory(\"_Call{0}\", 1, \"_CLabel{0}\")".format(c.id))
 
-        return redent("\n".join(result), 4)
+        return redent("\n".join(result), 8)
 
     def __decorate__(self):
-        code = big_lit("""
-        F_{}:
-    {}
-    {}
-    Stop
-        """.format(self.name, redent("\n".join(decorate(s) for s in self.states), 4), self.call_states()), 0)
+        code = """    F_{}:
+        {}
+        {}
+        Stop""".format(self.name, redent("\n".join(decorate(s) for s in self.states), 4), redent(self.call_states(), 0))
 
         return code
 
@@ -207,10 +207,10 @@ class ZDLabel(object):
         if self.name.startswith("F_"):
             self.name = "_" + self.name
 
-        r = "{}:".format(self.name)
+        r = "    {}:".format(self.name)
 
         for s in self.states:
-            r += "\n    {}".format(decorate(s))
+            r += "\n        {}".format(decorate(s))
 
         return r
 
@@ -248,7 +248,7 @@ class ZDActor(object):
         for a in self.antiflags:
             r.append("-{}".format(a))
 
-        return redent("\n".join(r), 4)
+        return redent(big_lit("\n".join(r), 8), 4, False)
 
     def label_code(self):
         r = []
@@ -259,7 +259,7 @@ class ZDActor(object):
         for l in self.labels:
             r.append(decorate(l))
 
-        return redent("\n\n".join(r), 8)
+        return redent("\n\n".join(r), 8, False)
 
     def header(self):
         r = self.name
@@ -271,18 +271,26 @@ class ZDActor(object):
         return r
 
     def __decorate__(self):
+        if self.labels + self.funcs:
+            return big_lit(
+            """
+            Actor {}
+            {{
+            {}
+
+                States {{
+                    {}
+                }}
+            }}
+            """, 12).format(self.header(), redent(self.top(), 4, unindent_first=False), redent(self.label_code(), unindent_first=True))
+
         return big_lit(
         """
         Actor {}
         {{
-            {}
-
-            States
-            {{
-                {}
-            }}
+        {}
         }}
-        """.format(self.header(), redent(self.top(), unindent_first=True), redent(self.label_code(), unindent_first=True)), 8)
+        """, 8).format(self.header(), redent(self.top(), 4, unindent_first=False))
 
 class ZDInventory(object):
     def __init__(self, code, name):
@@ -300,7 +308,7 @@ class ZDCode(object):
         pass
 
     args = Forward()
-    args << (CharsNotIn(",)") + Optional("," + args))
+    args << (Combine(CharsNotIn("()") + "(" + args + ")" + Optional("," + args)) | CharsNotIn(")"))
     inherit = Optional(":" + Word(alphanums + "_"))
     replace = Optional("->" + Word(alphanums + "_"))
     denum = Optional("*" + Word(nums))
@@ -310,7 +318,7 @@ class ZDCode(object):
     actorargs << (inherit ^ replace ^ denum) + (FollowedBy("{") | Optional(actorargs))
     action = Group(Word(alphanums + "_-") + Optional("(" + args + ")"))
     cond = "?" + SkipTo("==") + "==" + Word(nums) + "->" + Word(alphanums + "_-.") + ";"
-    call = "(" + Word(alphas+"_", alphanums+"_") + ")" + Optional("(" + args + ")") + ";"
+    call = "(" + Word(alphas+"_", alphanums+"_") + ")" + Optional("(" + Optional(args) + ")") + ";"
     raw = "^" + SkipTo(";") + ";"
     normstate = Word(alphanums + "_-", exact=4) + Word(alphas + "[]") + Word(nums) + ZeroOrMore(Group("[" + SkipTo("]") + "]")) + Optional("@" + action) + ";"
     state = ":" + (cond ^ call ^ raw ^ normstate)
@@ -319,19 +327,19 @@ class ZDCode(object):
     aflag = "!" + flagname + ";"
     aprop = "&" + Word(alphanums + "_.") + "=" + SkipTo(";") + ";"
     st << (state + Optional(st))
-    afunc = "$" + Word(alphas+"_", alphanums+"_") + Optional("(" + args + ")") + ("{" + Optional(st) + "};")
+    afunc = "$" + Word(alphas+"_", alphanums+"_") + Optional("(" + Optional(args) + ")") + "{" + Optional(st) + "};"
     label = "#" + CharsNotIn("{") + "{" + Optional(st) + "};"
     possib = afunc ^ label ^ aprop ^ aflag ^ flag
     recurse = Forward()
     recurse << (possib + Optional(recurse))
     parser << ("%" + Word(alphanums + "_") + actorargs + "{" + Optional(recurse) + "};" + Optional(parser))
 
+    comment = re.compile(r"\/\*(\*(?!\/)|[^*])*\*\/|\/\/[^\n$]+", re.MULTILINE)
+
     # args.setDebug()
     # inherit.setDebug()
     # replace.setDebug()
     # denum.setDebug()
-    # parser.setDebug()
-    # st.setDebug()
     # actorargs.setDebug()
     # action.setDebug()
     # cond.setDebug()
@@ -353,6 +361,7 @@ class ZDCode(object):
     @classmethod
     def parse(cls, code):
         print "Syntax parsing..."
+        code = cls.comment.sub("", code)
         syntax = cls.parser.parseString(code, parseAll=True)
         res = cls()
 
@@ -713,14 +722,17 @@ class ZDCode(object):
                 self._parse_state = "afunc.argstart"
 
             elif self._parse_state == "afunc.argstart":
-                if o != "(":
-                    raise self.ZDCodeError("Invalid function definition: expected '(', got '{}'".format(o))
-
-                else:
+                if o == "(":
                     self._parse_state = "afunc.arg1"
 
+                elif o == "{":
+                    self._parse_state = "afunc.closure"
+
+                else:
+                    raise self.ZDCodeError("Invalid function definition: expected '(' or '{', got '{}'".format(o))
+
             elif self._parse_state == "afunc.arg1":
-                if o == "){":
+                if o == ")":
                     self._parse_state = "afunc.startclosure"
 
                 else:
