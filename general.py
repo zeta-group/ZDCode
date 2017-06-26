@@ -84,21 +84,31 @@ class ZDProperty(object):
         return "    {} {}".format(self.name, self.value)
 
 class ZDCall(object):
-    def __init__(self, code, label, func, args=None):
+    def __init__(self, code, label, func, args=None, repeats=1):
         if not args:
             args = []
+
+        repeats = int(repeats)
 
         self.func = func
         self.code = code
         self.args = args
         self.label = label
+        self.repeats = repeats
 
         self.id = len(code.calls)
         code.calls.append(self)
         func.add_call(self)
         label.states.append(self)
 
-        ZDInventory(code, "_Call{}".format(self.id))
+        if repeats > 1:
+            for _ in xrange(repeats):
+                ZDCall(code, label, func, args, 1)
+
+            del self
+
+        else:
+            ZDInventory(code, "_Call{}".format(self.id))
 
     def add_arg(a):
         self.args.append(a)
@@ -233,6 +243,7 @@ class ZDActor(object):
         self.replace = replace
         self.num = doomednum
         self.funcs = []
+        self.raw = []
 
     def top(self):
         r = []
@@ -247,6 +258,9 @@ class ZDActor(object):
 
         for a in self.antiflags:
             r.append("-{}".format(a))
+
+        for rd in self.raw:
+            r.append(rd)
 
         return redent(big_lit("\n".join(r), 8), 4, False)
 
@@ -321,15 +335,15 @@ class ZDCode(object):
     call = "(" + Word(alphas+"_", alphanums+"_") + ")" + Optional("(" + Optional(args) + ")") + ";"
     raw = "^" + SkipTo(";") + ";"
     normstate = Word(alphanums + "_-", exact=4) + Word(alphas + "[]") + Word(nums) + ZeroOrMore(Group("[" + SkipTo("]") + "]")) + Optional("@" + action) + ";"
-    state = ":" + (cond ^ call ^ raw ^ normstate)
+    state = Optional("*" + Word(nums)) + ":" + (cond ^ call ^ raw ^ normstate)
     flagname = Word(alphanums + "_.")
     flag = "*" + flagname + ";"
     aflag = "!" + flagname + ";"
     aprop = "&" + Word(alphanums + "_.") + "=" + SkipTo(";") + ";"
     st << (state + Optional(st))
     afunc = "$" + Word(alphas+"_", alphanums+"_") + Optional("(" + Optional(args) + ")") + "{" + Optional(st) + "};"
-    label = "#" + CharsNotIn("{") + "{" + Optional(st) + "};"
-    possib = afunc ^ label ^ aprop ^ aflag ^ flag
+    label = "#" + Optional("#") + Word(alphas + "_", alphanums + "_") + "{" + Optional(st) + "};"
+    possib = afunc ^ label ^ aprop ^ aflag ^ flag ^ raw
     recurse = Forward()
     recurse << (possib + Optional(recurse))
     parser << ("%" + Word(alphanums + "_") + actorargs + "{" + Optional(recurse) + "};" + Optional(parser))
@@ -386,21 +400,21 @@ class ZDCode(object):
         self._parse_temp = None
 
     def lexical(self, o):
-        # ================
-        # ACTOR DEFINITION
-        # ================
         if not o:
             return
 
         if self._parse_state == "actor":
-            if o != "%":
-                raise self.ZDCodeError("Non-actor definition at global space!")
+            if o == "%":
+                self._parse_state = "actor.name"
 
             else:
-                self._parse_state = "actor.name"
+                raise self.ZDCodeError("Unknown definition at global space! (expected '%' or '~', got '{}')".format(o))
 
             return
 
+        # ================
+        # ACTOR DEFINITION
+        # ================
         if self._parse_state == "actor.name":
             self._actor_name = o
             self._parse_state = "actor.postname1"
@@ -461,6 +475,10 @@ class ZDCode(object):
             elif o == "*":
                 self._parse_state = "flag"
 
+            elif o == "^":
+                    self._parse_state = "raw"
+                    return
+
             elif o == "};":
                 o = self._actor
                 self.actors.append(o)
@@ -478,6 +496,16 @@ class ZDCode(object):
 
             else:
                 raise self.ZDCodeError("Invalid definition at actor space: '{}'".format(o))
+
+            return
+
+        # ===
+        # RAW
+        # ===
+
+        if self._parse_state == "raw":
+            self._actor.raw.append(o)
+            self._parse_state = "semicolon"
 
             return
 
@@ -511,8 +539,21 @@ class ZDCode(object):
         # ======
         if self._parse_state.startswith("label"):
             if self._parse_state == "label":
-                self._label = ZDLabel(self._actor, o.strip())
-                self._parse_state = "label.bracket"
+                if o == "#":
+                    if hasattr(self, "_log_label") and self._log_label:
+                        raise self.ZDCodeError("Three or more hashes found in a label definition! (expected label name, got '#')")
+
+                    else:
+                        self._log_label = True
+
+                else:
+                    self._label = ZDLabel(self._actor, o.strip())
+
+                    if hasattr(self, "_log_label") and self._log_label:
+                        del self._log_label
+                        self._label.add_state(ZDRawDecorate("TNT1 A 0 A_Log(\"Reached state {}\")".format(o.strip())))
+
+                    self._parse_state = "label.bracket"
 
             elif self._parse_state == "label.bracket":
                 if o != "{":
@@ -524,11 +565,15 @@ class ZDCode(object):
                 if o == "};":
                     self._parse_state = "inner_actor"
 
-                elif o != ":":
-                    raise self.ZDCodeError("Error reading state syntax: expected ':', got '{}' instead!".format(o))
+                elif o == ":":
+                    self.repeat_num = 1
+                    self._parse_state = "label.state"
+
+                elif o == "*":
+                    self._parse_state = "label.state.repeat"
 
                 else:
-                    self._parse_state = "label.state"
+                    raise self.ZDCodeError("Error reading state syntax! (Expected ':' or '*', got '{}' instead)".format(o))
 
             elif self._parse_state == "label.state":
                 if o == "?":
@@ -579,7 +624,7 @@ class ZDCode(object):
                     self._parse_state = "label.argcheck.state"
 
                 elif self._parse_state == "label.argcheck.state":
-                    self._label.states.append(ZDRawDecorate("TNT1 A 0 A_JumpIfInventory(\"{0}\", {3}, 2)\nTNT1 A 0 A_JumpIfInventory(\"{0}\", {1}, \"{2}\")").format(self._parse_temp[0], self._parse_temp[1], o, int(self._parse_temp[1]) + 1))
+                    for _ in xrange(self.repeat_num): self._label.states.append(ZDRawDecorate("TNT1 A 0 A_JumpIfInventory(\"{0}\", {3}, 2)\nTNT1 A 0 A_JumpIfInventory(\"{0}\", {1}, \"{2}\")").format(self._parse_temp[0], self._parse_temp[1], o, int(self._parse_temp[1]) + 1))
                     self._parse_state = "label.argcheck.semicolon"
 
                 elif self._parse_state == "label.argcheck.semicolon":
@@ -597,6 +642,18 @@ class ZDCode(object):
 
                     self._parse_temp.append(o)
                     self._parse_state = "label.state.duration"
+
+                elif self._parse_state == "label.state.repeat":
+                    print o
+                    self.repeat_num = int(o)
+                    self._parse_state = "label.state.repeat_end"
+
+                elif self._parse_state == "label.state.repeat_end":
+                    if o == ":":
+                        self._parse_state = "label.state"
+
+                    else:
+                        raise self.ZDCodeError("Bad state repeating! (expected ':' after '*{}', got '{}')".format(self.repeat_num, o))
 
                 elif self._parse_state == "label.state.duration":
                     if o == ";":
@@ -637,7 +694,8 @@ class ZDCode(object):
                 if o not in func_names:
                     raise self.ZDCodeError("Call to nonexistant function '{}'!".format(o))
 
-                self._call = ZDCall(self, self._actor.labels[-1], functions_[func_names.index(o)])
+                print self.repeat_num
+                self._call = ZDCall(self, self._actor.labels[-1], functions_[func_names.index(o)], repeats=self.repeat_num)
 
                 self._parse_state = "label.call.arg"
 
@@ -653,7 +711,7 @@ class ZDCode(object):
                         raise self.ZDCodeError("No parenthesis in function call to '{}'!".format(self._call.func.name))
 
                     if o == ";":
-                        self._parse_state = "label.state"
+                        self._parse_state = "label.startstate"
 
                     else:
                         self._parse_state = "label.call.arg_mid"
@@ -758,7 +816,11 @@ class ZDCode(object):
 
             elif self._parse_state == "afunc.closure":
                 if o == ":":
+                    self.repeat_num = 1
                     self._parse_state = "afunc.state"
+
+                elif o == "*":
+                    self._parse_state = "afunc.state.repeat"
 
                 elif o == "};":
                     self._parse_state = "inner_actor"
@@ -783,8 +845,19 @@ class ZDCode(object):
                     self._parse_temp = [o]
                     self._parse_state = "afunc.state.frame"
 
+            elif self._parse_state == "afunc.state.repeat":
+                self.repeat_num = int(o)
+                self._parse_state = "afunc.state.repeat_end"
+
+            elif self._parse_state == "afunc.state.repeat_end":
+                if o == ":":
+                    self._parse_state = "afunc.state"
+
+                else:
+                    raise self.ZDCodeError("Bad state repeating! (expected ':' after '*{}', got '{}')".format(self.repeat_num, o))
+
             elif self._parse_state == "afunc.flow":
-                self._func.states.append(ZDRawDecorate(o))
+                for _ in xrange(self.repeat_num): self._func.states.append(ZDRawDecorate(o))
 
             elif self._parse_state.startswith("afunc.argcheck"):
                 if self._parse_state == "afunc.argcheck":
@@ -808,7 +881,7 @@ class ZDCode(object):
                     self._parse_state = "afunc.argcheck.state"
 
                 elif self._parse_state == "afunc.argcheck.state":
-                    self._func.states.append(ZDRawDecorate("TNT1 A 0 A_JumpIfInventory(\"{0}\", {3}, 2)\nTNT1 A 0 A_JumpIfInventory(\"{0}\", {1}, \"{2}\")".format(self._parse_temp[0], self._parse_temp[1], o, int(self._parse_temp[1]) + 1)))
+                    for _ in xrange(self.repeat_num): self._func.states.append(ZDRawDecorate("TNT1 A 0 A_JumpIfInventory(\"{0}\", {3}, 2)\nTNT1 A 0 A_JumpIfInventory(\"{0}\", {1}, \"{2}\")".format(self._parse_temp[0], self._parse_temp[1], o, int(self._parse_temp[1]) + 1)))
                     self._parse_state = "afunc.argcheck.semicolon"
 
                 elif self._parse_state == "afunc.argcheck.semicolon":
@@ -840,7 +913,7 @@ class ZDCode(object):
                             self._parse_temp.append(o[1])
 
                         elif o == ";":
-                            self._func.states.append(ZDState(self._parse_temp[0], self._parse_temp[1], self._parse_temp[2], self._parse_temp[3:], self.__dict__.get("_state_action", None)))
+                            for _ in xrange(self.repeat_num): self._func.states.append(ZDState(self._parse_temp[0], self._parse_temp[1], self._parse_temp[2], self._parse_temp[3:], self.__dict__.get("_state_action", None)))
 
                             try:
                                 del self._state_action
@@ -867,7 +940,7 @@ class ZDCode(object):
                 if o not in func_names:
                     raise self.ZDCodeError("Call to nonexistant function '{}'!".format(o))
 
-                self._call = ZDCall(self, self._actor.labels[-1], functions_[func_names.index(o)])
+                self._call = ZDCall(self, self._actor.labels[-1], functions_[func_names.index(o)], repeats=self.repeat_num)
 
                 self._parse_state = "afunc.call.arg_start"
 
@@ -897,11 +970,14 @@ class ZDCode(object):
                         self._parse_state = "afunc.call.arg_mid2"
 
                 elif self._parse_state == "afunc.call.arg_mid2":
-                    if o != ",":
-                        raise self.ZDCodeError("Missing comma in function call to '{}'!".format(self._call.func.name))
+                    if o == ",":
+                        self._parse_state = "afunc.call.arg_mid"
+
+                    elif o == ")":
+                        self._parse_state = "afunc.call.arg_end"
 
                     else:
-                        self._parse_state = "afunc.call.arg_mid"
+                        raise self.ZDCodeError("No comma or closing parenthesis in function call to '{}'!".format(self._call.func.name))
 
                 elif self._parse_state == "afunc.call.arg_end":
                     if o != ";":

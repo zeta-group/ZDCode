@@ -14,21 +14,29 @@ defined, due to pyparsing's limited capabilities.
 
 * `%`    -> actor (`%actor :inherit ->replace *doomednum { stuff };`)
 * `$`    -> function (`$func(args) {states};`)
+* `^`    -> raw DECORATE in actor definition
 * `*`    -> positive actor flag (`*flag;`)
 * `!`    -> negative actor flag (`!flag;`)
 * `&`    -> actor property (`&name=value;`)
 * `#`    -> state label (`#label {states};`)
-* `:`    -> state (`:^RAW DECORATE;` for raw DECORATE, `:(funcname)(args);`
-for function call, `:? arg == num -> label;` for conditional jump that
+* * You can add an extra `#` to define that label as a verbose (logged) label. (`##label {states};`)
+* `:`    -> state
+* * Precede by `*<num>` to repeat the state `num` times
+(e.g. `*5:TNT1A0 A_Log()`)
+* * `:^RAW DECORATE;` for raw DECORATE
+* * `:(funcname)(args);`for function call
+* *  `:? arg == num -> label;` for conditional jump that
 checks if a variable is equal to a number before jumping to a state or
-number, otherwise `:SPRT F 0 [Key1] [Key2(Arg)] Action(arg1, arg2...);`,
-and yes, keywords are between square brackets)
+number
+* * `:SPRT F 0 [Key1] [Key2(Arg)] @Action(arg1, arg2...);` for normal
+state (and yes, keywords are between square brackets)
 
 Whitespace is ignored.
 
 For all functions you can reference an argument in an action via `"argname"`. e.g.
 `A_JumpIfInventory("argname", 0, "argFalse")`, because of how ZDScript is converted
-to a similar DECORATE.
+to a similar DECORATE. This argument is actually the name of an inventory item, so
+don't treat it like an int, but rather like a classname!
 
 For an example of ZDCode.
 
