@@ -314,7 +314,7 @@ class ZDInventory(object):
         code.inventories.append(self)
 
     def __decorate__(self):
-        return "Actor {} : Inventory {{Inventory.MaxAmount 1000}}".format(self.name)
+        return "Actor {} : Inventory {{Inventory.MaxAmount 1}}".format(self.name)
 
 # Parser!
 class ZDCode(object):
