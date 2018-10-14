@@ -1,92 +1,130 @@
-# ZDCode
-----
-## About
-ZDCode is a [ZDoom](http://zdoom.org) [DECORATE](https://zdoom.org/wiki/DECORATE_format_specifications)
-compiler written by Gustavo6046 (Gustavo Rehermann) in 2017. It's purpose is to
-shorten and make DECORATE writing convenient while making it similar to DECORATE.
+# ZDCode II
+## The language that compiles to ye olde DECORATE!
 
-It's just DECORATE, with a bit of sugar. :)
+Take this example:
+```
+  class RunZombie inherits ZombieMan replaces ZombieMan #2055
+  {
+      set Gravity to 0.4; // high up...
+      set Speed to 0;
+      is NOBLOCKMONST;
+      set Speed to 0;
 
-## Syntax
-
-Symbols determine how actors, functions, and other things are recognized and
-defined, due to pyparsing's limited capabilities.
-
-* `%`    -> actor (`%actor :inherit ->replace *doomednum { stuff };`)
-* `$`    -> function (`$func(args) {states};`)
-* `^`    -> raw DECORATE in actor definition
-* `*`    -> positive actor flag (`*flag;`)
-* `!`    -> negative actor flag (`!flag;`)
-* `&`    -> actor property (`&name=value;`)
-* `#`    -> state label (`#label {states};`)
-* * You can add an extra `#` to define that label as a verbose (logged) label. (`##label {states};`)
-* `:`    -> state
-* * Precede by `*<num>` to repeat the state `num` times
-(e.g. `*5:TNT1A0 A_Log()`)
-* * `:^RAW DECORATE;` for raw DECORATE
-* * `:(funcname)(args);`for function call
-* *  `:? arg == num -> label;` for conditional jump that
-checks if a variable is equal to a number before jumping to a state or
-number
-* * `:SPRT F 0 [Key1] [Key2(Arg)] @Action(arg1, arg2...);` for normal
-state (and yes, keywords are between square brackets)
-
-Whitespace is ignored.
-
-For all functions you can reference an argument in an action via `"argname"`. e.g.
-`A_JumpIfInventory("argname", 0, "argFalse")`, because of how ZDScript is converted
-to a similar DECORATE. This argument is actually the name of an inventory item, so
-don't treat it like an int, but rather like a classname!
-
-For an example of ZDCode.
-
-    %FlemCell : Ammo *5251 {
-      &Inventory.Amount = 8;
-      &Inventory.MaxAmount = 80;
-      &Ammo.BackpackMaxAmount = 160;
-    };
-
-    %FlemPoweredBootspork : SuperBootspork *5250 {
-      &Damage=6;
-      &Weapon.AmmoType="FlemCell";
-      &Weapon.AmmoUse=1;
-      &Weapon.SlotNumber=1;
-      &Weapon.SlotPriority=0.5;
-
-      !WEAPON.WIMPY_WEAPON;
-
-      $Recharge(amount) {
-        :?amount==0->QuickRecharge;
-        :TNT1A0 @A_GiveInventory("FlemCell", 1);
-        :TNT1A0 @A_TakeInventory("amount", 1);
-        :?amount==1->F_Recharge;
+      label See
+      {
+          POSS AB 5 A_Recoil(-0.7);
+          TNT1 A 0 A_Chase;
+          POSS A 0 A_FaceTarget();
+          POSS AB 4 A_Recoil(-0.7);
+          TNT1 A 0 A_Chase;
+          POSS A 0 A_FaceTarget();
+          POSS ABCD 3 A_Recoil(-0.7);
+          TNT1 A 0 A_Chase;
+          POSS A 0 A_FaceTarget();
+          goto RunLoop;
       };
 
-      #QuickRecharge {
-        :(Recharge)(5);
-        :^Goto Ready;
+      function Jump
+      {
+          while ( z == floorz )
+          {
+              POSS A 5 [Bright];
+              POSS A 11 ThrustThingZ(0, 30, 0, 1);
+          };
+          POSS AB 2 A_Chase;
       };
 
-      #AltFire {
-        :SAWGAB5 @A_Saw;
-        :TNT1A0 @A_JumpIfCloser(64, "GetFlem");
-        :^Goto Ready;
+      label RunLoop
+      {
+          x3
+          {
+              POSS ABCD 2 A_Recoil(-0.7);
+              TNT1 A 0 A_Chase;
+              POSS A 0 A_FaceTarget();
+          };
+
+          if ( health > 5 )
+              call Jump;
+
+          loop;
       };
+  }
+```
 
-      #GetFlem {
-        :(Recharge)(2);
-        :TNT1A0 @A_Refire("AltFire");
-        :^Goto Ready;
-      };
-    };
+This is what happens when that beauty goes through **DCode II**:
 
-## How-to
-Converting an input .zdc file to an output .dec file is simple:
+```
+  Actor _Call0 : Inventory {Inventory.MaxAmount 1}
 
-    python zdcode.py <input> <output>
 
-Then you can use the .dec file as a DECORATE lump in your own WAD!
+  Actor RunZombie : ZombieMan replaces ZombieMan 2055
+  {
+      Gravity 0.4
+      Speed 0.0
+      
+      +NOBLOCKMONST
+      
+      States {
+          F_Jump:
+          _WhileBlock0:
+              TNT1 A 0 A_JumpIf(!(z == floorz), 4)
+              POSS A 5  Bright
+              POSS A 11 ThrustThingZ(0.0, 30.0, 0.0, 1.0)
+              TNT1 A 0 A_Jump(255, "_WhileBlock0")
+              TNT1 A 0
+              POSS A 2 A_Chase
+              POSS B 2 A_Chase
+          
+          
+          See:
+              POSS A 5 A_Recoil(-0.7)
+              POSS B 5 A_Recoil(-0.7)
+              TNT1 A 0 A_Chase
+              POSS A 0 A_FaceTarget
+              POSS A 4 A_Recoil(-0.7)
+              POSS B 4 A_Recoil(-0.7)
+              TNT1 A 0 A_Chase
+              POSS A 0 A_FaceTarget
+              POSS A 3 A_Recoil(-0.7)
+              POSS B 3 A_Recoil(-0.7)
+              POSS C 3 A_Recoil(-0.7)
+              POSS D 3 A_Recoil(-0.7)
+              TNT1 A 0 A_Chase
+              POSS A 0 A_FaceTarget
+              goto RunLoop
+          
+          RunLoop:
+              POSS A 2 A_Recoil(-0.7)
+              POSS B 2 A_Recoil(-0.7)
+              POSS C 2 A_Recoil(-0.7)
+              POSS D 2 A_Recoil(-0.7)
+              TNT1 A 0 A_Chase
+              POSS A 0 A_FaceTarget
+              POSS A 2 A_Recoil(-0.7)
+              POSS B 2 A_Recoil(-0.7)
+              POSS C 2 A_Recoil(-0.7)
+              POSS D 2 A_Recoil(-0.7)
+              TNT1 A 0 A_Chase
+              POSS A 0 A_FaceTarget
+              POSS A 2 A_Recoil(-0.7)
+              POSS B 2 A_Recoil(-0.7)
+              POSS C 2 A_Recoil(-0.7)
+              POSS D 2 A_Recoil(-0.7)
+              TNT1 A 0 A_Chase
+              POSS A 0 A_FaceTarget
+              TNT1 A 0 A_JumpIf(!(health > 5.0), 3)
+                  TNT1 A 0 A_GiveInventory("_Call0")
+                  Goto F_Jump
+              _CLabel0:
+                  TNT1 A 0 A_TakeInventory("_Call0")
+              TNT1 A 0
+              loop
+      }
+  }
+```
 
-## Copyright
-Check `license.md` for more.
-©2017 Gustavo Ramos "Gustavo6046" Rehermann. MIT license.
+Yes, I know; the output code is quite cryptic, but you're not meant to touch that!
+
+Just slap the output in your WAD and... look at what happens!
+
+![Wow!](https://i.imgur.com/mr5wJ85.gif)
