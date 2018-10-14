@@ -487,8 +487,20 @@ class ZDCode(object):
     def _parse_action(self, a):
         return "{}({})".format(a[0], (', '.join(self._parse_literal(x) for x in a[1]) if a[1] is not None else []))
     
+    def _parse_state_action_or_body(self, a):
+        if a[0] == 'action':
+            return [self._parse_state_action(a[1])]
+
+        else:
+            res = []
+
+            for x in a[1]:
+                res.extend(self._parse_state_action_or_body(x))
+
+            return res
+
     def _parse_state_action(self, a):
-        args = (', '.join(self._parse_literal(x) for x in a[1]) if a[1] is not None else [])
+        args = (', '.join(a[1]) if a[1] is not None else [])
 
         if len(args) > 0:
             return "{}({})".format(a[0], args)
@@ -500,11 +512,13 @@ class ZDCode(object):
         if s[0] == 'frames':
             name, frames, duration, modifiers, action = s[1]
 
-            if action is not None:
-                action = self._parse_state_action(action)
-
             for f in frames:
-                label.states.append(ZDState(name, f, duration, modifiers, action=action))
+                if action is None:
+                    label.states.append(ZDState(name, f, duration, modifiers))
+
+                else:
+                    for a in self._parse_state_action_or_body(action):
+                        label.states.append(ZDState(name, f, duration, modifiers, action=a))
 
         elif s[0] == 'call':
             ZDCall(self, label, s[1])
@@ -547,6 +561,9 @@ class ZDCode(object):
 
                 elif btype == 'flag':
                     actor.flags.append(bdata)
+
+                elif btype == 'flag combo':
+                    actor.raw.append(bdata)
 
                 elif btype == 'unflag':
                     actor.antiflags.append(bdata)

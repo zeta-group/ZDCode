@@ -3,4 +3,5 @@ build
 dist
 *.zip
 *.exe
-JumpZombie.dec
+*.dec
+*.json

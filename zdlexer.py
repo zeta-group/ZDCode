@@ -5,7 +5,8 @@ from parsy import *
 
 
 s = string
-string_body = regex(r'[^"\\]+')
+string_body_1 = regex(r'[^"\\]+')
+string_body_2 = regex(r'[^\'\\]+')
 string_esc = string('\\') >> (
     string('\\')
     | string('/')
@@ -18,8 +19,14 @@ string_esc = string('\\') >> (
     | regex(r'u[0-9a-fA-F]{4}').map(lambda s: chr(int(s[1:], 16)))
     | regex(r'x[0-9a-fA-F]{2}').map(lambda s: chr(int(s[1:], 16)))
 )
-string_delim = s('"') | s("'")
-string_literal = string_delim + (string_body | string_esc).many().concat() + string_delim
+string_delim_1 = s('"')
+string_delim_2 = s("'")
+string_body_plex_1 = (string_body_1 | string_esc).many().concat()
+string_body_plex_2 = (string_body_2 | string_esc).many().concat()
+string_literal = (
+    (string_delim_1 + string_body_plex_1 + string_delim_1)
+    | (string_delim_2 + string_body_plex_2 + string_delim_2)
+)
 lwhitespace = whitespace | s('\n') | s('\r')
 
 @generate
@@ -41,7 +48,6 @@ def _parse_literal(literal):
         return _parse_action(literal[1])
 
 def _parse_action(a):
-    print(a)
     return "{}({})".format(a[0], ', '.join(_parse_literal(x) for x in a[1]))
 
 @generate
@@ -49,10 +55,10 @@ def literal():
     return (
             string_literal.tag('string') 
         |   call_literal.tag('call expr')
-        |   regex(r'[\+\-]?[0-9]+(.[0-9+])?(e[\+\-]?\d+)?').map(float).tag('number')
+        |   regex(r'[\+\-]?\d+(.\d+)?(e[\+\-]?\d+)?').tag('number')
         |   regex(r'[a-zA-Z_][a-zA-Z0-9_\[\]]*').tag('actor variable')
-        |   regex(r'0x[0-9A-Fa-f]+').map(float).tag('number')
-        |   regex(r'0b[01]+').map(float).tag('number')
+        |   regex(r'0x[0-9A-Fa-f]+').map(int).tag('number')
+        |   regex(r'0b[01]+').map(int).tag('number')
     )
     yield
 
@@ -60,7 +66,6 @@ def literal():
 def paren_expr():
     return s('(') + expression + s(')')
     yield
-    
 
 @generate
 def expression():
@@ -69,17 +74,22 @@ def expression():
         (
             (
                     literal.map(_parse_literal)
-                |   regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%]+')
-                |   paren_expr
+                |   regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%]+').desc('operator')
+                |   paren_expr.desc('parenthetic expression')
             ).sep_by(whitespace.optional()).map(lambda x: ' '.join(x))
         )
         << whitespace.optional()
-    )
+    ) | paren_expr
     yield
     
 @generate
 def argument_list():
     return literal.sep_by(regex(',\s*'))
+    yield
+    
+@generate
+def expr_argument_list():
+    return expression.sep_by(regex(',\s*'))
     yield
 
 @generate
@@ -92,7 +102,7 @@ def state_call():
     return seq(
         regex('[a-zA-Z_]+').desc('called state function name').skip(whitespace.optional()),
         s('(').then(whitespace.optional()).then(
-            argument_list
+            expr_argument_list
         ).skip(whitespace.optional()).skip(s(')')).optional()
     )
     yield
@@ -115,6 +125,7 @@ def class_body():
                     ((whitespace >> string('to') << whitespace) | (whitespace.optional() >> s('=') << whitespace.optional())).desc("'to' or equal sign") >> literal.tag('value')
                 ).map(dict).tag('property')
             |   (((string('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_.]+').desc('flag name')).tag('flag')
+            |   (string('combo') >> whitespace >> regex('[a-zA-Z0-9_.]+').desc('combo name')).tag('flag combo')
             |   (((string("isn't") << whitespace) | string('-')) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag')
             |   seq((string("function ") | string('method ')) >> regex('[a-zA-Z_]+').desc('function name').tag('name'), state_body.tag('body')).map(dict).tag('function')
             |   (seq(((string("label") | string('state')) << whitespace) >> regex('[a-zA-Z_]+').desc('label name').tag('name'), state_body.tag('body')).map(dict) << whitespace.optional()).tag('label')
@@ -147,13 +158,30 @@ def normal_state():
         modifier.many().desc('modifier').skip(
             whitespace.optional()
         ).optional(),
-        state_call.optional()
+        state_action.optional()
     )
     yield
 
 @generate
+def state_action():
+    return action_body_repeat.tag('inline body') | state_call.tag('action') | action_body.tag('inline body')
+    yield
+
+@generate
+def action_body():
+    return s('{') >> whitespace.optional() >> (state_action << s(';') << whitespace.optional()).many().optional() << s('}')
+    yield
+
+@generate
+def action_body_repeat():
+    return seq(
+        s('x') >> whitespace.optional() >> regex(r'\d+').map(int).desc('amount of times to repeat') << whitespace.optional(), state_action
+    ).map(lambda x: [x[1] for _ in range(x[0])])
+    yield
+
+@generate
 def flow_control():
-    return (string('stop') | string('fail') | string('loop') | string('goto') + whitespace.map(lambda _: ' ') + regex(r'[a-zA-Z]+\s?(?:\+\d+)?') | string('wait'))
+    return (string('stop') | string('fail') | string('loop') | string('goto') + whitespace.map(lambda _: ' ') + regex(r'[a-zA-Z0-9\.]+\s?(?:\+\d+)?') | string('wait'))
     yield
 
 @generate

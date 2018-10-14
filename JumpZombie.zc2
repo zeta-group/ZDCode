@@ -31,7 +31,7 @@ class RunZombie inherits ZombieMan replaces ZombieMan #2055
 
     label RunLoop
     {
-        x3
+        x 3
         {
             POSS ABCD 2 A_Recoil(-0.7);
             TNT1 A 0 A_Chase;
