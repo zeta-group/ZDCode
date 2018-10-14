@@ -125,6 +125,4 @@ This is what happens when that beauty goes through **DCode II**:
 
 Yes, I know; the output code is quite cryptic, but you're not meant to touch that!
 
-Just slap the output in your WAD and... look at what happens!
-
-![Wow!](https://i.imgur.com/mr5wJ85.gif)
+Just slap the output in your WAD and... [look at what happens!](https://i.imgur.com/mr5wJ85.gifv)
