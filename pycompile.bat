@@ -1,1 +1,1 @@
-$ pyinstaller zdcode.py -i zdcode.ico -F --specpath build
+pyinstaller zdcode.py -i zdcode.ico -F --specpath build
