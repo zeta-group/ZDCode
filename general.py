@@ -517,8 +517,10 @@ class ZDCode(object):
                     label.states.append(ZDState(name, f, duration, modifiers))
 
                 else:
-                    for a in self._parse_state_action_or_body(action):
-                        label.states.append(ZDState(name, f, duration, modifiers, action=a))
+                    body = self._parse_state_action_or_body(action)
+
+                    for i, a in enumerate(body):
+                        label.states.append(ZDState(name, f, (0 if i + 1 < len(body) else duration), modifiers, action=a))
 
         elif s[0] == 'call':
             ZDCall(self, label, s[1])

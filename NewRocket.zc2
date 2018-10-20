@@ -6,13 +6,13 @@ class NDoomRocket extends Rocket replaces Rocket
 
     label Spawn
     {
-        TNT1 A 0 {
+        MISL A 1 [Bright] {
             x6 A_SpawnItemEx("NRocketFire", -cos(angle) * 3, -sin(angle) * 3, -velz, FRandom(-1, 1), FRandom(-1, 1), FRandom(-1, 1));
             A_SpawnItemEx("NRocketCorona");
             A_ScaleVelocity(1.25);
         };
         x10 MISL A 0 [Bright] A_SpawnItemEx("NRocketTrail", -cos(angle) * 20, -sin(angle) * 20, -velz, FRandom(-5, 5) + cos(angle) * 2, FRandom(-5, 5) + sin(angle) * 2, FRandom(-5, 5));
-        MISL A 2 [Bright];
+        MISL A 1 [Bright];
         loop;
     };
 
