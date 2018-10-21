@@ -1,6 +1,6 @@
 import re
 import textwrap
-import zdlexer
+import zdcode.zdlexer
 
 
 

@@ -1,0 +1,25 @@
+{
+    "vtrack_version": "2.1.0",
+    "name": "ZDCode",
+    "packageName": "zdcode",
+    "tags": ["zdoom", "decorate", "compiler"],
+    "description": "A language that compiles to Zandronum-compatible DECORATE syntax.",
+
+    "license": "MIT",
+    "dependencies": [
+        "parsy>=1.2.0"
+    ],
+
+    "authorName": "Gustavo6046",
+    "authorRealName": "Gustavo R. Rehermann",
+    "authorEmail": "gugurehermann@gmail.com",
+
+    "versions": [
+        {
+            "name": "2.0.1",
+            "changes": [
+                "Adopted the VTrack version description format."
+            ]
+        }
+    ]
+}

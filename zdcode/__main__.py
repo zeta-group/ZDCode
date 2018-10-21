@@ -1,10 +1,10 @@
 import traceback
 import sys
-import general
+import zdcode
 
 if __name__ == "__main__":
     try:
-        dec = general.ZDCode.parse(open(sys.argv[1]).read()).decorate()
+        dec = zdcode.ZDCode.parse(open(sys.argv[1]).read()).decorate()
         open(sys.argv[2], "w").write(dec)
         print("Wrote to file successfully.")
 
@@ -23,4 +23,4 @@ if __name__ == "__main__":
             print("No data to use! Provide as stdin or as arguments.")
             sys.exit(1)
 
-        open(sys.argv[2]).write(general.ZDCode.parse("".join(data)).decorate())
+        open(sys.argv[2]).write(zdcode.ZDCode.parse("".join(data)).decorate())
