@@ -16,9 +16,17 @@
 
     "versions": [
         {
-            "name": "2.0.1",
+            "name": "2.1.0",
             "changes": [
                 "Adopted the VTrack version description format."
+            ]
+        },
+
+        {
+            "name": "2.1.1",
+            "changes": [
+                "Fixed the function call returning.",
+                "Added return statements for premature returning."
             ]
         }
     ]

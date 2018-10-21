@@ -4,3 +4,4 @@ dist
 **/*.zip
 **/*.exe
 *.dec
+*.egg-info

@@ -175,7 +175,7 @@ class ZDFunction(object):
         for c in self.calls:
             result.append("TNT1 A 0 A_JumpIfInventory(\"_Call{0}\", 1, \"_CLabel{0}\")".format(c.id))
 
-        return "    " + redent("\n".join(result), 4)
+        return ("    " + redent("\n".join(result), 4) if len(result) > 0 else "")
 
     def state_code(self):
         r = ""
@@ -190,9 +190,15 @@ class ZDFunction(object):
         return r[:-1]
         
     def __decorate__(self):
-        code = """    F_{}:""".format(self.name)
+        code = "    F_{}:".format(self.name)
         code += '\n' + self.state_code()
-        code += '\n' + self.call_states()
+
+        cst = self.call_states()
+
+        if cst != '':
+            code += '\n' + cst
+
+        code += "\n    Stop"
 
         return code
 
@@ -257,6 +263,16 @@ class ZDLabel(object):
                 r += "\n{}".format(decorate(s))
 
         return r
+
+class ZDReturnStatement(object):
+    def __init__(self, func):
+        self.func = func
+
+    def num_states(self):
+        return len(self.func.calls)
+
+    def __decorate__(self):
+        return big_lit(self.func.call_states() + "\n    Stop", 4)
 
 class ZDRawDecorate(object):
     def __init__(self, raw):
@@ -508,7 +524,10 @@ class ZDCode(object):
         else:
             return a[0]
 
-    def _parse_state(self, actor, label, s):
+    def _parse_state(self, actor, label, s, func=None, calls=None):
+        if calls is None:
+            calls = []
+
         if s[0] == 'frames':
             name, frames, duration, modifiers, action = s[1]
 
@@ -522,8 +541,15 @@ class ZDCode(object):
                     for i, a in enumerate(body):
                         label.states.append(ZDState(name, f, (0 if i + 1 < len(body) else duration), modifiers, action=a))
 
+        elif s[0] == 'return':
+            if func is None:
+                raise ValueError("Return statement in non-function label: " + label.name)
+
+            else:
+                label.states.append(ZDReturnStatement(func))
+
         elif s[0] == 'call':
-            ZDCall(self, label, s[1])
+            calls.append(ZDCall(self, label, s[1]))
 
         elif s[0] == 'flow':
             label.states.append(ZDRawDecorate(s[1]))
@@ -532,7 +558,7 @@ class ZDCode(object):
             rep = ZDRepeat(actor, s[1][0], [])
 
             for a in s[1][1]:
-                self._parse_state(actor, rep, a)
+                self._parse_state(actor, rep, a, func, calls=calls)
                 
             label.states.append(rep)
 
@@ -540,7 +566,7 @@ class ZDCode(object):
             ifs = ZDIfStatement(actor, s[1][0], [])
 
             for a in s[1][1]:
-                self._parse_state(actor, ifs, a)
+                self._parse_state(actor, ifs, a, func, calls=calls)
 
             label.states.append(ifs)
 
@@ -548,12 +574,14 @@ class ZDCode(object):
             whs = ZDWhileStatement(actor, s[1][0], [])
 
             for a in s[1][1]:
-                self._parse_state(actor, whs, a)
+                self._parse_state(actor, whs, a, func, calls=calls)
 
             label.states.append(whs)
 
  
     def _parse(self, actors):
+        calls = []
+
         for a in actors:
             actor = ZDActor(self, a['classname'], a['inheritance'], a['replacement'], a['class number'])
 
@@ -574,13 +602,16 @@ class ZDCode(object):
                     label = ZDLabel(actor, bdata['name'])
 
                     for s in bdata['body']:
-                        self._parse_state(actor, label, s)
+                        self._parse_state(actor, label, s, calls=calls)
 
                 elif btype == 'function':
                     func = ZDFunction(self, actor, bdata['name'])
 
                     for s in bdata['body']:
-                        self._parse_state(actor, func, s)
+                        self._parse_state(actor, func, s, func, calls=calls)
+
+            for c in calls:
+                c.post_load()
 
             self.actors.append(actor)
 

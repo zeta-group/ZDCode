@@ -108,6 +108,11 @@ def state_call():
     yield
 
 @generate
+def return_statement():
+    return (whitespace.optional() >> s('return')).desc('return statement') # duh
+    yield
+
+@generate
 def call_literal():
     return seq(
         regex('[a-zA-Z_]+').desc('called state function name').skip(whitespace.optional()),
@@ -196,7 +201,14 @@ def state_no_colon():
 
 @generate
 def state_body():
-    return (state_no_colon.map(lambda x: [x]) | whitespace.optional() >> string("{") >> whitespace.optional() >> state.sep_by(whitespace.optional()) << whitespace.optional() << string("}"))
+    return (
+        (state_no_colon | return_statement.tag('return')).map(lambda x: [x])
+        | (
+            whitespace.optional() >> string("{") >> whitespace.optional() >> (
+                state | (return_statement << ';').tag('return')
+            ).sep_by(whitespace.optional()) << whitespace.optional() << string("}")
+        )
+    )
     yield
 
 @generate
