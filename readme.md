@@ -59,7 +59,7 @@ Take this example:
 This is what happens when that beauty goes through **ZDCode 2.0**:
 
 ```
-  Actor _Call0 : Inventory {Inventory.MaxAmount 1}
+    Actor _Call0 : Inventory {Inventory.MaxAmount 1}
     Actor _Call1 : Inventory {Inventory.MaxAmount 1}
     Actor _Call2 : Inventory {Inventory.MaxAmount 1}
     Actor _Call3 : Inventory {Inventory.MaxAmount 1}
