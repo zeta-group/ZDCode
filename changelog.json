@@ -28,6 +28,13 @@
                 "Fixed the function call returning.",
                 "Added return statements for premature returning."
             ]
+        },
+
+        {
+            "name": "2.1.1.1",
+            "changes": [
+                "Fixed the readme."
+            ]
         }
     ]
 }

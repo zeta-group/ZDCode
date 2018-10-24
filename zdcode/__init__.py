@@ -1,6 +1,7 @@
 import re
 import textwrap
-import zdcode.zdlexer
+
+from zdcode import zdlexer
 
 
 
@@ -406,7 +407,7 @@ class ZDWhileStatement(object):
     def __decorate__(self):
         num_st = sum(x.num_states() for x in self.states)
     
-        return redent("_WhileBlock{}:\n".format(self.id) + redent("TNT1 A 0 A_JumpIf(!({}), {})\n".format(self.condition, num_st + 2) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0 A_Jump(255, \"_WhileBlock{}\")\nTNT1 A 0".format(self.id), 4, unindent_first=False), 0, unindent_first=False)
+        return redent("_WhileBlock{}:\n".format(self.id) + redent("TNT1 A 0 A_JumpIf(!({}), {})\n".format(self.condition, num_st + 2) + '\n'.join(decorate(x) for x in self.states) + "\nGoto _WhileBlock{};\")\nTNT1 A 0".format(self.id), 4, unindent_first=False), 0, unindent_first=False)
         
 class ZDInventory(object):
     def __init__(self, code, name):
