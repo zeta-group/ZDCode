@@ -35,6 +35,13 @@
             "changes": [
                 "Fixed the readme."
             ]
+        },
+
+        {
+            "name": "2.1.2",
+            "changes": [
+                "Fixed 1 in 256 chance of A_Jump(255, *) failing, changing it onto a goto statement."
+            ]
         }
     ]
 }
