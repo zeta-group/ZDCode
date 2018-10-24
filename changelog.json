@@ -42,6 +42,13 @@
             "changes": [
                 "Fixed 1 in 256 chance of A_Jump(255, *) failing, changing it onto a goto statement."
             ]
+        },
+
+        {
+            "name": "2.1.2.1",
+            "changes": [
+                "Slight patch: changed 'Stop' in function without returnable calls into 'TNT1 A -1'. Suggested by Blzut3."
+            ]
         }
     ]
 }

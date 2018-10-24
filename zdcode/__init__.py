@@ -199,7 +199,7 @@ class ZDFunction(object):
         if cst != '':
             code += '\n' + cst
 
-        code += "\n    Stop"
+        code += "\n    TNT1 A -1"
 
         return code
 
