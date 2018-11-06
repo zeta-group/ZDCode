@@ -591,8 +591,8 @@ class ZDCode(object):
                     self._parse_state(actor, label, a, func, calls=calls)
 
         elif s[0] == 'sometimes':
-            s = dict(s)
-            sms = ZDSometimes(actor, int(s['chance']), [])
+            s = dict(s[1])
+            sms = ZDSometimes(actor, float(s['chance'][1]), [])
 
             for a in s['body']:
                 self._parse_state(actor, sms, a, func, calls=calls)

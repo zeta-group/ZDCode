@@ -119,8 +119,9 @@ class SkullSpawnerR extends SkullSpawner {
             TNT1 A 0 A_SpawnItemEx('MonSpawnR');
         };
 
-        x 5 sometimes 15
+        x 5 sometimes 15 {
             call Duplicate;
+        };
 
         x 20 call MakeParticle;
         TNT1 A 1;
@@ -151,8 +152,9 @@ class SkullSpawnerO extends SkullSpawner {
             TNT1 A 0 A_SpawnItemEx('MonSpawnO');
         };
 
-        x 5 sometimes 20
+        x 5 sometimes 20 {
             call Duplicate;
+        };
 
         x 20 call MakeParticle;
         TNT1 A 1;
@@ -183,8 +185,9 @@ class SkullSpawnerY extends SkullSpawner {
             TNT1 A 0 A_SpawnItemEx('MonSpawnY');
         };
 
-        x 5 sometimes 22
+        x 5 sometimes 22 {
             call Duplicate;
+        };
 
         x 20 call MakeParticle;
         TNT1 A 1;
