@@ -24,8 +24,8 @@ string_delim_2 = s("'")
 string_body_plex_1 = (string_body_1 | string_esc).many().concat()
 string_body_plex_2 = (string_body_2 | string_esc).many().concat()
 string_literal = (
-    (string_delim_1 + string_body_plex_1 + string_delim_1)
-    | (string_delim_2 + string_body_plex_2 + string_delim_2)
+    (string_delim_1 >> string_body_plex_1 << string_delim_1)
+    | (string_delim_2 >> string_body_plex_2 << string_delim_2)
 )
 lwhitespace = whitespace | s('\n') | s('\r')
 
@@ -39,7 +39,7 @@ def _parse_literal(literal):
         return str(literal[1])
 
     elif literal[0] == 'string':
-        return literal[1]
+        return '"' + literal[1] + '"'
 
     elif literal[0] == 'actor variable':
         return literal[1]
@@ -51,14 +51,21 @@ def _parse_action(a):
     return "{}({})".format(a[0], ', '.join(_parse_literal(x) for x in a[1]))
 
 @generate
+def number_lit():
+    return (
+            regex(r'[\+\-]?\d+(.\d+)?(e[\+\-]?\d+)?').tag('number')
+        |   regex(r'0x[0-9A-Fa-f]+').map(int).tag('number')
+        |   regex(r'0b[01]+').map(int).tag('number')
+        )
+    yield
+
+@generate
 def literal():
     return (
             string_literal.tag('string') 
         |   call_literal.tag('call expr')
-        |   regex(r'[\+\-]?\d+(.\d+)?(e[\+\-]?\d+)?').tag('number')
         |   regex(r'[a-zA-Z_][a-zA-Z0-9_\[\]]*').tag('actor variable')
-        |   regex(r'0x[0-9A-Fa-f]+').map(int).tag('number')
-        |   regex(r'0b[01]+').map(int).tag('number')
+        |   number_lit
     )
     yield
 
@@ -74,12 +81,18 @@ def expression():
         (
             (
                     literal.map(_parse_literal)
-                |   regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%\:]+').desc('operator')
+                |   regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%\,]+').desc('operator')
                 |   paren_expr.desc('parenthetic expression')
-            ).sep_by(whitespace.optional()).map(lambda x: ' '.join(x))
+            ).sep_by(whitespace).map(lambda x: ' '.join(x))
         )
         << whitespace.optional()
     ) | paren_expr
+    yield
+    
+
+@generate
+def arg_expression():
+    return (s('-').optional().map(lambda x: x or '') + expression) | seq(expression, regex(r'[\:\,]') << whitespace.optional(), expression).map(lambda x: "{}: {}".format(x[0], x[2]))
     yield
     
 @generate
@@ -89,7 +102,7 @@ def argument_list():
     
 @generate
 def expr_argument_list():
-    return expression.sep_by(regex(',\s*'))
+    return arg_expression.sep_by(regex(',\s*'))
     yield
 
 @generate
@@ -127,7 +140,7 @@ def class_body():
     return whitespace.optional().then(
                 seq(
                     (string('set') >> whitespace).desc("'set' keyword") >> regex('[a-zA-Z0-9_.]+').tag('name'),
-                    ((whitespace >> string('to') << whitespace) | (whitespace.optional() >> s('=') << whitespace.optional())).desc("'to' or equal sign") >> literal.tag('value')
+                    ((whitespace >> string('to') << whitespace) | (whitespace.optional() >> s('=') << whitespace.optional())).desc("'to' or equal sign") >> literal.sep_by((s(',') + whitespace.optional())).tag('value')
                 ).map(dict).tag('property')
             |   (((string('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_.]+').desc('flag name')).tag('flag')
             |   (string('combo') >> whitespace >> regex('[a-zA-Z0-9_.]+').desc('combo name')).tag('flag combo')
@@ -191,12 +204,12 @@ def flow_control():
 
 @generate
 def state():
-    return (if_statement.tag('if') | while_statement.tag('while') | actor_function_call.tag('call') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')).skip(s(';'))
+    return (if_statement.tag('if') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')).skip(s(';'))
     yield
 
 @generate
 def state_no_colon():
-    return (if_statement.tag('if') | while_statement.tag('while') | actor_function_call.tag('call') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat'))
+    return (if_statement.tag('if') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat'))
     yield
 
 @generate
@@ -208,6 +221,17 @@ def state_body():
                 state | (return_statement << ';').tag('return')
             ).sep_by(whitespace.optional()) << whitespace.optional() << string("}")
         )
+    )
+    yield
+
+@generate
+def sometimes_statement():
+    return seq(
+        s('sometimes') \
+                >> whitespace.optional() \
+                >> number_lit.tag('chance')
+                << s('%').optional(),
+        state_body.optional().map(lambda x: x if x != None else []).tag('body')
     )
     yield
 

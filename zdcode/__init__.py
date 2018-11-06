@@ -398,6 +398,22 @@ class ZDIfStatement(object):
     
         return redent("TNT1 A 0 A_JumpIf(!({}), {})\n".format(self.condition, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
         
+        
+class ZDSometimes(object):
+    def __init__(self, actor, chance, states):
+        self._actor = actor
+        self.chance = chance
+        self.states = states
+        self.real_fail_chance = str(int(255 * (100 - float(self.chance))))
+            
+    def num_states(self):
+        return sum(x.num_states() for x in self.states) + 2
+            
+    def __decorate__(self):
+        num_st = sum(x.num_states() for x in self.states)
+    
+        return redent("TNT1 A 0 A_Jump({}, {})\n".format(self.real_fail_chance, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
+        
 num_whiles = 0
 
 class ZDWhileStatement(object):
@@ -501,7 +517,7 @@ class ZDCode(object):
             return str(literal[1])
 
         elif literal[0] == 'string':
-            return literal[1]
+            return '"' + literal[1] + '"'
 
         elif literal[0] == 'actor variable':
             return literal[1]
@@ -574,6 +590,15 @@ class ZDCode(object):
                 for a in s[1][1]:
                     self._parse_state(actor, label, a, func, calls=calls)
 
+        elif s[0] == 'sometimes':
+            s = dict(s)
+            sms = ZDSometimes(actor, int(s['chance']), [])
+
+            for a in s['body']:
+                self._parse_state(actor, sms, a, func, calls=calls)
+
+            label.states.append(sms)
+
         elif s[0] == 'if':
             ifs = ZDIfStatement(actor, s[1][0], [])
 
@@ -599,7 +624,7 @@ class ZDCode(object):
 
             for btype, bdata in a['body']:
                 if btype == 'property':
-                    ZDProperty(actor, bdata['name'], self._parse_literal(bdata['value']))
+                    ZDProperty(actor, bdata['name'], ', '.join(self._parse_literal(x) for x in bdata['value']))
 
                 elif btype == 'flag':
                     actor.flags.append(bdata)

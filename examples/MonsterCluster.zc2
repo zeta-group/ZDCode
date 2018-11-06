@@ -1,7 +1,7 @@
 class MonSpawnY extends RandomSpawner {
-    set DropItem to "XZombieSpawner";
-    set DropItem to "DoomImp";
-    set DropItem to "XShotGuySpawner";
+    set DropItem to "ZombieMan", 255, 2;
+    set DropItem to "DoomImp", 255, 1;
+    set DropItem to "ShotgunGuy", 255, 1;
 }
 
 class MultiSpawner {
@@ -14,9 +14,13 @@ class MultiSpawner {
 }
 
 class XZombieSpawner extends MultiSpawner {
+    function MakeSpawn {
+        x 7 TNT1 A 9 A_SpawnItemEx('Zombieman', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
+    };
+
     label Spawn {
         TNT1 A 1;
-        x 7 TNT1 A 0 A_SpawnItemEx('Zombieman', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
+        call MakeSpawn;
         Stop;
     };
 }
@@ -24,9 +28,13 @@ class XZombieSpawner extends MultiSpawner {
 class XShotGuySpawner extends MultiSpawner {
     set Gravity to 0;
 
+    function MakeSpawn {
+        x 3 TNT1 A 9 A_SpawnItemEx('ShotgunGuy', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
+    };
+
     label Spawn {
         TNT1 A 1;
-        x 3 TNT1 A 0 A_SpawnItemEx('ShotgunGuy', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
+        call MakeSpawn;
         Stop;
     };
 }
@@ -106,10 +114,12 @@ class SkullSpawnerR extends SkullSpawner {
     };
 
     label Death {
-        if (Random(0, 100) < 75) TNT1 A 0
-            A_SpawnItemEx('MonSpawnR');
+        sometimes 75 {
+            TNT1 A 0 A_Log("RED ALERT: New high-level threat detected!");
+            TNT1 A 0 A_SpawnItemEx('MonSpawnR');
+        };
 
-        x 5 if (Random(0, 100) < 15)
+        x 5 sometimes 15
             call Duplicate;
 
         x 20 call MakeParticle;
@@ -136,10 +146,12 @@ class SkullSpawnerO extends SkullSpawner {
     };
 
     label Death {
-        if (Random(0, 1) < 65)
+        x 2 sometimes 65 {
+            TNT1 A 0 A_Log("ORANGE ALERT: New medium-level threat detected!");
             TNT1 A 0 A_SpawnItemEx('MonSpawnO');
+        };
 
-        x 5 if (Random(0, 1) < 20)
+        x 5 sometimes 20
             call Duplicate;
 
         x 20 call MakeParticle;
@@ -166,10 +178,12 @@ class SkullSpawnerY extends SkullSpawner {
     };
 
     label Death {
-        if (Random(0, 100) < 50)
+        x 3 sometimes 30 {
+            TNT1 A 0 A_Log("YELLOW ALERT: New low-level threat detected!");
             TNT1 A 0 A_SpawnItemEx('MonSpawnY');
+        };
 
-        x 5 if (Random(0, 100) < 22)
+        x 5 sometimes 22
             call Duplicate;
 
         x 20 call MakeParticle;
