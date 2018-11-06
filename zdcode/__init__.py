@@ -404,7 +404,7 @@ class ZDSometimes(object):
         self._actor = actor
         self.chance = chance
         self.states = states
-        self.real_fail_chance = str(int(255 * (100 - float(self.chance))))
+        self.real_fail_chance = str(int(2.55 * (100 - float(self.chance))))
             
     def num_states(self):
         return sum(x.num_states() for x in self.states) + 2
