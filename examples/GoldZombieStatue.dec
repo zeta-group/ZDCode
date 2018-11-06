@@ -10,7 +10,7 @@ Actor GoldZombieStatue : ZombieMan
         Spawn:
             POSS E 20
             POSS E 5  Bright
-            loop
+            Goto Spawn
         
         See:
             goto Spawn

@@ -23,4 +23,5 @@ if __name__ == "__main__":
             print("No data to use! Provide as stdin or as arguments.")
             sys.exit(1)
 
+        print("Syntax parsing...")
         open(sys.argv[2]).write(zdcode.ZDCode.parse("".join(data)).decorate())

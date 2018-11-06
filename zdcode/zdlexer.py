@@ -74,7 +74,7 @@ def expression():
         (
             (
                     literal.map(_parse_literal)
-                |   regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%]+').desc('operator')
+                |   regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%\:]+').desc('operator')
                 |   paren_expr.desc('parenthetic expression')
             ).sep_by(whitespace.optional()).map(lambda x: ' '.join(x))
         )
@@ -222,7 +222,7 @@ def if_statement():
         .skip(whitespace.optional())
         .skip(string(")"))
         .skip(whitespace.optional()),
-        state_body
+        state_body.optional().map(lambda x: x if x != None else [])
     )
     yield
 
@@ -237,7 +237,7 @@ def while_statement():
         .skip(whitespace.optional())
         .skip(string(")"))
         .skip(whitespace.optional()),
-        state_body
+        state_body.optional().map(lambda x: x if x != None else [])
     )
     yield
 

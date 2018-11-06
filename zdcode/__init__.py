@@ -1,5 +1,6 @@
 import re
 import textwrap
+import string, random
 
 from zdcode import zdlexer
 
@@ -7,6 +8,11 @@ from zdcode import zdlexer
 
 actor_list = {}
 
+def make_id(length = 30):
+    """Returns an ID, which can be stored in the ZDCode
+    to allow namespace compatibility between multiple
+    ZDCode mods."""
+    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))
 
 def decorate(o, *args, **kwargs):
     """Get the object's compiled DECORATE code."""
@@ -85,7 +91,7 @@ class ZDProperty(object):
         self.name = name
         self.value = value
 
-        self.code.properties[name] = self
+        self.code.properties.append(self)
 
     def __decorate__(self):
         return "    {} {}".format(self.name, self.value)
@@ -114,15 +120,15 @@ class ZDCall(object):
 
             del self
 
-        elif "_Call{}".format(self.id) not in [x.name for x in code.inventories]:
-            ZDInventory(code, "_Call{}".format(self.id))
+        elif "_Call_{}_{}".format(code.id, self.id) not in [x.name for x in code.inventories]:
+            ZDInventory(code, "_Call_{}_{}".format(code.id, self.id))
 
     def post_load(self):
         if self.func in self.actor.namefuncs:
             self.actor.namefuncs[self.func].add_call(self)
 
     def num_states(self):
-        return 2 + 2 * len(self.actor.namefuncs[self.func].args)
+        return 2
             
     def add_arg(self, a):
         self.args.append(a)
@@ -131,10 +137,7 @@ class ZDCall(object):
         r = ""
         func = self.actor.namefuncs[self.func]
 
-        for i, a in enumerate(self.args):
-            r += "    TNT1 A 0 A_TakeInventory(\"{0}\")\n    TNT1 A 0 A_GiveInventory(\"{0}\", {1})\n".format(func.args[i], a)
-
-        return r + "    TNT1 A 0 A_GiveInventory(\"_Call{1}\")\n    Goto F_{0}\n_CLabel{1}:\n    TNT1 A 0 A_TakeInventory(\"_Call{1}\")".format(func.name, self.id)
+        return r + "    TNT1 A 0 A_GiveInventory(\"_Call_{2}_{1}\")\n    Goto F_{0}\n_CLabel{1}:\n    TNT1 A 0 A_TakeInventory(\"_Call_{2}_{1}\")".format(func.name, self.id, self.code.id)
 
 class ZDFunction(object):
     def __init__(self, code, actor, name, args=None, states=None):
@@ -174,7 +177,7 @@ class ZDFunction(object):
         result = []
 
         for c in self.calls:
-            result.append("TNT1 A 0 A_JumpIfInventory(\"_Call{0}\", 1, \"_CLabel{0}\")".format(c.id))
+            result.append("TNT1 A 0 A_JumpIfInventory(\"_Call_{1}_{0}\", 1, \"_CLabel{0}\")".format(c.id, self.code.id))
 
         return ("    " + redent("\n".join(result), 4) if len(result) > 0 else "")
 
@@ -189,7 +192,10 @@ class ZDFunction(object):
                 r += "{}\n".format(decorate(s))
             
         return r[:-1]
-        
+    
+    def label_name(self):
+        return "F_" + self.name
+
     def __decorate__(self):
         code = "    F_{}:".format(self.name)
         code += '\n' + self.state_code()
@@ -247,6 +253,9 @@ class ZDLabel(object):
 
         self._actor.labels.append(self)
 
+    def label_name(self):
+        return self.name
+
     def add_state(self, state):
         self.states.append(state)
 
@@ -286,7 +295,7 @@ class ZDActor(object):
     def __init__(self, code, name="DefaultActor", inherit=None, replace=None, doomednum=None):
         self.code = code
         self.labels = []
-        self.properties = {}
+        self.properties = []
         self.flags = []
         self.antiflags = []
         self.inherit = inherit
@@ -306,7 +315,7 @@ class ZDActor(object):
     def top(self):
         r = []
 
-        for p in sorted(self.properties.values(), key=lambda p: p.name):
+        for p in sorted(self.properties, key=lambda p: p.name):
             r.append(decorate(p))
 
         r.append("")
@@ -407,7 +416,7 @@ class ZDWhileStatement(object):
     def __decorate__(self):
         num_st = sum(x.num_states() for x in self.states)
     
-        return redent("_WhileBlock{}:\n".format(self.id) + redent("TNT1 A 0 A_JumpIf(!({}), {})\n".format(self.condition, num_st + 2) + '\n'.join(decorate(x) for x in self.states) + "\nGoto _WhileBlock{};\")\nTNT1 A 0".format(self.id), 4, unindent_first=False), 0, unindent_first=False)
+        return redent("_WhileBlock{}:\n".format(self.id) + redent("TNT1 A 0 A_JumpIf(!({}), {})\n".format(self.condition, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nGoto _WhileBlock{}\nTNT1 A 0".format(self.id), 4, unindent_first=False), 0, unindent_first=False)
         
 class ZDInventory(object):
     def __init__(self, code, name):
@@ -480,7 +489,6 @@ class ZDCode(object):
 
     @classmethod
     def parse(cls, code):
-        print("Syntax parsing...")
         data = zdlexer.parse_code(code.strip(' \t\n'))
         res = cls()
 
@@ -525,7 +533,7 @@ class ZDCode(object):
         else:
             return a[0]
 
-    def _parse_state(self, actor, label, s, func=None, calls=None):
+    def _parse_state(self, actor, label, s, func=None, calls=None, alabel=None):
         if calls is None:
             calls = []
 
@@ -553,15 +561,18 @@ class ZDCode(object):
             calls.append(ZDCall(self, label, s[1]))
 
         elif s[0] == 'flow':
-            label.states.append(ZDRawDecorate(s[1]))
+            if s[1].upper() == 'LOOP' and func != None:
+                label.states.append(ZDRawDecorate('Goto {}'.format(func.label_name())))
+
+            else:
+                label.states.append(ZDRawDecorate(s[1].rstrip(';')))
 
         elif s[0] == 'repeat':
-            rep = ZDRepeat(actor, s[1][0], [])
+            #rep = ZDRepeat(actor, s[1][0], [])
 
-            for a in s[1][1]:
-                self._parse_state(actor, rep, a, func, calls=calls)
-                
-            label.states.append(rep)
+            for _ in range(s[1][0]):
+                for a in s[1][1]:
+                    self._parse_state(actor, label, a, func, calls=calls)
 
         elif s[0] == 'if':
             ifs = ZDIfStatement(actor, s[1][0], [])
@@ -603,7 +614,7 @@ class ZDCode(object):
                     label = ZDLabel(actor, bdata['name'])
 
                     for s in bdata['body']:
-                        self._parse_state(actor, label, s, calls=calls)
+                        self._parse_state(actor, label, s, label, calls=calls)
 
                 elif btype == 'function':
                     func = ZDFunction(self, actor, bdata['name'])
@@ -620,6 +631,7 @@ class ZDCode(object):
         self.inventories = []
         self.actors = []
         self.calls = []
+        self.id = make_id(35)
 
     def __decorate__(self):
         if not self.inventories:
