@@ -204,7 +204,7 @@ def flow_control():
 
 @generate
 def state():
-    return (if_statement.tag('if') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')).skip(s(';'))
+    return (if_statement.tag('if') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')) << s(';')
     yield
 
 @generate
@@ -227,10 +227,11 @@ def state_body():
 @generate
 def sometimes_statement():
     return seq(
-        s('sometimes') \
-                >> whitespace.optional() \
-                >> number_lit.tag('chance')
-                << s('%').optional(),
+        s('sometimes') >>\
+                whitespace >>\
+                number_lit.tag('chance') <<\
+                s('%').optional() <<
+                whitespace.optional(),
         state_body.optional().map(lambda x: x if x != None else []).tag('body')
     )
     yield
@@ -246,7 +247,17 @@ def if_statement():
         .skip(whitespace.optional())
         .skip(string(")"))
         .skip(whitespace.optional()),
+        
         state_body.optional().map(lambda x: x if x != None else [])
+        .skip(whitespace.optional()),
+
+        s(';')
+            .then(whitespace.optional())
+            .then(s('else'))
+            .then(whitespace.optional())
+            .then(state_body.optional().map(lambda x: x if x != None else []))
+        .skip(whitespace.optional())
+            .optional()
     )
     yield
 

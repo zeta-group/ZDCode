@@ -385,10 +385,17 @@ class ZDRepeat(object):
         return redent('\n'.join([decorate(x) for x in self.states] * self.repeats), 4, unindent_first=False)
         
 class ZDIfStatement(object):
-    def __init__(self, actor, condition, states):
+    def __init__(self, actor, condition, states, inverted=False):
         self._actor = actor
         self.condition = condition
         self.states = states
+        self.inverted = inverted
+        
+        if self.inverted:
+            self.true_condition = condition
+
+        else:
+            self.true_condition = "!({})".format(condition)
             
     def num_states(self):
         return sum(x.num_states() for x in self.states) + 2
@@ -396,7 +403,7 @@ class ZDIfStatement(object):
     def __decorate__(self):
         num_st = sum(x.num_states() for x in self.states)
     
-        return redent("TNT1 A 0 A_JumpIf(!({}), {})\n".format(self.condition, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
+        return redent("TNT1 A 0 A_JumpIf({}, {})\n".format(self.true_condition, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
         
         
 class ZDSometimes(object):
@@ -601,11 +608,21 @@ class ZDCode(object):
 
         elif s[0] == 'if':
             ifs = ZDIfStatement(actor, s[1][0], [])
+            elses = None
 
             for a in s[1][1]:
                 self._parse_state(actor, ifs, a, func, calls=calls)
 
+            if s[1][2] is not None:
+                elses = ZDIfStatement(actor, s[1][0], [], inverted=True)
+
+                for a in s[1][2]:
+                    self._parse_state(actor, elses, a, func, calls=calls)
+
             label.states.append(ifs)
+
+            if elses is not None:
+                label.states.append(elses)
 
         elif s[0] == 'while':
             whs = ZDWhileStatement(actor, s[1][0], [])

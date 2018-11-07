@@ -1,10 +1,10 @@
-Actor _Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_0 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_1 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_2 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_3 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_4 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_5 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_6 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_0 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_1 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_2 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_3 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_4 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_5 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_6 : Inventory {Inventory.MaxAmount 1}
 
 
 Actor RunZombie : ZombieMan replaces ZombieMan 2055
@@ -19,17 +19,17 @@ Actor RunZombie : ZombieMan replaces ZombieMan 2055
         F_SeeCheck:
             TNT1 A 0 A_Chase
             POSS A 0 A_FaceTarget
-            TNT1 A 0 A_JumpIfInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_5", 1, "_CLabel5")
             TNT1 A -1
         
             F_ZombieJump:
             TNT1 A 0 A_JumpIf(!(health > 5), 2)
-            TNT1 A 0 A_JumpIfInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_6", 1, "_CLabel6")
             Stop
             TNT1 A 0
         _WhileBlock0:
@@ -40,34 +40,34 @@ Actor RunZombie : ZombieMan replaces ZombieMan 2055
             TNT1 A 0
             POSS A 2 A_Chase
             POSS B 2 A_Chase
-            TNT1 A 0 A_JumpIfInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_6", 1, "_CLabel6")
             TNT1 A -1
         
         See:
-            TNT1 A 0 A_GiveInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_0")
+            TNT1 A 0 A_GiveInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_0")
             Goto F_SeeCheck
         _CLabel0:
-            TNT1 A 0 A_TakeInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_0")
+            TNT1 A 0 A_TakeInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_0")
             POSS A 5 A_Recoil(-0.7)
             POSS B 5 A_Recoil(-0.7)
-            TNT1 A 0 A_GiveInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_1")
+            TNT1 A 0 A_GiveInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_1")
             Goto F_SeeCheck
         _CLabel1:
-            TNT1 A 0 A_TakeInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_1")
+            TNT1 A 0 A_TakeInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_1")
             POSS A 4 A_Recoil(-0.7)
             POSS B 4 A_Recoil(-0.7)
-            TNT1 A 0 A_GiveInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_2")
+            TNT1 A 0 A_GiveInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_2")
             Goto F_SeeCheck
         _CLabel2:
-            TNT1 A 0 A_TakeInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_2")
+            TNT1 A 0 A_TakeInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_2")
             POSS A 3 A_Recoil(-0.7)
             POSS B 3 A_Recoil(-0.7)
             POSS C 3 A_Recoil(-0.7)
             POSS D 3 A_Recoil(-0.7)
-            TNT1 A 0 A_GiveInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_3")
+            TNT1 A 0 A_GiveInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_3")
             Goto F_SeeCheck
         _CLabel3:
-            TNT1 A 0 A_TakeInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_3")
+            TNT1 A 0 A_TakeInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_3")
             goto RunLoop
         
         RunLoop:
@@ -75,22 +75,22 @@ Actor RunZombie : ZombieMan replaces ZombieMan 2055
             POSS B 2 A_Recoil(-0.7)
             POSS C 2 A_Recoil(-0.7)
             POSS D 2 A_Recoil(-0.7)
-            TNT1 A 0 A_GiveInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_4")
+            TNT1 A 0 A_GiveInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_4")
             Goto F_SeeCheck
         _CLabel4:
-            TNT1 A 0 A_TakeInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_4")
+            TNT1 A 0 A_TakeInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_4")
             POSS A 2 A_Recoil(-0.7)
             POSS B 2 A_Recoil(-0.7)
             POSS C 2 A_Recoil(-0.7)
             POSS D 2 A_Recoil(-0.7)
-            TNT1 A 0 A_GiveInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_5")
+            TNT1 A 0 A_GiveInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_5")
             Goto F_SeeCheck
         _CLabel5:
-            TNT1 A 0 A_TakeInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_5")
-            TNT1 A 0 A_GiveInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_6")
+            TNT1 A 0 A_TakeInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_5")
+            TNT1 A 0 A_GiveInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_6")
             Goto F_ZombieJump
         _CLabel6:
-            TNT1 A 0 A_TakeInventory("_Call_EEM30qy5QRnLWOqf9giud63KlYCYhKF1Auo_6")
+            TNT1 A 0 A_TakeInventory("_Call_LV9EVfumGpZzssp4F6VTZ60Cb9xEtKQxQQM_6")
             Goto RunLoop
     }
 }

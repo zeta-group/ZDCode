@@ -54,7 +54,6 @@ class MonSpawnR extends RandomSpawner {
     set DropItem to "ArchVile";
     set DropItem to "HellKnight";
     set DropItem to "BaronOfHell";
-    
 }
 
 class SkullParticle {
@@ -79,6 +78,8 @@ class SkullSpawner {
 }
 
 class SkullParticleR extends SkullParticle {
+    set Scale to 1.0;
+
     label Spawn {
         SKPT R 12 [Bright];
         Stop;
@@ -93,6 +94,8 @@ class SkullParticleO extends SkullParticle {
 }
 
 class SkullParticleY extends SkullParticle {
+    set Scale to 0.5;
+
     label Spawn {
         SKPT Y 12 [Bright];
         Stop;
@@ -109,22 +112,25 @@ class SkullSpawnerR extends SkullSpawner {
     };
 
     function MakeParticle {
-        x 2 TNT1 A 0 A_SpawnItemEx('SkullParticleR', 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2));
+        x 2 sometimes 20 TNT1 A 0 A_SpawnItemEx('SkullParticleR', 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2));
     };
 
     function Duplicate {
-        TNT1 A 0 A_SpawnProjectile('SkullSpawnerR', 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION);
+        if (z - floorz < 40)
+            TNT1 A 0 A_CustomMissile('SkullSpawnerR', 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5));
+
+        else
+            TNT1 A 0 A_CustomMissile('SkullSpawnerR', 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20));
     };
 
     label Death {
-        sometimes 75 {
+        sometimes 96 {
             TNT1 A 0 A_Log("RED ALERT: New high-level threat detected!");
             TNT1 A 0 A_SpawnItemEx('MonSpawnR', 0, 0, floorz - z);
         };
 
-        x 5 sometimes 4 {
+        x 5 sometimes 8
             call Duplicate;
-        };
 
         x 20 call MakeParticle;
         TNT1 A 1;
@@ -142,22 +148,25 @@ class SkullSpawnerO extends SkullSpawner {
     };
 
     function MakeParticle {
-        TNT1 A 0 A_SpawnItemEx('SkullParticleO', 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2));
+        sometimes 20 TNT1 A 0 A_SpawnItemEx('SkullParticleO', 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2));
     };
 
     function Duplicate {
-        TNT1 A 0 A_SpawnProjectile('SkullSpawnerO', 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION);
+        if (z - floorz < 40)
+            TNT1 A 0 A_CustomMissile('SkullSpawnerO', 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5));
+
+        else            
+            TNT1 A 0 A_CustomMissile('SkullSpawnerO', 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20));
     };
 
     label Death {
-        x 2 sometimes 65 {
+        x 2 sometimes 83 {
             TNT1 A 0 A_Log("ORANGE ALERT: New medium-level threat detected!");
             TNT1 A 0 A_SpawnItemEx('MonSpawnO', 0, 0, floorz - z);
         };
 
-        x 5 sometimes 9 {
+        x 6 sometimes 10
             call Duplicate;
-        };
 
         x 20 call MakeParticle;
         TNT1 A 1;
@@ -175,22 +184,25 @@ class SkullSpawnerY extends SkullSpawner {
     };
 
     function MakeParticle {
-        TNT1 A 0 A_SpawnItemEx('SkullParticleY', 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2));
+        sometimes 20 TNT1 A 0 A_SpawnItemEx('SkullParticleY', 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2));
     };
 
     function Duplicate {
-        TNT1 A 0 A_SpawnProjectile('SkullSpawnerY', 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION);
+        if (z - floorz < 40)
+            TNT1 A 0 A_CustomMissile('SkullSpawnerY', 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5));
+
+        else
+            TNT1 A 0 A_CustomMissile('SkullSpawnerY', 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20));
     };
 
     label Death {
-        x 3 sometimes 30 {
+        x 3 sometimes 70 {
             TNT1 A 0 A_Log("YELLOW ALERT: New low-level threat detected!");
             TNT1 A 0 A_SpawnItemEx('MonSpawnY', FRandom(-70, 70), FRandom(-70, 70), floorz - z);
         };
 
-        x 5 sometimes 12 {
+        x 7 sometimes 12
             call Duplicate;
-        };
 
         x 20 call MakeParticle;
         TNT1 A 1;
