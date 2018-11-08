@@ -71,6 +71,8 @@ class SkullSpawner {
     set RenderStyle to Translucent;
     set Speed to 9;
     set Damage to 0;
+    set Radius to 2;
+    set Height to 2;
     
     combo Projectile;
 

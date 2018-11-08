@@ -49,6 +49,15 @@
             "changes": [
                 "Slight patch: changed 'Stop' in function without returnable calls into 'TNT1 A -1'. Suggested by Blzut3."
             ]
+        },
+
+        {
+            "name": "2.2.0",
+            "changes": [
+                "Added 'sometimes' statement.",
+                "Added 'else' statement.",
+                "Fixed if/repeat statement jump offsets."
+            ]
         }
     ]
 }
