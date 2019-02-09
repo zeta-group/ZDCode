@@ -1,0 +1,161 @@
+Actor PusherBubble
+{
+    Damage 0
+    Speed 35
+    
+    +BLOODLESSIMPACT
+    Projectile
+    
+    States {
+        Spawn:
+            PBBL A 2
+            PBBL B 2
+            Goto Spawn
+        
+        Death:
+            PBBL C 4 A_Explode(0, 152)
+            stop
+    }
+}
+
+
+Actor PusherCritter
+{
+    Speed 3
+    
+    Monster
+    
+    States {
+        Spawn:
+            PCRT A 12 A_Look
+            Goto Spawn
+        
+        See:
+            PCRT A 3 A_Chase
+            PCRT B 3 A_Chase
+            PCRT C 3 A_Chase
+            PCRT D 3 A_Chase
+            Goto See
+        
+        Missile:
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            TNT1 A 0 A_Jump(127, 5)
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT E 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            PCRT F 2 A_CustomMissile("PusherBubble")
+            TNT1 A 0
+            goto See
+        
+        Death:
+            MISL C 4  Bright A_ScreamAndUnblock
+            MISL D 4  Bright A_ScreamAndUnblock
+            MISL E 4  Bright A_ScreamAndUnblock
+        
+        XDeath:
+            MISL C 4  Bright A_ScreamAndUnblock
+            MISL D 4  Bright A_ScreamAndUnblock
+            MISL E 4  Bright A_ScreamAndUnblock
+    }
+}

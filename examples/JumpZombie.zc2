@@ -1,3 +1,5 @@
+#DEFINE ANNOYING
+
 class RunZombie inherits ZombieMan replaces ZombieMan #2055
 {
     set Gravity to 0.4; // high up...
@@ -33,6 +35,16 @@ class RunZombie inherits ZombieMan replaces ZombieMan #2055
             POSS A 5 [Bright];
             POSS A 11 ThrustThingZ(0, 30, 0, 1);
         };
+
+        #ifndef ANNOYING
+        while ( z > floorz )
+        {
+            POSS AB 4;
+        };
+
+        POSS G 9;
+        POSS B 22;
+        #endif
         
         POSS AB 2 A_Chase;
     };

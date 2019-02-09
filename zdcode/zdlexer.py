@@ -1,5 +1,7 @@
 import string as strlib
 import re
+import os
+import parsy
 
 from parsy import *
 
@@ -28,6 +30,32 @@ string_literal = (
     | (string_delim_2 >> string_body_plex_2 << string_delim_2)
 )
 lwhitespace = whitespace | s('\n') | s('\r')
+
+ifneq = re.compile(r'^\#IF(N|NOT)EQ(UALS?)?$')
+ifundef = re.compile(r'^\#IF(U?N|NOT)DEF(INED)?$')
+
+error_line = re.compile(r'(.+?) at (\d+)\:\d+$')
+
+class PreprocessingError(BaseException):
+    def __init__(self, problem, line, fname = None):
+        self.problem = problem
+        self.error_line = line
+        self.filename = fname
+
+    def __str__(self):
+        return "{} (line {} {})".format(self.problem, self.error_line, 'of input code' if self.filename is None else 'in "{}"'.format(self.filename))
+
+class ZDParseError(BaseException):
+    def __init__(self, parsy_error, postline=None):
+        self.parsy_error = parsy_error
+        self.postline = postline
+
+    def __str__(self):
+        filename = self.postline[0]
+        error_line = self.postline[1]
+        line_source = self.postline[2]
+
+        return "{} at line {} {}\n> {}".format(str(self.parsy_error), error_line, 'of input code' if filename is None else 'in "{}"'.format(filename), line_source)
 
 @generate
 def modifier():
@@ -170,7 +198,7 @@ def normal_state():
         regex(r"[A-Z_.]").many().desc('state sprite').skip(
             whitespace.optional()
         ),
-        regex(r"\d+").map(int).desc('state duration').skip(
+        regex(r"\-?\d+").map(int).desc('state duration').skip(
             whitespace.optional()
         ),
         modifier.many().desc('modifier').skip(
@@ -289,20 +317,158 @@ def source_code():
     return whitespace.optional().desc('ignored whitespace') >> actor_class.sep_by(whitespace.optional()) << whitespace.optional().desc('ignored whitespace')
     yield
 
-def parse_code(code):
-    rcode = code
+def preprocess_code(code, imports=(), defs=(), this_fname=None, rel_dir='.'):
+    if type(imports) is not list:
+        imports = list(imports)
 
-    for l in rcode.split('\n'):
-        if l.startswith('#IMPORT ') or l.startswith('#INCLUDE '):
-            fname = l.split(' ')[1]
+    if type(defs) is not dict:
+        defs = dict(defs)
 
-            with open(fname) as fp:
-                code.replace(l, fp.read() + "\n")
+    # conditional substitution
+    pcodelines = []
 
-        elif len(set(l) - set(strlib.whitespace + '#')) > 0:
-            break
+    cond_active = True
+    depth = 0
+    check_depth = 0
+    
+    # comments
+    src_lines = code.split('\n')
 
-    code = re.sub(r'\/\/[^\r\n]+', lambda x: ' ' * len(x.group(0)), code)
-    code = re.sub(r'\/\*.+?\*\/', lambda x: ' ' * len(x.group(0)), code)
+    code = re.sub(r'\/\/[^\r\n]+', lambda x: re.sub(r'[^\n]', ' ', x.group(0)), code)
+    code = re.sub(r'\/\*(\n|.)+?\*\/', lambda x: re.sub(r'[^\n]', ' ', x.group(0)), code)
+    codelines = code.split('\n')
 
-    return (dict(x) for x in source_code.parse(code))
+    for _i, l in enumerate(codelines):
+        i = _i + 1
+        src_l = src_lines[_i]
+
+        check_line_case = re.sub(r'^\s+', '', l)
+        check_line = check_line_case.upper()
+
+        # macros
+        for key, value in defs.items():
+            l = re.sub(r'\B{}\B'.format(re.escape(key)), value, l)
+
+        # conditional blocks
+        if check_line.startswith('#IFDEF ') or check_line.startswith('#IFDEFINED '):
+            check_depth += 1
+
+            if cond_active:
+                key = check_line_case.split(' ')[1]
+
+                if key not in defs:
+                    cond_active = False
+
+            else:
+                depth += 1
+
+        elif ifundef.match(check_line.split(' ')[0]):
+            check_depth += 1
+
+            if cond_active:
+                key = check_line_case.split(' ')[1]
+
+                if key in defs:
+                    cond_active = False
+
+            else:
+                depth += 1
+
+        elif check_line.startswith('#IFEQ ') or check_line.startswith('#IFEQUAL ') or check_line.startswith('#IFEQUALS '):
+            check_depth += 1 
+
+            if cond_active:
+                key = check_line_case.split(' ')[1]
+                value = check_line_case.split(' ')[2:]
+
+                if key not in defs or defs[key] != value:
+                    cond_active = False
+
+            else:
+                depth += 1
+
+        elif ifneq.match(check_line.split(' ')[0]):
+            check_depth += 1
+
+            if cond_active:
+                key = check_line_case.split(' ')[1]
+                value = check_line_case.split(' ')[2:]
+
+                if key not in defs or defs[key] == value:
+                    cond_active = False
+
+            else:
+                depth += 1
+  
+        elif check_line.startswith('#ELSE') or check_line.startswith('#OTHERWISE'):
+            if check_depth == 0:
+                raise PreprocessingError("Attempted to use 'else' on a conditional preprocessor block that didn't exist!", i, this_fname)
+            
+            cond_active = not cond_active
+
+        elif check_line.startswith('#ENDIF'):
+            check_depth -= 1
+
+            if check_depth < 0:
+                raise PreprocessingError("Attempted to end a conditional preprocessor block that didn't exist!", i, this_fname)
+
+            if not cond_active:
+                if depth > 0:
+                    depth -= 1
+
+                else:
+                    cond_active = True
+
+        # imports and definitions
+        if cond_active:
+            if check_line.startswith('#IMPORT ') or check_line.startswith('#INCLUDE '):
+                fname = os.path.join(rel_dir, ' '.join(check_line_case.split(' ')[1:]))
+                
+                if not os.path.isfile(fname):                
+                    raise PreprocessingError("The module '{}' was not found".format(os.path.join(rel_dir, fname)), i, this_fname)
+
+                if (this_fname, fname) in imports:
+                    raise PreprocessingError("The module '{}' was found in an infinite import cycle!".format(fname), i, this_fname)
+
+                imports.append((this_fname, fname))
+
+                with open(fname) as fp:
+                    for l in preprocess_code(fp.read() + "\n", imports, defs, fname, os.path.dirname(fname)):
+                        pcodelines.append(l)
+
+            elif check_line.startswith('#DEF ') or check_line.startswith('#DEFINE '):
+                key = check_line_case.split(' ')[1]
+                value = ' '.join(check_line_case.split(' ')[2:])
+
+                if value != '':
+                    defs[key] = None
+
+                else:
+                    defs[key] = value
+        
+            elif check_line.startswith('#UNDEF ') or check_line.startswith('#UNDEFINE '):
+                key = check_line_case.split(' ')[1]
+
+                if key in defs:
+                    defs.pop(key)
+
+        if not check_line.startswith('#') and cond_active:
+            pcodelines.append((this_fname, i, src_l, l))
+
+    return pcodelines
+
+def parse_postcode(postcode):
+    try:
+        return (dict(x) for x in source_code.parse('\n'.join(l[-1] for l in postcode)))
+
+    except parsy.ParseError as parse_err:
+        m = error_line.match(str(parse_err))
+
+        if m is None:
+            raise
+        
+        else:
+            raise ZDParseError(m[1], postcode[int(m[2])])
+
+def parse_code(code, filename=None, dirname='.'):
+    return parse_postcode(preprocess_code(code, this_fname=filename, rel_dir=dirname))

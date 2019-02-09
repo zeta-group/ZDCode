@@ -1,8 +1,21 @@
+#DEFINE HasJumpZombies
+
+#IFDEF HasJumpZombies
+#INCLUDE JumpZombie.zc2
+#ENDIF
+
 class MonSpawnY extends RandomSpawner {
+    #IFDEF HasJumpZombies
+    set DropItem to "ZombieMan", 255, 1;
+    #ELSE
     set DropItem to "ZombieMan", 255, 2;
+    #ENDIF
     set DropItem to "DoomImp", 255, 1;
     set DropItem to "ShotgunGuy", 255, 1;
     set DropItem to "Demon", 255, 1;
+    #IFDEF HasJumpZombies
+    set DropItem to "RunZombie", 255, 1;
+    #ENDIF
 }
 
 class MultiSpawner {

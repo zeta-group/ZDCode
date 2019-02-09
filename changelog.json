@@ -58,6 +58,21 @@
                 "Added 'else' statement.",
                 "Fixed if/repeat statement jump offsets."
             ]
+        },
+
+        {
+            "name": "2.2.1",
+            "changes": [
+                "Fixed piped mode (stdin-to-stdout compilation)."
+            ]
+        },
+
+        {
+            "name": "2.3.0",
+            "changes": [
+                "Rewrote the preprocessor.",
+                "Made error messages more useful."
+            ]
         }
     ]
 }

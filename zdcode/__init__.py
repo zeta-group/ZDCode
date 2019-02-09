@@ -2,8 +2,11 @@ import re
 import textwrap
 import string, random
 
-from zdcode import zdlexer
+try:
+    from zdcode import zdlexer
 
+except ImportError:
+    import zdlexer
 
 
 actor_list = {}
@@ -511,8 +514,8 @@ class ZDCode(object):
         # parser.setDebug()
 
     @classmethod
-    def parse(cls, code):
-        data = zdlexer.parse_code(code.strip(' \t\n'))
+    def parse(cls, code, dirname='.'):
+        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname)
         res = cls()
 
         res._parse(data)
