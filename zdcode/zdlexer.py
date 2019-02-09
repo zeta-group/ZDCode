@@ -465,6 +465,9 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
 
                 if key in defs:
                     defs.pop(key)
+                    
+                if key in macros:
+                    macros.pop(key)
 
         if not check_line.startswith('#') and cond_active:
             pcodelines.append((this_fname, i, src_l, l))
