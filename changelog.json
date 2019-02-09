@@ -73,6 +73,13 @@
                 "Rewrote the preprocessor.",
                 "Made error messages more useful."
             ]
+        },
+
+        {
+            "name": "2.3.1",
+            "changes": [
+                "Separated preprocessor macros and definitions."
+            ]
         }
     ]
 }

@@ -317,12 +317,15 @@ def source_code():
     return whitespace.optional().desc('ignored whitespace') >> actor_class.sep_by(whitespace.optional()) << whitespace.optional().desc('ignored whitespace')
     yield
 
-def preprocess_code(code, imports=(), defs=(), this_fname=None, rel_dir='.'):
+def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_dir='.'):
     if type(imports) is not list:
         imports = list(imports)
 
     if type(defs) is not dict:
         defs = dict(defs)
+   
+    if type(macros) is not dict:
+        macros = dict(macros)
 
     # conditional substitution
     pcodelines = []
@@ -345,8 +348,8 @@ def preprocess_code(code, imports=(), defs=(), this_fname=None, rel_dir='.'):
         check_line_case = re.sub(r'^\s+', '', l)
         check_line = check_line_case.upper()
 
-        # macros
-        for key, value in defs.items():
+        # macro replacement
+        for key, value in macros.items():
             l = re.sub(r'\B{}\B'.format(re.escape(key)), value, l)
 
         # conditional blocks
@@ -445,6 +448,16 @@ def preprocess_code(code, imports=(), defs=(), this_fname=None, rel_dir='.'):
 
                 else:
                     defs[key] = value
+
+            elif defmacro.match(check_line.split(' ')[0]):
+                key = check_line_case.split(' ')[1]
+                value = ' '.join(check_line_case.split(' ')[2:])
+
+                if value == '':
+                    raise PreprocessingError("Empty macro definitions ('{}') are not allowed!".format(key), i, this_fname)
+
+                defs[key] = value
+                macros[key] = value
         
             elif check_line.startswith('#UNDEF ') or check_line.startswith('#UNDEFINE '):
                 key = check_line_case.split(' ')[1]
