@@ -33,6 +33,7 @@ lwhitespace = whitespace | s('\n') | s('\r')
 
 ifneq = re.compile(r'^\#IF(N|NOT)EQ(UALS?)?$')
 ifundef = re.compile(r'^\#IF(U?N|NOT)DEF(INED)?$')
+defmacro = re.compile(r'^\#DEF(INE)?M(AC(RO)?)?$')
 
 error_line = re.compile(r'(.+?) at (\d+)\:\d+$')
 
@@ -436,7 +437,7 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
                 imports.append((this_fname, fname))
 
                 with open(fname) as fp:
-                    for l in preprocess_code(fp.read() + "\n", imports, defs, fname, os.path.dirname(fname)):
+                    for l in preprocess_code(fp.read() + "\n", imports, defs, macros, this_fname=fname, rel_dir=os.path.dirname(fname)):
                         pcodelines.append(l)
 
             elif check_line.startswith('#DEF ') or check_line.startswith('#DEFINE '):
