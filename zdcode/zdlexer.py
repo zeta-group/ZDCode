@@ -38,13 +38,14 @@ defmacro = re.compile(r'^\#DEF(INE)?M(AC(RO)?)?$')
 error_line = re.compile(r'(.+?) at (\d+)\:\d+$')
 
 class PreprocessingError(BaseException):
-    def __init__(self, problem, line, fname = None):
+    def __init__(self, problem, line, fname = None, line_content = None):
         self.problem = problem
         self.error_line = line
         self.filename = fname
+        self.line_content = line_content
 
     def __str__(self):
-        return "{} (line {} {})".format(self.problem, self.error_line, 'of input code' if self.filename is None else 'in "{}"'.format(self.filename))
+        return "{} (line {} {}){}".format(self.problem, self.error_line, 'of input code' if self.filename is None else 'in "{}"'.format(self.filename), '' if self.line_content is None else ':\n> ' + self.line_content)
 
 class ZDParseError(BaseException):
     def __init__(self, parsy_error, postline=None):
@@ -56,7 +57,7 @@ class ZDParseError(BaseException):
         error_line = self.postline[1]
         line_source = self.postline[2]
 
-        return "{} at line {} {}\n> {}".format(str(self.parsy_error), error_line, 'of input code' if filename is None else 'in "{}"'.format(filename), line_source)
+        return "{} at line {} {}:\n> {}".format(str(self.parsy_error), error_line, 'of input code' if filename is None else 'in "{}"'.format(filename), line_source)
 
 @generate
 def modifier():
@@ -406,7 +407,7 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
   
         elif check_line.startswith('#ELSE') or check_line.startswith('#OTHERWISE'):
             if check_depth == 0:
-                raise PreprocessingError("Attempted to use 'else' on a conditional preprocessor block that didn't exist!", i, this_fname)
+                raise PreprocessingError("Attempted to use 'else' on a conditional preprocessor block that didn't exist!", i, this_fname, check_line_case)
             
             cond_active = not cond_active
 
@@ -414,7 +415,7 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
             check_depth -= 1
 
             if check_depth < 0:
-                raise PreprocessingError("Attempted to end a conditional preprocessor block that didn't exist!", i, this_fname)
+                raise PreprocessingError("Attempted to end a conditional preprocessor block that didn't exist!", i, this_fname, check_line_case)
 
             if not cond_active:
                 if depth > 0:
@@ -429,10 +430,10 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
                 fname = os.path.join(rel_dir, ' '.join(check_line_case.split(' ')[1:]))
                 
                 if not os.path.isfile(fname):                
-                    raise PreprocessingError("The module '{}' was not found".format(os.path.join(rel_dir, fname)), i, this_fname)
+                    raise PreprocessingError("The module '{}' was not found".format(os.path.join(rel_dir, fname)), i, this_fname, check_line_case)
 
                 if (this_fname, fname) in imports:
-                    raise PreprocessingError("The module '{}' was found in an infinite import cycle!".format(fname), i, this_fname)
+                    raise PreprocessingError("The module '{}' was found in an infinite import cycle!".format(fname), i, this_fname, check_line_case)
 
                 imports.append((this_fname, fname))
 
@@ -455,7 +456,7 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
                 value = ' '.join(check_line_case.split(' ')[2:])
 
                 if value == '':
-                    raise PreprocessingError("Empty macro definitions ('{}') are not allowed!".format(key), i, this_fname)
+                    raise PreprocessingError("Empty macro definitions ('{}') are not allowed!".format(key), i, this_fname, check_line_case)
 
                 defs[key] = value
                 macros[key] = value
@@ -494,4 +495,12 @@ def parse_postcode(postcode, error_handler=None):
                 error_handler(err)
 
 def parse_code(code, filename=None, dirname='.', error_handler=None):
-    return parse_postcode(preprocess_code(code, this_fname=filename, rel_dir=dirname), error_handler=error_handler)
+    try:
+        return parse_postcode(preprocess_code(code, this_fname=filename, rel_dir=dirname), error_handler=error_handler)
+
+    except PreprocessingError as pperr:
+        if error_handler is None:
+            raise
+
+        else:
+            error_handler(pperr)

@@ -8,9 +8,8 @@ try:
 except ImportError:
     import __init__ as zdcode
 
-
 def print_parse_error(e):
-    print(str(e))
+    print('{}: {}'.format(type(e).__name__, str(e)))
     sys.exit(2)
 
 if __name__ == "__main__":
