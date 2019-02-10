@@ -514,8 +514,8 @@ class ZDCode(object):
         # parser.setDebug()
 
     @classmethod
-    def parse(cls, code, dirname='.'):
-        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname)
+    def parse(cls, code, dirname='.', error_handler=None):
+        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, error_handler=error_handler)
         res = cls()
 
         res._parse(data)
@@ -689,5 +689,5 @@ class ZDCode(object):
         ]) # lines split for debugging
 
     def decorate(self):
-        print("\n\nGenerating DECORATE...\n\n")
+        print("Generating DECORATE...")
         return self.__decorate__()

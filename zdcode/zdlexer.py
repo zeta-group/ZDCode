@@ -474,7 +474,7 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
 
     return pcodelines
 
-def parse_postcode(postcode):
+def parse_postcode(postcode, error_handler=None):
     try:
         return (dict(x) for x in source_code.parse('\n'.join(l[-1] for l in postcode)))
 
@@ -485,7 +485,13 @@ def parse_postcode(postcode):
             raise
         
         else:
-            raise ZDParseError(m[1], postcode[int(m[2])])
+            err = ZDParseError(m[1], postcode[int(m[2])])
 
-def parse_code(code, filename=None, dirname='.'):
-    return parse_postcode(preprocess_code(code, this_fname=filename, rel_dir=dirname))
+            if error_handler is None:
+                raise err
+   
+            else:
+                error_handler(err)
+
+def parse_code(code, filename=None, dirname='.', error_handler=None):
+    return parse_postcode(preprocess_code(code, this_fname=filename, rel_dir=dirname), error_handler=error_handler)
