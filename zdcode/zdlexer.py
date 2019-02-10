@@ -1,4 +1,3 @@
-import string as strlib
 import re
 import os
 import parsy
@@ -320,13 +319,13 @@ def source_code():
     yield
 
 def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_dir='.'):
-    if type(imports) is not list:
+    if not isinstance(imports, list):
         imports = list(imports)
 
-    if type(defs) is not dict:
+    if not isinstance(defs, dict):
         defs = dict(defs)
    
-    if type(macros) is not dict:
+    if not isinstance(macros, dict):
         macros = dict(macros)
 
     # conditional substitution
@@ -380,7 +379,7 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
                 depth += 1
 
         elif check_line.startswith('#IFEQ ') or check_line.startswith('#IFEQUAL ') or check_line.startswith('#IFEQUALS '):
-            check_depth += 1 
+            check_depth += 1
 
             if cond_active:
                 key = check_line_case.split(' ')[1]
@@ -429,7 +428,7 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
             if check_line.startswith('#IMPORT ') or check_line.startswith('#INCLUDE '):
                 fname = os.path.join(rel_dir, ' '.join(check_line_case.split(' ')[1:]))
                 
-                if not os.path.isfile(fname):                
+                if not os.path.isfile(fname):
                     raise PreprocessingError("The module '{}' was not found".format(os.path.join(rel_dir, fname)), i, this_fname, check_line_case)
 
                 if (this_fname, fname) in imports:
