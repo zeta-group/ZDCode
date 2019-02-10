@@ -1,5 +1,4 @@
 #DEFINE HasJumpZombies
-#DEFM gay
 
 #IFDEF HasJumpZombies
 #INCLUDE JumpZombie.zc2
