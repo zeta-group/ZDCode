@@ -1,4 +1,4 @@
-#DEFINE ANNOYING
+#UNDEFINE ANNOYING
 
 class RunZombie inherits ZombieMan replaces ZombieMan #2055
 {
