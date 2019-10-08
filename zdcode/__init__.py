@@ -333,9 +333,9 @@ class ZDActor(object):
             r.append(rd)
 
         if len(r) == 1 and r[0] == "":
-            return "    \n"
+            return "    "
             
-        return redent(big_lit("\n".join(r), 8), 4, False) + "\n\n\n            "
+        return redent(big_lit("\n".join(r), 8), 4, False)
 
     def label_code(self):
         r = []
@@ -359,14 +359,15 @@ class ZDActor(object):
 
     def __decorate__(self):
         if self.labels + self.funcs:
+            t = self.top()
             return big_lit(
-            """
-            Actor {}
+            """Actor {}
             {{
-            {}States {{
+            {}
+                States {{
                     {}
                 }}
-            }}""", 12).format(self.header(), redent(self.top(), 4, unindent_first=False), redent(self.label_code(), unindent_first=True))
+            }}""", 12).format(self.header(), redent(t, 4, unindent_first=False), redent(self.label_code(), unindent_first=True))
 
         return big_lit(
         """
@@ -523,17 +524,21 @@ class ZDCode(object):
         return res
 
     def _parse_literal(self, literal):
-        if literal[0] == 'number':
-            return str(literal[1])
+        if isinstance(literal, (tuple, list)):
+            if literal[0] == 'number':
+                return str(literal[1])
 
-        elif literal[0] == 'string':
-            return '"' + literal[1] + '"'
+            elif literal[0] == 'string':
+                return '"' + literal[1] + '"'
 
-        elif literal[0] == 'actor variable':
-            return literal[1]
+            elif literal[0] == 'actor variable':
+                return literal[1]
 
-        elif literal[0] == 'call expr':
-            return self._parse_action(literal[1])
+            elif literal[0] == 'call expr':
+                return self._parse_action(literal[1])
+
+            elif literal[0] == 'anonymous class':
+                return self._parse_anonym_class(literal[1])
     
     def _parse_action(self, a):
         return "{}({})".format(a[0], (', '.join(self._parse_literal(x) for x in a[1]) if a[1] is not None else []))
@@ -551,7 +556,8 @@ class ZDCode(object):
             return res
 
     def _parse_state_action(self, a):
-        args = (', '.join(a[1]) if a[1] is not None else [])
+        args = ((x if isinstance(x, str) else self._parse_literal(x)) for x in a[1] if x) if a[1] is not None else []
+        args = ', '.join(args)
 
         if len(args) > 0:
             return "{}({})".format(a[0], args)
@@ -635,6 +641,49 @@ class ZDCode(object):
 
             label.states.append(whs)
 
+
+    def stringify(self, content):
+        return repr(content)
+
+
+    def _parse_anonym_class(self, anonym_class):
+        calls = []
+
+        a = dict(anonym_class)
+        anonym_actor = ZDActor(self, '_AnonymClass_{}'.format(len(self.anonymous_classes)), a['inheritance'])
+
+        for btype, bdata in a['body']:
+            if btype == 'property':
+                ZDProperty(anonym_actor, bdata['name'], ', '.join(self._parse_literal(x) for x in bdata['value']))
+
+            elif btype == 'flag':
+                anonym_actor.flags.append(bdata)
+
+            elif btype == 'flag combo':
+                anonym_actor.raw.append(bdata)
+
+            elif btype == 'unflag':
+                anonym_actor.antiflags.append(bdata)
+
+            elif btype == 'label':
+                label = ZDLabel(anonym_actor, bdata['name'])
+
+                for s in bdata['body']:
+                    self._parse_state(anonym_actor, label, s, label, calls=calls)
+
+            elif btype == 'function':
+                func = ZDFunction(self, anonym_actor, bdata['name'])
+
+                for s in bdata['body']:
+                    self._parse_state(anonym_actor, func, s, func, calls=calls)
+
+        for c in calls:
+            c.post_load()
+
+        self.anonymous_classes.append(anonym_actor)
+        self.inventories.append(anonym_actor)
+
+        return self.stringify(anonym_actor.name)
  
     def _parse(self, actors):
         calls = []
@@ -674,6 +723,7 @@ class ZDCode(object):
 
     def __init__(self):
         self.inventories = []
+        self.anonymous_classes = []
         self.actors = []
         self.calls = []
         self.id = make_id(35)

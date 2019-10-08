@@ -1,5 +1,7 @@
 Actor Coin : Inventory
 {
+    
+    
     States {
         Spawn:
             COIN A -1
@@ -10,19 +12,19 @@ Actor Coin : Inventory
 
 Actor CoinValue : Inventory
 {
-    
+
 }
 
 
 Actor Cost : Inventory
 {
-    
+
 }
 
 
 Actor Demand : Inventory
 {
-    
+
 }
 
 
@@ -46,15 +48,13 @@ Actor ExchangeWithMe
 
 Actor HalfADemand : Inventory
 {
-    
+
 }
 
 
 Actor Seller
 {
     Monster
-    
-    
 }
 
 

@@ -80,6 +80,14 @@
             "changes": [
                 "Separated preprocessor macros and definitions."
             ]
+        },
+
+        {
+            "name": "2.4.0",
+            "changes": [
+                "Added anonymous classes.",
+                "Made output a bit more readable."
+            ]
         }
     ]
 }

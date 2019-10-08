@@ -1,0 +1,24 @@
+Actor _AnonymClass_0 : TeleportFog
+{
+    Translation "Ice"
+}
+Actor _AnonymClass_1 : RandomSpawner
+{
+    DropItem "ChaingunGuy", 128, 22
+    DropItem "Revenant", 200, 6
+    DropItem "ArchVile", 255, 1
+}
+
+
+Actor AaaSpawner
+{
+    +NOGRAVITY
+    
+    States {
+        Spawn:
+            TNT1 A 35
+            TNT1 A 0 A_SpawnItemEx('_AnonymClass_0')
+            TNT1 A 0 A_SpawnItemEx('_AnonymClass_1')
+            Goto Spawn
+    }
+}

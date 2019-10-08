@@ -91,10 +91,10 @@ def number_lit():
 @generate
 def literal():
     return (
-            string_literal.tag('string') 
-        |   call_literal.tag('call expr')
-        |   regex(r'[a-zA-Z_][a-zA-Z0-9_\[\]]*').tag('actor variable')
-        |   number_lit
+            string_literal.tag('string').desc('string')
+        |   call_literal.tag('call expr').desc('call')
+        |   regex(r'[a-zA-Z_][a-zA-Z0-9_\[\]]*').tag('actor variable').desc('actor variable')
+        |   number_lit.desc('number')
     )
     yield
 
@@ -126,12 +126,12 @@ def arg_expression():
     
 @generate
 def argument_list():
-    return literal.sep_by(regex(',\s*'))
+    return (anonymous_class | literal).sep_by(regex(r',\s*'))
     yield
     
 @generate
 def expr_argument_list():
-    return arg_expression.sep_by(regex(',\s*'))
+    return (anonymous_class | arg_expression).sep_by(regex(r',\s*'))
     yield
 
 @generate
@@ -183,11 +183,32 @@ def class_body():
 def actor_class():
     return seq(
         (string('actor ') | string('class ')).desc("class statement") >> regex('[a-zA-Z0-9_]+').desc('class name').tag('classname'),
-        ((string(' inherits ') | string(' extends ') | string(' expands ')) >> regex('[a-zA-Z0-9_]+')).desc('inherited class name').optional().tag('inheritance'),
-        (string(' replaces ') >> regex('[a-zA-Z0-9_]+')).desc('replaced class name').optional().tag('replacement'),
-        (string(' #') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').skip(whitespace.optional()),
+        ((string(' inherits ') | string(' extends ') | string(' expands ')).desc('inheritance declaration') >> regex('[a-zA-Z0-9_]+')).desc('inherited class name').optional().tag('inheritance').desc('inherited class name'),
+        (string(' replaces ') >> regex('[a-zA-Z0-9_]+')).desc('replaced class name').optional().tag('replacement').desc('replacement'),
+        (string(' #') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(whitespace.optional()),
         (s('{') >> whitespace.optional() >> class_body.many().optional() << whitespace.optional().then(s('}')).skip(whitespace.optional())).tag('body')
     )
+    yield
+
+@generate
+def anonymous_class():
+    return seq(
+        (s('actor') | s('class')).desc("class statement") >> \
+                whitespace >> \
+                ((string('inherits') | string('extends') | string('expands')).desc('inheritance declaration') >> \
+                whitespace >> \
+                regex('[a-zA-Z0-9_]+')).desc('inherited class name').optional().tag('inheritance') << \
+                whitespace.optional(),
+
+        (
+            s('{') >>
+            whitespace.optional() >>
+            class_body.many().optional() <<
+            whitespace.optional() <<
+            s('}') <<
+            whitespace.optional()
+        ).tag('body')
+    ).tag('anonymous class')
     yield
 
 @generate

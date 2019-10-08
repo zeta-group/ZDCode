@@ -1,6 +1,6 @@
 **/__pycache__
-build
-dist
+/build/
+/dist/
 **/*.zip
 **/*.exe
 *.egg-info

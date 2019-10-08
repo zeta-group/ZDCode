@@ -1,0 +1,16 @@
+class AaaSpawner {
+    is NOGRAVITY;
+
+    label Spawn {
+        TNT1 A 35;
+        TNT1 A 0 A_SpawnItemEx(class extends TeleportFog {
+            set Translation to "Ice";
+        });
+        TNT1 A 0 A_SpawnItemEx(class extends RandomSpawner {
+            set DropItem to "ChaingunGuy", 128, 22;
+            set DropItem to "Revenant", 200, 6;
+            set DropItem to "ArchVile", 255, 1;
+        });
+        Loop;
+    };
+}
