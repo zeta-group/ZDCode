@@ -5,7 +5,6 @@ Actor PusherBubble
     
     +BLOODLESSIMPACT
     Projectile
-    
     States {
         Spawn:
             PBBL A 2
@@ -24,7 +23,6 @@ Actor PusherCritter
     Speed 3
     
     Monster
-    
     States {
         Spawn:
             PCRT A 12 A_Look

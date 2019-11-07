@@ -88,6 +88,13 @@
                 "Added anonymous classes.",
                 "Made output a bit more readable."
             ]
+        },
+
+        {
+            "name": "2.5.0",
+            "changes": [
+                "Added macros!"
+            ]
         }
     ]
 }

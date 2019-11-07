@@ -29,7 +29,8 @@ class MultiSpawner {
 
 class XZombieSpawner extends MultiSpawner {
     function MakeSpawn {
-        x 7 TNT1 A 9 A_SpawnItemEx('Zombieman', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
+        x 12
+            TNT1 A 9 A_SpawnItemEx('Zombieman', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
     };
 
     label Spawn {

@@ -5,7 +5,6 @@ Actor GoldZombieStatue : ZombieMan
     +NOPAIN
     +NOBLOOD
     +INVULNERABLE
-    
     States {
         Spawn:
             POSS E 20

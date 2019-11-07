@@ -3,7 +3,7 @@ import textwrap
 import string, random
 
 try:
-    from zdcode import zdlexer
+    from . import zdlexer
 
 except ImportError:
     import zdlexer
@@ -454,7 +454,8 @@ class ZDInventory(object):
 
     def __decorate__(self):
         return "Actor {} : Inventory {{Inventory.MaxAmount 1}}".format(self.name)
-        
+
+
 # Parser!
 class ZDCode(object):
     class ZDCodeError(BaseException):
@@ -517,13 +518,17 @@ class ZDCode(object):
     @classmethod
     def parse(cls, code, dirname='.', error_handler=None):
         data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, error_handler=error_handler)
-        res = cls()
 
-        res._parse(data)
+        if data:
+            res = cls()
+            res._parse(data)
 
-        return res
+            return res
 
-    def _parse_literal(self, literal):
+        else:
+            return None
+
+    def _parse_literal(self, literal, macros = (), replacements = ()):
         if isinstance(literal, (tuple, list)):
             if literal[0] == 'number':
                 return str(literal[1])
@@ -532,20 +537,26 @@ class ZDCode(object):
                 return '"' + literal[1] + '"'
 
             elif literal[0] == 'actor variable':
-                return literal[1]
+                replacements = dict(replacements)
+                
+                if literal[1] in replacements:
+                    return replacements[literal[1]]
+
+                else:
+                    return literal[1]
 
             elif literal[0] == 'call expr':
                 return self._parse_action(literal[1])
 
             elif literal[0] == 'anonymous class':
-                return self._parse_anonym_class(literal[1])
+                return self._parse_anonym_class(literal[1], macros, replacements)
     
-    def _parse_action(self, a):
-        return "{}({})".format(a[0], (', '.join(self._parse_literal(x) for x in a[1]) if a[1] is not None else []))
+    def _parse_action(self, a, macros = (), replacements = ()):
+        return "{}({})".format(a[0], (', '.join(self._parse_literal(x, macros = macros, replacements = replacements) for x in a[1]) if a[1] is not None else []))
     
-    def _parse_state_action_or_body(self, a):
+    def _parse_state_action_or_body(self, a, macros = (), replacements = ()):
         if a[0] == 'action':
-            return [self._parse_state_action(a[1])]
+            return [self._parse_state_action(a[1], macros = macros, replacements = replacements)]
 
         else:
             res = []
@@ -555,9 +566,9 @@ class ZDCode(object):
 
             return res
 
-    def _parse_state_action(self, a):
-        args = ((x if isinstance(x, str) else self._parse_literal(x)) for x in a[1] if x) if a[1] is not None else []
-        args = ', '.join(args)
+    def _parse_state_action(self, a, macros = (), replacements = ()):
+        args = ((x if isinstance(x, str) else self._parse_literal(x, macros = macros, replacements = replacements)) for x in a[1] if x) if a[1] is not None else []
+        args = ', '.join(a for a in args if a)
 
         if len(args) > 0:
             return "{}({})".format(a[0], args)
@@ -565,7 +576,7 @@ class ZDCode(object):
         else:
             return a[0]
 
-    def _parse_state(self, actor, label, s, func=None, calls=None, alabel=None):
+    def _parse_state(self, actor, label, s, func=None, calls=None, alabel=None, macros = (), replacements = ()):
         if calls is None:
             calls = []
 
@@ -577,7 +588,7 @@ class ZDCode(object):
                     label.states.append(ZDState(name, f, duration, modifiers))
 
                 else:
-                    body = self._parse_state_action_or_body(action)
+                    body = self._parse_state_action_or_body(action, macros = macros, replacements=replacements)
 
                     for i, a in enumerate(body):
                         label.states.append(ZDState(name, f, (0 if i + 1 < len(body) else duration), modifiers, action=a))
@@ -604,14 +615,14 @@ class ZDCode(object):
 
             for _ in range(s[1][0]):
                 for a in s[1][1]:
-                    self._parse_state(actor, label, a, func, calls=calls)
+                    self._parse_state(actor, label, a, func, calls=calls, replacements=replacements, macros=macros)
 
         elif s[0] == 'sometimes':
             s = dict(s[1])
             sms = ZDSometimes(actor, float(s['chance'][1]), [])
 
             for a in s['body']:
-                self._parse_state(actor, sms, a, func, calls=calls)
+                self._parse_state(actor, sms, a, func, calls=calls, replacements=replacements, macros=macros)
 
             label.states.append(sms)
 
@@ -620,13 +631,13 @@ class ZDCode(object):
             elses = None
 
             for a in s[1][1]:
-                self._parse_state(actor, ifs, a, func, calls=calls)
+                self._parse_state(actor, ifs, a, func, calls=calls, replacements=replacements, macros=macros)
 
             if s[1][2] is not None:
                 elses = ZDIfStatement(actor, s[1][0], [], inverted=True)
 
                 for a in s[1][2]:
-                    self._parse_state(actor, elses, a, func, calls=calls)
+                    self._parse_state(actor, elses, a, func, calls=calls, replacements=replacements, macros=macros)
 
             label.states.append(ifs)
 
@@ -637,24 +648,51 @@ class ZDCode(object):
             whs = ZDWhileStatement(actor, s[1][0], [])
 
             for a in s[1][1]:
-                self._parse_state(actor, whs, a, func, calls=calls)
+                self._parse_state(actor, whs, a, func, calls=calls, replacements=replacements, macros=macros)
 
             label.states.append(whs)
 
+        elif s[0] == 'inject':
+            macros = dict(macros)
+            r_name, r_args = s[1]
+
+            if r_name in macros:
+                r = dict(replacements)
+
+                (m_args, m_body) = macros[r_name]
+
+                for rn, an in zip(r_args, m_args):
+                    r[an] = rn
+
+                for a in m_body:
+                    self._parse_state(actor, label, a, label, replacements=r, macros=macros)
+
+            else:
+                raise ValueError("Unknown macro: {}".format(repr(r_name)))
+
 
     def stringify(self, content):
+        if isinstance(content, str):
+            return '"' + repr(content)[1:-1] + '"'
+
         return repr(content)
 
 
-    def _parse_anonym_class(self, anonym_class):
+    def _parse_anonym_class(self, anonym_class, macros, replacements):
         calls = []
 
         a = dict(anonym_class)
-        anonym_actor = ZDActor(self, '_AnonymClass_{}'.format(len(self.anonymous_classes)), a['inheritance'])
+        anonym_actor = ZDActor(self, '_AnonymClass_{}_{}'.format(self.id, len(self.anonymous_classes)), a['inheritance'])
+
+        macros = dict(macros)
+
+        for btype, bdata in a['body']:
+            if btype == 'macro':
+                macros[bdata['name']] = (bdata['args'], bdata['body'])
 
         for btype, bdata in a['body']:
             if btype == 'property':
-                ZDProperty(anonym_actor, bdata['name'], ', '.join(self._parse_literal(x) for x in bdata['value']))
+                ZDProperty(anonym_actor, bdata['name'], ', '.join(self._parse_literal(x, macros = macros, replacements=replacements) for x in bdata['value']))
 
             elif btype == 'flag':
                 anonym_actor.flags.append(bdata)
@@ -669,13 +707,13 @@ class ZDCode(object):
                 label = ZDLabel(anonym_actor, bdata['name'])
 
                 for s in bdata['body']:
-                    self._parse_state(anonym_actor, label, s, label, calls=calls)
+                    self._parse_state(anonym_actor, label, s, label, calls=calls, macros=macros, replacements=replacements)
 
             elif btype == 'function':
                 func = ZDFunction(self, anonym_actor, bdata['name'])
 
                 for s in bdata['body']:
-                    self._parse_state(anonym_actor, func, s, func, calls=calls)
+                    self._parse_state(anonym_actor, func, s, func, calls=calls, macros=macros, replacements=replacements)
 
         for c in calls:
             c.post_load()
@@ -687,9 +725,14 @@ class ZDCode(object):
  
     def _parse(self, actors):
         calls = []
+        macros = {}
 
         for a in actors:
             actor = ZDActor(self, a['classname'], a['inheritance'], a['replacement'], a['class number'])
+
+            for btype, bdata in a['body']:
+                if btype == 'macro':
+                    macros[bdata['name']] = (bdata['args'], bdata['body'])
 
             for btype, bdata in a['body']:
                 if btype == 'property':
@@ -708,13 +751,13 @@ class ZDCode(object):
                     label = ZDLabel(actor, bdata['name'])
 
                     for s in bdata['body']:
-                        self._parse_state(actor, label, s, label, calls=calls)
+                        self._parse_state(actor, label, s, label, calls=calls, macros=macros)
 
                 elif btype == 'function':
                     func = ZDFunction(self, actor, bdata['name'])
 
                     for s in bdata['body']:
-                        self._parse_state(actor, func, s, func, calls=calls)
+                        self._parse_state(actor, func, s, func, calls=calls, macros=macros)
 
             for c in calls:
                 c.post_load()

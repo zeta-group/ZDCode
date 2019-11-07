@@ -4,3 +4,5 @@
 **/*.zip
 **/*.exe
 *.egg-info
+/env/
+/.vscode/

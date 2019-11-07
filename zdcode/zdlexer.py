@@ -47,7 +47,7 @@ class PreprocessingError(BaseException):
         return "{} (line {} {}){}".format(self.problem, self.error_line, 'of input code' if self.filename is None else 'in "{}"'.format(self.filename), '' if self.line_content is None else ':\n> ' + self.line_content)
 
 class ZDParseError(BaseException):
-    def __init__(self, parsy_error, postline=None):
+    def __init__(self, parsy_error: parsy.ParseError, postline=None):
         self.parsy_error = parsy_error
         self.postline = postline
 
@@ -56,7 +56,7 @@ class ZDParseError(BaseException):
         error_line = self.postline[1]
         line_source = self.postline[2]
 
-        return "{} at line {} {}:\n> {}".format(str(self.parsy_error), error_line, 'of input code' if filename is None else 'in "{}"'.format(filename), line_source)
+        return "{} at line {}{} {}:\n> {}\n{}^".format(str(self.parsy_error), error_line, ':' + str(self.parsy_error.index - self.postline[4]), 'of input code' if filename is None else 'in "{}"'.format(filename), line_source, ' ' * max(0, self.parsy_error.index - self.postline[4] + 2))
 
 @generate
 def modifier():
@@ -64,20 +64,38 @@ def modifier():
     yield
 
 def _parse_literal(literal):
-    if literal[0] == 'number':
-        return str(literal[1])
+    kind, val = literal
 
-    elif literal[0] == 'string':
-        return '"' + literal[1] + '"'
+    if kind == 'number':
+        return str(val)
 
-    elif literal[0] == 'actor variable':
-        return literal[1]
+    elif kind == 'string':
+        return '"' + val + '"'
 
-    elif literal[0] == 'call expr':
-        return _parse_action(literal[1])
+    elif kind == 'actor variable':
+        return val
+
+    elif kind == 'call expr':
+        return _parse_action(val)
 
 def _parse_action(a):
-    return "{}({})".format(a[0], ', '.join(_parse_literal(x) for x in a[1]))
+    name, args = a
+    return "{}({})".format(name, '' if args is None else ', '.join(x for x in args))
+
+def _apply_replacements(expr, replacements):
+    res = []
+
+    for item in expr:
+        if item in replacements:
+           res.append(replacements[item]) 
+
+        else:
+            res.append(item)
+
+    return ' '.join(res)
+
+def apply_replacements(expr, replacements):
+    return _apply-replacements(expression.parse(expr), replacements)
 
 @generate
 def number_lit():
@@ -91,10 +109,10 @@ def number_lit():
 @generate
 def literal():
     return (
-            string_literal.tag('string').desc('string')
-        |   call_literal.tag('call expr').desc('call')
-        |   regex(r'[a-zA-Z_][a-zA-Z0-9_\[\]]*').tag('actor variable').desc('actor variable')
-        |   number_lit.desc('number')
+        call_literal.tag('call expr').desc('call') |
+        string_literal.tag('string').desc('string') |
+        regex(r'[a-zA-Z_][a-zA-Z0-9_\[\]]*').tag('actor variable').desc('actor variable') |
+        number_lit.desc('number')
     )
     yield
 
@@ -109,10 +127,10 @@ def expression():
         whitespace.optional() >>
         (
             (
-                    literal.map(_parse_literal)
-                |   regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%\,]+').desc('operator')
-                |   paren_expr.desc('parenthetic expression')
-            ).sep_by(whitespace).map(lambda x: ' '.join(x))
+                literal.map(_parse_literal) |
+                regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%x]+').desc('operator') |
+                paren_expr.desc('parenthetic expression')
+            ).sep_by(whitespace.optional()).map(lambda x: ' '.join(x))
         )
         << whitespace.optional()
     ) | paren_expr
@@ -126,7 +144,12 @@ def arg_expression():
     
 @generate
 def argument_list():
-    return (anonymous_class | literal).sep_by(regex(r',\s*'))
+    return (literal).sep_by(regex(r',\s*'))
+    yield
+
+@generate
+def macro_argument_list():
+    return whitespace.optional() >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro argument name').sep_by(regex(r',\s*')) << whitespace.optional()
     yield
     
 @generate
@@ -136,13 +159,13 @@ def expr_argument_list():
 
 @generate
 def actor_function_call():
-    return string('call ').desc("'calls' statement").then(regex('[a-zA-Z_]+').desc('called function name'))
+    return string('call ').desc("'call' statement").then(regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('called function name'))
     yield
 
 @generate
 def state_call():
     return seq(
-        regex('[a-zA-Z_]+').desc('called state function name').skip(whitespace.optional()),
+        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('called state function name').skip(whitespace.optional()),
         s('(').then(whitespace.optional()).then(
             expr_argument_list
         ).skip(whitespace.optional()).skip(s(')')).optional()
@@ -157,25 +180,30 @@ def return_statement():
 @generate
 def call_literal():
     return seq(
-        regex('[a-zA-Z_]+').desc('called state function name').skip(whitespace.optional()),
-        s('(').then(whitespace.optional()).then(
-            argument_list
-        ).skip(whitespace.optional()).skip(s(')'))
+        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('called expression function name') << whitespace.optional(),
+        (s('(') >> whitespace.optional() >>
+            expr_argument_list
+        << whitespace.optional() << s(')'))
     )
     yield
 
 @generate
 def class_body():
     return whitespace.optional().then(
-                seq(
-                    (string('set') >> whitespace).desc("'set' keyword") >> regex('[a-zA-Z0-9_.]+').tag('name'),
-                    ((whitespace >> string('to') << whitespace) | (whitespace.optional() >> s('=') << whitespace.optional())).desc("'to' or equal sign") >> literal.sep_by((s(',') + whitespace.optional())).tag('value')
-                ).map(dict).tag('property')
-            |   (((string('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_.]+').desc('flag name')).tag('flag')
-            |   (string('combo') >> whitespace >> regex('[a-zA-Z0-9_.]+').desc('combo name')).tag('flag combo')
-            |   (((string("isn't") << whitespace) | string('-')) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag')
-            |   seq((string("function ") | string('method ')) >> regex('[a-zA-Z_]+').desc('function name').tag('name'), state_body.tag('body')).map(dict).tag('function')
-            |   (seq(((string("label") | string('state')) << whitespace) >> regex('[a-zA-Z_]+').desc('label name').tag('name'), state_body.tag('body')).map(dict) << whitespace.optional()).tag('label')
+            seq(
+                (string("macro ")) >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
+                (whitespace.optional() >> s('(') >> whitespace.optional() >> macro_argument_list << whitespace.optional() << s(')') << whitespace.optional()).optional().map(lambda a: a or []).tag('args'),
+                state_body.tag('body')
+            ).map(dict).tag('macro') |
+            seq(
+                (string('set') >> whitespace).desc("'set' keyword") >> regex('[a-zA-Z0-9_.]+').tag('name'),
+                ((whitespace >> string('to') << whitespace) | (whitespace.optional() >> s('=') << whitespace.optional())).desc("'to' or equal sign") >> literal.sep_by((s(',') + whitespace.optional())).tag('value')
+            ).map(dict).tag('property') |
+            (((string('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_.]+').desc('flag name')).tag('flag') |
+            (string('combo') >> whitespace >> regex('[a-zA-Z0-9_.]+').desc('combo name')).tag('flag combo') |
+            (((string("isn't") << whitespace) | string('-')) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
+            seq((string("function ") | string('method ')) >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('function name').tag('name'), state_body.tag('body')).map(dict).tag('function') |
+            (seq(((string("label") | string('state')) << whitespace) >> regex('[a-zA-Z_]+').desc('label name').tag('name'), state_body.tag('body')).map(dict) << whitespace.optional()).tag('label')
     ).skip(whitespace.optional()) << s(';') << whitespace.optional()
     yield
 
@@ -253,13 +281,21 @@ def flow_control():
     yield
 
 @generate
+def macro_call():
+    return seq(
+        string('inject ').desc("'inject' statement").then(regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('injected macro name')),
+        s('(') >> expr_argument_list.desc("macro arguments") << s(')')
+    )
+    yield
+
+@generate
 def state():
-    return (if_statement.tag('if') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')) << s(';')
+    return (if_statement.tag('if') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')) << s(';')
     yield
 
 @generate
 def state_no_colon():
-    return (if_statement.tag('if') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat'))
+    return (if_statement.tag('if') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat'))
     yield
 
 @generate
@@ -290,9 +326,9 @@ def sometimes_statement():
 def if_statement():
     return seq(
         string("if").desc('if statement')
-            .then(whitespace.optional())
-            .then(string("("))
-            .then(whitespace.optional())
+        .then(whitespace.optional())
+        .then(string("("))
+        .then(whitespace.optional())
             .then(expression)
         .skip(whitespace.optional())
         .skip(string(")"))
@@ -302,9 +338,9 @@ def if_statement():
         .skip(whitespace.optional()),
 
         s(';')
-            .then(whitespace.optional())
-            .then(s('else'))
-            .then(whitespace.optional())
+        .then(whitespace.optional())
+        .then(s('else'))
+        .then(whitespace.optional())
             .then(state_body.optional().map(lambda x: x if x != None else []))
         .skip(whitespace.optional())
             .optional()
@@ -339,15 +375,15 @@ def source_code():
     return whitespace.optional().desc('ignored whitespace') >> actor_class.sep_by(whitespace.optional()) << whitespace.optional().desc('ignored whitespace')
     yield
 
-def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_dir='.'):
+def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_dir='.'):
     if not isinstance(imports, list):
         imports = list(imports)
 
     if not isinstance(defs, dict):
         defs = dict(defs)
    
-    if not isinstance(macros, dict):
-        macros = dict(macros)
+    if not isinstance(defines, dict):
+        defines = dict(defines)
 
     # conditional substitution
     pcodelines = []
@@ -355,6 +391,7 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
     cond_active = True
     depth = 0
     check_depth = 0
+    begin_char = 0
     
     # comments
     src_lines = code.split('\n')
@@ -370,8 +407,8 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
         check_line_case = re.sub(r'^\s+', '', l)
         check_line = check_line_case.upper()
 
-        # macro replacement
-        for key, value in macros.items():
+        # preprocessor macro replacement
+        for key, value in defines.items():
             l = re.sub(r'\B{}\B'.format(re.escape(key)), value, l)
 
         # conditional blocks
@@ -458,8 +495,12 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
                 imports.append((this_fname, fname))
 
                 with open(fname) as fp:
-                    for l in preprocess_code(fp.read() + "\n", imports, defs, macros, this_fname=fname, rel_dir=os.path.dirname(fname)):
+                    lines = preprocess_code(fp.read() + "\n", imports, defs, defines, this_fname=fname, rel_dir=os.path.dirname(fname))
+
+                    for l in lines:
                         pcodelines.append(l)
+
+                    begin_char += lines[-1][4]
 
             elif check_line.startswith('#DEF ') or check_line.startswith('#DEFINE '):
                 key = check_line_case.split(' ')[1]
@@ -479,7 +520,7 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
                     raise PreprocessingError("Empty macro definitions ('{}') are not allowed!".format(key), i, this_fname, check_line_case)
 
                 defs[key] = value
-                macros[key] = value
+                defines[key] = value
         
             elif check_line.startswith('#UNDEF ') or check_line.startswith('#UNDEFINE '):
                 key = check_line_case.split(' ')[1]
@@ -487,17 +528,18 @@ def preprocess_code(code, imports=(), defs=(), macros=(), this_fname=None, rel_d
                 if key in defs:
                     defs.pop(key)
                     
-                if key in macros:
-                    macros.pop(key)
+                if key in defines:
+                    defines.pop(key)
 
         if not check_line.startswith('#') and cond_active:
-            pcodelines.append((this_fname, i, src_l, l))
+            pcodelines.append((this_fname, i, src_l, l, begin_char))
+            begin_char += len(l) + 1
 
     return pcodelines
 
 def parse_postcode(postcode, error_handler=None):
     try:
-        return (dict(x) for x in source_code.parse('\n'.join(l[-1] for l in postcode)))
+        return (dict(x) for x in source_code.parse('\n'.join(l[3] for l in postcode)))
 
     except parsy.ParseError as parse_err:
         m = error_line.match(str(parse_err))
@@ -506,7 +548,7 @@ def parse_postcode(postcode, error_handler=None):
             raise
         
         else:
-            err = ZDParseError(m[1], postcode[int(m[2])])
+            err = ZDParseError(parse_err, postcode[int(m[2])])
 
             if error_handler is None:
                 raise err

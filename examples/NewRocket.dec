@@ -3,7 +3,6 @@ Actor NDoomRocket : Rocket replaces Rocket
     Damage 40
     Gravity 0.0235
     Speed 14
-    
     States {
         Spawn:
             MISL A 0  Bright A_SpawnItemEx("NRocketFire", -cos(angle) * 3, -sin(angle) * 3, -velz, FRandom(-1, 1), FRandom(-1, 1), FRandom(-1, 1))
@@ -173,7 +172,6 @@ Actor NRocketFire : NRocketFX
     Alpha 0.8
     RenderStyle Add
     Scale 0.2
-    
     States {
         Spawn:
             FSPK A 2  Bright
@@ -187,7 +185,6 @@ Actor NRocketFire : NRocketFX
 Actor NRocketTrail : NRocketFX
 {
     Scale 0.55
-    
     States {
         Spawn:
             RTRL A 6  Bright

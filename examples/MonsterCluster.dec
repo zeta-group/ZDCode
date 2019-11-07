@@ -1,99 +1,99 @@
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_9 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_10 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_11 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_12 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_13 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_14 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_15 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_16 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_17 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_18 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_19 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_20 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_21 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_22 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_23 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_24 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_25 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_26 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_27 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_28 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_29 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_30 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_31 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_32 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_33 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_34 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_35 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_36 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_37 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_38 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_39 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_40 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_41 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_42 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_43 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_44 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_45 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_46 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_47 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_48 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_49 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_50 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_51 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_52 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_53 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_54 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_55 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_56 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_57 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_58 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_59 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_60 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_61 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_62 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_63 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_64 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_65 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_66 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_67 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_68 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_69 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_70 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_71 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_72 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_73 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_74 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_75 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_76 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_77 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_78 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_79 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_80 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_81 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_82 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_83 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_84 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_85 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_86 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_87 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_88 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_89 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_90 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_91 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_92 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_93 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_94 : Inventory {Inventory.MaxAmount 1}
-Actor _Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_95 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_9 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_10 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_11 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_12 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_13 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_14 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_15 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_16 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_17 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_18 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_19 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_20 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_21 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_22 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_23 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_24 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_25 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_26 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_27 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_28 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_29 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_30 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_31 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_32 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_33 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_34 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_35 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_36 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_37 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_38 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_39 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_40 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_41 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_42 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_43 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_44 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_45 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_46 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_47 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_48 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_49 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_50 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_51 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_52 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_53 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_54 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_55 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_56 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_57 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_58 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_59 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_60 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_61 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_62 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_63 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_64 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_65 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_66 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_67 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_68 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_69 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_70 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_71 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_72 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_73 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_74 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_75 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_76 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_77 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_78 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_79 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_80 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_81 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_82 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_83 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_84 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_85 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_86 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_87 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_88 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_89 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_90 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_91 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_92 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_93 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_94 : Inventory {Inventory.MaxAmount 1}
+Actor _Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_95 : Inventory {Inventory.MaxAmount 1}
 
 
 Actor MonSpawnO : RandomSpawner
@@ -144,120 +144,119 @@ Actor RunZombie : ZombieMan replaces ZombieMan 2055
     Speed 0
     
     +NOBLOCKMONST
-    
     States {
         F_SeeCheck:
             TNT1 A 0 A_Chase
             POSS A 0 A_FaceTarget
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0", 1, "_CLabel0")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1", 1, "_CLabel1")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2", 1, "_CLabel2")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0", 1, "_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3", 1, "_CLabel3")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4", 1, "_CLabel4")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5", 1, "_CLabel5")
             TNT1 A -1
         
             F_ZombieJump:
             TNT1 A 0 A_JumpIf(!(health > 5), 16)
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
             Stop
             TNT1 A 0
         _WhileBlock0:
@@ -276,48 +275,48 @@ Actor RunZombie : ZombieMan replaces ZombieMan 2055
             POSS B 22
             POSS A 2 A_Chase
             POSS B 2 A_Chase
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6", 1, "_CLabel6")
             TNT1 A -1
         
         See:
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0")
             Goto F_SeeCheck
         _CLabel0:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_0")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_0")
             POSS A 5 A_Recoil(-0.7)
             POSS B 5 A_Recoil(-0.7)
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1")
             Goto F_SeeCheck
         _CLabel1:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_1")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_1")
             POSS A 4 A_Recoil(-0.7)
             POSS B 4 A_Recoil(-0.7)
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2")
             Goto F_SeeCheck
         _CLabel2:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_2")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_2")
             POSS A 3 A_Recoil(-0.7)
             POSS B 3 A_Recoil(-0.7)
             POSS C 3 A_Recoil(-0.7)
             POSS D 3 A_Recoil(-0.7)
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3")
             Goto F_SeeCheck
         _CLabel3:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_3")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_3")
             goto RunLoop
         
         RunLoop:
@@ -325,22 +324,22 @@ Actor RunZombie : ZombieMan replaces ZombieMan 2055
             POSS B 2 A_Recoil(-0.7)
             POSS C 2 A_Recoil(-0.7)
             POSS D 2 A_Recoil(-0.7)
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4")
             Goto F_SeeCheck
         _CLabel4:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_4")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_4")
             POSS A 2 A_Recoil(-0.7)
             POSS B 2 A_Recoil(-0.7)
             POSS C 2 A_Recoil(-0.7)
             POSS D 2 A_Recoil(-0.7)
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5")
             Goto F_SeeCheck
         _CLabel5:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_5")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_5")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6")
             Goto F_ZombieJump
         _CLabel6:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_6")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_6")
             Goto RunLoop
     }
 }
@@ -359,8 +358,7 @@ Actor SkullParticle
 
 Actor SkullParticleO : SkullParticle
 {
-    
-    
+
     States {
         Spawn:
             SKPT O 12  Bright
@@ -372,7 +370,6 @@ Actor SkullParticleO : SkullParticle
 Actor SkullParticleR : SkullParticle
 {
     Scale 1.0
-    
     States {
         Spawn:
             SKPT R 12  Bright
@@ -384,7 +381,6 @@ Actor SkullParticleR : SkullParticle
 Actor SkullParticleY : SkullParticle
 {
     Scale 0.5
-    
     States {
         Spawn:
             SKPT Y 12  Bright
@@ -411,58 +407,57 @@ Actor SkullSpawner
 Actor SkullSpawnerO : SkullSpawner
 {
     Radius 45
-    
     States {
         F_MakeParticle:
             TNT1 A 0 A_Jump(204, 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_37", 1, "_CLabel37")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_38", 1, "_CLabel38")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_39", 1, "_CLabel39")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_46", 1, "_CLabel46")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_47", 1, "_CLabel47")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_48", 1, "_CLabel48")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_49", 1, "_CLabel49")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_50", 1, "_CLabel50")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_51", 1, "_CLabel51")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_52", 1, "_CLabel52")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_53", 1, "_CLabel53")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_54", 1, "_CLabel54")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_55", 1, "_CLabel55")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_56", 1, "_CLabel56")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_57", 1, "_CLabel57")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_58", 1, "_CLabel58")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_59", 1, "_CLabel59")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_60", 1, "_CLabel60")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_61", 1, "_CLabel61")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_62", 1, "_CLabel62")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_63", 1, "_CLabel63")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_64", 1, "_CLabel64")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_65", 1, "_CLabel65")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_37", 1, "_CLabel37")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_38", 1, "_CLabel38")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_39", 1, "_CLabel39")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_46", 1, "_CLabel46")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_47", 1, "_CLabel47")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_48", 1, "_CLabel48")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_49", 1, "_CLabel49")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_50", 1, "_CLabel50")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_51", 1, "_CLabel51")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_52", 1, "_CLabel52")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_53", 1, "_CLabel53")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_54", 1, "_CLabel54")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_55", 1, "_CLabel55")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_56", 1, "_CLabel56")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_57", 1, "_CLabel57")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_58", 1, "_CLabel58")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_59", 1, "_CLabel59")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_60", 1, "_CLabel60")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_61", 1, "_CLabel61")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_62", 1, "_CLabel62")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_63", 1, "_CLabel63")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_64", 1, "_CLabel64")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_65", 1, "_CLabel65")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_37", 1, "_CLabel37")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_38", 1, "_CLabel38")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_39", 1, "_CLabel39")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_46", 1, "_CLabel46")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_47", 1, "_CLabel47")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_48", 1, "_CLabel48")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_49", 1, "_CLabel49")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_50", 1, "_CLabel50")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_51", 1, "_CLabel51")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_52", 1, "_CLabel52")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_53", 1, "_CLabel53")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_54", 1, "_CLabel54")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_55", 1, "_CLabel55")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_56", 1, "_CLabel56")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_57", 1, "_CLabel57")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_58", 1, "_CLabel58")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_59", 1, "_CLabel59")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_60", 1, "_CLabel60")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_61", 1, "_CLabel61")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_62", 1, "_CLabel62")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_63", 1, "_CLabel63")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_64", 1, "_CLabel64")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_65", 1, "_CLabel65")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_37", 1, "_CLabel37")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_38", 1, "_CLabel38")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_39", 1, "_CLabel39")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_46", 1, "_CLabel46")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_47", 1, "_CLabel47")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_48", 1, "_CLabel48")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_49", 1, "_CLabel49")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_50", 1, "_CLabel50")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_51", 1, "_CLabel51")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_52", 1, "_CLabel52")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_53", 1, "_CLabel53")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_54", 1, "_CLabel54")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_55", 1, "_CLabel55")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_56", 1, "_CLabel56")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_57", 1, "_CLabel57")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_58", 1, "_CLabel58")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_59", 1, "_CLabel59")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_60", 1, "_CLabel60")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_61", 1, "_CLabel61")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_62", 1, "_CLabel62")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_63", 1, "_CLabel63")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_64", 1, "_CLabel64")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_65", 1, "_CLabel65")
             TNT1 A -1
         
             F_Duplicate:
@@ -472,34 +467,34 @@ Actor SkullSpawnerO : SkullSpawner
             TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
             TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_40", 1, "_CLabel40")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_41", 1, "_CLabel41")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_42", 1, "_CLabel42")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_43", 1, "_CLabel43")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_44", 1, "_CLabel44")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_45", 1, "_CLabel45")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_40", 1, "_CLabel40")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_41", 1, "_CLabel41")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_42", 1, "_CLabel42")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_43", 1, "_CLabel43")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_44", 1, "_CLabel44")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_45", 1, "_CLabel45")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_40", 1, "_CLabel40")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_41", 1, "_CLabel41")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_42", 1, "_CLabel42")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_43", 1, "_CLabel43")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_44", 1, "_CLabel44")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_45", 1, "_CLabel45")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_40", 1, "_CLabel40")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_41", 1, "_CLabel41")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_42", 1, "_CLabel42")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_43", 1, "_CLabel43")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_44", 1, "_CLabel44")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_45", 1, "_CLabel45")
             TNT1 A -1
         
         Spawn:
             SKUL O 4  Bright
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_37")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_37")
             Goto F_MakeParticle
         _CLabel37:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_37")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_38")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_37")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_38")
             Goto F_MakeParticle
         _CLabel38:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_38")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_39")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_38")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_39")
             Goto F_MakeParticle
         _CLabel39:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_39")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_39")
             Goto Spawn
         
         Death:
@@ -512,121 +507,121 @@ Actor SkullSpawnerO : SkullSpawner
             TNT1 A 0 A_SpawnItemEx("MonSpawnO", 0, 0, floorz - z)
             TNT1 A 0
             TNT1 A 0 A_Jump(229, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_40")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_40")
                 Goto F_Duplicate
             _CLabel40:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_40")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_40")
             TNT1 A 0
             TNT1 A 0 A_Jump(229, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_41")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_41")
                 Goto F_Duplicate
             _CLabel41:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_41")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_41")
             TNT1 A 0
             TNT1 A 0 A_Jump(229, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_42")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_42")
                 Goto F_Duplicate
             _CLabel42:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_42")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_42")
             TNT1 A 0
             TNT1 A 0 A_Jump(229, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_43")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_43")
                 Goto F_Duplicate
             _CLabel43:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_43")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_43")
             TNT1 A 0
             TNT1 A 0 A_Jump(229, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_44")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_44")
                 Goto F_Duplicate
             _CLabel44:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_44")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_44")
             TNT1 A 0
             TNT1 A 0 A_Jump(229, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_45")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_45")
                 Goto F_Duplicate
             _CLabel45:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_45")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_45")
             TNT1 A 0
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_46")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_46")
             Goto F_MakeParticle
         _CLabel46:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_46")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_47")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_46")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_47")
             Goto F_MakeParticle
         _CLabel47:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_47")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_48")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_47")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_48")
             Goto F_MakeParticle
         _CLabel48:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_48")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_49")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_48")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_49")
             Goto F_MakeParticle
         _CLabel49:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_49")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_50")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_49")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_50")
             Goto F_MakeParticle
         _CLabel50:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_50")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_51")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_50")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_51")
             Goto F_MakeParticle
         _CLabel51:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_51")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_52")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_51")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_52")
             Goto F_MakeParticle
         _CLabel52:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_52")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_53")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_52")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_53")
             Goto F_MakeParticle
         _CLabel53:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_53")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_54")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_53")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_54")
             Goto F_MakeParticle
         _CLabel54:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_54")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_55")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_54")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_55")
             Goto F_MakeParticle
         _CLabel55:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_55")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_56")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_55")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_56")
             Goto F_MakeParticle
         _CLabel56:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_56")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_57")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_56")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_57")
             Goto F_MakeParticle
         _CLabel57:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_57")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_58")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_57")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_58")
             Goto F_MakeParticle
         _CLabel58:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_58")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_59")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_58")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_59")
             Goto F_MakeParticle
         _CLabel59:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_59")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_60")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_59")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_60")
             Goto F_MakeParticle
         _CLabel60:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_60")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_61")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_60")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_61")
             Goto F_MakeParticle
         _CLabel61:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_61")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_62")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_61")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_62")
             Goto F_MakeParticle
         _CLabel62:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_62")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_63")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_62")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_63")
             Goto F_MakeParticle
         _CLabel63:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_63")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_64")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_63")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_64")
             Goto F_MakeParticle
         _CLabel64:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_64")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_65")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_64")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_65")
             Goto F_MakeParticle
         _CLabel65:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_65")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_65")
             TNT1 A 1
             stop
     }
@@ -636,7 +631,6 @@ Actor SkullSpawnerO : SkullSpawner
 Actor SkullSpawnerR : SkullSpawner
 {
     Radius 60
-    
     States {
         F_MakeParticle:
             TNT1 A 0 A_Jump(204, 2)
@@ -645,75 +639,75 @@ Actor SkullSpawnerR : SkullSpawner
             TNT1 A 0 A_Jump(204, 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_9", 1, "_CLabel9")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_10", 1, "_CLabel10")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_11", 1, "_CLabel11")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_17", 1, "_CLabel17")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_18", 1, "_CLabel18")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_19", 1, "_CLabel19")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_20", 1, "_CLabel20")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_21", 1, "_CLabel21")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_22", 1, "_CLabel22")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_23", 1, "_CLabel23")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_24", 1, "_CLabel24")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_25", 1, "_CLabel25")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_26", 1, "_CLabel26")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_27", 1, "_CLabel27")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_28", 1, "_CLabel28")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_29", 1, "_CLabel29")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_30", 1, "_CLabel30")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_31", 1, "_CLabel31")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_32", 1, "_CLabel32")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_33", 1, "_CLabel33")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_34", 1, "_CLabel34")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_35", 1, "_CLabel35")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_36", 1, "_CLabel36")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_9", 1, "_CLabel9")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_10", 1, "_CLabel10")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_11", 1, "_CLabel11")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_17", 1, "_CLabel17")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_18", 1, "_CLabel18")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_19", 1, "_CLabel19")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_20", 1, "_CLabel20")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_21", 1, "_CLabel21")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_22", 1, "_CLabel22")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_23", 1, "_CLabel23")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_24", 1, "_CLabel24")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_25", 1, "_CLabel25")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_26", 1, "_CLabel26")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_27", 1, "_CLabel27")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_28", 1, "_CLabel28")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_29", 1, "_CLabel29")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_30", 1, "_CLabel30")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_31", 1, "_CLabel31")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_32", 1, "_CLabel32")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_33", 1, "_CLabel33")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_34", 1, "_CLabel34")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_35", 1, "_CLabel35")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_36", 1, "_CLabel36")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_9", 1, "_CLabel9")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_10", 1, "_CLabel10")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_11", 1, "_CLabel11")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_17", 1, "_CLabel17")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_18", 1, "_CLabel18")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_19", 1, "_CLabel19")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_20", 1, "_CLabel20")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_21", 1, "_CLabel21")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_22", 1, "_CLabel22")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_23", 1, "_CLabel23")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_24", 1, "_CLabel24")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_25", 1, "_CLabel25")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_26", 1, "_CLabel26")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_27", 1, "_CLabel27")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_28", 1, "_CLabel28")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_29", 1, "_CLabel29")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_30", 1, "_CLabel30")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_31", 1, "_CLabel31")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_32", 1, "_CLabel32")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_33", 1, "_CLabel33")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_34", 1, "_CLabel34")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_35", 1, "_CLabel35")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_36", 1, "_CLabel36")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_9", 1, "_CLabel9")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_10", 1, "_CLabel10")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_11", 1, "_CLabel11")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_17", 1, "_CLabel17")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_18", 1, "_CLabel18")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_19", 1, "_CLabel19")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_20", 1, "_CLabel20")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_21", 1, "_CLabel21")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_22", 1, "_CLabel22")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_23", 1, "_CLabel23")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_24", 1, "_CLabel24")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_25", 1, "_CLabel25")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_26", 1, "_CLabel26")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_27", 1, "_CLabel27")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_28", 1, "_CLabel28")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_29", 1, "_CLabel29")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_30", 1, "_CLabel30")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_31", 1, "_CLabel31")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_32", 1, "_CLabel32")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_33", 1, "_CLabel33")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_34", 1, "_CLabel34")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_35", 1, "_CLabel35")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_36", 1, "_CLabel36")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_9", 1, "_CLabel9")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_10", 1, "_CLabel10")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_11", 1, "_CLabel11")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_17", 1, "_CLabel17")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_18", 1, "_CLabel18")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_19", 1, "_CLabel19")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_20", 1, "_CLabel20")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_21", 1, "_CLabel21")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_22", 1, "_CLabel22")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_23", 1, "_CLabel23")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_24", 1, "_CLabel24")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_25", 1, "_CLabel25")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_26", 1, "_CLabel26")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_27", 1, "_CLabel27")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_28", 1, "_CLabel28")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_29", 1, "_CLabel29")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_30", 1, "_CLabel30")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_31", 1, "_CLabel31")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_32", 1, "_CLabel32")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_33", 1, "_CLabel33")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_34", 1, "_CLabel34")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_35", 1, "_CLabel35")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_36", 1, "_CLabel36")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_9", 1, "_CLabel9")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_10", 1, "_CLabel10")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_11", 1, "_CLabel11")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_17", 1, "_CLabel17")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_18", 1, "_CLabel18")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_19", 1, "_CLabel19")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_20", 1, "_CLabel20")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_21", 1, "_CLabel21")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_22", 1, "_CLabel22")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_23", 1, "_CLabel23")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_24", 1, "_CLabel24")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_25", 1, "_CLabel25")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_26", 1, "_CLabel26")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_27", 1, "_CLabel27")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_28", 1, "_CLabel28")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_29", 1, "_CLabel29")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_30", 1, "_CLabel30")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_31", 1, "_CLabel31")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_32", 1, "_CLabel32")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_33", 1, "_CLabel33")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_34", 1, "_CLabel34")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_35", 1, "_CLabel35")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_36", 1, "_CLabel36")
             TNT1 A -1
         
             F_Duplicate:
@@ -723,37 +717,37 @@ Actor SkullSpawnerR : SkullSpawner
             TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
             TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_12", 1, "_CLabel12")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_13", 1, "_CLabel13")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_14", 1, "_CLabel14")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_15", 1, "_CLabel15")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_16", 1, "_CLabel16")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_12", 1, "_CLabel12")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_13", 1, "_CLabel13")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_14", 1, "_CLabel14")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_15", 1, "_CLabel15")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_16", 1, "_CLabel16")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_12", 1, "_CLabel12")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_13", 1, "_CLabel13")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_14", 1, "_CLabel14")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_15", 1, "_CLabel15")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_16", 1, "_CLabel16")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_12", 1, "_CLabel12")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_13", 1, "_CLabel13")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_14", 1, "_CLabel14")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_15", 1, "_CLabel15")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_16", 1, "_CLabel16")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_12", 1, "_CLabel12")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_13", 1, "_CLabel13")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_14", 1, "_CLabel14")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_15", 1, "_CLabel15")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_16", 1, "_CLabel16")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_12", 1, "_CLabel12")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_13", 1, "_CLabel13")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_14", 1, "_CLabel14")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_15", 1, "_CLabel15")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_16", 1, "_CLabel16")
             TNT1 A -1
         
         Spawn:
             SKUL R 2  Bright
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_9")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_9")
             Goto F_MakeParticle
         _CLabel9:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_9")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_10")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_9")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_10")
             Goto F_MakeParticle
         _CLabel10:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_10")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_11")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_10")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_11")
             Goto F_MakeParticle
         _CLabel11:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_11")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_11")
             Goto Spawn
         
         Death:
@@ -762,115 +756,115 @@ Actor SkullSpawnerR : SkullSpawner
             TNT1 A 0 A_SpawnItemEx("MonSpawnR", 0, 0, floorz - z)
             TNT1 A 0
             TNT1 A 0 A_Jump(234, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_12")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_12")
                 Goto F_Duplicate
             _CLabel12:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_12")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_12")
             TNT1 A 0
             TNT1 A 0 A_Jump(234, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_13")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_13")
                 Goto F_Duplicate
             _CLabel13:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_13")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_13")
             TNT1 A 0
             TNT1 A 0 A_Jump(234, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_14")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_14")
                 Goto F_Duplicate
             _CLabel14:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_14")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_14")
             TNT1 A 0
             TNT1 A 0 A_Jump(234, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_15")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_15")
                 Goto F_Duplicate
             _CLabel15:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_15")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_15")
             TNT1 A 0
             TNT1 A 0 A_Jump(234, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_16")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_16")
                 Goto F_Duplicate
             _CLabel16:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_16")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_16")
             TNT1 A 0
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_17")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_17")
             Goto F_MakeParticle
         _CLabel17:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_17")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_18")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_17")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_18")
             Goto F_MakeParticle
         _CLabel18:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_18")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_19")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_18")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_19")
             Goto F_MakeParticle
         _CLabel19:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_19")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_20")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_19")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_20")
             Goto F_MakeParticle
         _CLabel20:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_20")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_21")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_20")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_21")
             Goto F_MakeParticle
         _CLabel21:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_21")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_22")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_21")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_22")
             Goto F_MakeParticle
         _CLabel22:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_22")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_23")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_22")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_23")
             Goto F_MakeParticle
         _CLabel23:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_23")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_24")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_23")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_24")
             Goto F_MakeParticle
         _CLabel24:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_24")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_25")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_24")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_25")
             Goto F_MakeParticle
         _CLabel25:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_25")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_26")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_25")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_26")
             Goto F_MakeParticle
         _CLabel26:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_26")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_27")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_26")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_27")
             Goto F_MakeParticle
         _CLabel27:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_27")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_28")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_27")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_28")
             Goto F_MakeParticle
         _CLabel28:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_28")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_29")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_28")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_29")
             Goto F_MakeParticle
         _CLabel29:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_29")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_30")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_29")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_30")
             Goto F_MakeParticle
         _CLabel30:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_30")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_31")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_30")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_31")
             Goto F_MakeParticle
         _CLabel31:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_31")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_32")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_31")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_32")
             Goto F_MakeParticle
         _CLabel32:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_32")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_33")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_32")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_33")
             Goto F_MakeParticle
         _CLabel33:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_33")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_34")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_33")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_34")
             Goto F_MakeParticle
         _CLabel34:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_34")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_35")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_34")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_35")
             Goto F_MakeParticle
         _CLabel35:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_35")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_36")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_35")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_36")
             Goto F_MakeParticle
         _CLabel36:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_36")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_36")
             TNT1 A 1
             stop
     }
@@ -880,35 +874,34 @@ Actor SkullSpawnerR : SkullSpawner
 Actor SkullSpawnerY : SkullSpawner
 {
     Radius 25
-    
     States {
         F_MakeParticle:
             TNT1 A 0 A_Jump(204, 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_66", 1, "_CLabel66")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_67", 1, "_CLabel67")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_68", 1, "_CLabel68")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_76", 1, "_CLabel76")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_77", 1, "_CLabel77")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_78", 1, "_CLabel78")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_79", 1, "_CLabel79")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_80", 1, "_CLabel80")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_81", 1, "_CLabel81")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_82", 1, "_CLabel82")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_83", 1, "_CLabel83")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_84", 1, "_CLabel84")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_85", 1, "_CLabel85")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_86", 1, "_CLabel86")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_87", 1, "_CLabel87")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_88", 1, "_CLabel88")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_89", 1, "_CLabel89")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_90", 1, "_CLabel90")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_91", 1, "_CLabel91")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_92", 1, "_CLabel92")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_93", 1, "_CLabel93")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_94", 1, "_CLabel94")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_95", 1, "_CLabel95")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_66", 1, "_CLabel66")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_67", 1, "_CLabel67")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_68", 1, "_CLabel68")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_76", 1, "_CLabel76")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_77", 1, "_CLabel77")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_78", 1, "_CLabel78")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_79", 1, "_CLabel79")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_80", 1, "_CLabel80")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_81", 1, "_CLabel81")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_82", 1, "_CLabel82")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_83", 1, "_CLabel83")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_84", 1, "_CLabel84")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_85", 1, "_CLabel85")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_86", 1, "_CLabel86")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_87", 1, "_CLabel87")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_88", 1, "_CLabel88")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_89", 1, "_CLabel89")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_90", 1, "_CLabel90")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_91", 1, "_CLabel91")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_92", 1, "_CLabel92")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_93", 1, "_CLabel93")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_94", 1, "_CLabel94")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_95", 1, "_CLabel95")
             TNT1 A -1
         
             F_Duplicate:
@@ -918,29 +911,29 @@ Actor SkullSpawnerY : SkullSpawner
             TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
             TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_69", 1, "_CLabel69")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_70", 1, "_CLabel70")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_71", 1, "_CLabel71")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_72", 1, "_CLabel72")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_73", 1, "_CLabel73")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_74", 1, "_CLabel74")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_75", 1, "_CLabel75")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_69", 1, "_CLabel69")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_70", 1, "_CLabel70")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_71", 1, "_CLabel71")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_72", 1, "_CLabel72")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_73", 1, "_CLabel73")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_74", 1, "_CLabel74")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_75", 1, "_CLabel75")
             TNT1 A -1
         
         Spawn:
             SKUL Y 4  Bright
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_66")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_66")
             Goto F_MakeParticle
         _CLabel66:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_66")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_67")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_66")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_67")
             Goto F_MakeParticle
         _CLabel67:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_67")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_68")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_67")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_68")
             Goto F_MakeParticle
         _CLabel68:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_68")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_68")
             Goto Spawn
         
         Death:
@@ -957,127 +950,127 @@ Actor SkullSpawnerY : SkullSpawner
             TNT1 A 0 A_SpawnItemEx("MonSpawnY", FRandom(-70, 70), FRandom(-70, 70), floorz - z)
             TNT1 A 0
             TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_69")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_69")
                 Goto F_Duplicate
             _CLabel69:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_69")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_69")
             TNT1 A 0
             TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_70")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_70")
                 Goto F_Duplicate
             _CLabel70:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_70")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_70")
             TNT1 A 0
             TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_71")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_71")
                 Goto F_Duplicate
             _CLabel71:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_71")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_71")
             TNT1 A 0
             TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_72")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_72")
                 Goto F_Duplicate
             _CLabel72:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_72")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_72")
             TNT1 A 0
             TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_73")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_73")
                 Goto F_Duplicate
             _CLabel73:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_73")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_73")
             TNT1 A 0
             TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_74")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_74")
                 Goto F_Duplicate
             _CLabel74:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_74")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_74")
             TNT1 A 0
             TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_75")
+                TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_75")
                 Goto F_Duplicate
             _CLabel75:
-                TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_75")
+                TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_75")
             TNT1 A 0
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_76")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_76")
             Goto F_MakeParticle
         _CLabel76:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_76")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_77")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_76")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_77")
             Goto F_MakeParticle
         _CLabel77:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_77")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_78")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_77")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_78")
             Goto F_MakeParticle
         _CLabel78:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_78")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_79")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_78")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_79")
             Goto F_MakeParticle
         _CLabel79:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_79")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_80")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_79")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_80")
             Goto F_MakeParticle
         _CLabel80:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_80")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_81")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_80")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_81")
             Goto F_MakeParticle
         _CLabel81:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_81")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_82")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_81")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_82")
             Goto F_MakeParticle
         _CLabel82:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_82")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_83")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_82")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_83")
             Goto F_MakeParticle
         _CLabel83:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_83")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_84")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_83")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_84")
             Goto F_MakeParticle
         _CLabel84:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_84")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_85")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_84")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_85")
             Goto F_MakeParticle
         _CLabel85:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_85")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_86")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_85")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_86")
             Goto F_MakeParticle
         _CLabel86:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_86")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_87")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_86")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_87")
             Goto F_MakeParticle
         _CLabel87:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_87")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_88")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_87")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_88")
             Goto F_MakeParticle
         _CLabel88:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_88")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_89")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_88")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_89")
             Goto F_MakeParticle
         _CLabel89:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_89")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_90")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_89")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_90")
             Goto F_MakeParticle
         _CLabel90:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_90")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_91")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_90")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_91")
             Goto F_MakeParticle
         _CLabel91:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_91")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_92")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_91")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_92")
             Goto F_MakeParticle
         _CLabel92:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_92")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_93")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_92")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_93")
             Goto F_MakeParticle
         _CLabel93:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_93")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_94")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_93")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_94")
             Goto F_MakeParticle
         _CLabel94:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_94")
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_95")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_94")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_95")
             Goto F_MakeParticle
         _CLabel95:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_95")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_95")
             TNT1 A 1
             stop
     }
@@ -1087,31 +1080,30 @@ Actor SkullSpawnerY : SkullSpawner
 Actor XShotGuySpawner : MultiSpawner
 {
     Gravity 0
-    
     States {
         F_MakeSpawn:
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8", 1, "_CLabel8")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8", 1, "_CLabel8")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8", 1, "_CLabel8")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8", 1, "_CLabel8")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8", 1, "_CLabel8")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8", 1, "_CLabel8")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8", 1, "_CLabel8")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8", 1, "_CLabel8")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8", 1, "_CLabel8")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8", 1, "_CLabel8")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8", 1, "_CLabel8")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8", 1, "_CLabel8")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8", 1, "_CLabel8")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8", 1, "_CLabel8")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8", 1, "_CLabel8")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8", 1, "_CLabel8")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8", 1, "_CLabel8")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8", 1, "_CLabel8")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8", 1, "_CLabel8")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8", 1, "_CLabel8")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8", 1, "_CLabel8")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8", 1, "_CLabel8")
             TNT1 A -1
         
         Spawn:
             TNT1 A 1
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8")
             Goto F_MakeSpawn
         _CLabel8:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_8")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_8")
             stop
     }
 }
@@ -1119,8 +1111,7 @@ Actor XShotGuySpawner : MultiSpawner
 
 Actor XZombieSpawner : MultiSpawner
 {
-    
-    
+
     States {
         F_MakeSpawn:
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
@@ -1130,26 +1121,31 @@ Actor XZombieSpawner : MultiSpawner
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7", 1, "_CLabel7")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7", 1, "_CLabel7")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7", 1, "_CLabel7")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7", 1, "_CLabel7")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7", 1, "_CLabel7")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7", 1, "_CLabel7")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7", 1, "_CLabel7")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7", 1, "_CLabel7")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7", 1, "_CLabel7")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7", 1, "_CLabel7")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7", 1, "_CLabel7")
-            TNT1 A 0 A_JumpIfInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7", 1, "_CLabel7")
+            TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
+            TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
+            TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
+            TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
+            TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7", 1, "_CLabel7")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7", 1, "_CLabel7")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7", 1, "_CLabel7")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7", 1, "_CLabel7")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7", 1, "_CLabel7")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7", 1, "_CLabel7")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7", 1, "_CLabel7")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7", 1, "_CLabel7")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7", 1, "_CLabel7")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7", 1, "_CLabel7")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7", 1, "_CLabel7")
+            TNT1 A 0 A_JumpIfInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7", 1, "_CLabel7")
             TNT1 A -1
         
         Spawn:
             TNT1 A 1
-            TNT1 A 0 A_GiveInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7")
+            TNT1 A 0 A_GiveInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7")
             Goto F_MakeSpawn
         _CLabel7:
-            TNT1 A 0 A_TakeInventory("_Call_oPzxuKAa36PE2b0sbgcH5q0Sv9UBuCpfvKz_7")
+            TNT1 A 0 A_TakeInventory("_Call_6rarwHG6zwTpuMJF2m50LyNZrqb5LnyR8dM_7")
             stop
     }
 }

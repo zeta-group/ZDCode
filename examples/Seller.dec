@@ -1,7 +1,6 @@
 Actor Coin : Inventory
 {
-    
-    
+
     States {
         Spawn:
             COIN A -1
@@ -36,7 +35,6 @@ Actor ExchangeWithMe
     
     +BLOODLESSIMPACT
     Projectile
-    
     States {
         Spawn:
             TNT1 A 0
@@ -61,7 +59,6 @@ Actor Seller
 Actor SmallCoinBag : Coin
 {
     Inventory.Amount 25
-    
     States {
         Spawn:
             SCNB A -1
