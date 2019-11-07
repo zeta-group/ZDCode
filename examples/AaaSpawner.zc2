@@ -15,7 +15,7 @@ class AaaSpawner {
     label Spawn {
         TNT1 A 35;
 
-        x 3 {
+        sometimes 35 x 3 {
             sometimes 60 inject SpawnEither("ChaingunGuy", "Revenant", "ArchVile");
             sometimes 60 inject SpawnEither("ChaingunGuy", "Revenant", "PainElemental");
         };

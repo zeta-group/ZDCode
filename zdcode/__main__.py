@@ -2,10 +2,15 @@ import sys
 import os
 
 try:
-    import . as zdcode
+    import zdcode
 
 except ImportError:
-    import __init__ as zdcode
+    try:
+        #import . as zdcode
+        raise ImportError
+
+    except ImportError:
+        import __init__ as zdcode
 
 def print_parse_error(e):
     print('{}: {}'.format(type(e).__name__, str(e)))
