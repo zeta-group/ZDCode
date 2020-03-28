@@ -567,7 +567,7 @@ class ZDCode(object):
             return res
 
     def _parse_state_action(self, a, macros = (), replacements = ()):
-        args = ((replacements.get(x, x) if isinstance(x, str) else self._parse_literal(x, macros = macros, replacements = replacements)) for x in a[1] if x) if a[1] is not None else []
+        args = ((replacements.get(x.lower(), x) if isinstance(x, str) else self._parse_literal(x, macros = macros, replacements = replacements)) for x in a[1] if x) if a[1] is not None else []
         args = ', '.join(a for a in args if a)
 
         if len(args) > 0:

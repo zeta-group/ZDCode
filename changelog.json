@@ -100,7 +100,8 @@
         {
             "name": "2.5.1",
             "changes": [
-                "Fixed macro parameter list."
+                "Fixed macro parameter list.",
+                "Made keywords case insensitive."
             ]
         }
     ]
