@@ -6,7 +6,7 @@ try:
 
 except ImportError:
     import json
-    
+
 
 if not path.isfile('changelog.json'):
     try:
@@ -35,7 +35,7 @@ setup(
     name=changelog['name'],
     version=changelog['versions'][-1]['name'],
     packages=[changelog['packageName']],
-    
+
     # metadata to display on PyPI
     author=changelog['authorName'],
     author_email=changelog['authorEmail'],
@@ -43,7 +43,7 @@ setup(
     license=changelog['license'],
     keywords=" ".join([x.replace(' ', '-') for x in changelog['tags']]),
     install_requires=changelog['dependencies'],
-    
+
     long_description=long_description,
     long_description_content_type=('text/markdown' if long_description is not None else None)
 )

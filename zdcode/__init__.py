@@ -132,7 +132,7 @@ class ZDCall(object):
 
     def num_states(self):
         return 2
-            
+
     def add_arg(self, a):
         self.args.append(a)
 
@@ -186,16 +186,16 @@ class ZDFunction(object):
 
     def state_code(self):
         r = ""
-    
+
         for s in self.states:
             if type(s) in (ZDState, ZDRawDecorate):
                 r += "    {}\n".format(decorate(s))
-            
+
             else:
                 r += "{}\n".format(decorate(s))
-            
+
         return r[:-1]
-    
+
     def label_name(self):
         return "F_" + self.name
 
@@ -225,7 +225,7 @@ class ZDState(object):
 
     def num_states(self):
         return 1
-        
+
     def __decorate__(self):
         if self.keywords:
             keywords = [" "] + self.keywords
@@ -271,7 +271,7 @@ class ZDLabel(object):
         for s in self.states:
             if type(s) in (ZDState, ZDRawDecorate):
                 r += "\n    {}".format(decorate(s))
-                
+
             else:
                 r += "\n{}".format(decorate(s))
 
@@ -309,9 +309,9 @@ class ZDActor(object):
         self.namefuncs = {}
         self.all_funcs = []
         self.raw = []
-        
+
         actor_list[name] = self
-        
+
         if inherit in actor_list:
             self.all_funcs = actor_list[inherit].all_funcs
 
@@ -334,7 +334,7 @@ class ZDActor(object):
 
         if len(r) == 1 and r[0] == "":
             return "    "
-            
+
         return redent(big_lit("\n".join(r), 8), 4, False)
 
     def label_code(self):
@@ -381,70 +381,70 @@ class ZDRepeat(object):
         self._actor = actor
         self.states = states
         self.repeats = repeats
-        
+
     def num_states(self):
         return sum(x.num_states() for x in self.states) * self.repeats
-        
+
     def __decorate__(self):
         return redent('\n'.join([decorate(x) for x in self.states] * self.repeats), 4, unindent_first=False)
-        
+
 class ZDIfStatement(object):
     def __init__(self, actor, condition, states, inverted=False):
         self._actor = actor
         self.condition = condition
         self.states = states
         self.inverted = inverted
-        
+
         if self.inverted:
             self.true_condition = condition
 
         else:
             self.true_condition = "!({})".format(condition)
-            
+
     def num_states(self):
         return sum(x.num_states() for x in self.states) + 2
-            
+
     def __decorate__(self):
         num_st = sum(x.num_states() for x in self.states)
-    
+
         return redent("TNT1 A 0 A_JumpIf({}, {})\n".format(self.true_condition, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
-        
-        
+
+
 class ZDSometimes(object):
     def __init__(self, actor, chance, states):
         self._actor = actor
         self.chance = chance
         self.states = states
         self.real_fail_chance = str(int(2.55 * (100 - float(self.chance))))
-            
+
     def num_states(self):
         return sum(x.num_states() for x in self.states) + 2
-            
+
     def __decorate__(self):
         num_st = sum(x.num_states() for x in self.states)
-    
+
         return redent("TNT1 A 0 A_Jump({}, {})\n".format(self.real_fail_chance, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
-        
+
 num_whiles = 0
 
 class ZDWhileStatement(object):
     def __init__(self, actor, condition, states):
         global num_whiles
-        
+
         self._actor = actor
         self.condition = condition
         self.states = states
         self.id = num_whiles
         num_whiles += 1
-            
+
     def num_states(self):
         return sum(x.num_states() for x in self.states) + 3
-            
+
     def __decorate__(self):
         num_st = sum(x.num_states() for x in self.states)
-    
+
         return redent("_WhileBlock{}:\n".format(self.id) + redent("TNT1 A 0 A_JumpIf(!({}), {})\n".format(self.condition, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nGoto _WhileBlock{}\nTNT1 A 0".format(self.id), 4, unindent_first=False), 0, unindent_first=False)
-        
+
 class ZDInventory(object):
     def __init__(self, code, name):
         self.name = name
@@ -460,7 +460,7 @@ class ZDInventory(object):
 class ZDCode(object):
     class ZDCodeError(BaseException):
         pass
-        
+
     # args = Forward()
     # args << (Combine(CharsNotIn("()") + "(" + args + ")" + Optional("," + args)) | CharsNotIn(")"))
     # inherit = Optional(":" + Word(alphanums + "_"))
@@ -488,7 +488,7 @@ class ZDCode(object):
     # recurse << (possib + Optional(recurse))
     # parser << ("%" + Word(alphanums + "_") + actorargs + "{" + Optional(recurse) + "};" + Optional(parser))
     # if = ('if')
-    
+
     # comment = re.compile(r"\/\*(\*(?!\/)|[^*])*\*\/|\/\/[^\n$]+", re.MULTILINE)
     # debug = True
 
@@ -538,7 +538,7 @@ class ZDCode(object):
 
             elif literal[0] == 'actor variable':
                 replacements = dict(replacements)
-                
+
                 if literal[1] in replacements:
                     return replacements[literal[1]]
 
@@ -550,10 +550,10 @@ class ZDCode(object):
 
             elif literal[0] == 'anonymous class':
                 return self._parse_anonym_class(literal[1], macros, replacements)
-    
+
     def _parse_action(self, a, macros = (), replacements = ()):
         return "{}({})".format(a[0], (', '.join(self._parse_literal(x, macros = macros, replacements = replacements) for x in a[1]) if a[1] is not None else []))
-    
+
     def _parse_state_action_or_body(self, a, macros = (), replacements = ()):
         if a[0] == 'action':
             return [self._parse_state_action(a[1], macros = macros, replacements = replacements)]
@@ -567,7 +567,7 @@ class ZDCode(object):
             return res
 
     def _parse_state_action(self, a, macros = (), replacements = ()):
-        args = ((x if isinstance(x, str) else self._parse_literal(x, macros = macros, replacements = replacements)) for x in a[1] if x) if a[1] is not None else []
+        args = ((replacements.get(x, x) if isinstance(x, str) else self._parse_literal(x, macros = macros, replacements = replacements)) for x in a[1] if x) if a[1] is not None else []
         args = ', '.join(a for a in args if a)
 
         if len(args) > 0:
@@ -722,7 +722,7 @@ class ZDCode(object):
         self.inventories.append(anonym_actor)
 
         return self.stringify(anonym_actor.name)
- 
+
     def _parse(self, actors):
         calls = []
         macros = {}

@@ -1,9 +1,10 @@
 **/__pycache__
-/build/
-/dist/
+build/
+dist/
 **/*.zip
 **/*.exe
 *.egg-info
-/env/
-/.vscode/
-/bin/
+env/
+.vscode/
+bin/
+testing/
