@@ -1,26 +1,35 @@
 from setuptools import setup, find_packages
 from os import path
 
-try:
-    import simplejson as json
+def get_changelog():
+    if path.isfile('changelog.json'):
+        try:
+            import simplejson as json
 
-except ImportError:
-    import json
+        except ImportError:
+            import json
 
+        with open('changelog.json') as fp:
+            changelog = json.load(fp)
 
-if not path.isfile('changelog.json'):
-    try:
-        import yaml
+    elif path.isfile('changelog.yaml'):
+        try:
+            import yaml
 
-    except ImportError:
-        raise ImportError("Module yaml not found to compile changelog.yml!")
+        except ImportError:
+            raise ImportError("Module yaml not found to compile changelog.yml!")
 
-    with open('changelog.json', 'w') as jfp:
-        with open('changelog.yml') as yfp:
-            json.dump(yaml.load(yfp), jfp)
+        with open('changelog.json', 'w') as jfp:
+            with open('changelog.yml') as yfp:
+                changelog = yaml.load(yfp)
+                json.dump(changelog, jfp)
 
-with open('changelog.json') as fp:
-    changelog = json.load(fp)
+    else:
+        raise RuntimeError("Neither changelog.json nor changelog.yml found!")
+
+    return changelog
+
+changelog = get_changelog()
 
 # read the contents of README file
 this_dir = path.abspath(path.dirname(__file__))

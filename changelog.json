@@ -103,6 +103,15 @@
                 "Fixed macro parameter list.",
                 "Made keywords case insensitive."
             ]
+        },
+
+        {
+            "name": "2.6.0",
+            "changes": [
+                "Added templated classes!",
+                "Fixed escape characters in string literals",
+                "Added 'ZDCode_' prefix to internal DECORATE labels (functions, calls, etc.)"
+            ]
         }
     ]
 }

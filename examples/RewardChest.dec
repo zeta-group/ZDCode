@@ -12,7 +12,7 @@ Actor RewardChest
         
         Look:
             ELEC A 1 A_LookEx(LOF_NOSOUNDCHECK)
-            Goto Look
+            loop
         
         See:
             ELEC A 1 A_JumpIfCloser(80, "Reward")

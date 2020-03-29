@@ -20,7 +20,7 @@ class RunZombie inherits ZombieMan replaces ZombieMan #2055
     set Speed to 0;
     is NOBLOCKMONST;
     set Speed to 0;
- 
+
     label See
     {
         inject SeeCheck;
@@ -59,7 +59,7 @@ class RunZombie inherits ZombieMan replaces ZombieMan #2055
         POSS G 9;
         POSS B 22;
         #endif
-        
+
         POSS AB 2 A_Chase;
     };
 
@@ -94,9 +94,9 @@ Actor RunZombie : ZombieMan replaces ZombieMan 2055
     Gravity 0.4
     Speed 0
     Speed 0
-    
+
     +NOBLOCKMONST
-    
+
     States {
         F_SeeCheck:
             TNT1 A 0 A_Chase
@@ -108,7 +108,7 @@ Actor RunZombie : ZombieMan replaces ZombieMan 2055
             TNT1 A 0 A_JumpIfInventory("_Call_NPaLK2i4Etrk1DERaszVFVbnG6JiT6KwJHX_4", 1, "_CLabel4")
             TNT1 A 0 A_JumpIfInventory("_Call_NPaLK2i4Etrk1DERaszVFVbnG6JiT6KwJHX_5", 1, "_CLabel5")
             TNT1 A -1
-        
+
             F_ZombieJump:
             TNT1 A 0 A_JumpIf(!(health > 5), 2)
             TNT1 A 0 A_JumpIfInventory("_Call_NPaLK2i4Etrk1DERaszVFVbnG6JiT6KwJHX_6", 1, "_CLabel6")
@@ -132,7 +132,7 @@ Actor RunZombie : ZombieMan replaces ZombieMan 2055
             POSS B 2 A_Chase
             TNT1 A 0 A_JumpIfInventory("_Call_NPaLK2i4Etrk1DERaszVFVbnG6JiT6KwJHX_6", 1, "_CLabel6")
             TNT1 A -1
-        
+
         See:
             TNT1 A 0 A_GiveInventory("_Call_NPaLK2i4Etrk1DERaszVFVbnG6JiT6KwJHX_0")
             Goto F_SeeCheck
@@ -159,7 +159,7 @@ Actor RunZombie : ZombieMan replaces ZombieMan 2055
         _CLabel3:
             TNT1 A 0 A_TakeInventory("_Call_NPaLK2i4Etrk1DERaszVFVbnG6JiT6KwJHX_3")
             goto RunLoop
-        
+
         RunLoop:
             POSS A 2 A_Recoil(-0.7)
             POSS B 2 A_Recoil(-0.7)
@@ -266,14 +266,12 @@ ease of distribution and dependency management.
 It is planned to create a ZDCode packaging and distribution format, akin to npm or PyPI, to aid
 the users of this project in their endeavors. Instead of being a centralized service, this subproject
 will consist merely of client software, whose purpose is to read _channels_ from existing Git repositories,
-which are listings of other Git repositories which, in turn, contain the actual packages. This client
-software has two purposes:
+which are an index, for the ZDCode package(s) the repository contains. This client software has the
+main purpose of finding, downloading a ZDCode library, and installing it. It can also install
+from local package files.
 
- * fetching a desired ZDCode library to include in a project;
- * fetching the ZDCode libraries required to build a project into DECORATE.
-
-This will help ensure that ZDCode authors will always have many options, and is part of the
-expansion of possibilities in DECORATE.
+This will help ensure that ZDCode authors will always have many options, and is part of the expansion of
+possibilities in oldschool ZDoom modding.
 
 
 
@@ -348,11 +346,11 @@ becomes equivalent to
 ```
     - A                                      _  -2
                                             |     
-    - B                                     | 
+    - B                                     |
                                             |
     - C jump by -2 if happy   0   # happy >' _  -1
                                             |
-    - D jump by -1 if sad     0   #   sad >' 
+    - D jump by -1 if sad     0   #   sad >'
 ```
 
 but has a much clearer intent, and does not require maintenance of jump offsets ~~if~~ when the
@@ -367,11 +365,11 @@ class BunnyhoppingImp extends DoomImp replaces DoomImp {
         See:
             TNT1 A 0 A_JumpIf(z == floorz, "Jump")   // any imp born after 1993 can't double-jump... https://www.reddit.com/r/copypasta/comments/fqcgst/imps_after_1993_cant_doublejump/
             Goto Run
-            
+
         Run:
             // ...
             Goto See
-            
+
         Jump:
             TNT1 A 0 A_MoveUpAndActuallyJump(...)
             // ...
@@ -422,7 +420,7 @@ States {
     IfBody:
         TNT1 A 0
           Goto DoTheJump
-        
+
     GoBack:
         TNT1 A 0
           Goto Spawn

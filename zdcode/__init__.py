@@ -1,6 +1,6 @@
-import re
 import textwrap
 import string, random
+import hashlib
 
 try:
     from . import zdlexer
@@ -114,7 +114,9 @@ class ZDCall(object):
         self.repeats = repeats
 
         self.id = len(code.calls)
-        code.calls.append(self)
+
+        code.calls.add(self)
+
         label.states.append(self)
 
         if repeats > 1:
@@ -123,8 +125,8 @@ class ZDCall(object):
 
             del self
 
-        elif "_Call_{}_{}".format(code.id, self.id) not in [x.name for x in code.inventories]:
-            ZDInventory(code, "_Call_{}_{}".format(code.id, self.id))
+        elif "ZDCode_Call_{}_{}".format(code.id, self.id) not in [x.name for x in code.inventories]:
+            ZDInventory(code, "ZDCode_Call_{}_{}".format(code.id, self.id))
 
     def post_load(self):
         if self.func in self.actor.namefuncs:
@@ -197,10 +199,10 @@ class ZDFunction(object):
         return r[:-1]
 
     def label_name(self):
-        return "F_" + self.name
+        return "ZDCode_Func_" + self.name
 
     def __decorate__(self):
-        code = "    F_{}:".format(self.name)
+        code = "    ZDCode_Func_{}:".format(self.name)
         code += '\n' + self.state_code()
 
         cst = self.call_states()
@@ -376,6 +378,32 @@ class ZDActor(object):
         {}
         }}""", 8).format(self.header(), redent(self.top(), 4, unindent_first=False))
 
+class ZDClassTemplate(object):
+    def __init__(self, template_parameters, parse_data, code, name="DefaultActor", inherit=None, replace=None, doomednum=None):
+        self.template_parameters = list(template_parameters)
+        self.code = code
+        self.name = name
+        self.inherit = inherit
+        self.replace = replace
+        self.doomednum = doomednum
+        self.parse_data = parse_data
+
+    def generated_class_name(self, parameter_values):
+        hash = hashlib.md5()
+
+        for parm in parameter_values:
+            hash.update(parm.encode('utf-8'))
+
+        return '{}__deriv_{}'.format(self.name, hash.hexdigest())
+
+    def generate_init_class(self, parameter_values, name=None):
+        new_name = name if name is not None else self.generated_class_name(parameter_values)
+
+        return ZDActor(self.code, new_name, self.inherit, self.replace, self.doomednum)
+
+    def get_init_replacements(self, parameter_values):
+        return dict(zip((p.upper() for p in self.template_parameters), parameter_values))
+
 class ZDRepeat(object):
     def __init__(self, actor, repeats, states):
         self._actor = actor
@@ -457,63 +485,19 @@ class ZDInventory(object):
 
 
 # Parser!
+class ZDCodeParseContext(object):
+    def __init__(self, replacements=(), macros=(), templates=(), calls=()):
+        self.macros = dict(macros)
+        self.replacements = dict(replacements)
+        self.templates = dict(templates)
+        self.calls = list(calls)
+
+    def derive(self):
+        return ZDCodeParseContext(self.replacements, self.macros, self.templates, self.calls)
+
 class ZDCode(object):
     class ZDCodeError(BaseException):
         pass
-
-    # args = Forward()
-    # args << (Combine(CharsNotIn("()") + "(" + args + ")" + Optional("," + args)) | CharsNotIn(")"))
-    # inherit = Optional(":" + Word(alphanums + "_"))
-    # replace = Optional("->" + Word(alphanums + "_"))
-    # denum = Optional("*" + Word(nums))
-    # parser = Forward()
-    # st = Forward()
-    # actorargs = Forward()
-    # actorargs << (inherit ^ replace ^ denum) + (FollowedBy("{") | Optional(actorargs))
-    # action = Group(Word(alphanums + "_-") + Optional("(" + args + ")"))
-    # cond = "?" + SkipTo("==") + "==" + Word(nums) + "->" + Word(alphanums + "_-.") + ";"
-    # call = "(" + Word(alphas+"_", alphanums+"_") + ")" + Optional("(" + Optional(args) + ")") + ";"
-    # raw = "^" + SkipTo(";") + ";"
-    # normstate = Word(alphanums + "_-", exact=4) + Word(alphas + "[]") + Word(nums) + ZeroOrMore(Group("[" + SkipTo("]") + "]")) + Optional("@" + action) + ";"
-    # state = Optional("*" + Word(nums)) + ":" + (cond ^ call ^ raw ^ normstate)
-    # flagname = Word(alphanums + "_.")
-    # flag = "*" + flagname + ";"
-    # aflag = "!" + flagname + ";"
-    # aprop = "property ", White(' ') + Word(alphanums + "_.") + "=" + SkipTo(";") + ";"
-    # st << (state + Optional(st))
-    # afunc = "$" + Word(alphas+"_", alphanums+"_") + Optional("(" + Optional(args) + ")") + "{" + Optional(st) + "};"
-    # label = "#" + Optional("#") + Word(alphas + "_", alphanums + "_") + "{" + Optional(st) + "};"
-    # possib = afunc ^ label ^ aprop ^ aflag ^ flag ^ raw
-    # recurse = Forward()
-    # recurse << (possib + Optional(recurse))
-    # parser << ("%" + Word(alphanums + "_") + actorargs + "{" + Optional(recurse) + "};" + Optional(parser))
-    # if = ('if')
-
-    # comment = re.compile(r"\/\*(\*(?!\/)|[^*])*\*\/|\/\/[^\n$]+", re.MULTILINE)
-    # debug = True
-
-    # if debug:
-        # args.setDebug()
-        # inherit.setDebug()
-        # replace.setDebug()
-        # denum.setDebug()
-        # actorargs.setDebug()
-        # action.setDebug()
-        # cond.setDebug()
-        # call.setDebug()
-        # raw.setDebug()
-        # normstate.setDebug()
-        # state.setDebug()
-        # flagname.setDebug()
-        # flag.setDebug()
-        # aflag.setDebug()
-        # aprop.setDebug()
-        # st.setDebug()
-        # afunc.setDebug()
-        # label.setDebug()
-        # possib.setDebug()
-        # recurse.setDebug()
-        # parser.setDebug()
 
     @classmethod
     def parse(cls, code, dirname='.', error_handler=None):
@@ -528,19 +512,17 @@ class ZDCode(object):
         else:
             return None
 
-    def _parse_literal(self, literal, macros = (), replacements = ()):
+    def _parse_literal(self, literal, context):
         if isinstance(literal, (tuple, list)):
             if literal[0] == 'number':
                 return str(literal[1])
 
             elif literal[0] == 'string':
-                return '"' + literal[1] + '"'
+                return '"' + repr(literal[1])[1:-1] + '"'
 
             elif literal[0] == 'actor variable':
-                replacements = dict(replacements)
-
-                if literal[1] in replacements:
-                    return replacements[literal[1]]
+                if literal[1].upper() in context.replacements:
+                    return context.replacements[literal[1].upper()]
 
                 else:
                     return literal[1]
@@ -549,25 +531,46 @@ class ZDCode(object):
                 return self._parse_action(literal[1])
 
             elif literal[0] == 'anonymous class':
-                return self._parse_anonym_class(literal[1], macros, replacements)
+                return self._parse_anonym_class(literal[1], context)
 
-    def _parse_action(self, a, macros = (), replacements = ()):
-        return "{}({})".format(a[0], (', '.join(self._parse_literal(x, macros = macros, replacements = replacements) for x in a[1]) if a[1] is not None else []))
+            elif literal[0] == 'template derivation':
+                template_name, template_parms = literal[1]
 
-    def _parse_state_action_or_body(self, a, macros = (), replacements = ()):
+                try:
+                    template = context.templates[template_name]
+
+                except KeyError:
+                    raise RuntimeError("Unknown template to derive: '{}'".format(template_name))
+
+                if len(template_parms) != len(template.template_parameters):
+                    raise RuntimeError("Bad number of template parameters for '{}': expected {}, got {}".format(
+                        template_name,
+                        len(template.template_parameters),
+                        len(template_parms)
+                    ))
+
+                new_class = self._derive_class_from_template(template, template_parms, context)
+
+                return '"' + repr(new_class.name)[1:-1] + '"'
+
+    def _parse_action(self, a, context):
+        return "{}({})".format(a[0], (', '.join(self._parse_literal(x, context) for x in a[1]) if a[1] is not None else []))
+
+    def _parse_state_action_or_body(self, a, context):
         if a[0] == 'action':
-            return [self._parse_state_action(a[1], macros = macros, replacements = replacements)]
+            return [self._parse_state_action(a[1], context)]
 
         else:
             res = []
 
             for x in a[1]:
-                res.extend(self._parse_state_action_or_body(x))
+                res.extend(self._parse_state_action_or_body(x, context))
 
             return res
 
-    def _parse_state_action(self, a, macros = (), replacements = ()):
-        args = ((replacements.get(x.lower(), x) if isinstance(x, str) else self._parse_literal(x, macros = macros, replacements = replacements)) for x in a[1] if x) if a[1] is not None else []
+    def _parse_state_action(self, a, context):
+        args = ((context.replacements.get(x.upper(), x) if isinstance(x, str) else self._parse_literal(x, context)) for x in a[1] if x) if a[1] is not None else []
+
         args = ', '.join(a for a in args if a)
 
         if len(args) > 0:
@@ -576,10 +579,7 @@ class ZDCode(object):
         else:
             return a[0]
 
-    def _parse_state(self, actor, label, s, func=None, calls=None, alabel=None, macros = (), replacements = ()):
-        if calls is None:
-            calls = []
-
+    def _parse_state(self, actor, context: ZDCodeParseContext, label, s, func=None, alabel=None):
         if s[0] == 'frames':
             name, frames, duration, modifiers, action = s[1]
 
@@ -588,20 +588,20 @@ class ZDCode(object):
                     label.states.append(ZDState(name, f, duration, modifiers))
 
                 else:
-                    body = self._parse_state_action_or_body(action, macros = macros, replacements=replacements)
+                    body = self._parse_state_action_or_body(action, context)
 
                     for i, a in enumerate(body):
                         label.states.append(ZDState(name, f, (0 if i + 1 < len(body) else duration), modifiers, action=a))
 
         elif s[0] == 'return':
-            if func is None:
+            if not isinstance(func, ZDFunction):
                 raise ValueError("Return statement in non-function label: " + label.name)
 
             else:
                 label.states.append(ZDReturnStatement(func))
 
         elif s[0] == 'call':
-            calls.append(ZDCall(self, label, s[1]))
+            ZDCall(self, label, s[1])
 
         elif s[0] == 'flow':
             if s[1].upper() == 'LOOP' and func != None:
@@ -615,14 +615,14 @@ class ZDCode(object):
 
             for _ in range(s[1][0]):
                 for a in s[1][1]:
-                    self._parse_state(actor, label, a, func, calls=calls, replacements=replacements, macros=macros)
+                    self._parse_state(actor, context, label, a, func)
 
         elif s[0] == 'sometimes':
             s = dict(s[1])
             sms = ZDSometimes(actor, float(s['chance'][1]), [])
 
             for a in s['body']:
-                self._parse_state(actor, sms, a, func, calls=calls, replacements=replacements, macros=macros)
+                self._parse_state(actor, context, sms, a, func)
 
             label.states.append(sms)
 
@@ -631,13 +631,13 @@ class ZDCode(object):
             elses = None
 
             for a in s[1][1]:
-                self._parse_state(actor, ifs, a, func, calls=calls, replacements=replacements, macros=macros)
+                self._parse_state(actor, context, ifs, a, func)
 
             if s[1][2] is not None:
                 elses = ZDIfStatement(actor, s[1][0], [], inverted=True)
 
                 for a in s[1][2]:
-                    self._parse_state(actor, elses, a, func, calls=calls, replacements=replacements, macros=macros)
+                    self._parse_state(actor, context, elses, a, func)
 
             label.states.append(ifs)
 
@@ -648,24 +648,25 @@ class ZDCode(object):
             whs = ZDWhileStatement(actor, s[1][0], [])
 
             for a in s[1][1]:
-                self._parse_state(actor, whs, a, func, calls=calls, replacements=replacements, macros=macros)
+                self._parse_state(actor, context, whs, a, func)
 
             label.states.append(whs)
 
         elif s[0] == 'inject':
-            macros = dict(macros)
+            macros = dict(context.macros)
             r_name, r_args = s[1]
 
             if r_name in macros:
-                r = dict(replacements)
+                new_context = context.derive()
+                r = new_context.replacements
 
                 (m_args, m_body) = macros[r_name]
 
                 for rn, an in zip(r_args, m_args):
-                    r[an] = rn
+                    r[an.upper()] = rn
 
                 for a in m_body:
-                    self._parse_state(actor, label, a, label, replacements=r, macros=macros)
+                    self._parse_state(actor, new_context, label, a, label)
 
             else:
                 raise ValueError("Unknown macro: {}".format(repr(r_name)))
@@ -677,99 +678,108 @@ class ZDCode(object):
 
         return repr(content)
 
-
-    def _parse_anonym_class(self, anonym_class, macros, replacements):
-        calls = []
-
+    def _parse_anonym_class(self, anonym_class, context):
         a = dict(anonym_class)
         anonym_actor = ZDActor(self, '_AnonymClass_{}_{}'.format(self.id, len(self.anonymous_classes)), a['inheritance'])
 
-        macros = dict(macros)
+        new_context = context.derive()
 
-        for btype, bdata in a['body']:
-            if btype == 'macro':
-                macros[bdata['name']] = (bdata['args'], bdata['body'])
-
-        for btype, bdata in a['body']:
-            if btype == 'property':
-                ZDProperty(anonym_actor, bdata['name'], ', '.join(self._parse_literal(x, macros = macros, replacements=replacements) for x in bdata['value']))
-
-            elif btype == 'flag':
-                anonym_actor.flags.append(bdata)
-
-            elif btype == 'flag combo':
-                anonym_actor.raw.append(bdata)
-
-            elif btype == 'unflag':
-                anonym_actor.antiflags.append(bdata)
-
-            elif btype == 'label':
-                label = ZDLabel(anonym_actor, bdata['name'])
-
-                for s in bdata['body']:
-                    self._parse_state(anonym_actor, label, s, label, calls=calls, macros=macros, replacements=replacements)
-
-            elif btype == 'function':
-                func = ZDFunction(self, anonym_actor, bdata['name'])
-
-                for s in bdata['body']:
-                    self._parse_state(anonym_actor, func, s, func, calls=calls, macros=macros, replacements=replacements)
-
-        for c in calls:
-            c.post_load()
+        self._parse_class_body(anonym_actor, new_context, a['body'])
 
         self.anonymous_classes.append(anonym_actor)
         self.inventories.append(anonym_actor)
 
         return self.stringify(anonym_actor.name)
 
+    def _derive_class_from_template(self, template, param_values, context, name=None):
+        new_context = context.derive()
+
+        actor = template.generate_init_class(param_values, name=name)
+        new_context.replacements.update(template.get_init_replacements(param_values))
+
+        self._parse_class_body(actor, new_context, template.parse_data)
+
+        self.actors.append(actor)
+
+        return actor
+
+    def _parse_class_body(self, actor, context, body):
+        for btype, bdata in body:
+            if btype == 'macro':
+                context.macros[bdata['name']] = (bdata['args'], bdata['body'])
+
+        for btype, bdata in body:
+            if btype == 'property':
+                ZDProperty(actor, bdata['name'], ', '.join(self._parse_literal(x, context) for x in bdata['value']))
+
+            elif btype == 'flag':
+                actor.flags.append(bdata)
+
+            elif btype == 'flag combo':
+                actor.raw.append(bdata)
+
+            elif btype == 'unflag':
+                actor.antiflags.append(bdata)
+
+            elif btype == 'label':
+                label = ZDLabel(actor, bdata['name'])
+
+                for s in bdata['body']:
+                    self._parse_state(actor, context, label, s, None)
+
+            elif btype == 'function':
+                func = ZDFunction(self, actor, bdata['name'])
+
+                for s in bdata['body']:
+                    self._parse_state(actor, context, func, s, func)
+
     def _parse(self, actors):
-        calls = []
-        macros = {}
+        context = ZDCodeParseContext()
 
-        for a in actors:
-            actor = ZDActor(self, a['classname'], a['inheritance'], a['replacement'], a['class number'])
+        actors = list(actors)
 
-            for btype, bdata in a['body']:
-                if btype == 'macro':
-                    macros[bdata['name']] = (bdata['args'], bdata['body'])
+        for class_type, a in actors:
+            if class_type == 'class template':
+                template = ZDClassTemplate(a['parameters'], a['body'], self, a['classname'], a['inheritance'], a['replacement'], a['class number'])
+                context.templates[a['classname']] = template
 
-            for btype, bdata in a['body']:
-                if btype == 'property':
-                    ZDProperty(actor, bdata['name'], ', '.join(self._parse_literal(x) for x in bdata['value']))
+        for class_type, a in actors:
+            if class_type == 'class':
+                actor = ZDActor(self, a['classname'], a['inheritance'], a['replacement'], a['class number'])
 
-                elif btype == 'flag':
-                    actor.flags.append(bdata)
+                self._parse_class_body(actor, context, a['body'])
 
-                elif btype == 'flag combo':
-                    actor.raw.append(bdata)
+                self.actors.append(actor)
 
-                elif btype == 'unflag':
-                    actor.antiflags.append(bdata)
+            elif class_type == 'static template derivation':
+                new_name = a['classname']
 
-                elif btype == 'label':
-                    label = ZDLabel(actor, bdata['name'])
+                template_name, template_parms = a['source'][1]
 
-                    for s in bdata['body']:
-                        self._parse_state(actor, label, s, label, calls=calls, macros=macros)
+                try:
+                    template = context.templates[template_name]
 
-                elif btype == 'function':
-                    func = ZDFunction(self, actor, bdata['name'])
+                except KeyError:
+                    raise RuntimeError("Unknown template to derive: '{}'".format(template_name))
 
-                    for s in bdata['body']:
-                        self._parse_state(actor, func, s, func, calls=calls, macros=macros)
+                if len(template_parms) != len(template.template_parameters):
+                    raise RuntimeError("Bad number of template parameters for '{}': expected {}, got {}".format(
+                        template_name,
+                        len(template.template_parameters),
+                        len(template_parms)
+                    ))
 
-            for c in calls:
-                c.post_load()
+                actor = self._derive_class_from_template(template, template_parms, context, name=new_name)
 
-            self.actors.append(actor)
+        for c in self.calls:
+            c.post_load()
 
     def __init__(self):
         self.inventories = []
         self.anonymous_classes = []
         self.actors = []
-        self.calls = []
         self.id = make_id(35)
+        self.calls = set()
 
     def __decorate__(self):
         if not self.inventories:

@@ -1,0 +1,16 @@
+class<ItemType> ItemFountain {
+    set Gravity to 0;
+
+    label Spawn {
+        TNT1 A 20 A_SpawnItemEx(ItemType, 0, 0, 0, FRandom(-5, 5), FRandom(-5, 5), 8);
+        Loop;
+    };
+}
+
+derive ItemFountain::("HealthBonus") as HealthFountain;
+derive ItemFountain::("ArmorBonus") as ArmorFountain;
+
+class BackupSpot extends RandomSpawner {
+    set DropItem to "HealthFountain";
+    set DropItem to "ArmorFountain";
+}

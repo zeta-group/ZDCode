@@ -9,7 +9,7 @@ Actor PusherBubble
         Spawn:
             PBBL A 2
             PBBL B 2
-            Goto Spawn
+            loop
         
         Death:
             PBBL C 4 A_Explode(0, 152)
@@ -26,14 +26,14 @@ Actor PusherCritter
     States {
         Spawn:
             PCRT A 12 A_Look
-            Goto Spawn
+            loop
         
         See:
             PCRT A 3 A_Chase
             PCRT B 3 A_Chase
             PCRT C 3 A_Chase
             PCRT D 3 A_Chase
-            Goto See
+            loop
         
         Missile:
             TNT1 A 0 A_Jump(127, 5)

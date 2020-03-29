@@ -2,7 +2,7 @@ import re
 import os
 import parsy
 
-from parsy import *
+from parsy import generate, string, regex, seq, whitespace, success
 
 
 s = string
@@ -101,7 +101,7 @@ def _apply_replacements(expr, replacements):
     return ' '.join(res)
 
 def apply_replacements(expr, replacements):
-    return _apply-replacements(expression.parse(expr), replacements)
+    return _apply_replacements(expression.parse(expr), replacements)
 
 @generate
 def number_lit():
@@ -159,8 +159,13 @@ def macro_argument_list():
     yield
 
 @generate
+def template_parameter_list():
+    return whitespace.optional() >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('template parameter name').sep_by(regex(r',\s*'), min=1) << whitespace.optional()
+    yield
+
+@generate
 def expr_argument_list():
-    return (anonymous_class | arg_expression).sep_by(regex(r',\s*'))
+    return (anonymous_class | templated_class_derivation | arg_expression).sep_by(regex(r',\s*'))
     yield
 
 @generate
@@ -194,11 +199,29 @@ def call_literal():
     yield
 
 @generate
+def templated_class_derivation():
+    return seq(
+        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of templated class') << whitespace.optional(),
+        (s('::(') >> whitespace.optional() >>
+            expr_argument_list
+        << whitespace.optional() << s(')'))
+    ).tag('template derivation').desc('class derivation')
+    yield
+
+@generate
+def static_template_derivation():
+    return whitespace.optional() >> seq(
+        ist('derive') >> whitespace >> templated_class_derivation.tag('source') << whitespace,
+        ist('as') >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of derived class').tag('classname')
+    ).desc('static template derivation') << s(';') << whitespace.optional()
+    yield
+
+@generate
 def class_body():
     return whitespace.optional().then(
             seq(
                 (ist("macro ")) >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
-                (whitespace.optional() >> s('(') >> whitespace.optional() >> macro_argument_list << whitespace.optional() << s(')') << whitespace.optional()).optional().map(lambda a: a or []).tag('args'),
+                (whitespace.optional() >> s('(') >> macro_argument_list << s(')') << whitespace.optional()).optional().map(lambda a: a or []).tag('args'),
                 state_body.tag('body')
             ).map(dict).tag('macro') |
             seq(
@@ -216,11 +239,22 @@ def class_body():
 @generate
 def actor_class():
     return seq(
-        (ist('actor ') | ist('class ')).desc("class statement") >>
+        ((ist('actor') | ist('class')) << whitespace).desc("class statement") >> regex('[a-zA-Z0-9_]+').desc('class name').tag('classname'),
+        (whitespace >> (ist('inherits') | ist('extends') | ist('expands')) >> whitespace >> regex('[a-zA-Z0-9_]+')).desc('inherited class name').optional().tag('inheritance').desc('inherited class name'),
+        (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
+        (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(whitespace.optional()),
+        (s('{') >> whitespace.optional() >> class_body.many().optional() << whitespace.optional().then(s('}')).skip(whitespace.optional())).tag('body')
+    )
+    yield
+
+@generate
+def templated_actor_class():
+    return seq(
+        (ist('actor') | ist('class') | ist('template')).desc("class template") >> s('<') >> template_parameter_list.tag('parameters') << s('>') << whitespace.optional(),
         regex('[a-zA-Z0-9_]+').desc('class name').tag('classname'),
-        ((ist(' inherits ') | ist(' extends ') | ist(' expands ')).desc('inheritance declaration') >> regex('[a-zA-Z0-9_]+')).desc('inherited class name').optional().tag('inheritance').desc('inherited class name'),
-        (ist(' replaces ') >> regex('[a-zA-Z0-9_]+')).desc('replaced class name').optional().tag('replacement').desc('replacement'),
-        (s(' #') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(whitespace.optional()),
+        (whitespace >> (ist('inherits') | ist('extends') | ist('expands')) >> whitespace >> regex('[a-zA-Z0-9_]+')).desc('inherited class name').optional().tag('inheritance').desc('inherited class name'),
+        (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
+        (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(whitespace.optional()),
         (s('{') >> whitespace.optional() >> class_body.many().optional() << whitespace.optional().then(s('}')).skip(whitespace.optional())).tag('body')
     )
     yield
@@ -230,9 +264,11 @@ def anonymous_class():
     return seq(
         (ist('actor') | ist('class')).desc("class statement") >> \
                 whitespace >> \
-                ((ist('inherits') | ist('extends') | ist('expands')).desc('inheritance declaration') >> \
-                whitespace >> \
-                regex('[a-zA-Z0-9_]+')).desc('inherited class name').optional().tag('inheritance') << \
+                (
+                    (ist('inherits') | ist('extends') | ist('expands')).desc('inheritance declaration') >> \
+                    whitespace >> \
+                    regex('[a-zA-Z0-9_]+')
+                ).desc('inherited class name').optional().tag('inheritance') <<
                 whitespace.optional(),
 
         (
@@ -256,6 +292,19 @@ def normal_state():
             whitespace.optional()
         ),
         regex(r"\-?\d+").map(int).desc('state duration').skip(
+            whitespace.optional()
+        ),
+        modifier.many().desc('modifier').skip(
+            whitespace.optional()
+        ).optional(),
+        state_action.optional()
+    )
+    yield
+
+@generate
+def pure_action_state():
+    return seq(
+        ist('keep') >> whitespace >> (regex(r"\-?\d+").map(int).desc('state duration') | success(0)).skip(
             whitespace.optional()
         ),
         modifier.many().desc('modifier').skip(
@@ -290,8 +339,8 @@ def flow_control():
 @generate
 def macro_call():
     return seq(
-        ist('inject ').desc("'inject' statement").then(regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('injected macro name')),
-        s('(') >> expr_argument_list.desc("macro arguments") << s(')')
+        ist('inject').desc("'inject' statement").then(whitespace).then(regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('injected macro name')),
+        (s('(') >> expr_argument_list.desc("macro arguments") << s(')')) | success([])
     )
     yield
 
@@ -379,7 +428,7 @@ def repeat_statement():
 
 @generate
 def source_code():
-    return whitespace.optional().desc('ignored whitespace') >> actor_class.sep_by(whitespace.optional()) << whitespace.optional().desc('ignored whitespace')
+    return whitespace.optional().desc('ignored whitespace') >> (actor_class.tag('class') | static_template_derivation.tag('static template derivation') | templated_actor_class.tag('class template')).sep_by(whitespace.optional()) << whitespace.optional().desc('ignored whitespace')
     yield
 
 def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_dir='.'):
@@ -546,7 +595,8 @@ def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_
 
 def parse_postcode(postcode, error_handler=None):
     try:
-        return (dict(x) for x in source_code.parse('\n'.join(l[3] for l in postcode)))
+        clazzes = source_code.parse('\n'.join(l[3] for l in postcode))
+        return ((x[0], dict(x[1])) for x in clazzes)
 
     except parsy.ParseError as parse_err:
         m = error_line.match(str(parse_err))

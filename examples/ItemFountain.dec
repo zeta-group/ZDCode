@@ -1,0 +1,27 @@
+Actor ArmorFountain
+{
+    Gravity 0
+    States {
+        Spawn:
+            TNT1 A 20 A_SpawnItemEx("ArmorBonus", 0, 0, 0, FRandom(-5, 5), FRandom(-5, 5), 8)
+            loop
+    }
+}
+
+
+Actor BackupSpot : RandomSpawner
+{
+    DropItem "HealthFountain"
+    DropItem "ArmorFountain"
+}
+
+
+Actor HealthFountain
+{
+    Gravity 0
+    States {
+        Spawn:
+            TNT1 A 20 A_SpawnItemEx("HealthBonus", 0, 0, 0, FRandom(-5, 5), FRandom(-5, 5), 8)
+            loop
+    }
+}
