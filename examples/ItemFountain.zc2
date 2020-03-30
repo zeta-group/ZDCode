@@ -2,6 +2,7 @@ class<ItemType> ItemFountain {
     set Gravity to 0;
 
     label Spawn {
+        x 2 sometimes 50 TNT1 A 20;
         TNT1 A 20 A_SpawnItemEx(ItemType, 0, 0, 0, FRandom(-5, 5), FRandom(-5, 5), 8);
         Loop;
     };
@@ -18,7 +19,7 @@ class BackupSpot extends RandomSpawner {
 class MegaBackupSpot {
     label Spawn {
         TNT1 A 0;
-        x 9 {
+        x 4 {
             x 7 sometimes 75 TNT1 A 4;
             TNT1 A 0 A_SpawnItemEx("BackupSpot");
         };

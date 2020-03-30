@@ -1,58 +1,58 @@
-Actor _AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_0 : TeleportFog
+Actor _AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_0 : TeleportFog
 {
     Translation "Ice"
 }
-Actor _AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_1 : RandomSpawner
+Actor _AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_1 : RandomSpawner
 {
     DropItem "ChaingunGuy", 128, 22
     DropItem "Revenant", 200, 6
     DropItem "ArchVile", 255, 1
 }
-Actor _AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_2 : TeleportFog
+Actor _AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_2 : TeleportFog
 {
     Translation "Ice"
 }
-Actor _AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_3 : RandomSpawner
+Actor _AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_3 : RandomSpawner
 {
     DropItem "ChaingunGuy", 128, 22
     DropItem "Revenant", 200, 6
     DropItem "PainElemental", 255, 1
 }
-Actor _AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_4 : TeleportFog
+Actor _AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_4 : TeleportFog
 {
     Translation "Ice"
 }
-Actor _AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_5 : RandomSpawner
+Actor _AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_5 : RandomSpawner
 {
     DropItem "ChaingunGuy", 128, 22
     DropItem "Revenant", 200, 6
     DropItem "ArchVile", 255, 1
 }
-Actor _AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_6 : TeleportFog
+Actor _AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_6 : TeleportFog
 {
     Translation "Ice"
 }
-Actor _AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_7 : RandomSpawner
+Actor _AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_7 : RandomSpawner
 {
     DropItem "ChaingunGuy", 128, 22
     DropItem "Revenant", 200, 6
     DropItem "PainElemental", 255, 1
 }
-Actor _AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_8 : TeleportFog
+Actor _AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_8 : TeleportFog
 {
     Translation "Ice"
 }
-Actor _AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_9 : RandomSpawner
+Actor _AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_9 : RandomSpawner
 {
     DropItem "ChaingunGuy", 128, 22
     DropItem "Revenant", 200, 6
     DropItem "ArchVile", 255, 1
 }
-Actor _AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_10 : TeleportFog
+Actor _AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_10 : TeleportFog
 {
     Translation "Ice"
 }
-Actor _AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_11 : RandomSpawner
+Actor _AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_11 : RandomSpawner
 {
     DropItem "ChaingunGuy", 128, 22
     DropItem "Revenant", 200, 6
@@ -68,28 +68,28 @@ Actor AaaSpawner
             TNT1 A 35
             TNT1 A 0 A_Jump(165, 25)
                 TNT1 A 0 A_Jump(102, 3)
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_0")
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_1")
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_0")
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_1")
                 TNT1 A 0
                 TNT1 A 0 A_Jump(102, 3)
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_2")
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_3")
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_2")
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_3")
                 TNT1 A 0
                 TNT1 A 0 A_Jump(102, 3)
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_4")
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_5")
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_4")
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_5")
                 TNT1 A 0
                 TNT1 A 0 A_Jump(102, 3)
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_6")
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_7")
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_6")
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_7")
                 TNT1 A 0
                 TNT1 A 0 A_Jump(102, 3)
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_8")
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_9")
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_8")
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_9")
                 TNT1 A 0
                 TNT1 A 0 A_Jump(102, 3)
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_10")
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_9ywLVTIuMGycwK9FDO2t4Os0DXSUrXyZygI_11")
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_10")
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_M7FazwX9NcQSQikEgMJXewDX0ATcEcSMgWm_11")
                 TNT1 A 0
             TNT1 A 0
             loop
