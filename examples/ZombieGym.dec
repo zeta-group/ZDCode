@@ -1,0 +1,147 @@
+Actor FatZombie : ZombieMan replaces ZombieMan
+{
+    Radius 80
+    XScale 80
+    States {
+        See:
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            loop
+    }
+}
+
+
+Actor MuricanZombie : ZombieMan replaces ZombieMan
+{
+    Radius 150
+    XScale 150
+    States {
+        See:
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            TNT1 A 0 A_Jump(140, 2)
+            "####" "#" 8 A_Quake(4, 60, 0, 300)
+            TNT1 A 0
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            TNT1 A 0 A_Jump(140, 2)
+            "####" "#" 8 A_Quake(4, 60, 0, 300)
+            TNT1 A 0
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            TNT1 A 0 A_Jump(140, 2)
+            "####" "#" 8 A_Quake(4, 60, 0, 300)
+            TNT1 A 0
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            TNT1 A 0 A_Jump(140, 2)
+            "####" "#" 8 A_Quake(4, 60, 0, 300)
+            TNT1 A 0
+            loop
+    }
+}
+
+
+Actor ThinZombie : ZombieMan replaces ZombieMan
+{
+    Radius 20
+    XScale 20
+    States {
+        See:
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            TNT1 A 0 A_JumpIf(!(z == floorz), 4)
+                TNT1 A 0 A_Jump(76, 2)
+                TNT1 A 0 ThrustThingZ(0, 12, 0, 1)
+                TNT1 A 0
+            TNT1 A 0
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            TNT1 A 0 A_JumpIf(!(z == floorz), 4)
+                TNT1 A 0 A_Jump(76, 2)
+                TNT1 A 0 ThrustThingZ(0, 12, 0, 1)
+                TNT1 A 0
+            TNT1 A 0
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            TNT1 A 0 A_JumpIf(!(z == floorz), 4)
+                TNT1 A 0 A_Jump(76, 2)
+                TNT1 A 0 ThrustThingZ(0, 12, 0, 1)
+                TNT1 A 0
+            TNT1 A 0
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            TNT1 A 0 A_JumpIf(!(z == floorz), 4)
+                TNT1 A 0 A_Jump(76, 2)
+                TNT1 A 0 ThrustThingZ(0, 12, 0, 1)
+                TNT1 A 0
+            TNT1 A 0
+            loop
+    }
+}

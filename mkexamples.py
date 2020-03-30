@@ -68,8 +68,9 @@ for root, dirs, files in os.walk('examples'):
 
 code = zdcode.ZDCode.parse(includes, '.', error_handler=print_parse_error)
 
-with zipfile.ZipFile('ZDCodeBundle_{}.pk3'.format(version), 'w') as opkg:
-    with opkg.open('DECORATE.Bundle', 'w') as odec:
-        odec.write(zdcode.decorate(code).encode('utf-8'))
+if code:
+    with zipfile.ZipFile('ZDCodeBundle_{}.pk3'.format(version), 'w') as opkg:
+        with opkg.open('DECORATE.Bundle', 'w') as odec:
+            odec.write(zdcode.decorate(code).encode('utf-8'))
 
-print("Examples compiled and bundled succesfully.")
+    print("Examples compiled and bundled succesfully.")

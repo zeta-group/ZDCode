@@ -6,6 +6,7 @@ from parsy import generate, string, regex, seq, whitespace, success
 
 
 s = string
+wo = whitespace.optional()
 
 def istring(st):
     return s(st, transform=lambda s: s.upper())
@@ -40,7 +41,7 @@ ifneq = re.compile(r'^\#IF(N|NOT)EQ(UALS?)?$')
 ifundef = re.compile(r'^\#IF(U?N|NOT)DEF(INED)?$')
 defmacro = re.compile(r'^\#DEF(INE)?M(AC(RO)?)?$')
 
-error_line = re.compile(r'(.+?) at (\d+)\:\d+$')
+error_line = re.compile(r'(.+?) at (\d+)\:(\d+)$')
 
 class PreprocessingError(BaseException):
     def __init__(self, problem, line, fname = None, line_content = None):
@@ -62,7 +63,7 @@ class ZDParseError(BaseException):
         error_line = self.postline[1]
         line_source = self.postline[2]
 
-        return "{} at line {}{} {}:\n> {}\n{}^".format(str(self.parsy_error), error_line, ':' + str(self.parsy_error.index - self.postline[4]), 'of input code' if filename is None else 'in "{}"'.format(filename), line_source, ' ' * max(0, self.parsy_error.index - self.postline[4] + 2))
+        return "expected one of {} at line {}{} {}:\n> {}\n{}^".format(', '.join(repr(l) for l in self.parsy_error.expected), error_line, ':' + str(self.parsy_error.index - self.postline[4]), 'of input code' if filename is None else 'in "{}"'.format(filename), line_source, ' ' * max(0, self.parsy_error.index - self.postline[4] + 2))
 
 @generate
 def modifier():
@@ -130,22 +131,22 @@ def paren_expr():
 @generate
 def expression():
     return (
-        whitespace.optional() >>
+        wo >>
         (
             (
                 literal.map(_parse_literal) |
                 regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%x]+').desc('operator') |
                 paren_expr.desc('parenthetic expression')
-            ).sep_by(whitespace.optional()).map(lambda x: ' '.join(x))
+            ).sep_by(wo).map(lambda x: ' '.join(x))
         )
-        << whitespace.optional()
+        << wo
     ) | paren_expr
     yield
 
 
 @generate
 def arg_expression():
-    return (s('-').optional().map(lambda x: x or '') + expression) | seq(expression, regex(r'[\:\,]') << whitespace.optional(), expression).map(lambda x: "{}: {}".format(x[0], x[2]))
+    return (s('-').optional().map(lambda x: x or '') + expression) | seq(expression, regex(r'[\:\,]') << wo, expression).map(lambda x: "{}: {}".format(x[0], x[2]))
     yield
 
 @generate
@@ -155,12 +156,12 @@ def argument_list():
 
 @generate
 def macro_argument_list():
-    return whitespace.optional() >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro argument name').sep_by(regex(r',\s*')) << whitespace.optional()
+    return wo >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro argument name').sep_by(regex(r',\s*')) << wo
     yield
 
 @generate
 def template_parameter_list():
-    return whitespace.optional() >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('template parameter name').sep_by(regex(r',\s*'), min=1) << whitespace.optional()
+    return wo >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('template parameter name').sep_by(regex(r',\s*')) << wo
     yield
 
 @generate
@@ -176,64 +177,106 @@ def actor_function_call():
 @generate
 def state_call():
     return seq(
-        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('called state function name').skip(whitespace.optional()),
-        s('(').then(whitespace.optional()).then(
+        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('called state function name').skip(wo),
+        s('(').then(wo).then(
             expr_argument_list
-        ).skip(whitespace.optional()).skip(s(')')).optional()
+        ).skip(wo).skip(s(')')).optional()
     )
     yield
 
 @generate
 def return_statement():
-    return (whitespace.optional() >> ist('return')).desc('return statement')
+    return (wo >> ist('return')).desc('return statement')
     yield
 
 @generate
 def call_literal():
     return seq(
-        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('called expression function name') << whitespace.optional(),
-        (s('(') >> whitespace.optional() >>
+        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('called expression function name') << wo,
+        (s('(') >> wo >>
             expr_argument_list
-        << whitespace.optional() << s(')'))
+        << wo << s(')'))
     )
+    yield
+
+@generate
+def label():
+    return (seq(((ist("label") | ist('state')) << whitespace) >> regex('[a-zA-Z_]+').desc('label name').tag('name'), state_body.tag('body')).map(dict) << wo)
     yield
 
 @generate
 def templated_class_derivation():
     return seq(
-        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of templated class') << whitespace.optional(),
-        (s('::(') >> whitespace.optional() >>
+        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of templated class') << wo,
+        (s('::(') >> wo >>
             expr_argument_list
-        << whitespace.optional() << s(')'))
-    ).tag('template derivation').desc('class derivation')
+        << wo << s(')')),
+        (
+            wo >> s('{') >>
+                wo.then(
+                    (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_.]+').desc('flag name')).tag('flag') |
+                    (((ist("isn't") << whitespace) | string('-')) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
+
+                    seq(
+                        ist("macro") >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
+                        (wo >> s('(') >> macro_argument_list << s(')') << wo).optional().map(lambda a: a or []).tag('args'),
+                        state_body.tag('body')
+                    ).map(dict).tag('macro') |
+
+                    label.desc('ovveride label').tag('label')
+                ).skip(wo).skip(s(';')).skip(wo).many().optional()
+            << s('}')
+        ).optional().map(lambda x: x or [])
+    ).tag('template derivation').desc('template derivation')
     yield
 
 @generate
 def static_template_derivation():
-    return whitespace.optional() >> seq(
-        ist('derive') >> whitespace >> templated_class_derivation.tag('source') << whitespace,
-        ist('as') >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of derived class').tag('classname')
-    ).desc('static template derivation') << s(';') << whitespace.optional()
+    return wo >> seq(
+        ist('derive') >> whitespace >> templated_class_derivation.tag('source'),
+        whitespace >> ist('as') >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of derived class').tag('classname')
+    ).desc('static template derivation') << s(';') << wo
     yield
 
 @generate
 def class_body():
-    return whitespace.optional().then(
+    return wo.then(
             seq(
-                (ist("macro ")) >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
-                (whitespace.optional() >> s('(') >> macro_argument_list << s(')') << whitespace.optional()).optional().map(lambda a: a or []).tag('args'),
+                ist("macro") >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
+                (wo >> s('(') >> macro_argument_list << s(')') << wo).optional().map(lambda a: a or []).tag('args'),
                 state_body.tag('body')
             ).map(dict).tag('macro') |
             seq(
                 (ist('set') >> whitespace).desc("'set' keyword") >> regex('[a-zA-Z0-9_.]+').tag('name'),
-                ((whitespace >> ist('to') << whitespace) | (whitespace.optional() >> s('=') << whitespace.optional())).desc("'to' or equal sign") >> literal.sep_by((s(',') + whitespace.optional())).tag('value')
+                ((whitespace >> ist('to') << whitespace) | (wo >> s('=') << wo)).desc("'to' or equal sign") >> literal.sep_by((s(',') + wo)).tag('value')
             ).map(dict).tag('property') |
             (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_.]+').desc('flag name')).tag('flag') |
-            (ist('combo') >> whitespace >> regex('[a-zA-Z0-9_.]+').desc('combo name')).tag('flag combo') |
             (((ist("isn't") << whitespace) | string('-')) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
+            (ist('combo') >> whitespace >> regex('[a-zA-Z0-9_.]+').desc('combo name')).tag('flag combo') |
             seq((ist("function ") | ist('method ')) >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('function name').tag('name'), state_body.tag('body')).map(dict).tag('function') |
-            (seq(((ist("label") | ist('state')) << whitespace) >> regex('[a-zA-Z_]+').desc('label name').tag('name'), state_body.tag('body')).map(dict) << whitespace.optional()).tag('label')
-    ).skip(whitespace.optional()) << s(';') << whitespace.optional()
+            label.tag('label')
+    ).skip(wo) << s(';') << wo
+    yield
+
+@generate
+def abstract_label_body():
+    return (ist("abstract label") | ist('abstract state')) >> whitespace >> regex('[a-zA-Z_]+').desc('label name') << s(';')
+    yield
+
+@generate
+def abstract_macro_body():
+    return seq(
+        ist("abstract macro") >> whitespace >> regex('[a-zA-Z_]+').desc('macro name').tag('name') << wo,
+        (s('(') >> wo >> macro_argument_list << wo << s(')')).optional().map(lambda x: x or []).tag('args')
+    ).map(dict) << wo << s(';') << wo
+    yield
+
+@generate
+def sprite_name():
+    return (
+        (regex(r'[A-Z0-9_]{4}') | s('"#"')).tag('normal') |
+        (ist('param') >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*')).tag('parametrized')
+    )
     yield
 
 @generate
@@ -242,20 +285,20 @@ def actor_class():
         ((ist('actor') | ist('class')) << whitespace).desc("class statement") >> regex('[a-zA-Z0-9_]+').desc('class name').tag('classname'),
         (whitespace >> (ist('inherits') | ist('extends') | ist('expands')) >> whitespace >> regex('[a-zA-Z0-9_]+')).desc('inherited class name').optional().tag('inheritance').desc('inherited class name'),
         (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
-        (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(whitespace.optional()),
-        (s('{') >> whitespace.optional() >> class_body.many().optional() << whitespace.optional().then(s('}')).skip(whitespace.optional())).tag('body')
+        (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
+        (s('{') >> wo >> class_body.many().optional() << wo.then(s('}')).skip(wo)).tag('body')
     )
     yield
 
 @generate
 def templated_actor_class():
     return seq(
-        (ist('actor') | ist('class') | ist('template')).desc("class template") >> s('<') >> template_parameter_list.tag('parameters') << s('>') << whitespace.optional(),
+        (ist('actor') | ist('class') | ist('template')).desc("class template") >> s('<') >> template_parameter_list.tag('parameters') << s('>') << wo,
         regex('[a-zA-Z0-9_]+').desc('class name').tag('classname'),
         (whitespace >> (ist('inherits') | ist('extends') | ist('expands')) >> whitespace >> regex('[a-zA-Z0-9_]+')).desc('inherited class name').optional().tag('inheritance').desc('inherited class name'),
         (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
-        (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(whitespace.optional()),
-        (s('{') >> whitespace.optional() >> class_body.many().optional() << whitespace.optional().then(s('}')).skip(whitespace.optional())).tag('body')
+        (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
+        (s('{') >> wo >> (abstract_macro_body.desc('abstract macro').tag('abstract macro') | abstract_label_body.desc('abstract label').tag('abstract label') | class_body).many().optional() << wo.then(s('}')).skip(wo)).tag('body')
     )
     yield
 
@@ -269,15 +312,15 @@ def anonymous_class():
                     whitespace >> \
                     regex('[a-zA-Z0-9_]+')
                 ).desc('inherited class name').optional().tag('inheritance') <<
-                whitespace.optional(),
+                wo,
 
         (
             ist('{') >>
-            whitespace.optional() >>
+            wo >>
             class_body.many().optional() <<
-            whitespace.optional() <<
+            wo <<
             ist('}') <<
-            whitespace.optional()
+            wo
         ).tag('body')
     ).tag('anonymous class')
     yield
@@ -285,30 +328,27 @@ def anonymous_class():
 @generate
 def normal_state():
     return seq(
-        regex(r'[A-Z0-9_]{4}').desc('state name').skip(
-            whitespace.optional()
-        ),
-        regex(r"[A-Z_.]").many().desc('state sprite').skip(
-            whitespace.optional()
-        ),
-        regex(r"\-?\d+").map(int).desc('state duration').skip(
-            whitespace.optional()
-        ),
-        modifier.many().desc('modifier').skip(
-            whitespace.optional()
-        ).optional(),
+        sprite_name.desc('state name').skip(wo),
+        (regex(r"[A-Z_.]").many() | s('"#"')).desc('state sprite').skip(wo),
+        regex(r"\-?\d+").map(int).desc('state duration').skip(wo),
+        modifier.many().desc('modifier').skip(wo).optional(),
         state_action.optional()
-    )
+    ) | seq(
+        ist('keeps').desc('\'keeps\' state').skip(wo) >>\
+        regex(r"\-?\d+").map(int).desc('state duration').skip(wo),
+        modifier.many().desc('modifier').skip(wo).optional(),
+        state_action.optional()
+    ).map(lambda l: [('normal', '"####"'), '"#"', *l])
     yield
 
 @generate
 def pure_action_state():
     return seq(
-        ist('keep') >> whitespace >> (regex(r"\-?\d+").map(int).desc('state duration') | success(0)).skip(
-            whitespace.optional()
+        ist('keep') >> whitespace >> (regex(r"\-?\d+").map(int).desc('state duration').optional().map(lambda x: x or 0)).skip(
+            wo
         ),
         modifier.many().desc('modifier').skip(
-            whitespace.optional()
+            wo
         ).optional(),
         state_action.optional()
     )
@@ -321,13 +361,21 @@ def state_action():
 
 @generate
 def action_body():
-    return s('{') >> whitespace.optional() >> (state_action << s(';') << whitespace.optional()).many().optional() << s('}')
+    return s('{') >> wo >> (state_action << s(';') << wo).many().optional() << s('}')
+    yield
+
+@generate
+def replaceable_number():
+    return (
+        regex(r'\d+').map(int) |
+        regex('[a-zA-Z_][a-zA-Z_0-9]*')
+    )
     yield
 
 @generate
 def action_body_repeat():
     return seq(
-        ist('x') >> whitespace.optional() >> regex(r'\d+').map(int).desc('amount of times to repeat') << whitespace.optional(), state_action
+        ist('x') >> wo >> replaceable_number.desc('amount of times to repeat') << wo, state_action
     ).map(lambda x: [x[1] for _ in range(x[0])])
     yield
 
@@ -340,7 +388,7 @@ def flow_control():
 def macro_call():
     return seq(
         ist('inject').desc("'inject' statement").then(whitespace).then(regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('injected macro name')),
-        (s('(') >> expr_argument_list.desc("macro arguments") << s(')')) | success([])
+        (s('(') >> expr_argument_list.desc("macro arguments") << s(')')).optional().map(lambda x: x or [])
     )
     yield
 
@@ -359,9 +407,9 @@ def state_body():
     return (
         (state_no_colon | return_statement.tag('return')).map(lambda x: [x])
         | (
-            whitespace.optional() >> string("{") >> whitespace.optional() >> (
+            wo >> string("{") >> wo >> (
                 state | (return_statement << ';').tag('return')
-            ).sep_by(whitespace.optional()) << whitespace.optional() << string("}")
+            ).sep_by(wo) << wo << string("}")
         )
     )
     yield
@@ -371,9 +419,9 @@ def sometimes_statement():
     return seq(
         s('sometimes') >>\
                 whitespace >>\
-                number_lit.tag('chance') <<\
+                replaceable_number.tag('chance') <<\
                 s('%').optional() <<
-                whitespace.optional(),
+                wo,
         state_body.optional().map(lambda x: x if x != None else []).tag('body')
     )
     yield
@@ -382,23 +430,23 @@ def sometimes_statement():
 def if_statement():
     return seq(
         ist("if").desc('if statement')
-        .then(whitespace.optional())
+        .then(wo)
         .then(string("("))
-        .then(whitespace.optional())
+        .then(wo)
             .then(expression)
-        .skip(whitespace.optional())
+        .skip(wo)
         .skip(string(")"))
-        .skip(whitespace.optional()),
+        .skip(wo),
 
         state_body.optional().map(lambda x: x if x != None else [])
-        .skip(whitespace.optional()),
+        .skip(wo),
 
         s(';')
-        .then(whitespace.optional())
+        .then(wo)
         .then(s('else'))
-        .then(whitespace.optional())
+        .then(wo)
             .then(state_body.optional().map(lambda x: x if x != None else []))
-        .skip(whitespace.optional())
+        .skip(wo)
             .optional()
     )
     yield
@@ -407,13 +455,13 @@ def if_statement():
 def while_statement():
     return seq(
         ist("while").desc('while statement')
-            .then(whitespace.optional())
+            .then(wo)
             .then(string("("))
-            .then(whitespace.optional())
+            .then(wo)
             .then(expression)
-        .skip(whitespace.optional())
+        .skip(wo)
         .skip(string(")"))
-        .skip(whitespace.optional()),
+        .skip(wo),
         state_body.optional().map(lambda x: x if x != None else [])
     )
     yield
@@ -421,17 +469,20 @@ def while_statement():
 @generate
 def repeat_statement():
     return seq(
-        ist('x') >> whitespace.optional() >> regex(r"\d+").map(int).desc('amount of times to repeat'),
-        whitespace.optional() >> state_body
+        ist('x') >> wo >> replaceable_number.desc('amount of times to repeat'),
+        wo >> state_body
     )
     yield
 
 @generate
 def source_code():
-    return whitespace.optional().desc('ignored whitespace') >> (actor_class.tag('class') | static_template_derivation.tag('static template derivation') | templated_actor_class.tag('class template')).sep_by(whitespace.optional()) << whitespace.optional().desc('ignored whitespace')
+    return wo.desc('ignored whitespace') >> (actor_class.tag('class') | static_template_derivation.tag('static template derivation') | templated_actor_class.tag('class template')).sep_by(wo) << wo.desc('ignored whitespace')
     yield
 
-def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_dir='.'):
+def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_dir='.', begin_char=None):
+    if not begin_char:
+        begin_char = [0]
+
     if not isinstance(imports, list):
         imports = list(imports)
 
@@ -447,7 +498,6 @@ def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_
     cond_active = True
     depth = 0
     check_depth = 0
-    begin_char = 0
 
     # comments
     src_lines = code.split('\n')
@@ -551,12 +601,10 @@ def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_
                 imports.append((this_fname, fname))
 
                 with open(fname) as fp:
-                    lines = preprocess_code(fp.read() + "\n", imports, defs, defines, this_fname=fname, rel_dir=os.path.dirname(fname))
+                    lines = preprocess_code(fp.read() + "\n", imports, defs, defines, this_fname=fname, rel_dir=os.path.dirname(fname), begin_char=begin_char)
 
                     for l in lines:
                         pcodelines.append(l)
-
-                    begin_char += lines[-1][4]
 
             elif check_line.startswith('#DEF ') or check_line.startswith('#DEFINE '):
                 key = check_line_case.split(' ')[1]
@@ -588,8 +636,8 @@ def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_
                     defines.pop(key)
 
         if not check_line.startswith('#') and cond_active:
-            pcodelines.append((this_fname, i, src_l, l, begin_char))
-            begin_char += len(l) + 1
+            pcodelines.append((this_fname, i, src_l, l, begin_char[0]))
+            begin_char[0] += len(l) + 1
 
     return pcodelines
 

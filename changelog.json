@@ -112,6 +112,18 @@
                 "Fixed escape characters in string literals",
                 "Added 'ZDCode_' prefix to internal DECORATE labels (functions, calls, etc.)"
             ]
+        },
+
+        {
+            "name": "2.6.1",
+            "changes": [
+                "Added keeps keyword for keeping previous state",
+                "Added abstract labels and macros in class templates",
+                "Added template derivation bodies, to implement abstract labels and set extra flags",
+                "Added parametric sprites, properties and actions",
+                "Fixed parametric replacement support for repeats and sometimes",
+                "Fixed context inheritance (macros, replacements and templates)"
+            ]
         }
     ]
 }

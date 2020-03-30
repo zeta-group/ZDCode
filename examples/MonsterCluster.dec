@@ -1,93 +1,5 @@
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_0 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_1 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_2 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_3 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_4 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_5 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_6 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_7 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_8 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_9 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_10 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_11 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_12 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_13 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_14 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_15 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_16 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_17 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_18 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_19 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_20 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_21 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_22 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_23 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_24 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_25 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_26 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_27 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_28 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_29 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_30 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_31 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_32 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_33 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_34 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_35 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_36 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_37 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_38 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_39 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_40 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_41 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_42 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_43 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_44 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_45 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_46 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_47 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_48 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_49 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_50 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_51 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_52 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_53 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_54 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_55 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_56 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_57 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_58 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_59 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_60 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_61 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_62 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_63 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_64 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_65 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_66 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_67 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_68 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_69 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_70 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_71 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_72 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_73 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_74 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_75 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_76 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_77 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_78 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_79 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_80 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_81 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_82 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_83 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_84 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_85 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_86 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_87 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_88 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_89 : Inventory {Inventory.MaxAmount 1}
+Actor ZDCode_Call_o5mXtKzhTjmXDaUCUmbtm5KM3Na6HwRW4oY_0 : Inventory {Inventory.MaxAmount 1}
+Actor ZDCode_Call_o5mXtKzhTjmXDaUCUmbtm5KM3Na6HwRW4oY_1 : Inventory {Inventory.MaxAmount 1}
 
 
 Actor MonSpawnO : RandomSpawner
@@ -112,11 +24,10 @@ Actor MonSpawnR : RandomSpawner
 
 Actor MonSpawnY : RandomSpawner
 {
-    DropItem "ZombieMan", 255, 1
+    DropItem "ZombieMan", 255, 2
     DropItem "DoomImp", 255, 1
     DropItem "ShotgunGuy", 255, 1
     DropItem "Demon", 255, 1
-    DropItem "RunZombie", 255, 1
 }
 
 
@@ -124,207 +35,94 @@ Actor MultiSpawner
 {
     Gravity 0
     
-    +NOBLOCKMAP
-    +NOSECTOR
     +NOGRAVITY
+    +NOBLOCKMAP
     +THRUACTORS
+    +NOSECTOR
 }
 
 
-Actor RunZombie : ZombieMan replaces ZombieMan 2055
-{
-    Gravity 0.4
-    Speed 0
-    Speed 0
-    
-    +NOBLOCKMONST
-    States {
-        ZDCode_Func_ZombieJump:
-            TNT1 A 0 A_JumpIf(!(health > 5), 2)
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_0", 1, "_CLabel0")
-            Stop
-            TNT1 A 0
-        _WhileBlock0:
-            TNT1 A 0 A_JumpIf(!(z == floorz), 3)
-            POSS A 5  Bright
-            POSS A 11 ThrustThingZ(0, 30, 0, 1)
-            Goto _WhileBlock0
-            TNT1 A 0
-        _WhileBlock1:
-            TNT1 A 0 A_JumpIf(!(z > floorz), 3)
-            POSS A 4
-            POSS B 4
-            Goto _WhileBlock1
-            TNT1 A 0
-            POSS G 9
-            POSS B 22
-            POSS A 2 A_Chase
-            POSS B 2 A_Chase
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_0", 1, "_CLabel0")
-            TNT1 A -1
-        
-        See:
-            TNT1 A 0 A_Chase
-            POSS A 0 A_FaceTarget
-            POSS A 5 A_Recoil(-0.7)
-            POSS B 5 A_Recoil(-0.7)
-            TNT1 A 0 A_Chase
-            POSS A 0 A_FaceTarget
-            POSS A 4 A_Recoil(-0.7)
-            POSS B 4 A_Recoil(-0.7)
-            TNT1 A 0 A_Chase
-            POSS A 0 A_FaceTarget
-            POSS A 3 A_Recoil(-0.7)
-            POSS B 3 A_Recoil(-0.7)
-            POSS C 3 A_Recoil(-0.7)
-            POSS D 3 A_Recoil(-0.7)
-            TNT1 A 0 A_Chase
-            POSS A 0 A_FaceTarget
-            goto RunLoop
-        
-        RunLoop:
-            POSS A 2 A_Recoil(-0.7)
-            POSS B 2 A_Recoil(-0.7)
-            POSS C 2 A_Recoil(-0.7)
-            POSS D 2 A_Recoil(-0.7)
-            TNT1 A 0 A_Chase
-            POSS A 0 A_FaceTarget
-            POSS A 2 A_Recoil(-0.7)
-            POSS B 2 A_Recoil(-0.7)
-            POSS C 2 A_Recoil(-0.7)
-            POSS D 2 A_Recoil(-0.7)
-            TNT1 A 0 A_Chase
-            POSS A 0 A_FaceTarget
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_0")
-            Goto F_ZombieJump
-        _CLabel0:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_0")
-            loop
-    }
-}
-
-
-Actor SkullParticle
+Actor SkullParticleO
 {
     Alpha 0.5
     Gravity 0.04
     RenderStyle Add
-    Scale 0.8
+    Scale 0.7
     
     +THRUACTORS
-}
-
-
-Actor SkullParticleO : SkullParticle
-{
-
     States {
         Spawn:
-            SKPT O 12  Bright
+            SKPO A 12  Bright
             stop
     }
 }
 
 
-Actor SkullParticleR : SkullParticle
+Actor SkullParticleR
 {
+    Alpha 0.5
+    Gravity 0.04
+    RenderStyle Add
     Scale 1.0
+    
+    +THRUACTORS
     States {
         Spawn:
-            SKPT R 12  Bright
+            SKPR A 12  Bright
             stop
     }
 }
 
 
-Actor SkullParticleY : SkullParticle
+Actor SkullParticleY
 {
+    Alpha 0.5
+    Gravity 0.04
+    RenderStyle Add
     Scale 0.5
+    
+    +THRUACTORS
     States {
         Spawn:
-            SKPT Y 12  Bright
+            SKPY A 12  Bright
             stop
     }
 }
 
 
-Actor SkullSpawner
+Actor SkullSpawnerO
 {
     Alpha 0.7
     Damage 0
     Height 2
-    Radius 2
+    Radius 45
     RenderStyle Translucent
     Scale 0.3
     Speed 9
     
     +THRUACTORS
     Projectile
-}
-
-
-Actor SkullSpawnerO : SkullSpawner
-{
-    Radius 45
     States {
-        ZDCode_Func_MakeParticle:
+        Spawn:
+            SKLO A 2  Bright
             TNT1 A 0 A_Jump(204, 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_31", 1, "_CLabel31")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_32", 1, "_CLabel32")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_33", 1, "_CLabel33")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_54", 1, "_CLabel54")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_45", 1, "_CLabel45")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_57", 1, "_CLabel57")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_52", 1, "_CLabel52")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_59", 1, "_CLabel59")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_51", 1, "_CLabel51")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_49", 1, "_CLabel49")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_58", 1, "_CLabel58")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_47", 1, "_CLabel47")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_43", 1, "_CLabel43")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_53", 1, "_CLabel53")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_46", 1, "_CLabel46")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_44", 1, "_CLabel44")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_50", 1, "_CLabel50")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_48", 1, "_CLabel48")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_42", 1, "_CLabel42")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_41", 1, "_CLabel41")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_56", 1, "_CLabel56")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_40", 1, "_CLabel40")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_55", 1, "_CLabel55")
-            TNT1 A -1
-        
-            ZDCode_Func_Duplicate:
-            TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
-            TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
-            TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_34", 1, "_CLabel34")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_36", 1, "_CLabel36")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_35", 1, "_CLabel35")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_37", 1, "_CLabel37")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_39", 1, "_CLabel39")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_38", 1, "_CLabel38")
-            TNT1 A -1
-        
-        Spawn:
-            SKUL O 4  Bright
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_31")
-            Goto F_MakeParticle
-        _CLabel31:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_31")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_32")
-            Goto F_MakeParticle
-        _CLabel32:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_32")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_33")
-            Goto F_MakeParticle
-        _CLabel33:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_33")
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
             loop
         
         Death:
@@ -336,192 +134,213 @@ Actor SkullSpawnerO : SkullSpawner
             TNT1 A 0 A_Log("ORANGE ALERT: New medium-level threat detected!")
             TNT1 A 0 A_SpawnItemEx("MonSpawnO", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(229, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_34")
-                Goto F_Duplicate
-            _CLabel34:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_34")
+            TNT1 A 0 A_Jump(229, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerO, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerO, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(229, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_35")
-                Goto F_Duplicate
-            _CLabel35:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_35")
+            TNT1 A 0 A_Jump(229, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerO, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerO, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(229, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_36")
-                Goto F_Duplicate
-            _CLabel36:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_36")
+            TNT1 A 0 A_Jump(229, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerO, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerO, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(229, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_37")
-                Goto F_Duplicate
-            _CLabel37:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_37")
+            TNT1 A 0 A_Jump(229, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerO, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerO, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(229, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_38")
-                Goto F_Duplicate
-            _CLabel38:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_38")
+            TNT1 A 0 A_Jump(229, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerO, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerO, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(229, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_39")
-                Goto F_Duplicate
-            _CLabel39:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_39")
+            TNT1 A 0 A_Jump(229, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerO, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerO, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_40")
-            Goto F_MakeParticle
-        _CLabel40:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_40")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_41")
-            Goto F_MakeParticle
-        _CLabel41:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_41")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_42")
-            Goto F_MakeParticle
-        _CLabel42:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_42")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_43")
-            Goto F_MakeParticle
-        _CLabel43:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_43")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_44")
-            Goto F_MakeParticle
-        _CLabel44:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_44")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_45")
-            Goto F_MakeParticle
-        _CLabel45:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_45")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_46")
-            Goto F_MakeParticle
-        _CLabel46:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_46")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_47")
-            Goto F_MakeParticle
-        _CLabel47:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_47")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_48")
-            Goto F_MakeParticle
-        _CLabel48:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_48")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_49")
-            Goto F_MakeParticle
-        _CLabel49:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_49")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_50")
-            Goto F_MakeParticle
-        _CLabel50:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_50")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_51")
-            Goto F_MakeParticle
-        _CLabel51:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_51")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_52")
-            Goto F_MakeParticle
-        _CLabel52:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_52")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_53")
-            Goto F_MakeParticle
-        _CLabel53:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_53")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_54")
-            Goto F_MakeParticle
-        _CLabel54:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_54")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_55")
-            Goto F_MakeParticle
-        _CLabel55:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_55")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_56")
-            Goto F_MakeParticle
-        _CLabel56:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_56")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_57")
-            Goto F_MakeParticle
-        _CLabel57:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_57")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_58")
-            Goto F_MakeParticle
-        _CLabel58:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_58")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_59")
-            Goto F_MakeParticle
-        _CLabel59:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_59")
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
             TNT1 A 1
             stop
     }
 }
 
 
-Actor SkullSpawnerR : SkullSpawner
+Actor SkullSpawnerR
 {
-    Radius 60
+    Alpha 0.7
+    Damage 0
+    Height 2
+    Radius 30
+    RenderStyle Translucent
+    Scale 0.3
+    Speed 9
+    
+    +THRUACTORS
+    Projectile
     States {
-        ZDCode_Func_MakeParticle:
-            TNT1 A 0 A_Jump(204, 2)
-            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
-            TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
-            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
-            TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_26", 1, "_CLabel26")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_30", 1, "_CLabel30")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_21", 1, "_CLabel21")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_22", 1, "_CLabel22")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_24", 1, "_CLabel24")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_29", 1, "_CLabel29")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_25", 1, "_CLabel25")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_19", 1, "_CLabel19")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_28", 1, "_CLabel28")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_27", 1, "_CLabel27")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_20", 1, "_CLabel20")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_23", 1, "_CLabel23")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_5", 1, "_CLabel5")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_11", 1, "_CLabel11")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_3", 1, "_CLabel3")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_13", 1, "_CLabel13")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_17", 1, "_CLabel17")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_18", 1, "_CLabel18")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_12", 1, "_CLabel12")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_4", 1, "_CLabel4")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_16", 1, "_CLabel16")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_15", 1, "_CLabel15")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_14", 1, "_CLabel14")
-            TNT1 A -1
-        
-            ZDCode_Func_Duplicate:
-            TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
-            TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
-            TNT1 A 0
-            TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
-            TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
-            TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_8", 1, "_CLabel8")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_9", 1, "_CLabel9")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_10", 1, "_CLabel10")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_7", 1, "_CLabel7")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_6", 1, "_CLabel6")
-            TNT1 A -1
-        
         Spawn:
-            SKUL R 2  Bright
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_3")
-            Goto F_MakeParticle
-        _CLabel3:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_3")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_4")
-            Goto F_MakeParticle
-        _CLabel4:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_4")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_5")
-            Goto F_MakeParticle
-        _CLabel5:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_5")
+            SKLR A 2  Bright
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
             loop
         
         Death:
@@ -529,322 +348,376 @@ Actor SkullSpawnerR : SkullSpawner
             TNT1 A 0 A_Log("RED ALERT: New high-level threat detected!")
             TNT1 A 0 A_SpawnItemEx("MonSpawnR", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(234, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_6")
-                Goto F_Duplicate
-            _CLabel6:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_6")
+            TNT1 A 0 A_Jump(234, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerR, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerR, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(234, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_7")
-                Goto F_Duplicate
-            _CLabel7:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_7")
+            TNT1 A 0 A_Jump(234, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerR, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerR, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(234, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_8")
-                Goto F_Duplicate
-            _CLabel8:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_8")
+            TNT1 A 0 A_Jump(234, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerR, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerR, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(234, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_9")
-                Goto F_Duplicate
-            _CLabel9:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_9")
+            TNT1 A 0 A_Jump(234, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerR, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerR, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(234, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_10")
-                Goto F_Duplicate
-            _CLabel10:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_10")
+            TNT1 A 0 A_Jump(234, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerR, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerR, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_11")
-            Goto F_MakeParticle
-        _CLabel11:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_11")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_12")
-            Goto F_MakeParticle
-        _CLabel12:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_12")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_13")
-            Goto F_MakeParticle
-        _CLabel13:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_13")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_14")
-            Goto F_MakeParticle
-        _CLabel14:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_14")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_15")
-            Goto F_MakeParticle
-        _CLabel15:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_15")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_16")
-            Goto F_MakeParticle
-        _CLabel16:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_16")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_17")
-            Goto F_MakeParticle
-        _CLabel17:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_17")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_18")
-            Goto F_MakeParticle
-        _CLabel18:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_18")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_19")
-            Goto F_MakeParticle
-        _CLabel19:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_19")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_20")
-            Goto F_MakeParticle
-        _CLabel20:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_20")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_21")
-            Goto F_MakeParticle
-        _CLabel21:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_21")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_22")
-            Goto F_MakeParticle
-        _CLabel22:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_22")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_23")
-            Goto F_MakeParticle
-        _CLabel23:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_23")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_24")
-            Goto F_MakeParticle
-        _CLabel24:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_24")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_25")
-            Goto F_MakeParticle
-        _CLabel25:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_25")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_26")
-            Goto F_MakeParticle
-        _CLabel26:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_26")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_27")
-            Goto F_MakeParticle
-        _CLabel27:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_27")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_28")
-            Goto F_MakeParticle
-        _CLabel28:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_28")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_29")
-            Goto F_MakeParticle
-        _CLabel29:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_29")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_30")
-            Goto F_MakeParticle
-        _CLabel30:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_30")
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
             TNT1 A 1
             stop
     }
 }
 
 
-Actor SkullSpawnerY : SkullSpawner
+Actor SkullSpawnerY
 {
-    Radius 25
+    Alpha 0.7
+    Damage 0
+    Height 2
+    Radius 60
+    RenderStyle Translucent
+    Scale 0.3
+    Speed 9
+    
+    +THRUACTORS
+    Projectile
     States {
-        ZDCode_Func_MakeParticle:
+        Spawn:
+            SKLY A 2  Bright
             TNT1 A 0 A_Jump(204, 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_79", 1, "_CLabel79")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_76", 1, "_CLabel76")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_75", 1, "_CLabel75")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_72", 1, "_CLabel72")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_77", 1, "_CLabel77")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_86", 1, "_CLabel86")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_80", 1, "_CLabel80")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_81", 1, "_CLabel81")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_71", 1, "_CLabel71")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_73", 1, "_CLabel73")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_78", 1, "_CLabel78")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_82", 1, "_CLabel82")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_70", 1, "_CLabel70")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_74", 1, "_CLabel74")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_89", 1, "_CLabel89")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_83", 1, "_CLabel83")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_61", 1, "_CLabel61")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_85", 1, "_CLabel85")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_87", 1, "_CLabel87")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_60", 1, "_CLabel60")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_84", 1, "_CLabel84")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_62", 1, "_CLabel62")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_88", 1, "_CLabel88")
-            TNT1 A -1
-        
-            ZDCode_Func_Duplicate:
-            TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
-            TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
-            TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_69", 1, "_CLabel69")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_64", 1, "_CLabel64")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_67", 1, "_CLabel67")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_63", 1, "_CLabel63")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_65", 1, "_CLabel65")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_66", 1, "_CLabel66")
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_68", 1, "_CLabel68")
-            TNT1 A -1
-        
-        Spawn:
-            SKUL Y 4  Bright
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_60")
-            Goto F_MakeParticle
-        _CLabel60:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_60")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_61")
-            Goto F_MakeParticle
-        _CLabel61:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_61")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_62")
-            Goto F_MakeParticle
-        _CLabel62:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_62")
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
             loop
         
         Death:
-            TNT1 A 0 A_Jump(76, 3)
+            TNT1 A 0 A_Jump(63, 3)
             TNT1 A 0 A_Log("YELLOW ALERT: New low-level threat detected!")
-            TNT1 A 0 A_SpawnItemEx("MonSpawnY", FRandom(-70, 70), FRandom(-70, 70), floorz - z)
+            TNT1 A 0 A_SpawnItemEx("MonSpawnY", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(76, 3)
+            TNT1 A 0 A_Jump(63, 3)
             TNT1 A 0 A_Log("YELLOW ALERT: New low-level threat detected!")
-            TNT1 A 0 A_SpawnItemEx("MonSpawnY", FRandom(-70, 70), FRandom(-70, 70), floorz - z)
+            TNT1 A 0 A_SpawnItemEx("MonSpawnY", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(76, 3)
+            TNT1 A 0 A_Jump(63, 3)
             TNT1 A 0 A_Log("YELLOW ALERT: New low-level threat detected!")
-            TNT1 A 0 A_SpawnItemEx("MonSpawnY", FRandom(-70, 70), FRandom(-70, 70), floorz - z)
+            TNT1 A 0 A_SpawnItemEx("MonSpawnY", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_63")
-                Goto F_Duplicate
-            _CLabel63:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_63")
+            TNT1 A 0 A_Jump(63, 3)
+            TNT1 A 0 A_Log("YELLOW ALERT: New low-level threat detected!")
+            TNT1 A 0 A_SpawnItemEx("MonSpawnY", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_64")
-                Goto F_Duplicate
-            _CLabel64:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_64")
+            TNT1 A 0 A_Jump(224, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_65")
-                Goto F_Duplicate
-            _CLabel65:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_65")
+            TNT1 A 0 A_Jump(224, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_66")
-                Goto F_Duplicate
-            _CLabel66:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_66")
+            TNT1 A 0 A_Jump(224, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_67")
-                Goto F_Duplicate
-            _CLabel67:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_67")
+            TNT1 A 0 A_Jump(224, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_68")
-                Goto F_Duplicate
-            _CLabel68:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_68")
+            TNT1 A 0 A_Jump(224, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 3)
-                TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_69")
-                Goto F_Duplicate
-            _CLabel69:
-                TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_69")
+            TNT1 A 0 A_Jump(224, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_70")
-            Goto F_MakeParticle
-        _CLabel70:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_70")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_71")
-            Goto F_MakeParticle
-        _CLabel71:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_71")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_72")
-            Goto F_MakeParticle
-        _CLabel72:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_72")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_73")
-            Goto F_MakeParticle
-        _CLabel73:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_73")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_74")
-            Goto F_MakeParticle
-        _CLabel74:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_74")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_75")
-            Goto F_MakeParticle
-        _CLabel75:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_75")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_76")
-            Goto F_MakeParticle
-        _CLabel76:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_76")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_77")
-            Goto F_MakeParticle
-        _CLabel77:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_77")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_78")
-            Goto F_MakeParticle
-        _CLabel78:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_78")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_79")
-            Goto F_MakeParticle
-        _CLabel79:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_79")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_80")
-            Goto F_MakeParticle
-        _CLabel80:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_80")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_81")
-            Goto F_MakeParticle
-        _CLabel81:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_81")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_82")
-            Goto F_MakeParticle
-        _CLabel82:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_82")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_83")
-            Goto F_MakeParticle
-        _CLabel83:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_83")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_84")
-            Goto F_MakeParticle
-        _CLabel84:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_84")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_85")
-            Goto F_MakeParticle
-        _CLabel85:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_85")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_86")
-            Goto F_MakeParticle
-        _CLabel86:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_86")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_87")
-            Goto F_MakeParticle
-        _CLabel87:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_87")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_88")
-            Goto F_MakeParticle
-        _CLabel88:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_88")
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_89")
-            Goto F_MakeParticle
-        _CLabel89:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_89")
+            TNT1 A 0 A_Jump(224, 7)
+                TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
+                TNT1 A 0
+                TNT1 A 0 A_JumpIf(z - floorz < 40, 2)
+                TNT1 A 0 A_CustomMissile(SkullSpawnerY, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
+                TNT1 A 0
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
+            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
+            TNT1 A 0
             TNT1 A 1
             stop
     }
@@ -859,15 +732,15 @@ Actor XShotGuySpawner : MultiSpawner
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_2", 1, "_CLabel2")
+            TNT1 A 0 A_JumpIfInventory("_Call_o5mXtKzhTjmXDaUCUmbtm5KM3Na6HwRW4oY_1", 1, "_CLabel1")
             TNT1 A -1
         
         Spawn:
             TNT1 A 1
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_2")
+            TNT1 A 0 A_GiveInventory("_Call_o5mXtKzhTjmXDaUCUmbtm5KM3Na6HwRW4oY_1")
             Goto F_MakeSpawn
-        _CLabel2:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_2")
+        _CLabel1:
+            TNT1 A 0 A_TakeInventory("_Call_o5mXtKzhTjmXDaUCUmbtm5KM3Na6HwRW4oY_1")
             stop
     }
 }
@@ -890,15 +763,15 @@ Actor XZombieSpawner : MultiSpawner
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
-            TNT1 A 0 A_JumpIfInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_1", 1, "_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("_Call_o5mXtKzhTjmXDaUCUmbtm5KM3Na6HwRW4oY_0", 1, "_CLabel0")
             TNT1 A -1
         
         Spawn:
             TNT1 A 1
-            TNT1 A 0 A_GiveInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_1")
+            TNT1 A 0 A_GiveInventory("_Call_o5mXtKzhTjmXDaUCUmbtm5KM3Na6HwRW4oY_0")
             Goto F_MakeSpawn
-        _CLabel1:
-            TNT1 A 0 A_TakeInventory("_Call_Sv9yqnHgU6i8eHwyxwfShveCyjZBQI8BbKY_1")
+        _CLabel0:
+            TNT1 A 0 A_TakeInventory("_Call_o5mXtKzhTjmXDaUCUmbtm5KM3Na6HwRW4oY_0")
             stop
     }
 }

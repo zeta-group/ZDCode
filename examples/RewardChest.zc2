@@ -70,36 +70,23 @@ class Reward_Random extends RandomSpawner {
     set DropItem to "Reward_Megasphere", 50, 1;
 }
 
-class Reward_HealthBonuses {
+class<Message, RewardType, Count, UnitChance> Reward_Simple {
     label Spawn {
-        TNT1 A 1 A_Print("Health bonuses!");
-        x 80 {
-            TNT1 A 0 A_SpawnItemEx("HealthBonus", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
+        TNT1 A 1 A_Print(Message);
+        x Count {
+            sometimes UnitChance TNT1 A 0 A_SpawnItemEx(RewardType, 0, 0, 0, FRandom(-20, 20), FRandom(-20, 20), FRandom(2, 5));
         };
         Stop;
     };
 }
 
-class Reward_SomeArmorBonuses {
-    label Spawn {
-        TNT1 A 1 A_Print("Some armor bonuses!");
-        x 50 {
-            TNT1 A 0 A_SpawnItemEx("ArmorBonus", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
-        };
-        Stop;
-    };
-}
+// Common rewards
+derive Reward_Simple::("Health bonuses!", "HealthBonus", 70, 100) as Reward_HealthBonuses;
+derive Reward_Simple::("Some armor bonuses!", "ArmorBonus", 50, 100) as Reward_SomeArmorBonuses;
+derive Reward_Simple::("Many armor bonuses!", "ArmorBonus", 90, 100) as Reward_ArmorBonuses;
+derive Reward_Simple::("Stimpacks!", "Stimpack", 20, 80) as Reward_Stimpacks;
 
-class Reward_ArmorBonuses {
-    label Spawn {
-        TNT1 A 1 A_Print("Many armor bonuses!");
-        x 100 {
-            TNT1 A 0 A_SpawnItemEx("ArmorBonus", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
-        };
-        Stop;
-    };
-}
-
+// Common rewards that don't follow the usual simple reward formula
 class Reward_SomeAmmo {
     label Spawn {
         TNT1 A 1 A_Print("Some ammunition!");
@@ -113,82 +100,13 @@ class Reward_SomeAmmo {
     };
 }
 
-class Reward_Stimpacks {
-    label Spawn {
-        TNT1 A 1 A_Print("Stimpacks!");
-        x 20 sometimes 80 TNT1 A 0 A_SpawnItemEx("Stimpack", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
-        Stop;
-    };
-}
-
-class Reward_RadSuit {
-    label Spawn {
-        TNT1 A 1 A_Print("A radiation suit!");
-        TNT1 A 0 A_SpawnItemEx("RadSuit", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
-        Stop;
-    };
-}
-
-class Reward_BlurSphere {
-    label Spawn {
-        TNT1 A 1 A_Print("A partial invisibility!");
-        TNT1 A 0 A_SpawnItemEx("BlurSphere", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
-        Stop;
-    };
-}
-
-class Reward_Berserk {
-    label Spawn {
-        TNT1 A 1 A_Print("A berserk pack!");
-        TNT1 A 0 A_SpawnItemEx("Berserk", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
-        Stop;
-    };
-}
-
-class Reward_GreenArmor {
-    label Spawn {
-        TNT1 A 1 A_Print("Light armour!");
-        TNT1 A 0 A_SpawnItemEx("GreenArmor", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
-        Stop;
-    };
-}
-
-class Reward_Invulnerability {
-    label Spawn {
-        TNT1 A 1 A_Print("Invulnerability!");
-        TNT1 A 0 A_SpawnItemEx("Invulnerability", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
-        Stop;
-    };
-}
-
-class Reward_BlueArmor {
-    label Spawn {
-        TNT1 A 1 A_Print("Heavy armour!");
-        TNT1 A 0 A_SpawnItemEx("BlueArmor", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
-        Stop;
-    };
-}
-
-class Reward_Soulsphere {
-    label Spawn {
-        TNT1 A 1 A_Print("Soulsphere!");
-        TNT1 A 0 A_SpawnItemEx("Soulsphere", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
-        Stop;
-    };
-}
-
-class Reward_ComputerMap {
-    label Spawn {
-        TNT1 A 1 A_Print("Computer map!");
-        TNT1 A 0 A_SpawnItemEx("ComputerMap", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
-        Stop;
-    };
-}
-
-class Reward_Megasphere {
-    label Spawn {
-        TNT1 A 1 A_Print("Megasphere!!");
-        TNT1 A 0 A_SpawnItemEx("Megasphere", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
-        Stop;
-    };
-}
+// Rare rewards
+derive Reward_Simple::("A radiation suit!", "Radsuit", 1, 100) as Reward_RadSuit;
+derive Reward_Simple::("Partial invisibility!", "BlurSphere", 1, 100) as Reward_BlurSphere;
+derive Reward_Simple::("A berserk pack!", "Berserk", 1, 100) as Reward_Berserk;
+derive Reward_Simple::("Light armor!", "GreenArmor", 1, 100) as Reward_GreenArmor;
+derive Reward_Simple::("Invulnerability!", "Invulnerability", 1, 100) as Reward_Invulnerability;
+derive Reward_Simple::("Heavy armor!", "BlueArmor", 1, 100) as Reward_BlueArmor;
+derive Reward_Simple::("A computer map!", "ComputerMap", 1, 100) as Reward_ComputerMap;
+derive Reward_Simple::("Soulsphere!", "Soulsphere", 1, 100) as Reward_Soulsphere;
+derive Reward_Simple::("Megasphere!", "Megasphere", 1, 100) as Reward_Megasphere;

@@ -1,0 +1,35 @@
+class<Fatness, WalkDelay> ZombieGuy extends ZombieMan replaces ZombieMan {
+    set Radius to Fatness;
+    set XScale to Fatness;
+
+    label See {
+        x WalkDelay POSS A 1 A_Chase;
+        inject FatWalk;
+        x WalkDelay POSS B 1 A_Chase;
+        inject FatWalk;
+        x WalkDelay POSS C 1 A_Chase;
+        inject FatWalk;
+        x WalkDelay POSS D 1 A_Chase;
+        inject FatWalk;
+
+        Loop;
+    };
+
+    abstract macro FatWalk;
+}
+
+derive ZombieGuy::(80, 7) {
+    macro FatWalk {};
+} as FatZombie;
+
+derive ZombieGuy::(20, 2) {
+    macro FatWalk {
+        if (z == floorz) sometimes 70 TNT1 A 0 ThrustThingZ(0, 12, 0, 1);
+    };
+} as ThinZombie;
+
+derive ZombieGuy::(150, 12) {
+    macro FatWalk {
+        sometimes 45 keeps 8 A_Quake(4, 60, 0, 300);
+    };
+} as MuricanZombie;
