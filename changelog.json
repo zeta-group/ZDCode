@@ -124,6 +124,13 @@
                 "Fixed parametric replacement support for repeats and sometimes",
                 "Fixed context inheritance (macros, replacements and templates)"
             ]
+        },
+
+        {
+            "name": "2.6.1.1",
+            "changes": [
+                "Hotfix to call label names"
+            ]
         }
     ]
 }
