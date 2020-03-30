@@ -3,20 +3,20 @@ Actor RewardChest
     Scale 0.5
     
     +AMBUSH
-    +QUICKTORETALIATE
     +LOOKALLAROUND
+    +QUICKTORETALIATE
     States {
         Spawn:
             ELEC A 1
-            goto Look
+            goto look
         
         Look:
             ELEC A 1 A_LookEx(LOF_NOSOUNDCHECK)
-            loop
+            goto Look
         
         See:
             ELEC A 1 A_JumpIfCloser(80, "Reward")
-            goto Spawn
+            goto spawn
         
         Reward:
             ELEC A 10  Bright

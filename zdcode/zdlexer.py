@@ -381,7 +381,7 @@ def action_body_repeat():
 
 @generate
 def flow_control():
-    return (string('stop', transform=lambda s: s.upper()) | string('fail', transform=lambda s: s.upper()) | string('loop', transform=lambda s: s.upper()) | string('goto', transform=lambda s: s.upper()) + whitespace.map(lambda _: ' ') + regex(r'[a-zA-Z0-9\.]+\s?(?:\+\d+)?') | string('wait', transform=lambda s: s.upper()))
+    return (ist('stop') | ist('wait') | ist('fail') | ist('loop') | ist('goto') + whitespace.map(lambda _: ' ') + regex(r'[a-zA-Z0-9\.]+\s?(?:\+\d+)?'))
     yield
 
 @generate

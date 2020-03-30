@@ -673,11 +673,11 @@ class ZDCode(object):
             ZDCall(self, label, s[1])
 
         elif s[0] == 'flow':
-            if s[1].upper() == 'LOOP' and func != None:
-                label.states.append(ZDRawDecorate('Goto {}'.format(func.label_name())))
+            if s[1].upper().rstrip(';') == 'LOOP':
+                label.states.append(ZDRawDecorate('goto {}'.format(label.name)))
 
             else:
-                label.states.append(ZDRawDecorate(s[1].rstrip(';')))
+                label.states.append(ZDRawDecorate(s[1].lower().rstrip(';')))
 
         elif s[0] == 'repeat':
             cval = s[1][0]

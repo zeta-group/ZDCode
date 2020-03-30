@@ -10,7 +10,7 @@ Actor ArmorFountain
             TNT1 A 20
             TNT1 A 0
             TNT1 A 20 A_SpawnItemEx("ArmorBonus", 0, 0, 0, FRandom(-5, 5), FRandom(-5, 5), 8)
-            loop
+            goto Spawn
     }
 }
 
@@ -34,7 +34,7 @@ Actor HealthFountain
             TNT1 A 20
             TNT1 A 0
             TNT1 A 20 A_SpawnItemEx("HealthBonus", 0, 0, 0, FRandom(-5, 5), FRandom(-5, 5), 8)
-            loop
+            goto Spawn
     }
 }
 
