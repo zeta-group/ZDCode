@@ -146,6 +146,13 @@
                 "Miscellaneous fixes to derivation",
                 "Fixed potentially freezing loop checks after function calls"
             ]
+        },
+
+        {
+            "name": "2.6.2.1",
+            "changes": [
+                "Fixed anonymous template derivation parameter resolution"
+            ]
         }
     ]
 }
