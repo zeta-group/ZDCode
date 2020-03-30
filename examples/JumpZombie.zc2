@@ -33,13 +33,11 @@ class RunZombie inherits ZombieMan #2055
             return;
 
         POSS A 5 [Bright];
-        POSS A 11 ThrustThingZ(0, 30, 0, 1);
+
+        while (z == floorz) POSS A 8 ThrustThingZ(0, 40, 0, 1);
 
         #ifndef ANNOYING
-        while ( z > floorz )
-        {
-            POSS AB 3;
-        };
+        while ( z > floorz ) POSS AB 3;
 
         POSS G 9;
         POSS B 22;
