@@ -14,3 +14,14 @@ class BackupSpot extends RandomSpawner {
     set DropItem to "HealthFountain";
     set DropItem to "ArmorFountain";
 }
+
+class MegaBackupSpot {
+    label Spawn {
+        TNT1 A 0;
+        x 9 {
+            x 7 sometimes 75 TNT1 A 4;
+            TNT1 A 0 A_SpawnItemEx("BackupSpot");
+        };
+        Stop;
+    };
+}

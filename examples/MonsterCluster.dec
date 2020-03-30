@@ -1,5 +1,5 @@
-Actor ZDCode_Call_VODKa66dzkJIH822etlh4TYHz5NZE7Y96BT_0 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_VODKa66dzkJIH822etlh4TYHz5NZE7Y96BT_1 : Inventory {Inventory.MaxAmount 1}
+Actor ZDCode_Call_4K9RoVxofJKPaG4CDz67eYPQwhtOytAreTF_0 : Inventory {Inventory.MaxAmount 1}
+Actor ZDCode_Call_4K9RoVxofJKPaG4CDz67eYPQwhtOytAreTF_1 : Inventory {Inventory.MaxAmount 1}
 
 
 Actor MonSpawnO : RandomSpawner
@@ -732,15 +732,15 @@ Actor XShotGuySpawner : MultiSpawner
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
-            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_VODKa66dzkJIH822etlh4TYHz5NZE7Y96BT_1", 1, "ZDCode_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_4K9RoVxofJKPaG4CDz67eYPQwhtOytAreTF_1", 1, "ZDCode_CLabel1")
             TNT1 A -1
         
         Spawn:
             TNT1 A 1
-            TNT1 A 0 A_GiveInventory("ZDCode_Call_VODKa66dzkJIH822etlh4TYHz5NZE7Y96BT_1")
-            Goto F_MakeSpawn
+            TNT1 A 0 A_GiveInventory("ZDCode_Call_4K9RoVxofJKPaG4CDz67eYPQwhtOytAreTF_1")
+            Goto ZDCode_Func_MakeSpawn
         ZDCode_CLabel1:
-            TNT1 A 0 A_TakeInventory("ZDCode_Call_VODKa66dzkJIH822etlh4TYHz5NZE7Y96BT_1")
+            TNT1 A 0 A_TakeInventory("ZDCode_Call_4K9RoVxofJKPaG4CDz67eYPQwhtOytAreTF_1")
             stop
     }
 }
@@ -763,15 +763,15 @@ Actor XZombieSpawner : MultiSpawner
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
-            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_VODKa66dzkJIH822etlh4TYHz5NZE7Y96BT_0", 1, "ZDCode_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_4K9RoVxofJKPaG4CDz67eYPQwhtOytAreTF_0", 1, "ZDCode_CLabel0")
             TNT1 A -1
         
         Spawn:
             TNT1 A 1
-            TNT1 A 0 A_GiveInventory("ZDCode_Call_VODKa66dzkJIH822etlh4TYHz5NZE7Y96BT_0")
-            Goto F_MakeSpawn
+            TNT1 A 0 A_GiveInventory("ZDCode_Call_4K9RoVxofJKPaG4CDz67eYPQwhtOytAreTF_0")
+            Goto ZDCode_Func_MakeSpawn
         ZDCode_CLabel0:
-            TNT1 A 0 A_TakeInventory("ZDCode_Call_VODKa66dzkJIH822etlh4TYHz5NZE7Y96BT_0")
+            TNT1 A 0 A_TakeInventory("ZDCode_Call_4K9RoVxofJKPaG4CDz67eYPQwhtOytAreTF_0")
             stop
     }
 }

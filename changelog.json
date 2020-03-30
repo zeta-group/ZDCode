@@ -131,6 +131,13 @@
             "changes": [
                 "Hotfix to call label names"
             ]
+        },
+
+        {
+            "name": "2.6.1.2",
+            "changes": [
+                "Hotfix to function names in calls"
+            ]
         }
     ]
 }

@@ -142,7 +142,7 @@ class ZDCall(object):
         r = ""
         func = self.actor.namefuncs[self.func]
 
-        return r + "    TNT1 A 0 A_GiveInventory(\"ZDCode_Call_{2}_{1}\")\n    Goto F_{0}\nZDCode_CLabel{1}:\n    TNT1 A 0 A_TakeInventory(\"ZDCode_Call_{2}_{1}\")".format(func.name, self.id, self.code.id)
+        return r + "    TNT1 A 0 A_GiveInventory(\"ZDCode_Call_{2}_{1}\")\n    Goto ZDCode_Func_{0}\nZDCode_CLabel{1}:\n    TNT1 A 0 A_TakeInventory(\"ZDCode_Call_{2}_{1}\")".format(func.name, self.id, self.code.id)
 
 class ZDFunction(object):
     def __init__(self, code, actor, name, args=None, states=None):

@@ -1,6 +1,6 @@
 #DEFINE HasJumpZombies
 
-#UNDEFINE ANNOYING
+#DEFINE ANNOYING
 
 class RunZombie inherits ZombieMan #2055
 {
@@ -32,16 +32,13 @@ class RunZombie inherits ZombieMan #2055
         if ( health > 5 )
             return;
 
-        while ( z == floorz )
-        {
-            POSS A 5 [Bright];
-            POSS A 11 ThrustThingZ(0, 30, 0, 1);
-        };
+        POSS A 5 [Bright];
+        POSS A 11 ThrustThingZ(0, 30, 0, 1);
 
         #ifndef ANNOYING
         while ( z > floorz )
         {
-            POSS AB 4;
+            POSS AB 3;
         };
 
         POSS G 9;
