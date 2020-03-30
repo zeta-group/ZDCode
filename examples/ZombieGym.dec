@@ -1,7 +1,7 @@
-Actor FatZombie : ZombieMan replaces ZombieMan
+Actor FatZombie : ZombieMan
 {
     Radius 80
-    XScale 80
+    XScale 1.3
     States {
         See:
             POSS A 1 A_Chase
@@ -37,10 +37,10 @@ Actor FatZombie : ZombieMan replaces ZombieMan
 }
 
 
-Actor MuricanZombie : ZombieMan replaces ZombieMan
+Actor MuricanZombie : ZombieMan
 {
     Radius 150
-    XScale 150
+    XScale 2
     States {
         See:
             POSS A 1 A_Chase
@@ -108,10 +108,10 @@ Actor MuricanZombie : ZombieMan replaces ZombieMan
 }
 
 
-Actor ThinZombie : ZombieMan replaces ZombieMan
+Actor ThinZombie : ZombieMan
 {
     Radius 20
-    XScale 20
+    XScale 0.6
     States {
         See:
             POSS A 1 A_Chase

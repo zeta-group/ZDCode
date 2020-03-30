@@ -2,7 +2,7 @@
 
 #UNDEFINE ANNOYING
 
-class RunZombie inherits ZombieMan replaces ZombieMan #2055
+class RunZombie inherits ZombieMan #2055
 {
     set Gravity to 0.4; // high up...
     set Speed to 0;
