@@ -1,0 +1,2202 @@
+Actor MSA_Fox
+{
+    +FRIENDLY
+    Monster
+    States {
+        Spawn:
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_41d57363d1f75b664991203c41f958668b0eee59", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_4562537f3138dffb44e27dc29a1620bca6e10794", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_7e0f9ba6475f2e052579f86de929d47a31295b9d", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_3001fd51041fb11dfb7a4ff0b51e8a98758aa973", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_4b7760f3b6174723a1c240de290fcc5004bc96a8", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_8f19328573650b4ceebf9f82bf74c028befd7d3a", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_35319a57414bd21275c8c3a27eb9d2284358670c", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_12f4fda26fec23846a6b06e75fd90cd7624340bd", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_2cebd83ad173a167af6950204c6084907a98c546", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_1a7d8f96ff9231a760f34144e603067160a78a76", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_c603445121a1bcc33c49e9033bea2bbe96a15243", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_00cab086e4a2fad3316cf094346525f4a5c94829", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_e234dfa9bc66311b394e5cca86b1523001ed8594", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_1199a157a262a10c6ee334f02ddd82a8ff9e0d30", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_28f0cceb0952709cf5317480a4449c517e0b863d", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_452d19977cabd8499c20809493be660e37a407ea", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_cb09fa6b268fa02b36376fc48f430f8b5bf3aa58", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_756fcc3425f2437d838dcf6020821526049388e8", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_4c9ba37654314a58a473179eb6e1a0bd278d62f0", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_fc20cdafa487e634f68a5ecb48d85b5f81f22e6b", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_a7ecf25926a65269d5994b8b4e15180970d00a34", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_7d2cca7591c8a77c99870214d240020045323740", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_dc3402343b9370716df06ba760bb60b3b783eb5a", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_f9044ce1d2e8b227e42c794d7ba5744d594ead18", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_6805530f5c24722fa7947dc73bc262d14b136197", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_37875d173790dc5ff978be718e156dde5c5b0929", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_bbb78eabc7a0598023ac957122974612aa628e7d", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_960c493113047ec644154f32c3f60415c2811f8a", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_0e0b8a4cc0ab306f4ce5cb2b9d79951b7252a039", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_01b723618794bcc0804d3bb941cb54d6a968034e", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_7e3c556323e22557022454ef9f808c779765d482", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_34b462a210bae15edb3142e88fb62d5c9d39d2a9", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_47526234a0f4cb985ef8a3780b1fd91cbb1ba998", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_b5ddd70617ada0c0764380ea258b2f354ecf6062", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_201022bf4105f768e242a8f4b23527bb619e18a4", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_ec11b50c3d9ebb03b48828f9bd552eede8792621", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_6a64c18de2b6d5769fbf31e0c3cdba6b1ff7226c", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_7d7a661cc1616edcb48efc7c443afc283a7dff16", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_e71cbdfdfcf5afa8371ec8e700ad856cbf234f58", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_14a1d7eaa9cff8357cc7487c4ddd7bd8d25d69e1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_502ae3bce652334badae43a4c9f474511094d7c3", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_36f0bd48c208ad6b947883b37108c5f648eb9a61", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_767f26aeabe8370f80cc19c19cf38c3faf0dcb74", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_ec9fef1a00ef75db48ee040174f50ebb95bdfaac", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_2a5f99ae6e271289c582514f2043da642f2c3353", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_538ff5bcb5d8ec0b36999e33026730c80af9a6f7", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_0b349c439b040cb2084755191eccb1e3231ad2ce", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_509732fa7574211824a771272d377ad76e307567", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_723cf5d5ba576eb7b53fb98a8d7f6e3ecb153342", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_02f731b52ffdea690cbedfe6e0d2f0dd10cbfda0", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_84147f48f82299e8a351e4d87a46ae27b3796ff3", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_ccf55aa4f92e4099ac48bb495de29539fbd95190", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_f9fd117f3e0702f171387547d2a9b11e0828ad94", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_c88fa569bd2e978251deddcd0b009bc711b0e8a0", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_8ebcf7f0bc918be09ff14c63f027d04ef3c1a3b9", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_4756c711257f06f2a11cb8286fc2ba05fbe525ba", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_dc63b75417844af01d15d1e1b5920d503c5f6fef", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_7d730a68a2c6f8c9fea5f57aa5fbaee3cc1455fc", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_636e72e55e7fdffe5382886f06d1a68eaddaec62", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_d29de054cfd9ff1a8643171f3724f8d5875fa000", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_529d2055e30f6046456b6b1c34e07738a1f5fbd0", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_9c4a0274e0b2dc9f67e7f66c7ff78b0844f85385", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_48df7ccaad4b25355ea1c5474f8ea446e7d51e51", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_daa2c3b9b177cf2bb079b06006487dc532266198", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_cb10a06572411642883ececf748d8ea99f9c97fb", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_a46cdada34403e3e638af33e4c5f9ce294f5569a", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_88853539be540fc98bf232feecfe4f63dd48c335", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_f7135b0facfc4cffcc60f4ed93b60ae13b8c51bc", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_93a12c7124ae391d4807cc2f1978bdee7385a08a", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_2fe09bf837dc4adb2b78ae6fa23047c4a1245550", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_4f642d6b9623c07a35643ccecfccbdcddbf02fa7", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_7dab96e003b23b6fb8bf92dcf90aef0aee413bb3", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_3c53096c89fdf5bb04f471c73284e8d15dbd8df4", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_3c6abec18db25924684ac2896a41343ed70011c4", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_3475bdb96059096c37db3eefc0c22f36eeed496a", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_62fdd173602a2db7d4176c91a529b7c227912b91", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_be5c0587da538b1f864803045e8da50b402fae2d", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_1847b43ce331a3d748ae5b9b3d17380ef18567ee", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_51a91da578c9fed1e85640d5ef03e1ea6ccb4a09", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_62e3d0a29142f94ed313fee5cc41b1b6ee101abb", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_5b99c8ed014b4857290e53d41b0a2d333ddcea11", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_5c8b18a1fe1e9b54102103e05d4ba627b8f7882d", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_141a26b483c1a51a4948deaf9ab12e86e3659d8f", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_f5f018f685729a61e0a78710b4d3082682a33496", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_7a7ce61cbeffe9506531a4b5afcd4b323456bd46", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_dc649bcade3e6100cde04721fb76d76d49c281a1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_63bdfc1e8c520d0ac7ab0e5d897d21b17bd9a1d8", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_a9752f17f6d425fca72f9c3a3c7a41ecfb653843", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_e9a3a72ba868a346a789cdd566e4dd16016a2c9d", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_0049d5f8351870f2b2966a295cb4f032445447f4", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_a24be3b40f30b86666b2e8e729980e6ea30fd86d", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_7305adcb816fb80965dc1709dfb4fabb1b2e634a", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_7b4eae34e10a490fc8a31b4a36f304f7b9d68eb5", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_6e553f726e4c7d5591c71d3222eb4a2d2e8a8ee7", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_aea8d9826ba174aea1fead84d92c2257ad366995", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_4a3a6a1c4e28d07b5aa1cf65433e66270d3e87cb", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_b13f991e190e9a4faf766b9b014e0d50c449a518", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_b27119c73349f6ddfae37c5ed2ce8d9b9a4c4b85", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_4cc241575608e2e9fc950ffbd66098bbaa37ce69", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_1bcb031f36ff4c4f002746d769b574444a9e2c9c", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_4626f7bb4db0943a0743b06211a22e83079a821a", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_d4ca9195598d28cdb0352120b44a9f30082ab777", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_69712c263fdb1eac1a6b780e1f3ff0315bbd88ec", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_88854a065c8e27f32595ad3f8c235791ac1da9d7", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_b103cd8a0ba7f073f5469132972e4e8a392b6767", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_9cfe8777dd52c2774c14c395dd7474419b3b8a38", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_d3be553fbf35640c8f4ac17b352783ca8dee1e56", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_81dbcda072298b6b0e3f5b3878c796beae7a4978", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_98e4d7339a4734e8059acdb81d43553bd76bf9bf", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_83320e4cf73ffa373401e049f7ca640f38cd270e", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_949a868f65c098aab2729e03235bf56bafb94696", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_24cb6a3e3b57845a3598f99a5de8cd4bc14f461c", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_954cd8460eb6ad40755e64df3141f8341997a551", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_e36445b5b732ddc8a4451991ec7b43a2b472fc53", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_f896dfc2c748c596b5d459bca87c8d4f33bd1850", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_d9863a03fdb0e5e3db602e6244e4e47925e1a578", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_9b1662fdeb58ceab85bc142820cb64431152def1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_120c04308f181c495caddfcaa7dc8479631272c0", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_d34073cab12affe8adb9223c4a5643f283dad9cc", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_cd037dc0a9c6e0cfe94f66c29105258af0be10cb", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_c92e9488b801146d00d7ea94115357422d8420f8", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_2e2012439b28cc6c76cf6f6c0ab9c214c0a7d05e", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_bb66da52f028854676da173053ef74353f967bad", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_f2fd8eba1481ce6597ffcc00c62434f14c27df89", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_dbf3f0b3d6d251d91d821b08ab8de6a18da3ea66", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_3bfd965bad109076f296ab51fc7cebd8e3e99e2a", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_eda393d1a88b30d746cdc28676e380d1756e5535", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_f569bb3422a520840e95ff0d5d92c0e7058a2334", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("MSP_Limb__deriv_f089d7d8555212a9a734a7a3f714f16b481b9492", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 5)
+            TNT1 A 0 A_SpawnItemEx("Tail__deriv_b91b1e2f3b5a36ed377ec72930016a4a5b26d682", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 9)
+            TNT1 A 0 A_SpawnItemEx("MSP_Head1", cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, 8)
+            TNT1 A 0 A_Look
+            goto Spawn
+        
+        See:
+            stop
+    }
+}
+
+
+Actor MSP_Head1 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_H A 1
+            stop
+    }
+}
+
+
+Actor MSP_Head2 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_H B 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_00cab086e4a2fad3316cf094346525f4a5c94829 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_0b349c439b040cb2084755191eccb1e3231ad2ce : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_0e0b8a4cc0ab306f4ce5cb2b9d79951b7252a039 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_1199a157a262a10c6ee334f02ddd82a8ff9e0d30 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_120c04308f181c495caddfcaa7dc8479631272c0 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_12f4fda26fec23846a6b06e75fd90cd7624340bd : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_141a26b483c1a51a4948deaf9ab12e86e3659d8f : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_1847b43ce331a3d748ae5b9b3d17380ef18567ee : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_24cb6a3e3b57845a3598f99a5de8cd4bc14f461c : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_2cebd83ad173a167af6950204c6084907a98c546 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_2e2012439b28cc6c76cf6f6c0ab9c214c0a7d05e : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_3001fd51041fb11dfb7a4ff0b51e8a98758aa973 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_34b462a210bae15edb3142e88fb62d5c9d39d2a9 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_35319a57414bd21275c8c3a27eb9d2284358670c : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_36f0bd48c208ad6b947883b37108c5f648eb9a61 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_37875d173790dc5ff978be718e156dde5c5b0929 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_3bfd965bad109076f296ab51fc7cebd8e3e99e2a : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_3c53096c89fdf5bb04f471c73284e8d15dbd8df4 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_3c6abec18db25924684ac2896a41343ed70011c4 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_41d57363d1f75b664991203c41f958668b0eee59 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_452d19977cabd8499c20809493be660e37a407ea : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_4562537f3138dffb44e27dc29a1620bca6e10794 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_4626f7bb4db0943a0743b06211a22e83079a821a : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_47526234a0f4cb985ef8a3780b1fd91cbb1ba998 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_4756c711257f06f2a11cb8286fc2ba05fbe525ba : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_48df7ccaad4b25355ea1c5474f8ea446e7d51e51 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_4a3a6a1c4e28d07b5aa1cf65433e66270d3e87cb : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_4c9ba37654314a58a473179eb6e1a0bd278d62f0 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_4cc241575608e2e9fc950ffbd66098bbaa37ce69 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_4f642d6b9623c07a35643ccecfccbdcddbf02fa7 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_502ae3bce652334badae43a4c9f474511094d7c3 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_509732fa7574211824a771272d377ad76e307567 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_51a91da578c9fed1e85640d5ef03e1ea6ccb4a09 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_529d2055e30f6046456b6b1c34e07738a1f5fbd0 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_538ff5bcb5d8ec0b36999e33026730c80af9a6f7 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_5b99c8ed014b4857290e53d41b0a2d333ddcea11 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_5c8b18a1fe1e9b54102103e05d4ba627b8f7882d : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_62fdd173602a2db7d4176c91a529b7c227912b91 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_636e72e55e7fdffe5382886f06d1a68eaddaec62 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_63bdfc1e8c520d0ac7ab0e5d897d21b17bd9a1d8 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_69712c263fdb1eac1a6b780e1f3ff0315bbd88ec : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_6a64c18de2b6d5769fbf31e0c3cdba6b1ff7226c : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_6e553f726e4c7d5591c71d3222eb4a2d2e8a8ee7 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_723cf5d5ba576eb7b53fb98a8d7f6e3ecb153342 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_7305adcb816fb80965dc1709dfb4fabb1b2e634a : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_756fcc3425f2437d838dcf6020821526049388e8 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_767f26aeabe8370f80cc19c19cf38c3faf0dcb74 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_7b4eae34e10a490fc8a31b4a36f304f7b9d68eb5 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_7d2cca7591c8a77c99870214d240020045323740 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_7d730a68a2c6f8c9fea5f57aa5fbaee3cc1455fc : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_7d7a661cc1616edcb48efc7c443afc283a7dff16 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_7dab96e003b23b6fb8bf92dcf90aef0aee413bb3 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_7e0f9ba6475f2e052579f86de929d47a31295b9d : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_7e3c556323e22557022454ef9f808c779765d482 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_81dbcda072298b6b0e3f5b3878c796beae7a4978 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_84147f48f82299e8a351e4d87a46ae27b3796ff3 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_88853539be540fc98bf232feecfe4f63dd48c335 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_88854a065c8e27f32595ad3f8c235791ac1da9d7 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_8f19328573650b4ceebf9f82bf74c028befd7d3a : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_93a12c7124ae391d4807cc2f1978bdee7385a08a : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_949a868f65c098aab2729e03235bf56bafb94696 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_954cd8460eb6ad40755e64df3141f8341997a551 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_960c493113047ec644154f32c3f60415c2811f8a : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_98e4d7339a4734e8059acdb81d43553bd76bf9bf : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_9b1662fdeb58ceab85bc142820cb64431152def1 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_9c4a0274e0b2dc9f67e7f66c7ff78b0844f85385 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_9cfe8777dd52c2774c14c395dd7474419b3b8a38 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_a24be3b40f30b86666b2e8e729980e6ea30fd86d : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_a46cdada34403e3e638af33e4c5f9ce294f5569a : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_a7ecf25926a65269d5994b8b4e15180970d00a34 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_a9752f17f6d425fca72f9c3a3c7a41ecfb653843 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_b13f991e190e9a4faf766b9b014e0d50c449a518 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_b27119c73349f6ddfae37c5ed2ce8d9b9a4c4b85 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_b5ddd70617ada0c0764380ea258b2f354ecf6062 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_bb66da52f028854676da173053ef74353f967bad : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_bbb78eabc7a0598023ac957122974612aa628e7d : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_be5c0587da538b1f864803045e8da50b402fae2d : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_c603445121a1bcc33c49e9033bea2bbe96a15243 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_c88fa569bd2e978251deddcd0b009bc711b0e8a0 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_c92e9488b801146d00d7ea94115357422d8420f8 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_cb09fa6b268fa02b36376fc48f430f8b5bf3aa58 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_ccf55aa4f92e4099ac48bb495de29539fbd95190 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_d34073cab12affe8adb9223c4a5643f283dad9cc : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_d3be553fbf35640c8f4ac17b352783ca8dee1e56 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_d4ca9195598d28cdb0352120b44a9f30082ab777 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_d9863a03fdb0e5e3db602e6244e4e47925e1a578 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_daa2c3b9b177cf2bb079b06006487dc532266198 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_dc3402343b9370716df06ba760bb60b3b783eb5a : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_dc63b75417844af01d15d1e1b5920d503c5f6fef : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_dc649bcade3e6100cde04721fb76d76d49c281a1 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_e234dfa9bc66311b394e5cca86b1523001ed8594 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_e36445b5b732ddc8a4451991ec7b43a2b472fc53 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_e71cbdfdfcf5afa8371ec8e700ad856cbf234f58 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_e9a3a72ba868a346a789cdd566e4dd16016a2c9d : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_ec11b50c3d9ebb03b48828f9bd552eede8792621 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_ec9fef1a00ef75db48ee040174f50ebb95bdfaac : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_eda393d1a88b30d746cdc28676e380d1756e5535 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_f089d7d8555212a9a734a7a3f714f16b481b9492 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_f2fd8eba1481ce6597ffcc00c62434f14c27df89 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_f569bb3422a520840e95ff0d5d92c0e7058a2334 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_f5f018f685729a61e0a78710b4d3082682a33496 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_f7135b0facfc4cffcc60f4ed93b60ae13b8c51bc : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_f9044ce1d2e8b227e42c794d7ba5744d594ead18 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSP_Limb__deriv_f9fd117f3e0702f171387547d2a9b11e0828ad94 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            FX_L A 1
+            stop
+    }
+}
+
+
+Actor MSPart
+{
+    Gravity 0
+    
+    -SOLID
+}
+
+
+Actor Tail__deriv_0049d5f8351870f2b2966a295cb4f032445447f4 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_01b723618794bcc0804d3bb941cb54d6a968034e : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_02f731b52ffdea690cbedfe6e0d2f0dd10cbfda0 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_14a1d7eaa9cff8357cc7487c4ddd7bd8d25d69e1 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_1a7d8f96ff9231a760f34144e603067160a78a76 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_1bcb031f36ff4c4f002746d769b574444a9e2c9c : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_201022bf4105f768e242a8f4b23527bb619e18a4 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_28f0cceb0952709cf5317480a4449c517e0b863d : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_2a5f99ae6e271289c582514f2043da642f2c3353 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_2fe09bf837dc4adb2b78ae6fa23047c4a1245550 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_3475bdb96059096c37db3eefc0c22f36eeed496a : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_4b7760f3b6174723a1c240de290fcc5004bc96a8 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_62e3d0a29142f94ed313fee5cc41b1b6ee101abb : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_6805530f5c24722fa7947dc73bc262d14b136197 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_7a7ce61cbeffe9506531a4b5afcd4b323456bd46 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_83320e4cf73ffa373401e049f7ca640f38cd270e : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_8ebcf7f0bc918be09ff14c63f027d04ef3c1a3b9 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_aea8d9826ba174aea1fead84d92c2257ad366995 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_b103cd8a0ba7f073f5469132972e4e8a392b6767 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_b91b1e2f3b5a36ed377ec72930016a4a5b26d682 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_cb10a06572411642883ececf748d8ea99f9c97fb : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_cd037dc0a9c6e0cfe94f66c29105258af0be10cb : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_d29de054cfd9ff1a8643171f3724f8d5875fa000 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_dbf3f0b3d6d251d91d821b08ab8de6a18da3ea66 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_f896dfc2c748c596b5d459bca87c8d4f33bd1850 : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}
+
+
+Actor Tail__deriv_fc20cdafa487e634f68a5ecb48d85b5f81f22e6b : MSPart
+{
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255, which * 2)
+            TNT1 A 0 A_Jump(255, "Done")
+            FX_T A 1
+            stop
+            TNT1 A 0
+            FX_T B 1
+            stop
+            TNT1 A 0
+            FX_T C 1
+            stop
+            TNT1 A 0
+            FX_T D 1
+            stop
+            TNT1 A 0
+            FX_T E 1
+            stop
+            TNT1 A 0
+            stop
+    }
+}

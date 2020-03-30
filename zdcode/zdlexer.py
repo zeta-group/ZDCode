@@ -209,7 +209,7 @@ def templated_class_derivation():
     return seq(
         regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of templated class') << wo,
         (s('::(') >> wo >>
-            expr_argument_list
+            expr_argument_list.optional().map(lambda x: x if x and tuple(x) != ('',) else [])
         << wo << s(')')),
         (
             wo >> s('{') >>

@@ -403,19 +403,34 @@ class ZDClassTemplate(object):
         self.replace = replace
         self.doomednum = doomednum
         self.parse_data = parse_data
+        self.id = make_id(20)
 
-    def generated_class_name(self, parameter_values):
-        hash = hashlib.md5()
+    def generated_class_name(self, parameter_values, new_id):
+        hash = hashlib.sha1()
+
+        hash.update(self.name.encode('utf-8'))
+        hash.update(self.id.encode('utf-8'))
+        hash.update(new_id.encode('utf-8'))
 
         for parm in parameter_values:
             hash.update(parm.encode('utf-8'))
+
+        for name in self.abstract_label_names:
+            hash.update(name.encode('utf-8'))
+
+        for name, args in self.abstract_macro_names.items():
+            hash.update(name.encode('utf-8'))
+
+            for arg in args:
+                hash.update(arg.encode('utf-8'))
 
         return '{}__deriv_{}'.format(self.name, hash.hexdigest())
 
     def generate_init_class(self, code, context, parameter_values, provided_label_names=(), provided_macro_names=(), name=None, pending=None):
         provided_label_names = set(provided_label_names)
         provided_macro_names = dict(provided_macro_names)
-        new_name = name if name is not None else self.generated_class_name(parameter_values)
+
+        new_name = name if name is not None else self.generated_class_name(parameter_values, make_id(40))
 
         res = ZDActor(self.code, new_name, self.inherit, self.replace, self.doomednum, context=context)
 
@@ -536,64 +551,66 @@ class ZDCode(object):
             return None
 
     def _parse_literal(self, literal, context):
-        if isinstance(literal, (tuple, list)):
-            if literal[0] == 'number':
-                return str(literal[1])
+        if isinstance(literal, str):
+            return literal
 
-            elif literal[0] == 'string':
-                return '"' + repr(literal[1])[1:-1] + '"'
+        if literal[0] == 'number':
+            return str(literal[1])
 
-            elif literal[0] == 'actor variable':
-                if literal[1].upper() in context.replacements:
-                    return context.replacements[literal[1].upper()]
+        elif literal[0] == 'string':
+            return '"' + repr(literal[1])[1:-1] + '"'
 
-                else:
-                    return literal[1]
+        elif literal[0] == 'actor variable':
+            if literal[1].upper() in context.replacements:
+                return context.replacements[literal[1].upper()]
 
-            elif literal[0] == 'call expr':
-                return self._parse_action(literal[1])
+            else:
+                return literal[1]
 
-            elif literal[0] == 'anonymous class':
-                return self._parse_anonym_class(literal[1], context)
+        elif literal[0] == 'call expr':
+            return self._parse_action(literal[1])
 
-            elif literal[0] == 'template derivation':
-                template_name, template_parms, deriv_body = literal[1]
+        elif literal[0] == 'anonymous class':
+            return self._parse_anonym_class(literal[1], context)
 
-                template_labels = {}
-                template_body = []
-                template_macros = {}
+        elif literal[0] == 'template derivation':
+            template_name, template_parms, deriv_body = literal[1]
 
-                try:
-                    template = context.templates[template_name]
+            template_labels = {}
+            template_body = []
+            template_macros = {}
 
-                except KeyError:
-                    raise RuntimeError("Unknown template to derive: '{}'".format(template_name))
+            try:
+                template = context.templates[template_name]
 
-                for btype, bdata in deriv_body:
-                    if btype == 'flag':
-                        template_body.append(('flag', bdata))
+            except KeyError:
+                raise RuntimeError("Unknown template to derive: '{}'".format(template_name))
 
-                    elif btype == 'unflag':
-                        template_body.append(('antiflag', bdata))
+            for btype, bdata in deriv_body:
+                if btype == 'flag':
+                    template_body.append(('flag', bdata))
 
-                    elif btype == 'label':
-                        if bdata['name'] in template.abstract_label_names:
-                            template_labels[bdata['name']] = bdata
+                elif btype == 'unflag':
+                    template_body.append(('antiflag', bdata))
 
-                    elif btype == 'macro':
-                        if bdata['name'] in template.abstract_macro_names:
-                            template_macros[bdata['name']] = bdata
+                elif btype == 'label':
+                    if bdata['name'] in template.abstract_label_names:
+                        template_labels[bdata['name']] = bdata
 
-                if len(template_parms) != len(template.template_parameters):
-                    raise RuntimeError("Bad number of template parameters for '{}': expected {}, got {}".format(
-                        template_name,
-                        len(template.template_parameters),
-                        len(template_parms)
-                    ))
+                elif btype == 'macro':
+                    if bdata['name'] in template.abstract_macro_names:
+                        template_macros[bdata['name']] = bdata
 
-                new_class = self._derive_class_from_template(template, template_parms, context, template_labels, template_macros, template_body)
+            if len(template_parms) != len(template.template_parameters):
+                raise RuntimeError("Bad number of template parameters for '{}': expected {}, got {}".format(
+                    template_name,
+                    len(template.template_parameters),
+                    len(template_parms)
+                ))
 
-                return '"' + repr(new_class.name)[1:-1] + '"'
+            new_class = self._derive_class_from_template(template, template_parms, context, template_labels, template_macros, template_body)
+
+            return '"' + repr(new_class.name)[1:-1] + '"'
 
     def _parse_action(self, a, context):
         aname = a[0]
@@ -614,8 +631,9 @@ class ZDCode(object):
             return res
 
     def _parse_state_action(self, a, context):
-        args = ((context.replacements.get(x.upper(), x) if isinstance(x, str) else self._parse_literal(x, context)) for x in a[1] if x) if a[1] is not None else []
-
+        args = list(a[1]) if a[1] else []
+        args = [(context.replacements.get(x.upper(), x) if isinstance(x, str) else x) for x in args]
+        args = [self._parse_literal(x, context) for x in args]
         args = ', '.join(a for a in args if a)
 
         if len(args) > 0:
@@ -938,8 +956,9 @@ class ZDCode(object):
                             template_macros[bdata['name']] = bdata
 
                 if len(template_parms) != len(template.template_parameters):
-                    raise RuntimeError("Bad number of template parameters for '{}': expected {}, got {}".format(
+                    raise RuntimeError("Bad number of template parameters for '{}' when deriving '{}': expected {}, got {}".format(
                         template_name,
+                        new_name,
                         len(template.template_parameters),
                         len(template_parms)
                     ))
