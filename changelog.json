@@ -153,6 +153,16 @@
             "changes": [
                 "Fixed anonymous template derivation parameter resolution"
             ]
+        },
+
+        {
+            "name": "2.6.3",
+            "changes": [
+                "Added inheritance from anonymous template derivation",
+                "Classes are no longer sorted by name in output",
+                "Moved expression resolution from parsing (zdlexer) to compilation",
+                "Fixed control flow missing state count getter"
+            ]
         }
     ]
 }

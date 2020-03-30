@@ -37,6 +37,45 @@ Actor FatZombie : ZombieMan
 }
 
 
+Actor ThinZombie : ZombieMan
+{
+    Radius 15
+    XScale 0.6
+    States {
+        See:
+            POSS A 1 A_Chase
+            POSS A 1 A_Chase
+            TNT1 A 0 A_JumpIf(!(z == floorz), 4)
+                TNT1 A 0 A_Jump(76, 2)
+                TNT1 A 0 ThrustThingZ(0, 12, 0, 1)
+                TNT1 A 0
+            TNT1 A 0
+            POSS B 1 A_Chase
+            POSS B 1 A_Chase
+            TNT1 A 0 A_JumpIf(!(z == floorz), 4)
+                TNT1 A 0 A_Jump(76, 2)
+                TNT1 A 0 ThrustThingZ(0, 12, 0, 1)
+                TNT1 A 0
+            TNT1 A 0
+            POSS C 1 A_Chase
+            POSS C 1 A_Chase
+            TNT1 A 0 A_JumpIf(!(z == floorz), 4)
+                TNT1 A 0 A_Jump(76, 2)
+                TNT1 A 0 ThrustThingZ(0, 12, 0, 1)
+                TNT1 A 0
+            TNT1 A 0
+            POSS D 1 A_Chase
+            POSS D 1 A_Chase
+            TNT1 A 0 A_JumpIf(!(z == floorz), 4)
+                TNT1 A 0 A_Jump(76, 2)
+                TNT1 A 0 ThrustThingZ(0, 12, 0, 1)
+                TNT1 A 0
+            TNT1 A 0
+            goto See
+    }
+}
+
+
 Actor MuricanZombie : ZombieMan
 {
     Radius 40
@@ -102,45 +141,6 @@ Actor MuricanZombie : ZombieMan
             POSS D 1 A_Chase
             TNT1 A 0 A_Jump(140, 2)
             "####" "#" 8 A_Quake(4, 60, 0, 300)
-            TNT1 A 0
-            goto See
-    }
-}
-
-
-Actor ThinZombie : ZombieMan
-{
-    Radius 15
-    XScale 0.6
-    States {
-        See:
-            POSS A 1 A_Chase
-            POSS A 1 A_Chase
-            TNT1 A 0 A_JumpIf(!(z == floorz), 4)
-                TNT1 A 0 A_Jump(76, 2)
-                TNT1 A 0 ThrustThingZ(0, 12, 0, 1)
-                TNT1 A 0
-            TNT1 A 0
-            POSS B 1 A_Chase
-            POSS B 1 A_Chase
-            TNT1 A 0 A_JumpIf(!(z == floorz), 4)
-                TNT1 A 0 A_Jump(76, 2)
-                TNT1 A 0 ThrustThingZ(0, 12, 0, 1)
-                TNT1 A 0
-            TNT1 A 0
-            POSS C 1 A_Chase
-            POSS C 1 A_Chase
-            TNT1 A 0 A_JumpIf(!(z == floorz), 4)
-                TNT1 A 0 A_Jump(76, 2)
-                TNT1 A 0 ThrustThingZ(0, 12, 0, 1)
-                TNT1 A 0
-            TNT1 A 0
-            POSS D 1 A_Chase
-            POSS D 1 A_Chase
-            TNT1 A 0 A_JumpIf(!(z == floorz), 4)
-                TNT1 A 0 A_Jump(76, 2)
-                TNT1 A 0 ThrustThingZ(0, 12, 0, 1)
-                TNT1 A 0
             TNT1 A 0
             goto See
     }

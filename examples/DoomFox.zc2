@@ -4,7 +4,9 @@ class MSPart {
     set Gravity to 0;
 }
 
-class<> MSP_Limb extends MSPart {
+class<Size> MSP_Limb extends MSPart {
+    set Scale to Size;
+
     label Spawn {
         TNT1 A 0;
         inject Display;
@@ -14,196 +16,216 @@ class<> MSP_Limb extends MSPart {
     abstract macro Display;
 }
 
-derive MSP_Limb::() {
-    macro Display { FX_H A 1; };
-} as MSP_Head1;
+derive MSP_Limb::(0.35) { macro Display { FX_H A 1; }; } as MSP_Head1;
+derive MSP_Limb::(0.35) { macro Display { FX_H B 1; }; } as MSP_Head2;
 
-derive MSP_Limb::() {
-    macro Display { FX_H B 1; };
-} as MSP_Head2;
+derive MSP_Limb::(0.6) { macro Display { FX_T A 1; }; } as MSP_Tail1;
+derive MSP_Limb::(0.6) { macro Display { FX_T B 1; }; } as MSP_Tail2;
+derive MSP_Limb::(0.6) { macro Display { FX_T C 1; }; } as MSP_Tail3;
+derive MSP_Limb::(0.6) { macro Display { FX_T D 1; }; } as MSP_Tail4;
+derive MSP_Limb::(0.6) { macro Display { FX_T E 1; }; } as MSP_Tail5;
 
-class<which> Tail extends MSPart {
-    label Spawn {
-        TNT1 A 0;
-        TNT1 A 0 A_Jump(255, which * 2);
-        TNT1 A 0 A_Jump(255, "Done");
-        FX_T A 1;
-        Stop;
-        TNT1 A 0;
-        FX_T B 1;
-        Stop;
-        TNT1 A 0;
-        FX_T C 1;
-        Stop;
-        TNT1 A 0;
-        FX_T D 1;
-        Stop;
-        TNT1 A 0;
-        FX_T E 1;
-        Stop;
-        TNT1 A 0;
-        Stop;
-    };
-}
+derive MSP_Limb::(0.6) { macro Display { FX_R A 1; }; } as MSP_Torso;
+
 
 class MSA_Fox {
     combo   Monster;
     is      FRIENDLY;
 
     macro SpawnLimb(height, forward, right, cls) {
-        TNT1 A 0 A_SpawnItemEx(cls, cos(angle) * forward + sin(angle) * right, sin(angle) * forward + cos(angle) * right, height);
+        TNT1 A 0 A_SpawnItemEx(cls, forward, right, height);
     };
 
     macro DrawLegAt_A(forward, right) {
-        inject SpawnLimb(5, forward, right, MSP_Limb::() { macro Display{ FX_L A 1; }; });
+        inject SpawnLimb(9, forward, right, MSP_Limb::(0.65) { macro Display{ FX_L A 1; }; });
     };
 
     macro DrawLegAt_B(forward, right) {
-        inject SpawnLimb(5, forward, right, MSP_Limb::() { macro Display{ FX_L B 1; }; });
+        inject SpawnLimb(9, forward, right, MSP_Limb::(0.65) { macro Display{ FX_L B 1; }; });
     };
 
     macro DrawLegAt_C(forward, right) {
-        inject SpawnLimb(5, forward, right, MSP_Limb::() { macro Display{ FX_L C 1; }; });
+        inject SpawnLimb(9, forward, right, MSP_Limb::(0.65) { macro Display{ FX_L C 1; }; });
     };
 
     macro DrawLegAt_D(forward, right) {
-        inject SpawnLimb(5, forward, right, MSP_Limb::() { macro Display{ FX_L D 1; }; });
+        inject SpawnLimb(9, forward, right, MSP_Limb::(0.65) { macro Display{ FX_L D 1; }; });
+    };
+
+    macro DrawHeadNormal {
+       inject SpawnLimb(9, 24, 0, "MSP_Head1");
+    };
+
+    macro DrawTorso {
+        inject SpawnLimb(10, 2, 0, "MSP_Torso");
     };
 
     macro DrawTail(which) {
-        inject SpawnLimb(9, -55, 0, Tail::(which));
+        inject SpawnLimb(11, -8, 0, which);
     };
 
     // Combine individual parts
     macro DrawLegsNormal {
-        inject DrawLegAt_A( 40, -10);
-        inject DrawLegAt_A( 40,  10);
-        inject DrawLegAt_A(-40, -10);
-        inject DrawLegAt_A(-40,  10);
+        inject DrawLegAt_A( 6, -5);
+        inject DrawLegAt_A( 6,  5);
+        inject DrawLegAt_A(-6, -5);
+        inject DrawLegAt_A(-6,  5);
+    };
+
+    macro DrawLegs1 {
+        inject DrawLegAt_A( 6, -5);
+        inject DrawLegAt_C( 6,  5);
+        inject DrawLegAt_A(-6, -5);
+        inject DrawLegAt_C(-6,  5);
+    };
+
+    macro DrawLegs2 {
+        inject DrawLegAt_B( 6, -5);
+        inject DrawLegAt_D( 6,  5);
+        inject DrawLegAt_B(-6, -5);
+        inject DrawLegAt_D(-6,  5);
+    };
+
+    macro DrawLegs3 {
+        inject DrawLegAt_C( 6, -5);
+        inject DrawLegAt_A( 6,  5);
+        inject DrawLegAt_C(-6, -5);
+        inject DrawLegAt_A(-6,  5);
+    };
+
+    macro DrawLegs4 {
+        inject DrawLegAt_D( 6, -5);
+        inject DrawLegAt_B( 6,  5);
+        inject DrawLegAt_D(-6, -5);
+        inject DrawLegAt_B(-6,  5);
     };
 
     // Animations
     macro DrawTail1 {
-        inject DrawTail(1);
+        inject DrawTail("MSP_Tail1");
     };
 
     macro DrawTail2 {
-        inject DrawTail(2);
+        inject DrawTail("MSP_Tail2");
     };
 
     macro DrawTail3 {
-        inject DrawTail(3);
+        inject DrawTail("MSP_Tail3");
     };
 
     macro DrawTail4 {
-        inject DrawTail(4);
+        inject DrawTail("MSP_Tail4");
     };
 
     macro DrawTail5 {
-        inject DrawTail(5);
-    };
-
-    macro DrawHeadNormal {
-       inject SpawnLimb(8, 24, 0, "MSP_Head1");
+        inject DrawTail("MSP_Tail5");
     };
 
     // Animation states
     macro DrawWait1 {
         inject DrawLegsNormal;
+        inject DrawTorso;
         inject DrawTail1;
         inject DrawHeadNormal;
     };
 
     macro DrawWait2 {
         inject DrawLegsNormal;
+        inject DrawTorso;
         inject DrawTail2;
         inject DrawHeadNormal;
     };
 
     macro DrawWait3 {
         inject DrawLegsNormal;
+        inject DrawTorso;
         inject DrawTail3;
         inject DrawHeadNormal;
     };
 
     macro DrawWait4 {
         inject DrawLegsNormal;
+        inject DrawTorso;
         inject DrawTail4;
         inject DrawHeadNormal;
     };
 
     macro DrawWait5 {
         inject DrawLegsNormal;
+        inject DrawTorso;
         inject DrawTail5;
         inject DrawHeadNormal;
     };
 
     macro DrawWalk1 {
         inject DrawLegs1;
+        inject DrawTorso;
         inject DrawTail1;
         inject DrawHeadNormal;
     };
 
     macro DrawWalk2 {
         inject DrawLegs2;
-        inject DrawTail1;
+        inject DrawTorso;
+        inject DrawTail3;
         inject DrawHeadNormal;
     };
 
     macro DrawWalk3 {
         inject DrawLegs2;
+        inject DrawTorso;
         inject DrawTail1;
         inject DrawHeadNormal;
     };
 
     macro DrawWalk4 {
         inject DrawLegs2;
-        inject DrawTail1;
+        inject DrawTorso;
+        inject DrawTail5;
         inject DrawHeadNormal;
     };
 
     // States
     label Spawn {
         // Tail swinging to a side.
-        x4 {
-            inject DrawWait1;
-            TNT1 A 0 A_Look;
-        };
-        x3 {
-            inject DrawWait2;
-            TNT1 A 0 A_Look;
-        };
-        x3 {
-            inject DrawWait3;
-            TNT1 A 0 A_Look;
-        };
-        x3 {
-            inject DrawWait2;
-            TNT1 A 0 A_Look;
-        };
+        x8 { TNT1 A 1; inject DrawWait1; };
+        x6 { TNT1 A 1; inject DrawWait2; };
+        TNT1 A 0 A_Look;
+        x6 { TNT1 A 1; inject DrawWait3; };
+        x6 { TNT1 A 1; inject DrawWait2; };
+        TNT1 A 0 A_Look;
 
         // Tail swinging to the other side.
-        x4 {
-            inject DrawWait1;
-            TNT1 A 0 A_Look;
-        };
-        x3 {
-            inject DrawWait4;
-            TNT1 A 0 A_Look;
-        };
-        x3 {
-            inject DrawWait5;
-            TNT1 A 0 A_Look;
-        };
-        x3 {
-            inject DrawWait4;
-            TNT1 A 0 A_Look;
+        x8 { TNT1 A 1; inject DrawWait1; };
+        x6 { TNT1 A 1; inject DrawWait4; };
+        TNT1 A 0 A_Look;
+        x6 { TNT1 A 1; inject DrawWait5; };
+        x6 { TNT1 A 1; inject DrawWait4; };
+        TNT1 A 0 A_Look;
+
+        sometimes 75 {
+            TNT1 A 0 A_ClearTarget;
+            goto Idle;
         };
 
         Loop;
     };
 
+    label Idle {
+        x6 { TNT1 A 1; inject DrawWalk1; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
+        x4 { TNT1 A 1; inject DrawWalk2; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
+        x6 { TNT1 A 1; inject DrawWalk3; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
+        x4 { TNT1 A 1; inject DrawWalk2; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
+
+        Loop;
+    };
+
     label See {
-        Stop;
+        x4 { TNT1 A 1; inject DrawWalk1; TNT1 A 0               { A_Chase; A_Wander; A_Recoil(-0.8); }; };
+        x2 { TNT1 A 1; inject DrawWalk2; TNT1 A 0               { A_Chase; A_Wander; A_Recoil(-0.8); }; };
+        x3 { TNT1 A 1; inject DrawWalk3; TNT1 A 0  { A_Chase; A_Wander; A_Recoil(-0.8); }; };
+        x2 { TNT1 A 1; inject DrawWalk2; TNT1 A 0               { A_Chase; A_Wander; A_Recoil(-0.8); }; };
+
+        Loop;
     };
 }

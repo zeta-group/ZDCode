@@ -293,6 +293,9 @@ class ZDRawDecorate(object):
     def __init__(self, raw):
         self.raw = raw
 
+    def num_states(self):
+        return 0
+
     def __decorate__(self):
         return self.raw
 
@@ -447,7 +450,7 @@ class ZDClassTemplate(object):
 
         return res
 
-    def get_init_replacements(self, parameter_values):
+    def get_init_replacements(self, code, context, parameter_values):
         return dict(zip((p.upper() for p in self.template_parameters), parameter_values))
 
 class ZDIfStatement(object):
@@ -550,6 +553,42 @@ class ZDCode(object):
         else:
             return None
 
+    def _parse_expression(self, expr, context):
+        etype, exval = expr
+
+        if etype == 'expr':
+            return ' '.join(self._parse_expression(item, context) for item in exval)
+
+        elif etype == 'literal':
+            return self._parse_literal(exval, context)
+
+        elif etype == 'oper':
+            return exval
+
+        elif etype == 'paren expr':
+            return '(' + self._parse_expression(exval, context) + ')'
+
+    def _parse_argument(self, arg, context):
+        atype, aval = arg
+
+        if atype == 'position arg':
+            return self._parse_parameter(aval, context)
+
+        elif atype == 'named arg':
+            return '{}: {}'.format(aval[0], self._parse_parameter(aval[1], context))
+
+    def _parse_parameter(self, parm, context):
+        ptype, pval = parm
+
+        if ptype == 'expression':
+            return self._parse_expression(pval, context)
+
+        elif ptype == 'template derivation':
+            return self._parse_template_derivation(pval, context)
+
+        elif ptype == 'anonymous class':
+            return self._parse_anonym_class(pval, context)
+
     def _parse_literal(self, literal, context):
         if isinstance(literal, str):
             return literal
@@ -568,56 +607,69 @@ class ZDCode(object):
                 return literal[1]
 
         elif literal[0] == 'call expr':
-            return self._parse_action(literal[1])
+            return self._parse_action(literal[1], context)
 
         elif literal[0] == 'anonymous class':
             return self._parse_anonym_class(literal[1], context)
 
         elif literal[0] == 'template derivation':
-            template_name, template_parms, deriv_body = literal[1]
-            template_parms = [context.replacements.get(a.upper(), a) for a in template_parms]
+            return self._parse_template_derivation(literal[1])
 
-            template_labels = {}
-            template_body = []
-            template_macros = {}
+    def _parse_template_derivation(self, deriv, context, pending=None, name=None, stringify=True):
+        template_name, template_parms, deriv_body = deriv
+        template_parms = [self._parse_parameter(a, context) for a in template_parms]
+        template_parms = [a for a in template_parms if a != '']
 
-            try:
-                template = context.templates[template_name]
+        template_labels = {}
+        template_body = []
+        template_macros = {}
 
-            except KeyError:
-                raise RuntimeError("Unknown template to derive: '{}'".format(template_name))
+        try:
+            template = context.templates[template_name]
 
-            for btype, bdata in deriv_body:
-                if btype == 'flag':
-                    template_body.append(('flag', bdata))
+        except KeyError:
+            raise RuntimeError("Unknown template to derive: '{}'".format(template_name))
 
-                elif btype == 'unflag':
-                    template_body.append(('antiflag', bdata))
+        for btype, bdata in deriv_body:
+            if btype == 'flag':
+                template_body.append(('flag', bdata))
 
-                elif btype == 'label':
-                    if bdata['name'] in template.abstract_label_names:
-                        template_labels[bdata['name']] = bdata
+            elif btype == 'unflag':
+                template_body.append(('antiflag', bdata))
 
-                elif btype == 'macro':
-                    if bdata['name'] in template.abstract_macro_names:
-                        template_macros[bdata['name']] = bdata
+            elif btype == 'label':
+                if bdata['name'] in template.abstract_label_names:
+                    template_labels[bdata['name']] = bdata
 
-            if len(template_parms) != len(template.template_parameters):
-                raise RuntimeError("Bad number of template parameters for '{}': expected {}, got {}".format(
-                    template_name,
-                    len(template.template_parameters),
-                    len(template_parms)
-                ))
+            elif btype == 'macro':
+                if bdata['name'] in template.abstract_macro_names:
+                    template_macros[bdata['name']] = bdata
 
-            new_class = self._derive_class_from_template(template, template_parms, context, template_labels, template_macros, template_body)
+        if len(template_parms) != len(template.template_parameters):
+            raise RuntimeError("Bad number of template parameters for '{}': expected {}, got {}".format(
+                template_name,
+                len(template.template_parameters),
+                len(template_parms)
+            ))
 
+        new_class = self._derive_class_from_template(template, template_parms, context, template_labels, template_macros, template_body, pending=pending, name=name)
+
+        if stringify:
             return '"' + repr(new_class.name)[1:-1] + '"'
+
+        else:
+            return new_class
 
     def _parse_action(self, a, context):
         aname = a[0]
         aname = context.replacements.get(aname.upper(), aname)
 
-        return "{}({})".format(aname, (', '.join(self._parse_literal(x, context) for x in a[1]) if a[1] is not None else []))
+        args = list(a[1]) if a[1] else []
+        args = [(context.replacements.get(x.upper(), x) if isinstance(x, str) else x) for x in args]
+        args = [self._parse_argument(x, context) for x in args]
+        args = ', '.join(a for a in args if a)
+
+        return "{}({})".format(aname, args)
 
     def _parse_state_action_or_body(self, a, context):
         if a[0] == 'action':
@@ -633,8 +685,8 @@ class ZDCode(object):
 
     def _parse_state_action(self, a, context):
         args = list(a[1]) if a[1] else []
+        args = [self._parse_argument(x, context) for x in args]
         args = [(context.replacements.get(x.upper(), x) if isinstance(x, str) else x) for x in args]
-        args = [self._parse_literal(x, context) for x in args]
         args = ', '.join(a for a in args if a)
 
         if len(args) > 0:
@@ -743,14 +795,14 @@ class ZDCode(object):
                     label.states.append(sms)
 
         elif s[0] == 'if':
-            ifs = ZDIfStatement(actor, s[1][0], [])
+            ifs = ZDIfStatement(actor, self._parse_expression(s[1][0], context), [])
             elses = None
 
             for a in s[1][1]:
                 self._parse_state(actor, context, ifs, a, func)
 
             if s[1][2] is not None:
-                elses = ZDIfStatement(actor, s[1][0], [], inverted=True)
+                elses = ZDIfStatement(actor, self._parse_expression(s[1][0], context), [], inverted=True)
 
                 for a in s[1][2]:
                     self._parse_state(actor, context, elses, a, func)
@@ -761,7 +813,7 @@ class ZDCode(object):
                 label.states.append(elses)
 
         elif s[0] == 'while':
-            whs = ZDWhileStatement(actor, s[1][0], [])
+            whs = ZDWhileStatement(actor, self._parse_expression(s[1][0], context), [])
 
             for a in s[1][1]:
                 self._parse_state(actor, context, whs, a, func)
@@ -774,12 +826,11 @@ class ZDCode(object):
 
             if r_name in macros:
                 new_context = context.derive()
-                r = new_context.replacements
 
                 (m_args, m_body) = macros[r_name]
 
                 for rn, an in zip(r_args, m_args):
-                    r[an.upper()] = rn
+                    new_context.replacements[an.upper()] = self._parse_argument(rn, context)
 
                 for a in m_body:
                     self._parse_state(actor, new_context, label, a, label)
@@ -787,6 +838,17 @@ class ZDCode(object):
             else:
                 raise ValueError("Unknown macro: {}".format(repr(r_name)))
 
+    def _parse_inherit(self, inh, context):
+        if inh is None:
+            return None
+
+        ptype, pval = inh
+
+        if ptype == 'classname':
+            return pval
+
+        elif ptype == 'template derivation':
+            return self._parse_template_derivation(pval, context, stringify=False).name
 
     def stringify(self, content):
         if isinstance(content, str):
@@ -796,7 +858,7 @@ class ZDCode(object):
 
     def _parse_anonym_class(self, anonym_class, context):
         a = dict(anonym_class)
-        anonym_actor = ZDActor(self, '_AnonymClass_{}_{}'.format(self.id, len(self.anonymous_classes)), a['inheritance'])
+        anonym_actor = ZDActor(self, '_AnonymClass_{}_{}'.format(self.id, len(self.anonymous_classes)), self._parse_inherit(a['inheritance'], context))
 
         new_context = context.derive()
 
@@ -815,8 +877,8 @@ class ZDCode(object):
         actor = template.generate_init_class(self, context, param_values, set(labels.keys()), { m['name']: m['args'] for m in macros.values() }, name=name)
 
         new_context = actor.get_context()
-        new_context.replacements.update(template.get_init_replacements(param_values))
-        new_context.replacements['SELF'] = actor.name
+        new_context.replacements.update(template.get_init_replacements(self, context, param_values))
+        new_context.replacements['SELF'] = '"' + repr(actor.name)[1:-1] + '"'
 
         for btype, bdata in body:
             if btype == 'flag':
@@ -887,7 +949,6 @@ class ZDCode(object):
 
     def _parse(self, actors):
         context = ZDCodeParseContext()
-
         actors = list(actors)
 
         for class_type, a in actors:
@@ -902,14 +963,14 @@ class ZDCode(object):
                     elif btype == 'abstract macro':
                         abstract_macros[bdata['name']] = bdata['args']
 
-                template = ZDClassTemplate(a['parameters'], a['body'], abstract_labels, abstract_macros, self, a['classname'], a['inheritance'], a['replacement'], a['class number'])
+                template = ZDClassTemplate(a['parameters'], a['body'], abstract_labels, abstract_macros, self, a['classname'], self._parse_inherit(a['inheritance'], context), a['replacement'], a['class number'])
                 context.templates[a['classname']] = template
 
         pending = []
 
         for class_type, a in actors:
             if class_type == 'class':
-                actor = ZDActor(self, a['classname'], a['inheritance'], a['replacement'], a['class number'], context=context)
+                actor = ZDActor(self, a['classname'], self._parse_inherit(a['inheritance'], context), a['replacement'], a['class number'], context=context)
                 ctx = actor.get_context()
 
                 def pending_oper_gen():
@@ -929,42 +990,7 @@ class ZDCode(object):
             elif class_type == 'static template derivation':
                 new_name = a['classname']
 
-                template_name, template_parms, deriv_body = a['source'][1]
-
-                try:
-                    template = context.templates[template_name]
-
-                except KeyError:
-                    raise RuntimeError("Unknown template to derive: '{}'".format(template_name))
-
-                template_labels = {}
-                template_body = []
-                template_macros = {}
-
-                for btype, bdata in deriv_body:
-                    if btype == 'flag':
-                        template_body.append(('flag', bdata))
-
-                    elif btype == 'unflag':
-                        template_body.append(('antiflag', bdata))
-
-                    elif btype == 'label':
-                        if bdata['name'] in template.abstract_label_names:
-                            template_labels[bdata['name']] = bdata
-
-                    elif btype == 'macro':
-                        if bdata['name'] in template.abstract_macro_names:
-                            template_macros[bdata['name']] = bdata
-
-                if len(template_parms) != len(template.template_parameters):
-                    raise RuntimeError("Bad number of template parameters for '{}' when deriving '{}': expected {}, got {}".format(
-                        template_name,
-                        new_name,
-                        len(template.template_parameters),
-                        len(template_parms)
-                    ))
-
-                actor = self._derive_class_from_template(template, template_parms, context, template_labels, template_macros, template_body, name=new_name, pending=pending)
+                self._parse_template_derivation(a['source'][1], context, pending=pending, name=new_name)
 
         for p in pending:
             p()
@@ -981,12 +1007,12 @@ class ZDCode(object):
 
     def __decorate__(self):
         if not self.inventories:
-            return "\n\n\n".join(decorate(a) for a in sorted(self.actors, key=lambda v: v.name))
+            return "\n\n\n".join(decorate(a) for a in self.actors)
 
         return "\n\n\n".join(["\n".join(
             decorate(i) for i in self.inventories
         )] + [
-            decorate(a) for a in sorted(self.actors, key=lambda v: v.name)
+            decorate(a) for a in self.actors
         ]) # lines split for debugging
 
     def decorate(self):

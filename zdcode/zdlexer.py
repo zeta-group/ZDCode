@@ -70,25 +70,6 @@ def modifier():
     return string('[').then(regex('[a-zA-Z\(\)0-9]+').desc('modifier body')).skip(s(']'))
     yield
 
-def _parse_literal(literal):
-    kind, val = literal
-
-    if kind == 'number':
-        return str(val)
-
-    elif kind == 'string':
-        return '"' + val + '"'
-
-    elif kind == 'actor variable':
-        return val
-
-    elif kind == 'call expr':
-        return _parse_action(val)
-
-def _parse_action(a):
-    name, args = a
-    return "{}({})".format(name, '' if args is None else ', '.join(x for x in args))
-
 def _apply_replacements(expr, replacements):
     res = []
 
@@ -125,28 +106,30 @@ def literal():
 
 @generate
 def paren_expr():
-    return s('(') + expression + s(')')
+    return s('(') >> expression << s(')')
     yield
 
 @generate
 def expression():
     return (
-        wo >>
         (
+            wo >>
             (
-                literal.map(_parse_literal) |
-                regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%x]+').desc('operator') |
-                paren_expr.desc('parenthetic expression')
-            ).sep_by(wo).map(lambda x: ' '.join(x))
-        )
-        << wo
-    ) | paren_expr
+                (
+                    literal.tag('literal') |
+                    regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%x]+').desc('operator').tag('oper') |
+                    paren_expr.tag('paren expr').desc('parenthetic expression')
+                ).sep_by(wo).tag('expr')
+            )
+            << wo
+        ) | paren_expr.tag('paren expr')
+    )
     yield
 
 
 @generate
 def arg_expression():
-    return (s('-').optional().map(lambda x: x or '') + expression) | seq(expression, regex(r'[\:\,]') << wo, expression).map(lambda x: "{}: {}".format(x[0], x[2]))
+    return parameter.tag('position arg') | seq(parameter, regex(r'[\:\,]') >> wo >> expression).tag('named arg')
     yield
 
 @generate
@@ -166,7 +149,17 @@ def template_parameter_list():
 
 @generate
 def expr_argument_list():
-    return (anonymous_class | templated_class_derivation | arg_expression).sep_by(regex(r',\s*'))
+    return arg_expression.sep_by(regex(r',\s*'))
+    yield
+
+@generate
+def parameter():
+    return anonymous_class | templated_class_derivation | expression.tag('expression')
+    yield
+
+@generate
+def parameter_list():
+    return parameter.sep_by(regex(r',\s*'))
     yield
 
 @generate
@@ -209,7 +202,7 @@ def templated_class_derivation():
     return seq(
         regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of templated class') << wo,
         (s('::(') >> wo >>
-            expr_argument_list.optional().map(lambda x: x if x and tuple(x) != ('',) else [])
+            parameter_list.optional().map(lambda x: x if x and tuple(x) != ('',) else [])
         << wo << s(')')),
         (
             wo >> s('{') >>
@@ -280,10 +273,18 @@ def sprite_name():
     yield
 
 @generate
+def superclass():
+    return (
+        templated_class_derivation |
+        regex('[a-zA-Z][a-zA-Z0-9_]+').tag('classname')
+    )
+    yield
+
+@generate
 def actor_class():
     return seq(
         ((ist('actor') | ist('class')) << whitespace).desc("class statement") >> regex('[a-zA-Z0-9_]+').desc('class name').tag('classname'),
-        (whitespace >> (ist('inherits') | ist('extends') | ist('expands')) >> whitespace >> regex('[a-zA-Z0-9_]+')).desc('inherited class name').optional().tag('inheritance').desc('inherited class name'),
+        ((whitespace >> (ist('inherits') | ist('extends') | ist('expands'))) >> whitespace >> superclass.desc('inherited class')).optional().tag('inheritance').desc('inherited class name'),
         (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
         (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
         (s('{') >> wo >> class_body.many().optional() << wo.then(s('}')).skip(wo)).tag('body')
@@ -295,7 +296,7 @@ def templated_actor_class():
     return seq(
         (ist('actor') | ist('class') | ist('template')).desc("class template") >> s('<') >> template_parameter_list.tag('parameters') << s('>') << wo,
         regex('[a-zA-Z0-9_]+').desc('class name').tag('classname'),
-        (whitespace >> (ist('inherits') | ist('extends') | ist('expands')) >> whitespace >> regex('[a-zA-Z0-9_]+')).desc('inherited class name').optional().tag('inheritance').desc('inherited class name'),
+        ((whitespace >> (ist('inherits') | ist('extends') | ist('expands'))) >> whitespace >> superclass.desc('inherited class')).optional().tag('inheritance').desc('inherited class name'),
         (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
         (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
         (s('{') >> wo >> (abstract_macro_body.desc('abstract macro').tag('abstract macro') | abstract_label_body.desc('abstract label').tag('abstract label') | class_body).many().optional() << wo.then(s('}')).skip(wo)).tag('body')
@@ -310,7 +311,7 @@ def anonymous_class():
                 (
                     (ist('inherits') | ist('extends') | ist('expands')).desc('inheritance declaration') >> \
                     whitespace >> \
-                    regex('[a-zA-Z0-9_]+')
+                    superclass
                 ).desc('inherited class name').optional().tag('inheritance') <<
                 wo,
 
