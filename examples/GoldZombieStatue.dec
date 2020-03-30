@@ -2,9 +2,9 @@ Actor GoldZombieStatue : ZombieMan
 {
     Translation "0:255=%[0.12,0.2,0.01]:[2.1,2.0,0.6]"
     
+    +NOPAIN
     +NOBLOOD
     +INVULNERABLE
-    +NOPAIN
     States {
         Spawn:
             POSS E 20

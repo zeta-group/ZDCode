@@ -1,5 +1,5 @@
-Actor ZDCode_Call_zKo9Qe50BagErIwYkhWv9smlWoMG8W1QdTc_0 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_zKo9Qe50BagErIwYkhWv9smlWoMG8W1QdTc_1 : Inventory {Inventory.MaxAmount 1}
+Actor ZDCode_Call_gS0XfeDjlETxtNLhYj12NPrKwLwFPw2RD0P_0 : Inventory {Inventory.MaxAmount 1}
+Actor ZDCode_Call_gS0XfeDjlETxtNLhYj12NPrKwLwFPw2RD0P_1 : Inventory {Inventory.MaxAmount 1}
 
 
 Actor MonSpawnO : RandomSpawner
@@ -35,10 +35,10 @@ Actor MultiSpawner
 {
     Gravity 0
     
+    +NOGRAVITY
     +NOBLOCKMAP
     +THRUACTORS
     +NOSECTOR
-    +NOGRAVITY
 }
 
 
@@ -732,16 +732,16 @@ Actor XShotGuySpawner : MultiSpawner
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
-            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_zKo9Qe50BagErIwYkhWv9smlWoMG8W1QdTc_1", 1, "ZDCode_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_gS0XfeDjlETxtNLhYj12NPrKwLwFPw2RD0P_1", 1, "ZDCode_CLabel1")
             TNT1 A -1
             Stop
         
         Spawn:
             TNT1 A 1
-            TNT1 A 0 A_GiveInventory("ZDCode_Call_zKo9Qe50BagErIwYkhWv9smlWoMG8W1QdTc_1")
+            TNT1 A 0 A_GiveInventory("ZDCode_Call_gS0XfeDjlETxtNLhYj12NPrKwLwFPw2RD0P_1")
             Goto ZDCode_Func_MakeSpawn
         ZDCode_CLabel1:
-            TNT1 A 0 A_TakeInventory("ZDCode_Call_zKo9Qe50BagErIwYkhWv9smlWoMG8W1QdTc_1")
+            TNT1 A 0 A_TakeInventory("ZDCode_Call_gS0XfeDjlETxtNLhYj12NPrKwLwFPw2RD0P_1")
             stop
     }
 }
@@ -764,16 +764,16 @@ Actor XZombieSpawner : MultiSpawner
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
-            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_zKo9Qe50BagErIwYkhWv9smlWoMG8W1QdTc_0", 1, "ZDCode_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_gS0XfeDjlETxtNLhYj12NPrKwLwFPw2RD0P_0", 1, "ZDCode_CLabel0")
             TNT1 A -1
             Stop
         
         Spawn:
             TNT1 A 1
-            TNT1 A 0 A_GiveInventory("ZDCode_Call_zKo9Qe50BagErIwYkhWv9smlWoMG8W1QdTc_0")
+            TNT1 A 0 A_GiveInventory("ZDCode_Call_gS0XfeDjlETxtNLhYj12NPrKwLwFPw2RD0P_0")
             Goto ZDCode_Func_MakeSpawn
         ZDCode_CLabel0:
-            TNT1 A 0 A_TakeInventory("ZDCode_Call_zKo9Qe50BagErIwYkhWv9smlWoMG8W1QdTc_0")
+            TNT1 A 0 A_TakeInventory("ZDCode_Call_gS0XfeDjlETxtNLhYj12NPrKwLwFPw2RD0P_0")
             stop
     }
 }

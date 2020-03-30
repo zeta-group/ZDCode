@@ -575,6 +575,7 @@ class ZDCode(object):
 
         elif literal[0] == 'template derivation':
             template_name, template_parms, deriv_body = literal[1]
+            template_parms = [context.replacements.get(a.upper(), a) for a in template_parms]
 
             template_labels = {}
             template_body = []

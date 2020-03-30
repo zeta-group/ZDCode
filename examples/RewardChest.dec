@@ -2,8 +2,8 @@ Actor RewardChest
 {
     Scale 0.5
     
-    +AMBUSH
     +LOOKALLAROUND
+    +AMBUSH
     +QUICKTORETALIATE
     States {
         Spawn:
