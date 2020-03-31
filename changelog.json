@@ -163,6 +163,15 @@
                 "Moved expression resolution from parsing (zdlexer) to compilation",
                 "Fixed control flow missing state count getter"
             ]
+        },
+
+        {
+            "name": "2.6.4",
+            "changes": [
+                "Added user variables",
+                "Added functioning foxes (MSA_Fox from DoomFox.zc2)",
+                "Added example resources"
+            ]
         }
     ]
 }

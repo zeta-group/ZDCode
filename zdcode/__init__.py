@@ -305,6 +305,7 @@ class ZDActor(object):
         self.labels = []
         self.properties = []
         self.flags = set()
+        self.uservars = []
         self.antiflags = set()
         self.inherit = inherit
         self.name = name
@@ -341,6 +342,9 @@ class ZDActor(object):
             r.append(decorate(p))
 
         r.append("")
+
+        for u in self.uservars:
+            r.append('var {} {};'.format(u['type'], u['name']))
 
         for f in self.flags:
             r.append("+{}".format(f))
@@ -407,6 +411,7 @@ class ZDClassTemplate(object):
         self.doomednum = doomednum
         self.parse_data = parse_data
         self.id = make_id(20)
+        self.parametric_table = {}
 
     def generated_class_name(self, parameter_values, new_id):
         hash = hashlib.sha1()
@@ -430,6 +435,9 @@ class ZDClassTemplate(object):
         return '{}__deriv_{}'.format(self.name, hash.hexdigest())
 
     def generate_init_class(self, code, context, parameter_values, provided_label_names=(), provided_macro_names=(), name=None, pending=None):
+        if tuple(parameter_values) in self.parametric_table and not self.abstract_label_names and not self.abstract_macro_names:
+            return (False, self.parametric_table[tuple(parameter_values)])
+
         provided_label_names = set(provided_label_names)
         provided_macro_names = dict(provided_macro_names)
 
@@ -448,7 +456,9 @@ class ZDClassTemplate(object):
             if len(a) != len(provided_macro_names[m]):
                 raise RuntimeError("Tried to derive template {}, but abstract macro {} has the wrong number of arguments: expected {}, got {}!".format(self.name, m, len(a), len(provided_macro_names[m])))
 
-        return res
+        self.parametric_table[tuple(parameter_values)] = res
+
+        return (True, res)
 
     def get_init_replacements(self, code, context, parameter_values):
         return dict(zip((p.upper() for p in self.template_parameters), parameter_values))
@@ -874,46 +884,47 @@ class ZDCode(object):
         macros = dict(macros)
         body = list(body)
 
-        actor = template.generate_init_class(self, context, param_values, set(labels.keys()), { m['name']: m['args'] for m in macros.values() }, name=name)
+        needs_init, actor = template.generate_init_class(self, context, param_values, set(labels.keys()), { m['name']: m['args'] for m in macros.values() }, name=name)
 
-        new_context = actor.get_context()
-        new_context.replacements.update(template.get_init_replacements(self, context, param_values))
-        new_context.replacements['SELF'] = '"' + repr(actor.name)[1:-1] + '"'
+        if needs_init:
+            new_context = actor.get_context()
+            new_context.replacements.update(template.get_init_replacements(self, context, param_values))
+            new_context.replacements['SELF'] = '"' + repr(actor.name)[1:-1] + '"'
 
-        for btype, bdata in body:
-            if btype == 'flag':
-                actor.flags.add(bdata)
+            for btype, bdata in body:
+                if btype == 'flag':
+                    actor.flags.add(bdata)
 
-            if btype == 'antiflag':
-                actor.antiflags.add(bdata)
+                if btype == 'antiflag':
+                    actor.antiflags.add(bdata)
 
-        for name, macro in macros.items():
-            new_context.macros[name] = (macro['args'], macro['body'])
+            for name, macro in macros.items():
+                new_context.macros[name] = (macro['args'], macro['body'])
 
-        def pending_oper_gen():
-            act = actor
-            new_ctx = new_context
-            temp = template
-            labls = labels
+            def pending_oper_gen():
+                act = actor
+                new_ctx = new_context
+                temp = template
+                labls = labels
 
-            def pending_oper():
-                self._parse_class_body(act, new_ctx, temp.parse_data)
+                def pending_oper():
+                    self._parse_class_body(act, new_ctx, temp.parse_data)
 
-                for lname, lval in labls:
-                    label = ZDLabel(act, lname)
+                    for lname, lval in labls:
+                        label = ZDLabel(act, lname)
 
-                    for s in lval['body']:
-                        self._parse_state(act, new_ctx, label, s, None)
+                        for s in lval['body']:
+                            self._parse_state(act, new_ctx, label, s, None)
 
-            return pending_oper
+                return pending_oper
 
-        if pending:
-            pending.append(pending_oper_gen())
+            if pending:
+                pending.append(pending_oper_gen())
 
-        else:
-            pending_oper_gen()()
+            else:
+                pending_oper_gen()()
 
-        self.actors.append(actor)
+            self.actors.append(actor)
 
         return actor
 
@@ -931,6 +942,9 @@ class ZDCode(object):
 
             elif btype == 'flag combo':
                 actor.raw.append(bdata)
+
+            elif btype == 'user var':
+                actor.uservars.append(bdata)
 
             elif btype == 'unflag':
                 actor.antiflags.add(bdata)

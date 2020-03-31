@@ -72,7 +72,7 @@ class Reward_Random extends RandomSpawner {
 
 class<Message, RewardType, Count, UnitChance> Reward_Simple {
     label Spawn {
-        TNT1 A 1 A_Print(Message);
+        TNT1 A 1 A_Log(Message);
         x Count {
             sometimes UnitChance TNT1 A 0 A_SpawnItemEx(RewardType, 0, 0, 0, FRandom(-20, 20), FRandom(-20, 20), FRandom(2, 5));
         };
@@ -89,7 +89,7 @@ derive Reward_Simple::("Stimpacks!", "Stimpack", 20, 80) as Reward_Stimpacks;
 // Common rewards that don't follow the usual simple reward formula
 class Reward_SomeAmmo {
     label Spawn {
-        TNT1 A 1 A_Print("Some ammunition!");
+        TNT1 A 1 A_Log("Some ammunition!");
         x 40 {
             x 2 TNT1 A 0 A_SpawnItemEx("Clip", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
             x 3 TNT1 A 0 A_SpawnItemEx("Shell", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
@@ -105,8 +105,8 @@ derive Reward_Simple::("A radiation suit!", "Radsuit", 1, 100) as Reward_RadSuit
 derive Reward_Simple::("Partial invisibility!", "BlurSphere", 1, 100) as Reward_BlurSphere;
 derive Reward_Simple::("A berserk pack!", "Berserk", 1, 100) as Reward_Berserk;
 derive Reward_Simple::("Light armor!", "GreenArmor", 1, 100) as Reward_GreenArmor;
-derive Reward_Simple::("Invulnerability!", "Invulnerability", 1, 100) as Reward_Invulnerability;
+derive Reward_Simple::("Invulnerability!", "InvulnerabilitySphere", 1, 100) as Reward_Invulnerability;
 derive Reward_Simple::("Heavy armor!", "BlueArmor", 1, 100) as Reward_BlueArmor;
-derive Reward_Simple::("A computer map!", "ComputerMap", 1, 100) as Reward_ComputerMap;
+derive Reward_Simple::("A computer map!", "ComputerAreaMap", 1, 100) as Reward_ComputerMap;
 derive Reward_Simple::("Soulsphere!", "Soulsphere", 1, 100) as Reward_Soulsphere;
 derive Reward_Simple::("Megasphere!", "Megasphere", 1, 100) as Reward_Megasphere;

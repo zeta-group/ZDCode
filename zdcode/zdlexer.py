@@ -244,6 +244,7 @@ def class_body():
                 ((whitespace >> ist('to') << whitespace) | (wo >> s('=') << wo)).desc("'to' or equal sign") >> literal.sep_by((s(',') + wo)).tag('value')
             ).map(dict).tag('property') |
             (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_.]+').desc('flag name')).tag('flag') |
+            (ist('var') << whitespace) >> seq(regex('user_[a-zA-Z0-9_.]+').desc('var name').tag('name'), (wo >> s(':') >> wo >> regex('[a-zA-Z_.][a-zA-Z0-9_.]+')).desc('var type').optional().map(lambda t: t or 'int').tag('type')).map(dict).tag('user var') |
             (((ist("isn't") << whitespace) | string('-')) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
             (ist('combo') >> whitespace >> regex('[a-zA-Z0-9_.]+').desc('combo name')).tag('flag combo') |
             seq((ist("function ") | ist('method ')) >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('function name').tag('name'), state_body.tag('body')).map(dict).tag('function') |

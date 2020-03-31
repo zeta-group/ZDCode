@@ -1,5 +1,6 @@
 class MSPart {
     isn't   SOLID;
+    is      FORCEXYBILLBOARD;
 
     set Gravity to 0;
 }
@@ -16,6 +17,91 @@ class<Size> MSP_Limb extends MSPart {
     abstract macro Display;
 }
 
+class<LimbType> MSGore_FoxLimb {
+    set Gravity                 to 0.825;
+    set BounceFactor            to 0.55;
+    set WallBounceFactor        to 0.8;
+    set BounceType              to "Hexen";
+    set PushFactor              to 0.6;
+    set Species                 to "MSGore";
+    set Radius                  to 2;
+    set Height                  to 3;
+    set BounceCount             to 10;
+
+    set BounceSound             to "zdpack/multisprite/animal/fox/gib/bounce";
+
+    is  BOUNCEONCEILINGS;
+    is  BOUNCEONACTORS;
+    is  ALLOWBOUNCEONACTORS;
+
+    is  PUSHABLE;
+    is  CANNOTPUSH;
+    is  SOLID;
+    is  BOUNCEONACTORS;
+    is  DROPOFF;
+    is  NOBLOCKMONST;
+    is  CANPASS;
+    is  SLIDESONWALLS;
+    is  NOTELESTOMP;
+    is  CANBLAST;
+    is  THRUSPECIES;
+    is  PAINLESS;
+    is  CANBOUNCEWATER;
+    is  CORPSE;
+
+    var user_limbangle;
+
+    macro Display {
+        TNT1 A 0 A_SpawnItemEx(LimbType, 0, 0, 0, 0, 0, 0, user_limbangle);
+        TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx*velx + vely*vely + velz*velz) / 3);
+        TNT1 A 1;
+    };
+
+    label Spawn {
+        TNT1 A 0;
+        TNT1 A 0 x2 A_PlaySound("zdpack/multisprite/animal/fox/gibbed");
+        goto Thrust;
+    };
+
+    label Thrust {
+        TNT1 A 0 {
+            A_CheckFloor("Death");
+            ThrustThing(random(0, 1023) / 4, random(3, 17) * 4, 1, 0);
+            ThrustThingZ(0, random(40, 120), 0, 1);
+        };
+        goto Fly;
+    };
+
+    label Fly {
+        TNT1 A 0 A_ScaleVelocity(0.97);
+
+        if (velx*velx + vely*vely + velz*velz > 3) {
+            sometimes 35 TNT1 A 0 A_SpawnItemEx("Blood", -4, Random(0, 4) - 2, 2, Random(-2, 2), Random(-2, 2), Random(1, -4));
+        };
+
+        inject Display;
+        goto Fly;
+    };
+
+    label Landed {
+        goto Death;
+    };
+
+    label Death {
+        inject Display;
+        TNT1 A 0 A_CheckFloor(2);
+        TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/gib/bounce");
+        goto Fly;
+        sometimes 10 goto RealDeath;
+        loop;
+    };
+
+    label RealDeath {
+        TNT1 A 0;
+        stop;
+    };
+}
+
 derive MSP_Limb::(0.35) { macro Display { FX_H A 1; }; } as MSP_Head1;
 derive MSP_Limb::(0.35) { macro Display { FX_H B 1; }; } as MSP_Head2;
 
@@ -27,33 +113,53 @@ derive MSP_Limb::(0.6) { macro Display { FX_T E 1; }; } as MSP_Tail5;
 
 derive MSP_Limb::(0.6) { macro Display { FX_R A 1; }; } as MSP_Torso;
 
+derive MSP_Limb::(0.5) { macro Display{ FX_L A 1; }; } as MSP_Leg1;
+derive MSP_Limb::(0.5) { macro Display{ FX_L B 1; }; } as MSP_Leg2;
+derive MSP_Limb::(0.5) { macro Display{ FX_L C 1; }; } as MSP_Leg3;
+derive MSP_Limb::(0.5) { macro Display{ FX_L D 1; }; } as MSP_Leg4;
+
+derive MSGore_FoxLimb::("MSP_Leg1") as MSG_Leg;
+derive MSGore_FoxLimb::("MSP_Head2") as MSG_Head;
+derive MSGore_FoxLimb::("MSP_Torso") as MSG_Torso;
+
 
 class MSA_Fox {
+    set     Health          to 55;
+    set     Mass            to 8;
+
     combo   Monster;
+
     is      FRIENDLY;
+    is      NOBLOCKMONST;
+    is      DROPOFF;
+    is      SLIDESONWALLS;
 
     macro SpawnLimb(height, forward, right, cls) {
-        TNT1 A 0 A_SpawnItemEx(cls, forward, right, height);
+        TNT1 A 0 A_SpawnItemEx(cls, forward, right, height + 5);
     };
 
     macro DrawLegAt_A(forward, right) {
-        inject SpawnLimb(9, forward, right, MSP_Limb::(0.65) { macro Display{ FX_L A 1; }; });
+        inject SpawnLimb(9, forward, right, "MSP_Leg1");
     };
 
     macro DrawLegAt_B(forward, right) {
-        inject SpawnLimb(9, forward, right, MSP_Limb::(0.65) { macro Display{ FX_L B 1; }; });
+        inject SpawnLimb(9, forward, right, "MSP_Leg2");
     };
 
     macro DrawLegAt_C(forward, right) {
-        inject SpawnLimb(9, forward, right, MSP_Limb::(0.65) { macro Display{ FX_L C 1; }; });
+        inject SpawnLimb(9, forward, right, "MSP_Leg3");
     };
 
     macro DrawLegAt_D(forward, right) {
-        inject SpawnLimb(9, forward, right, MSP_Limb::(0.65) { macro Display{ FX_L D 1; }; });
+        inject SpawnLimb(9, forward, right, "MSP_Leg4");
     };
 
     macro DrawHeadNormal {
        inject SpawnLimb(9, 24, 0, "MSP_Head1");
+    };
+
+    macro DrawHeadAttack {
+       inject SpawnLimb(9, 24, 0, "MSP_Head2");
     };
 
     macro DrawTorso {
@@ -66,38 +172,38 @@ class MSA_Fox {
 
     // Combine individual parts
     macro DrawLegsNormal {
-        inject DrawLegAt_A( 6, -5);
-        inject DrawLegAt_A( 6,  5);
-        inject DrawLegAt_A(-6, -5);
-        inject DrawLegAt_A(-6,  5);
+        inject DrawLegAt_A( 6, -3.5);
+        inject DrawLegAt_A( 6,  3.5);
+        inject DrawLegAt_A(-6, -3.5);
+        inject DrawLegAt_A(-6,  3.5);
     };
 
     macro DrawLegs1 {
-        inject DrawLegAt_A( 6, -5);
-        inject DrawLegAt_C( 6,  5);
-        inject DrawLegAt_A(-6, -5);
-        inject DrawLegAt_C(-6,  5);
+        inject DrawLegAt_A( 6, -3.5);
+        inject DrawLegAt_C( 6,  3.5);
+        inject DrawLegAt_A(-6, -3.5);
+        inject DrawLegAt_C(-6,  3.5);
     };
 
     macro DrawLegs2 {
-        inject DrawLegAt_B( 6, -5);
-        inject DrawLegAt_D( 6,  5);
-        inject DrawLegAt_B(-6, -5);
-        inject DrawLegAt_D(-6,  5);
+        inject DrawLegAt_B( 6, -3.5);
+        inject DrawLegAt_D( 6,  3.5);
+        inject DrawLegAt_B(-6, -3.5);
+        inject DrawLegAt_D(-6,  3.5);
     };
 
     macro DrawLegs3 {
-        inject DrawLegAt_C( 6, -5);
-        inject DrawLegAt_A( 6,  5);
-        inject DrawLegAt_C(-6, -5);
-        inject DrawLegAt_A(-6,  5);
+        inject DrawLegAt_C( 6, -3.5);
+        inject DrawLegAt_A( 6,  3.5);
+        inject DrawLegAt_C(-6, -3.5);
+        inject DrawLegAt_A(-6,  3.5);
     };
 
     macro DrawLegs4 {
-        inject DrawLegAt_D( 6, -5);
-        inject DrawLegAt_B( 6,  5);
-        inject DrawLegAt_D(-6, -5);
-        inject DrawLegAt_B(-6,  5);
+        inject DrawLegAt_D( 6, -3.5);
+        inject DrawLegAt_B( 6,  3.5);
+        inject DrawLegAt_D(-6, -3.5);
+        inject DrawLegAt_B(-6,  3.5);
     };
 
     // Animations
@@ -157,6 +263,34 @@ class MSA_Fox {
         inject DrawHeadNormal;
     };
 
+    macro DrawAttack1 {
+        inject DrawLegsNormal;
+        inject DrawTorso;
+        inject DrawTail1;
+        inject DrawHeadAttack;
+    };
+
+    macro DrawAttack2 {
+        inject DrawLegsNormal;
+        inject DrawTorso;
+        inject DrawTail3;
+        inject DrawHeadAttack;
+    };
+
+    macro DrawAttack3 {
+        inject DrawLegsNormal;
+        inject DrawTorso;
+        inject DrawTail1;
+        inject DrawHeadAttack;
+    };
+
+    macro DrawAttack4 {
+        inject DrawLegsNormal;
+        inject DrawTorso;
+        inject DrawTail5;
+        inject DrawHeadAttack;
+    };
+
     macro DrawWalk1 {
         inject DrawLegs1;
         inject DrawTorso;
@@ -172,14 +306,14 @@ class MSA_Fox {
     };
 
     macro DrawWalk3 {
-        inject DrawLegs2;
+        inject DrawLegs3;
         inject DrawTorso;
         inject DrawTail1;
         inject DrawHeadNormal;
     };
 
     macro DrawWalk4 {
-        inject DrawLegs2;
+        inject DrawLegs4;
         inject DrawTorso;
         inject DrawTail5;
         inject DrawHeadNormal;
@@ -208,24 +342,74 @@ class MSA_Fox {
             goto Idle;
         };
 
-        Loop;
+        loop;
     };
 
     label Idle {
         x6 { TNT1 A 1; inject DrawWalk1; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
+        sometimes 8 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
         x4 { TNT1 A 1; inject DrawWalk2; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
+        sometimes 8 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
         x6 { TNT1 A 1; inject DrawWalk3; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
-        x4 { TNT1 A 1; inject DrawWalk2; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
+        sometimes 8 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
+        x4 { TNT1 A 1; inject DrawWalk4; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
+        sometimes 8 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
 
-        Loop;
+        loop;
+    };
+
+    label Pain {
+        TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/hurt");
+        x3 { TNT1 A 1; inject DrawAttack3; };
+        x2 { TNT1 A 1; inject DrawAttack2; };
+             TNT1 A 1; inject DrawAttack1;
+
+        TNT1 A 0 A_JumpIfTargetInLOS("Idle");
+        goto See;
     };
 
     label See {
         x4 { TNT1 A 1; inject DrawWalk1; TNT1 A 0               { A_Chase; A_Wander; A_Recoil(-0.8); }; };
+        sometimes 7 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see");
         x2 { TNT1 A 1; inject DrawWalk2; TNT1 A 0               { A_Chase; A_Wander; A_Recoil(-0.8); }; };
+        sometimes 6 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see");
         x3 { TNT1 A 1; inject DrawWalk3; TNT1 A 0  { A_Chase; A_Wander; A_Recoil(-0.8); }; };
-        x2 { TNT1 A 1; inject DrawWalk2; TNT1 A 0               { A_Chase; A_Wander; A_Recoil(-0.8); }; };
+        sometimes 7 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see");
+        x2 { TNT1 A 1; inject DrawWalk4; TNT1 A 0               { A_Chase; A_Wander; A_Recoil(-0.8); }; };
+        sometimes 6 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see");
 
-        Loop;
+        loop;
+    };
+
+    macro MeleeAttack {
+        TNT1 A 0 A_FaceTarget;
+        TNT1 A 0 A_CustomMeleeAttack(random(1, 6), "zdpack/multisprite/animal/fox/bite");
+    };
+
+    label Melee {
+        x5 { TNT1 A 1; inject DrawAttack1; TNT1 A 0 { A_FaceTarget; A_Recoil(-0.3); }; };
+        goto MeleeLoop;
+    };
+
+    label MeleeLoop {
+        x2 { TNT1 A 1; inject DrawAttack1; TNT1 A 0 { A_FaceTarget; A_Recoil(-0.3); }; inject MeleeAttack; };
+        TNT1 A 0 A_JumpIfTargetOutsideMeleeRange("See");
+        x2 { TNT1 A 1; inject DrawAttack2; TNT1 A 0 { A_FaceTarget; A_Recoil(-0.3); }; };
+        TNT1 A 0 A_JumpIfTargetOutsideMeleeRange("See");
+        x2 { TNT1 A 1; inject DrawAttack4; TNT1 A 0 { A_FaceTarget; A_Recoil(-0.3); }; inject MeleeAttack; };
+        TNT1 A 0 A_JumpIfTargetOutsideMeleeRange("See");
+        x2 { TNT1 A 1; inject DrawAttack3; TNT1 A 0 { A_FaceTarget; A_Recoil(-0.3); }; };
+        TNT1 A 0 A_JumpIfTargetOutsideMeleeRange("See");
+        TNT1 A 0 A_ClearTarget;
+        goto Idle;
+    };
+
+    label Death {
+        TNT1 A 0 {
+            x4 A_SpawnItemEx("MSG_Leg", 0, 0, height * 1.2);
+            A_SpawnItemEx("MSG_Head", 0, 0, height * 1.2);
+            A_SpawnItemEx("MSG_Torso", 0, 0, height * 1.2);
+        };
+        stop;
     };
 }

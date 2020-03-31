@@ -75,9 +75,27 @@ if code:
         with opkg.open('DECORATE.Bundle', 'w') as odec:
             odec.write(zdcode.decorate(code).encode('utf-8'))
 
+        for root, dirs, files in os.walk('examples'):
+            if root == 'examples':
+                for f in files:
+                    if f.endswith('.zc2'):
+                        pkgpath = 'ZDCode/{}'.format(f)
+
+                        with opkg.open(pkgpath, 'w') as ofile:
+                            with open(path.join(root, f), 'rb') as ifile:
+                                ofile.write(ifile.read())
+
         for root, dirs, files in os.walk('examples/resources/'):
+            rpath = os.path.relpath(root, 'examples/resources')
+
             for f in files:
-                with opkg.open(path.join(os.path.relpath(root, 'examples/resources/'), f), 'w') as ofile:
+                if rpath == '.':
+                    pkgpath = f
+
+                else:
+                    pkgpath = path.join(rpath, f)
+
+                with opkg.open(pkgpath, 'w') as ofile:
                     with open(path.join(root, f), 'rb') as ifile:
                         ofile.write(ifile.read())
 
