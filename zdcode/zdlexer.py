@@ -421,7 +421,7 @@ def sometimes_statement():
     return seq(
         s('sometimes') >>\
                 whitespace >>\
-                replaceable_number.tag('chance') <<\
+                (s('(') >> wo >> expression << wo << s(')') | replaceable_number.map(lambda r: ('expr', [('literal', (('number' if type(r) is int else 'actor variable'), r))]))).tag('chance') <<\
                 s('%').optional() <<
                 wo,
         state_body.optional().map(lambda x: x if x != None else []).tag('body')

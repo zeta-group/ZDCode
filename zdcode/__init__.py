@@ -493,7 +493,6 @@ class ZDSometimes(object):
         self._actor = actor
         self.chance = chance
         self.states = states
-        self.real_fail_chance = str(int(2.55 * (100 - float(self.chance))))
 
     def num_states(self):
         return sum(x.num_states() for x in self.states) + 2
@@ -501,7 +500,7 @@ class ZDSometimes(object):
     def __decorate__(self):
         num_st = sum(x.num_states() for x in self.states)
 
-        return redent("TNT1 A 0 A_Jump({}, {})\n".format(self.real_fail_chance, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
+        return redent("TNT1 A 0 A_Jump(255-(2.55*({})), {})\n".format(self.chance, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
 
 num_whiles = 0
 
@@ -783,29 +782,13 @@ class ZDCode(object):
         elif s[0] == 'sometimes':
             s = dict(s[1])
 
-            cval = s['chance']
+            chance = self._parse_expression(s['chance'], context)
+            sms = ZDSometimes(actor, chance, [])
 
-            if isinstance(cval, str):
-                cval = context.replacements.get(cval.upper(), cval)
+            for a in s['body']:
+                self._parse_state(actor, context, sms, a, func)
 
-            try:
-                chance = float(cval)
-
-            except ValueError:
-                raise ValueError("Invalid repeat count: expected valid real number, got {}".format(repr(cval)))
-
-            if chance >= 0:
-                if chance >= 100:
-                    for a in s['body']:
-                        self._parse_state(actor, context, label, a, func)
-
-                else:
-                    sms = ZDSometimes(actor, chance, [])
-
-                    for a in s['body']:
-                        self._parse_state(actor, context, sms, a, func)
-
-                    label.states.append(sms)
+            label.states.append(sms)
 
         elif s[0] == 'if':
             ifs = ZDIfStatement(actor, self._parse_expression(s[1][0], context), [])

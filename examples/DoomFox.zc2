@@ -2,6 +2,8 @@ class MSPart {
     isn't   SOLID;
     is      FORCEXYBILLBOARD;
 
+    is  CLIENTSIDEONLY;
+
     set Gravity to 0;
 }
 
@@ -54,7 +56,7 @@ class<LimbType> MSGore_FoxLimb {
 
     macro Display {
         TNT1 A 0 A_SpawnItemEx(LimbType, 0, 0, 0, 0, 0, 0, user_limbangle);
-        TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx*velx + vely*vely + velz*velz) / 3);
+        TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx*velx + vely*vely + velz*velz) * 0.3);
         TNT1 A 1;
     };
 
@@ -67,7 +69,7 @@ class<LimbType> MSGore_FoxLimb {
     label Thrust {
         TNT1 A 0 {
             A_CheckFloor("Death");
-            ThrustThing(random(0, 1023) / 4, random(3, 17) * 4, 1, 0);
+            ThrustThing(random(0, 255), random(3, 17) * 4, 1, 0);
             ThrustThingZ(0, random(40, 120), 0, 1);
         };
         goto Fly;
@@ -439,8 +441,11 @@ class<PickupSprite, PickupType> FoxyPickup {
     };
 
     label SpawnFox {
-        x 5 sometimes 80 {
-            keeps 4 [Bright] ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0);
+        keeps 0 ThrustThingZ(0, random(3, 8), 0, 1);
+
+        keeps 30 [Bright] ThrustThing(random(0, 255), random(2, 5), 0, 0);
+        x 3 sometimes 70 {
+            keeps 30 [Bright] ThrustThing(random(0, 255), random(2, 5), 0, 0);
         };
     
         TNT1 A 0 A_SpawnItemEx("MSA_Fox");
@@ -450,12 +455,18 @@ class<PickupSprite, PickupType> FoxyPickup {
     };
 }
 
-class<PickupSprite, PickupType, NormalChance, FoxChance> FoxyPickupSpawner extends RandomSpawner replaces PickupType {
-    set DropItem to class extends PickupType, 255, NormalChance;
-    set DropItem to FoxyPickup::(PickupSprite, PickupType), 255, FoxChance;
+class<PickupSprite, PickupType, NormalChance, FoxChance> FoxyPickupSpawner replaces PickupType {
+    label Spawn {
+        TNT1 A 0;
+        sometimes (100 * FoxChance / (NormalChance + FoxChance)) {
+            TNT1 A 0 A_SpawnItemEx(FoxyPickup::(PickupSprite, PickupType), 0, 0, 4);
+            stop;
+        };
+        TNT1 A 0 A_SpawnItemEx(class extends PickupType);
+        stop;
+    };
 }
 
 derive FoxyPickupSpawner::("BON1", "HealthBonus",   8,  1) as FoxyHealthBonusSpawner;
 derive FoxyPickupSpawner::("BON2", "ArmorBonus",    32, 7) as FoxyArmorBonusSpawner;
-derive FoxyPickupSpawner::("CLIP", "Clip",          9,  2) as FoxyClipSpawner;
 derive FoxyPickupSpawner::("CLIP", "Clip",          9,  2) as FoxyClipSpawner;

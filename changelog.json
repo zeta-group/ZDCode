@@ -181,6 +181,13 @@
                 "Made anonymous class inheritance parametrizable",
                 "Properties can now be template derivations or anonymous classes as well"
             ]
+        },
+
+        {
+            "name": "2.6.6",
+            "changes": [
+                "Added dynamic expression support to sometimes statement"
+            ]
         }
     ]
 }

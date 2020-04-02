@@ -1,24 +1,24 @@
-Actor _AnonymClass_sExW8BysawqMzIY8xiZaX8NxT94uo6ieTsm_0 : "HealthBonus"
+Actor _AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_0 : "HealthBonus"
 {
 
 }
-Actor _AnonymClass_sExW8BysawqMzIY8xiZaX8NxT94uo6ieTsm_1 : "HealthBonus"
+Actor _AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_1 : "HealthBonus"
 {
 
 }
-Actor _AnonymClass_sExW8BysawqMzIY8xiZaX8NxT94uo6ieTsm_2 : "ArmorBonus"
+Actor _AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_2 : "ArmorBonus"
 {
 
 }
-Actor _AnonymClass_sExW8BysawqMzIY8xiZaX8NxT94uo6ieTsm_3 : "ArmorBonus"
+Actor _AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_3 : "ArmorBonus"
 {
 
 }
-Actor _AnonymClass_sExW8BysawqMzIY8xiZaX8NxT94uo6ieTsm_4 : "Clip"
+Actor _AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_4 : "Clip"
 {
 
 }
-Actor _AnonymClass_sExW8BysawqMzIY8xiZaX8NxT94uo6ieTsm_5 : "Clip"
+Actor _AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_5 : "Clip"
 {
 
 }
@@ -28,6 +28,7 @@ Actor MSPart
 {
     Gravity 0
     
+    +CLIENTSIDEONLY
     +FORCEXYBILLBOARD
     -SOLID
 }
@@ -191,23 +192,23 @@ Actor MSG_Leg
     WallBounceFactor 0.8
     
     var int user_limbangle;
-    +PUSHABLE
     +NOTELESTOMP
-    +SOLID
-    +CANBLAST
-    +CANNOTPUSH
-    +PAINLESS
-    +CANBOUNCEWATER
-    +BOUNCEONWALLS
-    +THRUSPECIES
-    +SLIDESONWALLS
     +DROPOFF
+    +CANBLAST
     +ALLOWBOUNCEONACTORS
-    +BOUNCEONACTORS
-    +CANPASS
-    +NOBLOCKMONST
-    +BOUNCEONCEILINGS
+    +SOLID
+    +THRUSPECIES
     +CORPSE
+    +CANPASS
+    +BOUNCEONWALLS
+    +PAINLESS
+    +BOUNCEONACTORS
+    +CANNOTPUSH
+    +NOBLOCKMONST
+    +SLIDESONWALLS
+    +CANBOUNCEWATER
+    +BOUNCEONCEILINGS
+    +PUSHABLE
     States {
         Spawn:
             TNT1 A 0
@@ -217,19 +218,19 @@ Actor MSG_Leg
         
         Thrust:
             TNT1 A 0 A_CheckFloor("Death")
-            TNT1 A 0 ThrustThing(random(0, 1023) / 4, random(3, 17) * 4, 1, 0)
+            TNT1 A 0 ThrustThing(random(0, 255), random(3, 17) * 4, 1, 0)
             TNT1 A 0 ThrustThingZ(0, random(40, 120), 0, 1)
             goto fly
         
         Fly:
             TNT1 A 0 A_ScaleVelocity(0.97)
             TNT1 A 0 A_JumpIf(!(velx * velx + vely * vely + velz * velz > 3), 4)
-                TNT1 A 0 A_Jump(165, 2)
+                TNT1 A 0 A_Jump(255-(2.55*(35)), 2)
                 TNT1 A 0 A_SpawnItemEx("Blood", -4, Random(0, 4) - 2, 2, Random(-2, 2), Random(-2, 2), Random(1, -4))
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSP_Leg1", 0, 0, 0, 0, 0, 0, user_limbangle)
-            TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx * velx + vely * vely + velz * velz) / 3)
+            TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx * velx + vely * vely + velz * velz) * 0.3)
             TNT1 A 1
             goto fly
         
@@ -238,12 +239,12 @@ Actor MSG_Leg
         
         Death:
             TNT1 A 0 A_SpawnItemEx("MSP_Leg1", 0, 0, 0, 0, 0, 0, user_limbangle)
-            TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx * velx + vely * vely + velz * velz) / 3)
+            TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx * velx + vely * vely + velz * velz) * 0.3)
             TNT1 A 1
             TNT1 A 0 A_CheckFloor(2)
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/gib/bounce")
             goto fly
-            TNT1 A 0 A_Jump(229, 1)
+            TNT1 A 0 A_Jump(255-(2.55*(10)), 1)
             goto realdeath
             TNT1 A 0
             goto Death
@@ -269,23 +270,23 @@ Actor MSG_Head
     WallBounceFactor 0.8
     
     var int user_limbangle;
-    +PUSHABLE
     +NOTELESTOMP
-    +SOLID
-    +CANBLAST
-    +CANNOTPUSH
-    +PAINLESS
-    +CANBOUNCEWATER
-    +BOUNCEONWALLS
-    +THRUSPECIES
-    +SLIDESONWALLS
     +DROPOFF
+    +CANBLAST
     +ALLOWBOUNCEONACTORS
-    +BOUNCEONACTORS
-    +CANPASS
-    +NOBLOCKMONST
-    +BOUNCEONCEILINGS
+    +SOLID
+    +THRUSPECIES
     +CORPSE
+    +CANPASS
+    +BOUNCEONWALLS
+    +PAINLESS
+    +BOUNCEONACTORS
+    +CANNOTPUSH
+    +NOBLOCKMONST
+    +SLIDESONWALLS
+    +CANBOUNCEWATER
+    +BOUNCEONCEILINGS
+    +PUSHABLE
     States {
         Spawn:
             TNT1 A 0
@@ -295,19 +296,19 @@ Actor MSG_Head
         
         Thrust:
             TNT1 A 0 A_CheckFloor("Death")
-            TNT1 A 0 ThrustThing(random(0, 1023) / 4, random(3, 17) * 4, 1, 0)
+            TNT1 A 0 ThrustThing(random(0, 255), random(3, 17) * 4, 1, 0)
             TNT1 A 0 ThrustThingZ(0, random(40, 120), 0, 1)
             goto fly
         
         Fly:
             TNT1 A 0 A_ScaleVelocity(0.97)
             TNT1 A 0 A_JumpIf(!(velx * velx + vely * vely + velz * velz > 3), 4)
-                TNT1 A 0 A_Jump(165, 2)
+                TNT1 A 0 A_Jump(255-(2.55*(35)), 2)
                 TNT1 A 0 A_SpawnItemEx("Blood", -4, Random(0, 4) - 2, 2, Random(-2, 2), Random(-2, 2), Random(1, -4))
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSP_Head2", 0, 0, 0, 0, 0, 0, user_limbangle)
-            TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx * velx + vely * vely + velz * velz) / 3)
+            TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx * velx + vely * vely + velz * velz) * 0.3)
             TNT1 A 1
             goto fly
         
@@ -316,12 +317,12 @@ Actor MSG_Head
         
         Death:
             TNT1 A 0 A_SpawnItemEx("MSP_Head2", 0, 0, 0, 0, 0, 0, user_limbangle)
-            TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx * velx + vely * vely + velz * velz) / 3)
+            TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx * velx + vely * vely + velz * velz) * 0.3)
             TNT1 A 1
             TNT1 A 0 A_CheckFloor(2)
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/gib/bounce")
             goto fly
-            TNT1 A 0 A_Jump(229, 1)
+            TNT1 A 0 A_Jump(255-(2.55*(10)), 1)
             goto realdeath
             TNT1 A 0
             goto Death
@@ -347,23 +348,23 @@ Actor MSG_Torso
     WallBounceFactor 0.8
     
     var int user_limbangle;
-    +PUSHABLE
     +NOTELESTOMP
-    +SOLID
-    +CANBLAST
-    +CANNOTPUSH
-    +PAINLESS
-    +CANBOUNCEWATER
-    +BOUNCEONWALLS
-    +THRUSPECIES
-    +SLIDESONWALLS
     +DROPOFF
+    +CANBLAST
     +ALLOWBOUNCEONACTORS
-    +BOUNCEONACTORS
-    +CANPASS
-    +NOBLOCKMONST
-    +BOUNCEONCEILINGS
+    +SOLID
+    +THRUSPECIES
     +CORPSE
+    +CANPASS
+    +BOUNCEONWALLS
+    +PAINLESS
+    +BOUNCEONACTORS
+    +CANNOTPUSH
+    +NOBLOCKMONST
+    +SLIDESONWALLS
+    +CANBOUNCEWATER
+    +BOUNCEONCEILINGS
+    +PUSHABLE
     States {
         Spawn:
             TNT1 A 0
@@ -373,19 +374,19 @@ Actor MSG_Torso
         
         Thrust:
             TNT1 A 0 A_CheckFloor("Death")
-            TNT1 A 0 ThrustThing(random(0, 1023) / 4, random(3, 17) * 4, 1, 0)
+            TNT1 A 0 ThrustThing(random(0, 255), random(3, 17) * 4, 1, 0)
             TNT1 A 0 ThrustThingZ(0, random(40, 120), 0, 1)
             goto fly
         
         Fly:
             TNT1 A 0 A_ScaleVelocity(0.97)
             TNT1 A 0 A_JumpIf(!(velx * velx + vely * vely + velz * velz > 3), 4)
-                TNT1 A 0 A_Jump(165, 2)
+                TNT1 A 0 A_Jump(255-(2.55*(35)), 2)
                 TNT1 A 0 A_SpawnItemEx("Blood", -4, Random(0, 4) - 2, 2, Random(-2, 2), Random(-2, 2), Random(1, -4))
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSP_Torso", 0, 0, 0, 0, 0, 0, user_limbangle)
-            TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx * velx + vely * vely + velz * velz) / 3)
+            TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx * velx + vely * vely + velz * velz) * 0.3)
             TNT1 A 1
             goto fly
         
@@ -394,12 +395,12 @@ Actor MSG_Torso
         
         Death:
             TNT1 A 0 A_SpawnItemEx("MSP_Torso", 0, 0, 0, 0, 0, 0, user_limbangle)
-            TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx * velx + vely * vely + velz * velz) / 3)
+            TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx * velx + vely * vely + velz * velz) * 0.3)
             TNT1 A 1
             TNT1 A 0 A_CheckFloor(2)
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/gib/bounce")
             goto fly
-            TNT1 A 0 A_Jump(229, 1)
+            TNT1 A 0 A_Jump(255-(2.55*(10)), 1)
             goto realdeath
             TNT1 A 0
             goto Death
@@ -417,9 +418,9 @@ Actor MSA_Fox
     Mass 8
     
     +FRIENDLY
+    +DROPOFF
     +SLIDESONWALLS
     +NOBLOCKMONST
-    +DROPOFF
     Monster
     States {
         Spawn:
@@ -843,7 +844,7 @@ Actor MSA_Fox
             TNT1 A 0 A_SpawnItemEx("MSP_Tail4", -8, 0, 11 + 5)
             TNT1 A 0 A_SpawnItemEx("MSP_Head1", 24, 0, 9 + 5)
             TNT1 A 0 A_Look
-            TNT1 A 0 A_Jump(63, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(75)), 2)
             TNT1 A 0 A_ClearTarget
             goto idle
             TNT1 A 0
@@ -916,7 +917,7 @@ Actor MSA_Fox
             TNT1 A 0 A_Look
             TNT1 A 0 A_Wander
             TNT1 A 0 A_Recoil(-0.4)
-            TNT1 A 0 A_Jump(234, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(8)), 2)
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle")
             TNT1 A 0
             TNT1 A 1
@@ -963,7 +964,7 @@ Actor MSA_Fox
             TNT1 A 0 A_Look
             TNT1 A 0 A_Wander
             TNT1 A 0 A_Recoil(-0.4)
-            TNT1 A 0 A_Jump(234, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(8)), 2)
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle")
             TNT1 A 0
             TNT1 A 1
@@ -1032,7 +1033,7 @@ Actor MSA_Fox
             TNT1 A 0 A_Look
             TNT1 A 0 A_Wander
             TNT1 A 0 A_Recoil(-0.4)
-            TNT1 A 0 A_Jump(234, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(8)), 2)
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle")
             TNT1 A 0
             TNT1 A 1
@@ -1079,7 +1080,7 @@ Actor MSA_Fox
             TNT1 A 0 A_Look
             TNT1 A 0 A_Wander
             TNT1 A 0 A_Recoil(-0.4)
-            TNT1 A 0 A_Jump(234, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(8)), 2)
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle")
             TNT1 A 0
             goto Idle
@@ -1182,7 +1183,7 @@ Actor MSA_Fox
             TNT1 A 0 A_Chase
             TNT1 A 0 A_Wander
             TNT1 A 0 A_Recoil(-0.8)
-            TNT1 A 0 A_Jump(237, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(7)), 2)
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see")
             TNT1 A 0
             TNT1 A 1
@@ -1207,7 +1208,7 @@ Actor MSA_Fox
             TNT1 A 0 A_Chase
             TNT1 A 0 A_Wander
             TNT1 A 0 A_Recoil(-0.8)
-            TNT1 A 0 A_Jump(239, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(6)), 2)
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see")
             TNT1 A 0
             TNT1 A 1
@@ -1243,7 +1244,7 @@ Actor MSA_Fox
             TNT1 A 0 A_Chase
             TNT1 A 0 A_Wander
             TNT1 A 0 A_Recoil(-0.8)
-            TNT1 A 0 A_Jump(237, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(7)), 2)
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see")
             TNT1 A 0
             TNT1 A 1
@@ -1268,7 +1269,7 @@ Actor MSA_Fox
             TNT1 A 0 A_Chase
             TNT1 A 0 A_Wander
             TNT1 A 0 A_Recoil(-0.8)
-            TNT1 A 0 A_Jump(239, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(6)), 2)
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see")
             TNT1 A 0
             goto See
@@ -1339,7 +1340,7 @@ Actor MSA_Fox
             TNT1 A 0 A_Recoil(-0.3)
             TNT1 A 0 A_FaceTarget
             TNT1 A 0 A_CustomMeleeAttack(random(1, 6), "zdpack/multisprite/animal/fox/bite")
-            TNT1 A 0 A_Jump(178, 1)
+            TNT1 A 0 A_Jump(255-(2.55*(30)), 1)
             goto idle
             TNT1 A 0
             TNT1 A 1
@@ -1354,7 +1355,7 @@ Actor MSA_Fox
             TNT1 A 0 A_Recoil(-0.3)
             TNT1 A 0 A_FaceTarget
             TNT1 A 0 A_CustomMeleeAttack(random(1, 6), "zdpack/multisprite/animal/fox/bite")
-            TNT1 A 0 A_Jump(178, 1)
+            TNT1 A 0 A_Jump(255-(2.55*(30)), 1)
             goto idle
             TNT1 A 0
             TNT1 A 0 A_JumpIfTargetOutsideMeleeRange("See")
@@ -1391,7 +1392,7 @@ Actor MSA_Fox
             TNT1 A 0 A_Recoil(-0.3)
             TNT1 A 0 A_FaceTarget
             TNT1 A 0 A_CustomMeleeAttack(random(1, 6), "zdpack/multisprite/animal/fox/bite")
-            TNT1 A 0 A_Jump(178, 1)
+            TNT1 A 0 A_Jump(255-(2.55*(30)), 1)
             goto idle
             TNT1 A 0
             TNT1 A 1
@@ -1406,7 +1407,7 @@ Actor MSA_Fox
             TNT1 A 0 A_Recoil(-0.3)
             TNT1 A 0 A_FaceTarget
             TNT1 A 0 A_CustomMeleeAttack(random(1, 6), "zdpack/multisprite/animal/fox/bite")
-            TNT1 A 0 A_Jump(178, 1)
+            TNT1 A 0 A_Jump(255-(2.55*(30)), 1)
             goto idle
             TNT1 A 0
             TNT1 A 0 A_JumpIfTargetOutsideMeleeRange("See")
@@ -1446,31 +1447,58 @@ Actor MSA_Fox
 }
 
 
-Actor FoxyHealthBonusSpawner : RandomSpawner replaces "HealthBonus"
+Actor FoxyHealthBonusSpawner replaces "HealthBonus"
 {
-    DropItem "_AnonymClass_sExW8BysawqMzIY8xiZaX8NxT94uo6ieTsm_0", 255, 8
-    DropItem "FoxyPickup__deriv_ee8a44526d84bd30ac1b79d48d86146607ff3e5a", 255, 1
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255-(2.55*(100 * 1 / (8 + 1))), 2)
+            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_d3735c624770fb157fed03541b73a4ecff0ada3e", 0, 0, 4)
+            stop
+            TNT1 A 0
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_1")
+            stop
+    }
 }
 
 
-Actor FoxyArmorBonusSpawner : RandomSpawner replaces "ArmorBonus"
+Actor FoxyArmorBonusSpawner replaces "ArmorBonus"
 {
-    DropItem "_AnonymClass_sExW8BysawqMzIY8xiZaX8NxT94uo6ieTsm_2", 255, 32
-    DropItem "FoxyPickup__deriv_921a4b6088c3527b26be4a949920b39c6825467b", 255, 7
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255-(2.55*(100 * 7 / (32 + 7))), 2)
+            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_cc3412b5b65bd7887249d4ad2ac190c29a2d0e65", 0, 0, 4)
+            stop
+            TNT1 A 0
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_3")
+            stop
+    }
 }
 
 
-Actor FoxyClipSpawner : RandomSpawner replaces "Clip"
+Actor FoxyClipSpawner replaces "Clip"
 {
-    DropItem "_AnonymClass_sExW8BysawqMzIY8xiZaX8NxT94uo6ieTsm_4", 255, 9
-    DropItem "FoxyPickup__deriv_d98112ffbb31c62a8e56c132d48ef5c099ac2888", 255, 2
+
+    States {
+        Spawn:
+            TNT1 A 0
+            TNT1 A 0 A_Jump(255-(2.55*(100 * 2 / (9 + 2))), 2)
+            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_580414f7ed7300406f96733ab4dc5343704e3009", 0, 0, 4)
+            stop
+            TNT1 A 0
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_5")
+            stop
+    }
 }
 
 
-Actor FoxyPickup__deriv_ee8a44526d84bd30ac1b79d48d86146607ff3e5a
+Actor FoxyPickup__deriv_d3735c624770fb157fed03541b73a4ecff0ada3e
 {
-    +QUICKTORETALIATE
     +LOOKALLAROUND
+    +QUICKTORETALIATE
     +AMBUSH
     States {
         Spawn:
@@ -1486,32 +1514,28 @@ Actor FoxyPickup__deriv_ee8a44526d84bd30ac1b79d48d86146607ff3e5a
             goto look
         
         SpawnFox:
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
+            "####" "#" 0 ThrustThingZ(0, random(3, 8), 0, 1)
+            "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
+            TNT1 A 0 A_Jump(255-(2.55*(70)), 2)
+            "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
             TNT1 A 0
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
+            TNT1 A 0 A_Jump(255-(2.55*(70)), 2)
+            "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
             TNT1 A 0
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
-            TNT1 A 0
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
-            TNT1 A 0
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
+            TNT1 A 0 A_Jump(255-(2.55*(70)), 2)
+            "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_sExW8BysawqMzIY8xiZaX8NxT94uo6ieTsm_1")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_0")
             stop
     }
 }
 
 
-Actor FoxyPickup__deriv_921a4b6088c3527b26be4a949920b39c6825467b
+Actor FoxyPickup__deriv_cc3412b5b65bd7887249d4ad2ac190c29a2d0e65
 {
-    +QUICKTORETALIATE
     +LOOKALLAROUND
+    +QUICKTORETALIATE
     +AMBUSH
     States {
         Spawn:
@@ -1527,32 +1551,28 @@ Actor FoxyPickup__deriv_921a4b6088c3527b26be4a949920b39c6825467b
             goto look
         
         SpawnFox:
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
+            "####" "#" 0 ThrustThingZ(0, random(3, 8), 0, 1)
+            "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
+            TNT1 A 0 A_Jump(255-(2.55*(70)), 2)
+            "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
             TNT1 A 0
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
+            TNT1 A 0 A_Jump(255-(2.55*(70)), 2)
+            "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
             TNT1 A 0
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
-            TNT1 A 0
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
-            TNT1 A 0
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
+            TNT1 A 0 A_Jump(255-(2.55*(70)), 2)
+            "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_sExW8BysawqMzIY8xiZaX8NxT94uo6ieTsm_3")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_2")
             stop
     }
 }
 
 
-Actor FoxyPickup__deriv_d98112ffbb31c62a8e56c132d48ef5c099ac2888
+Actor FoxyPickup__deriv_580414f7ed7300406f96733ab4dc5343704e3009
 {
-    +QUICKTORETALIATE
     +LOOKALLAROUND
+    +QUICKTORETALIATE
     +AMBUSH
     States {
         Spawn:
@@ -1568,23 +1588,19 @@ Actor FoxyPickup__deriv_d98112ffbb31c62a8e56c132d48ef5c099ac2888
             goto look
         
         SpawnFox:
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
+            "####" "#" 0 ThrustThingZ(0, random(3, 8), 0, 1)
+            "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
+            TNT1 A 0 A_Jump(255-(2.55*(70)), 2)
+            "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
             TNT1 A 0
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
+            TNT1 A 0 A_Jump(255-(2.55*(70)), 2)
+            "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
             TNT1 A 0
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
-            TNT1 A 0
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
-            TNT1 A 0
-            TNT1 A 0 A_Jump(51, 2)
-            "####" "#" 4  Bright ThrustThing(random(0, 1023) / 4, random(1, 2), 0, 0)
+            TNT1 A 0 A_Jump(255-(2.55*(70)), 2)
+            "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_sExW8BysawqMzIY8xiZaX8NxT94uo6ieTsm_5")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_4")
             stop
     }
 }

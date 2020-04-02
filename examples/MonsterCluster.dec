@@ -1,5 +1,5 @@
-Actor ZDCode_Call_QB96NCM6RZTiVkh7dJX8IZLEgy3Jokv8Q9s_0 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_QB96NCM6RZTiVkh7dJX8IZLEgy3Jokv8Q9s_1 : Inventory {Inventory.MaxAmount 1}
+Actor ZDCode_Call_IvDDLPJOI69Dqlr04eqqhq4fpPjr7weoCto_0 : Inventory {Inventory.MaxAmount 1}
+Actor ZDCode_Call_IvDDLPJOI69Dqlr04eqqhq4fpPjr7weoCto_1 : Inventory {Inventory.MaxAmount 1}
 
 
 Actor MonSpawnY : RandomSpawner
@@ -15,9 +15,9 @@ Actor MultiSpawner
 {
     Gravity 0
     
+    +THRUACTORS
     +NOBLOCKMAP
     +NOGRAVITY
-    +THRUACTORS
     +NOSECTOR
 }
 
@@ -39,16 +39,16 @@ Actor XZombieSpawner : MultiSpawner
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
-            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_QB96NCM6RZTiVkh7dJX8IZLEgy3Jokv8Q9s_0", 1, "ZDCode_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_IvDDLPJOI69Dqlr04eqqhq4fpPjr7weoCto_0", 1, "ZDCode_CLabel0")
             TNT1 A -1
             Stop
         
         Spawn:
             TNT1 A 1
-            TNT1 A 0 A_GiveInventory("ZDCode_Call_QB96NCM6RZTiVkh7dJX8IZLEgy3Jokv8Q9s_0")
+            TNT1 A 0 A_GiveInventory("ZDCode_Call_IvDDLPJOI69Dqlr04eqqhq4fpPjr7weoCto_0")
             Goto ZDCode_Func_MakeSpawn
         ZDCode_CLabel0:
-            TNT1 A 0 A_TakeInventory("ZDCode_Call_QB96NCM6RZTiVkh7dJX8IZLEgy3Jokv8Q9s_0")
+            TNT1 A 0 A_TakeInventory("ZDCode_Call_IvDDLPJOI69Dqlr04eqqhq4fpPjr7weoCto_0")
             stop
     }
 }
@@ -62,16 +62,16 @@ Actor XShotGuySpawner : MultiSpawner
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
-            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_QB96NCM6RZTiVkh7dJX8IZLEgy3Jokv8Q9s_1", 1, "ZDCode_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_IvDDLPJOI69Dqlr04eqqhq4fpPjr7weoCto_1", 1, "ZDCode_CLabel1")
             TNT1 A -1
             Stop
         
         Spawn:
             TNT1 A 1
-            TNT1 A 0 A_GiveInventory("ZDCode_Call_QB96NCM6RZTiVkh7dJX8IZLEgy3Jokv8Q9s_1")
+            TNT1 A 0 A_GiveInventory("ZDCode_Call_IvDDLPJOI69Dqlr04eqqhq4fpPjr7weoCto_1")
             Goto ZDCode_Func_MakeSpawn
         ZDCode_CLabel1:
-            TNT1 A 0 A_TakeInventory("ZDCode_Call_QB96NCM6RZTiVkh7dJX8IZLEgy3Jokv8Q9s_1")
+            TNT1 A 0 A_TakeInventory("ZDCode_Call_IvDDLPJOI69Dqlr04eqqhq4fpPjr7weoCto_1")
             stop
     }
 }
@@ -160,32 +160,32 @@ Actor SkullSpawnerR
     States {
         Spawn:
             SKLR A 2  Bright
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
             goto Spawn
         
         Death:
-            TNT1 A 0 A_Jump(10, 3)
+            TNT1 A 0 A_Jump(255-(2.55*(96)), 3)
             TNT1 A 0 A_Log("RED ALERT: New high-level threat detected!")
             TNT1 A 0 A_SpawnItemEx("MonSpawnR", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(234, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(8)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -193,7 +193,7 @@ Actor SkullSpawnerR
                 TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(234, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(8)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -201,7 +201,7 @@ Actor SkullSpawnerR
                 TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(234, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(8)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -209,7 +209,7 @@ Actor SkullSpawnerR
                 TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(234, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(8)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -217,7 +217,7 @@ Actor SkullSpawnerR
                 TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(234, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(8)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -225,124 +225,124 @@ Actor SkullSpawnerR
                 TNT1 A 0 A_CustomMissile("SkullSpawnerR", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleR", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
             TNT1 A 1
@@ -366,36 +366,36 @@ Actor SkullSpawnerO
     States {
         Spawn:
             SKLO A 2  Bright
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
             goto Spawn
         
         Death:
-            TNT1 A 0 A_Jump(43, 3)
+            TNT1 A 0 A_Jump(255-(2.55*(83)), 3)
             TNT1 A 0 A_Log("ORANGE ALERT: New medium-level threat detected!")
             TNT1 A 0 A_SpawnItemEx("MonSpawnO", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(43, 3)
+            TNT1 A 0 A_Jump(255-(2.55*(83)), 3)
             TNT1 A 0 A_Log("ORANGE ALERT: New medium-level threat detected!")
             TNT1 A 0 A_SpawnItemEx("MonSpawnO", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(229, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(10)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -403,7 +403,7 @@ Actor SkullSpawnerO
                 TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(229, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(10)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -411,7 +411,7 @@ Actor SkullSpawnerO
                 TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(229, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(10)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -419,7 +419,7 @@ Actor SkullSpawnerO
                 TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(229, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(10)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -427,7 +427,7 @@ Actor SkullSpawnerO
                 TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(229, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(10)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -435,7 +435,7 @@ Actor SkullSpawnerO
                 TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(229, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(10)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -443,124 +443,124 @@ Actor SkullSpawnerO
                 TNT1 A 0 A_CustomMissile("SkullSpawnerO", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleO", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
             TNT1 A 1
@@ -584,44 +584,44 @@ Actor SkullSpawnerY
     States {
         Spawn:
             SKLY A 2  Bright
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
             goto Spawn
         
         Death:
-            TNT1 A 0 A_Jump(63, 3)
+            TNT1 A 0 A_Jump(255-(2.55*(75)), 3)
             TNT1 A 0 A_Log("YELLOW ALERT: New low-level threat detected!")
             TNT1 A 0 A_SpawnItemEx("MonSpawnY", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(63, 3)
+            TNT1 A 0 A_Jump(255-(2.55*(75)), 3)
             TNT1 A 0 A_Log("YELLOW ALERT: New low-level threat detected!")
             TNT1 A 0 A_SpawnItemEx("MonSpawnY", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(63, 3)
+            TNT1 A 0 A_Jump(255-(2.55*(75)), 3)
             TNT1 A 0 A_Log("YELLOW ALERT: New low-level threat detected!")
             TNT1 A 0 A_SpawnItemEx("MonSpawnY", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(63, 3)
+            TNT1 A 0 A_Jump(255-(2.55*(75)), 3)
             TNT1 A 0 A_Log("YELLOW ALERT: New low-level threat detected!")
             TNT1 A 0 A_SpawnItemEx("MonSpawnY", 0, 0, floorz - z)
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(12)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -629,7 +629,7 @@ Actor SkullSpawnerY
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(12)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -637,7 +637,7 @@ Actor SkullSpawnerY
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(12)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -645,7 +645,7 @@ Actor SkullSpawnerY
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(12)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -653,7 +653,7 @@ Actor SkullSpawnerY
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(12)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -661,7 +661,7 @@ Actor SkullSpawnerY
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(12)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -669,7 +669,7 @@ Actor SkullSpawnerY
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(224, 7)
+            TNT1 A 0 A_Jump(255-(2.55*(12)), 7)
                 TNT1 A 0 A_JumpIf(!(z - floorz < 40), 2)
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5))
                 TNT1 A 0
@@ -677,100 +677,100 @@ Actor SkullSpawnerY
                 TNT1 A 0 A_CustomMissile("SkullSpawnerY", 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20))
                 TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
-            TNT1 A 0 A_Jump(204, 2)
+            TNT1 A 0 A_Jump(255-(2.55*(20)), 2)
             TNT1 A 0 A_SpawnItemEx("SkullParticleY", 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2))
             TNT1 A 0
             TNT1 A 1
