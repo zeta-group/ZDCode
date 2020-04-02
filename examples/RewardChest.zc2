@@ -7,17 +7,17 @@ class RewardChest {
 
     label Spawn {
         ELEC A 1;
-        Goto Look;
+        goto Look;
     };
 
     label Look {
         ELEC A 1 A_LookEx(LOF_NOSOUNDCHECK);
-        Loop;
+        loop;
     };
 
     label See {
         ELEC A 1 A_JumpIfCloser(80, "Reward");
-        Goto Spawn;
+        goto Look;
     };
 
     label Reward {
@@ -27,7 +27,7 @@ class RewardChest {
             x 9  A_SpawnItemEx("RewardFXBright", 0, 0, 0, FRandom(-3, 3), FRandom(-3, 3), FRandom(-3, 3));
             x 5  A_SpawnItemEx("Reward_Random");
         };
-        Stop;
+        stop;
     };
 }
 

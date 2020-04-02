@@ -241,7 +241,7 @@ def class_body():
             ).map(dict).tag('macro') |
             seq(
                 (ist('set') >> whitespace).desc("'set' keyword") >> regex('[a-zA-Z0-9_.]+').tag('name'),
-                ((whitespace >> ist('to') << whitespace) | (wo >> s('=') << wo)).desc("'to' or equal sign") >> literal.sep_by((s(',') + wo)).tag('value')
+                ((whitespace >> ist('to') << whitespace) | (wo >> s('=') << wo)).desc("'to' or equal sign") >> parameter.sep_by((s(',') + wo)).tag('value')
             ).map(dict).tag('property') |
             (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_.]+').desc('flag name')).tag('flag') |
             (ist('var') << whitespace) >> seq(regex('user_[a-zA-Z0-9_.]+').desc('var name').tag('name'), (wo >> s(':') >> wo >> regex('[a-zA-Z_.][a-zA-Z0-9_.]+')).desc('var type').optional().map(lambda t: t or 'int').tag('type')).map(dict).tag('user var') |
@@ -323,7 +323,7 @@ def anonymous_class():
             wo <<
             ist('}') <<
             wo
-        ).tag('body')
+        ).optional().map(lambda x: x or []).tag('body')
     ).tag('anonymous class')
     yield
 

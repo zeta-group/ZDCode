@@ -172,6 +172,15 @@
                 "Added functioning foxes (MSA_Fox from DoomFox.zc2)",
                 "Added example resources"
             ]
+        },
+
+        {
+            "name": "2.6.5",
+            "changes": [
+                "Made template inheritance and replacement parametrizable",
+                "Made anonymous class inheritance parametrizable",
+                "Properties can now be template derivations or anonymous classes as well"
+            ]
         }
     ]
 }

@@ -301,30 +301,30 @@ class ZDRawDecorate(object):
 
 class ZDActor(object):
     def __init__(self, code, name="DefaultActor", inherit=None, replace=None, doomednum=None, context=None):
+        if context:
+            self.context = context.derive()
+
+        else:
+            self.context = ZDCodeParseContext()
+    
         self.code = code
         self.labels = []
         self.properties = []
         self.flags = set()
+        self.inherit = inherit
+        self.replace = replace
         self.uservars = []
         self.antiflags = set()
-        self.inherit = inherit
         self.name = name
-        self.replace = replace
         self.num = doomednum
         self.funcs = []
         self.namefuncs = {}
         self.all_funcs = []
         self.raw = []
 
-        if context:
-            self.context = context.derive()
-
-        else:
-            self.context = ZDCodeParseContext()
-
         actor_list[name] = self
 
-        if inherit in actor_list:
+        if inherit and inherit in actor_list:
             self.all_funcs = actor_list[inherit].all_funcs
 
     def get_context(self):
@@ -443,7 +443,10 @@ class ZDClassTemplate(object):
 
         new_name = name if name is not None else self.generated_class_name(parameter_values, make_id(40))
 
-        res = ZDActor(self.code, new_name, self.inherit, self.replace, self.doomednum, context=context)
+        inh = self.inherit and context.replacements.get(self.inherit.upper(), self.inherit) or None
+        rep = self.replace and context.replacements.get(self.replace.upper(), self.replace) or None
+
+        res = ZDActor(self.code, new_name, inh, rep, self.doomednum, context=context)
 
         for l in self.abstract_label_names:
             if l not in provided_label_names:
@@ -855,7 +858,7 @@ class ZDCode(object):
         ptype, pval = inh
 
         if ptype == 'classname':
-            return pval
+            return context.replacements.get(pval.upper(), pval)
 
         elif ptype == 'template derivation':
             return self._parse_template_derivation(pval, context, stringify=False).name
@@ -884,22 +887,26 @@ class ZDCode(object):
         macros = dict(macros)
         body = list(body)
 
-        needs_init, actor = template.generate_init_class(self, context, param_values, set(labels.keys()), { m['name']: m['args'] for m in macros.values() }, name=name)
+        name = name or template.generated_class_name(param_values, make_id(40))
+
+        new_context = context.derive()
+        new_context.replacements.update(template.get_init_replacements(self, context, param_values))
+        new_context.replacements['SELF'] = '"' + repr(name)[1:-1] + '"'
+
+        needs_init, actor = template.generate_init_class(self, new_context, param_values, set(labels.keys()), { m['name']: m['args'] for m in macros.values() }, name=name)
+
+        new_context = actor.get_context()
+
+        for name, macro in macros.items():
+            new_context.macros[name] = (macro['args'], macro['body'])
 
         if needs_init:
-            new_context = actor.get_context()
-            new_context.replacements.update(template.get_init_replacements(self, context, param_values))
-            new_context.replacements['SELF'] = '"' + repr(actor.name)[1:-1] + '"'
-
             for btype, bdata in body:
                 if btype == 'flag':
                     actor.flags.add(bdata)
 
                 if btype == 'antiflag':
                     actor.antiflags.add(bdata)
-
-            for name, macro in macros.items():
-                new_context.macros[name] = (macro['args'], macro['body'])
 
             def pending_oper_gen():
                 act = actor
@@ -935,7 +942,7 @@ class ZDCode(object):
 
         for btype, bdata in body:
             if btype == 'property':
-                ZDProperty(actor, bdata['name'], ', '.join(self._parse_literal(x, context) for x in bdata['value']))
+                ZDProperty(actor, bdata['name'], ', '.join(self._parse_parameter(x, context) for x in bdata['value']))
 
             elif btype == 'flag':
                 actor.flags.add(bdata)
