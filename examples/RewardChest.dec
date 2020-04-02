@@ -2,9 +2,9 @@ Actor RewardChest
 {
     Scale 0.5
     
-    +AMBUSH
     +QUICKTORETALIATE
     +LOOKALLAROUND
+    +AMBUSH
     States {
         Spawn:
             ELEC A 1
