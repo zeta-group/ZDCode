@@ -1,8 +1,12 @@
-Actor FatZombie : ZombieMan
+Actor FatZombie
 {
     Radius 30
     XScale 1.3
     States {
+        Spawn:
+            "####" "#" 0
+            stop
+        
         See:
             POSS A 1 A_Chase
             POSS A 1 A_Chase
@@ -37,11 +41,15 @@ Actor FatZombie : ZombieMan
 }
 
 
-Actor ThinZombie : ZombieMan
+Actor ThinZombie
 {
     Radius 15
     XScale 0.6
     States {
+        Spawn:
+            "####" "#" 0
+            stop
+        
         See:
             POSS A 1 A_Chase
             POSS A 1 A_Chase
@@ -76,11 +84,15 @@ Actor ThinZombie : ZombieMan
 }
 
 
-Actor MuricanZombie : ZombieMan
+Actor MuricanZombie
 {
     Radius 40
     XScale 2
     States {
+        Spawn:
+            "####" "#" 0
+            stop
+        
         See:
             POSS A 1 A_Chase
             POSS A 1 A_Chase

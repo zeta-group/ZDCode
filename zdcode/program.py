@@ -25,7 +25,7 @@ def from_stdin():
     if not data:
         print("No data to use! Provide as stdin or as arguments.")
         sys.exit(1)
-    
+
     print(zdcode.ZDCode.parse("\n".join(data), error_handler=print_parse_error).decorate())
 
 def main():
@@ -40,13 +40,13 @@ def main():
 
     else:
         try:
-            dec = zdcode.ZDCode.parse(open(fnfrom).read(), os.path.dirname(fnto), error_handler=print_parse_error)
+            dec = zdcode.ZDCode.parse(open(fnfrom).read(), os.path.basename(fnto), os.path.dirname(fnto), error_handler=print_parse_error)
 
             if dec:
                 dec = dec.decorate()
                 open(sys.argv[2], "w").write(dec)
                 print("Wrote to file successfully.")
-            
+
             else:
                 print("Syntax error found, aborting.")
 

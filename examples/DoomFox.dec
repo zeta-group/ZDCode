@@ -1,24 +1,24 @@
-Actor _AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_0 : "HealthBonus"
+Actor _AnonymClass_wKAD5tdLhqSS6BXkK2pLWeiPs091nXmfqTL_0
 {
 
 }
-Actor _AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_1 : "HealthBonus"
+Actor _AnonymClass_wKAD5tdLhqSS6BXkK2pLWeiPs091nXmfqTL_1
 {
 
 }
-Actor _AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_2 : "ArmorBonus"
+Actor _AnonymClass_wKAD5tdLhqSS6BXkK2pLWeiPs091nXmfqTL_2
 {
 
 }
-Actor _AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_3 : "ArmorBonus"
+Actor _AnonymClass_wKAD5tdLhqSS6BXkK2pLWeiPs091nXmfqTL_3
 {
 
 }
-Actor _AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_4 : "Clip"
+Actor _AnonymClass_wKAD5tdLhqSS6BXkK2pLWeiPs091nXmfqTL_4
 {
 
 }
-Actor _AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_5 : "Clip"
+Actor _AnonymClass_wKAD5tdLhqSS6BXkK2pLWeiPs091nXmfqTL_5
 {
 
 }
@@ -31,14 +31,20 @@ Actor MSPart
     +CLIENTSIDEONLY
     +FORCEXYBILLBOARD
     -SOLID
+    States {
+        Spawn:
+            "####" "#" 0
+            stop
+    }
 }
 
 
-Actor MSP_Head1 : MSPart
+Actor MSP_Head1
 {
     Scale 0.35
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             FX_H A 1
             stop
@@ -46,11 +52,12 @@ Actor MSP_Head1 : MSPart
 }
 
 
-Actor MSP_Head2 : MSPart
+Actor MSP_Head2
 {
     Scale 0.35
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             FX_H B 1
             stop
@@ -58,11 +65,12 @@ Actor MSP_Head2 : MSPart
 }
 
 
-Actor MSP_Tail1 : MSPart
+Actor MSP_Tail1
 {
     Scale 0.6
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             FX_T A 1
             stop
@@ -70,11 +78,12 @@ Actor MSP_Tail1 : MSPart
 }
 
 
-Actor MSP_Tail2 : MSPart
+Actor MSP_Tail2
 {
     Scale 0.6
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             FX_T B 1
             stop
@@ -82,11 +91,12 @@ Actor MSP_Tail2 : MSPart
 }
 
 
-Actor MSP_Tail3 : MSPart
+Actor MSP_Tail3
 {
     Scale 0.6
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             FX_T C 1
             stop
@@ -94,11 +104,12 @@ Actor MSP_Tail3 : MSPart
 }
 
 
-Actor MSP_Tail4 : MSPart
+Actor MSP_Tail4
 {
     Scale 0.6
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             FX_T D 1
             stop
@@ -106,11 +117,12 @@ Actor MSP_Tail4 : MSPart
 }
 
 
-Actor MSP_Tail5 : MSPart
+Actor MSP_Tail5
 {
     Scale 0.6
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             FX_T E 1
             stop
@@ -118,11 +130,12 @@ Actor MSP_Tail5 : MSPart
 }
 
 
-Actor MSP_Torso : MSPart
+Actor MSP_Torso
 {
     Scale 0.6
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             FX_R A 1
             stop
@@ -130,11 +143,12 @@ Actor MSP_Torso : MSPart
 }
 
 
-Actor MSP_Leg1 : MSPart
+Actor MSP_Leg1
 {
     Scale 0.5
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             FX_L A 1
             stop
@@ -142,11 +156,12 @@ Actor MSP_Leg1 : MSPart
 }
 
 
-Actor MSP_Leg2 : MSPart
+Actor MSP_Leg2
 {
     Scale 0.5
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             FX_L B 1
             stop
@@ -154,11 +169,12 @@ Actor MSP_Leg2 : MSPart
 }
 
 
-Actor MSP_Leg3 : MSPart
+Actor MSP_Leg3
 {
     Scale 0.5
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             FX_L C 1
             stop
@@ -166,11 +182,12 @@ Actor MSP_Leg3 : MSPart
 }
 
 
-Actor MSP_Leg4 : MSPart
+Actor MSP_Leg4
 {
     Scale 0.5
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             FX_L D 1
             stop
@@ -192,25 +209,26 @@ Actor MSG_Leg
     WallBounceFactor 0.8
     
     var int user_limbangle;
-    +NOTELESTOMP
-    +DROPOFF
-    +CANBLAST
+    +CANPASS
+    +THRUSPECIES
+    +PUSHABLE
+    +BOUNCEONCEILINGS
     +ALLOWBOUNCEONACTORS
     +SOLID
-    +THRUSPECIES
-    +CORPSE
-    +CANPASS
-    +BOUNCEONWALLS
-    +PAINLESS
-    +BOUNCEONACTORS
-    +CANNOTPUSH
-    +NOBLOCKMONST
-    +SLIDESONWALLS
     +CANBOUNCEWATER
-    +BOUNCEONCEILINGS
-    +PUSHABLE
+    +SLIDESONWALLS
+    +NOBLOCKMONST
+    +DROPOFF
+    +PAINLESS
+    +NOTELESTOMP
+    +CANNOTPUSH
+    +CANBLAST
+    +BOUNCEONACTORS
+    +CORPSE
+    +BOUNCEONWALLS
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/gibbed")
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/gibbed")
@@ -270,25 +288,26 @@ Actor MSG_Head
     WallBounceFactor 0.8
     
     var int user_limbangle;
-    +NOTELESTOMP
-    +DROPOFF
-    +CANBLAST
+    +CANPASS
+    +THRUSPECIES
+    +PUSHABLE
+    +BOUNCEONCEILINGS
     +ALLOWBOUNCEONACTORS
     +SOLID
-    +THRUSPECIES
-    +CORPSE
-    +CANPASS
-    +BOUNCEONWALLS
-    +PAINLESS
-    +BOUNCEONACTORS
-    +CANNOTPUSH
-    +NOBLOCKMONST
-    +SLIDESONWALLS
     +CANBOUNCEWATER
-    +BOUNCEONCEILINGS
-    +PUSHABLE
+    +SLIDESONWALLS
+    +NOBLOCKMONST
+    +DROPOFF
+    +PAINLESS
+    +NOTELESTOMP
+    +CANNOTPUSH
+    +CANBLAST
+    +BOUNCEONACTORS
+    +CORPSE
+    +BOUNCEONWALLS
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/gibbed")
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/gibbed")
@@ -348,25 +367,26 @@ Actor MSG_Torso
     WallBounceFactor 0.8
     
     var int user_limbangle;
-    +NOTELESTOMP
-    +DROPOFF
-    +CANBLAST
+    +CANPASS
+    +THRUSPECIES
+    +PUSHABLE
+    +BOUNCEONCEILINGS
     +ALLOWBOUNCEONACTORS
     +SOLID
-    +THRUSPECIES
-    +CORPSE
-    +CANPASS
-    +BOUNCEONWALLS
-    +PAINLESS
-    +BOUNCEONACTORS
-    +CANNOTPUSH
-    +NOBLOCKMONST
-    +SLIDESONWALLS
     +CANBOUNCEWATER
-    +BOUNCEONCEILINGS
-    +PUSHABLE
+    +SLIDESONWALLS
+    +NOBLOCKMONST
+    +DROPOFF
+    +PAINLESS
+    +NOTELESTOMP
+    +CANNOTPUSH
+    +CANBLAST
+    +BOUNCEONACTORS
+    +CORPSE
+    +BOUNCEONWALLS
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/gibbed")
             TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/gibbed")
@@ -417,13 +437,14 @@ Actor MSA_Fox
     Health 40
     Mass 8
     
-    +FRIENDLY
-    +DROPOFF
-    +SLIDESONWALLS
     +NOBLOCKMONST
+    +DROPOFF
+    +FRIENDLY
+    +SLIDESONWALLS
     Monster
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 1
             TNT1 A 0 A_SpawnItemEx("MSP_Leg1", 6, -3.5, 9 + 5)
             TNT1 A 0 A_SpawnItemEx("MSP_Leg1", 6, 3.5, 9 + 5)
@@ -1452,12 +1473,13 @@ Actor FoxyHealthBonusSpawner replaces "HealthBonus"
 
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             TNT1 A 0 A_Jump(255-(2.55*(100 * 1 / (8 + 1))), 2)
-            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_d3735c624770fb157fed03541b73a4ecff0ada3e", 0, 0, 4)
+            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_67c2a6e830ac3e5bdd913eb8cdf3d68a664a7309", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_1")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_wKAD5tdLhqSS6BXkK2pLWeiPs091nXmfqTL_1")
             stop
     }
 }
@@ -1468,12 +1490,13 @@ Actor FoxyArmorBonusSpawner replaces "ArmorBonus"
 
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             TNT1 A 0 A_Jump(255-(2.55*(100 * 7 / (32 + 7))), 2)
-            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_cc3412b5b65bd7887249d4ad2ac190c29a2d0e65", 0, 0, 4)
+            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_f25de2655533d1fe3943b5e3430414bb6ed89c94", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_3")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_wKAD5tdLhqSS6BXkK2pLWeiPs091nXmfqTL_3")
             stop
     }
 }
@@ -1484,21 +1507,22 @@ Actor FoxyClipSpawner replaces "Clip"
 
     States {
         Spawn:
+            "####" "#" 0
             TNT1 A 0
             TNT1 A 0 A_Jump(255-(2.55*(100 * 2 / (9 + 2))), 2)
-            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_580414f7ed7300406f96733ab4dc5343704e3009", 0, 0, 4)
+            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_aab2d0d0f91c9657c77a9fdbaad399c44b43a4be", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_5")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_wKAD5tdLhqSS6BXkK2pLWeiPs091nXmfqTL_5")
             stop
     }
 }
 
 
-Actor FoxyPickup__deriv_d3735c624770fb157fed03541b73a4ecff0ada3e
+Actor FoxyPickup__deriv_67c2a6e830ac3e5bdd913eb8cdf3d68a664a7309
 {
-    +LOOKALLAROUND
     +QUICKTORETALIATE
+    +LOOKALLAROUND
     +AMBUSH
     States {
         Spawn:
@@ -1526,16 +1550,16 @@ Actor FoxyPickup__deriv_d3735c624770fb157fed03541b73a4ecff0ada3e
             "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_0")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_wKAD5tdLhqSS6BXkK2pLWeiPs091nXmfqTL_0")
             stop
     }
 }
 
 
-Actor FoxyPickup__deriv_cc3412b5b65bd7887249d4ad2ac190c29a2d0e65
+Actor FoxyPickup__deriv_f25de2655533d1fe3943b5e3430414bb6ed89c94
 {
-    +LOOKALLAROUND
     +QUICKTORETALIATE
+    +LOOKALLAROUND
     +AMBUSH
     States {
         Spawn:
@@ -1563,16 +1587,16 @@ Actor FoxyPickup__deriv_cc3412b5b65bd7887249d4ad2ac190c29a2d0e65
             "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_2")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_wKAD5tdLhqSS6BXkK2pLWeiPs091nXmfqTL_2")
             stop
     }
 }
 
 
-Actor FoxyPickup__deriv_580414f7ed7300406f96733ab4dc5343704e3009
+Actor FoxyPickup__deriv_aab2d0d0f91c9657c77a9fdbaad399c44b43a4be
 {
-    +LOOKALLAROUND
     +QUICKTORETALIATE
+    +LOOKALLAROUND
     +AMBUSH
     States {
         Spawn:
@@ -1600,7 +1624,7 @@ Actor FoxyPickup__deriv_580414f7ed7300406f96733ab4dc5343704e3009
             "####" "#" 30  Bright ThrustThing(random(0, 255), random(2, 5), 0, 0)
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_2sTwc3e2N61l2jUNJGSr3mlE08mbgiA9UAL_4")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_wKAD5tdLhqSS6BXkK2pLWeiPs091nXmfqTL_4")
             stop
     }
 }

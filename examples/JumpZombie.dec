@@ -1,7 +1,7 @@
-Actor ZDCode_Call_gDGduo9DdDoC3VVbHOGRJ5rUEdwH8qMVyWw_0 : Inventory {Inventory.MaxAmount 1}
+Actor ZDCode_Call_Y54yeD38428WdPLgpKf57RkdA6jBL0qK8kk_0 : Inventory {Inventory.MaxAmount 1}
 
 
-Actor RunZombie : ZombieMan 2055
+Actor RunZombie 2055
 {
     Gravity 0.4
     Speed 0
@@ -11,20 +11,24 @@ Actor RunZombie : ZombieMan 2055
     States {
         ZDCode_Func_ZombieJump:
             TNT1 A 0 A_JumpIf(!(health > 5), 2)
-            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_gDGduo9DdDoC3VVbHOGRJ5rUEdwH8qMVyWw_0", 1, "ZDCode_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_Y54yeD38428WdPLgpKf57RkdA6jBL0qK8kk_0", 1, "ZDCode_CLabel0")
             Stop
             TNT1 A 0
             POSS A 5  Bright
-        _WhileBlock0:
+        _WhileBlock8:
             TNT1 A 0 A_JumpIf(!(z == floorz), 2)
             POSS A 8 ThrustThingZ(0, 40, 0, 1)
-            Goto _WhileBlock0
+            Goto _WhileBlock8
             TNT1 A 0
             POSS A 2 A_Chase
             POSS B 2 A_Chase
-            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_gDGduo9DdDoC3VVbHOGRJ5rUEdwH8qMVyWw_0", 1, "ZDCode_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_Y54yeD38428WdPLgpKf57RkdA6jBL0qK8kk_0", 1, "ZDCode_CLabel0")
             TNT1 A -1
             Stop
+        
+        Spawn:
+            "####" "#" 0
+            stop
         
         See:
             TNT1 A 0 A_Chase
@@ -58,10 +62,10 @@ Actor RunZombie : ZombieMan 2055
             POSS D 2 A_Recoil(-0.7)
             TNT1 A 0 A_Chase
             POSS A 0 A_FaceTarget
-            TNT1 A 0 A_GiveInventory("ZDCode_Call_gDGduo9DdDoC3VVbHOGRJ5rUEdwH8qMVyWw_0")
+            TNT1 A 0 A_GiveInventory("ZDCode_Call_Y54yeD38428WdPLgpKf57RkdA6jBL0qK8kk_0")
             Goto ZDCode_Func_ZombieJump
         ZDCode_CLabel0:
-            TNT1 A 0 A_TakeInventory("ZDCode_Call_gDGduo9DdDoC3VVbHOGRJ5rUEdwH8qMVyWw_0")
+            TNT1 A 0 A_TakeInventory("ZDCode_Call_Y54yeD38428WdPLgpKf57RkdA6jBL0qK8kk_0")
             goto RunLoop
     }
 }

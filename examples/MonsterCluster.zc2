@@ -125,10 +125,10 @@ class<SkullSprite, Radius, SpawnedStuff, ParticleType, AlertMessage, SpawnCount,
     };
 }
 
-derive SkullParticle::("SKPR", 1.0) as SkullParticleR;
-derive SkullParticle::("SKPO", 0.7) as SkullParticleO;
-derive SkullParticle::("SKPY", 0.5) as SkullParticleY;
+derive SkullParticleR as SkullParticle::("SKPR", 1.0);
+derive SkullParticleO as SkullParticle::("SKPO", 0.7);
+derive SkullParticleY as SkullParticle::("SKPY", 0.5);
 
-derive SkullSpawner::("SKLR", 30, "MonSpawnR", "SkullParticleR", "RED ALERT: New high-level threat detected!", 1, 96, 5, 8, 20) as SkullSpawnerR;
-derive SkullSpawner::("SKLO", 45, "MonSpawnO", "SkullParticleO", "ORANGE ALERT: New medium-level threat detected!", 2, 83, 6, 10, 20) as SkullSpawnerO;
-derive SkullSpawner::("SKLY", 60, "MonSpawnY", "SkullParticleY", "YELLOW ALERT: New low-level threat detected!", 4, 75, 7, 12, 16) as SkullSpawnerY;
+derive SkullSpawnerR as SkullSpawner::("SKLR", 30, "MonSpawnR", "SkullParticleR", "RED ALERT: New high-level threat detected!", 1, 96, 5, 8, 20);
+derive SkullSpawnerO as SkullSpawner::("SKLO", 45, "MonSpawnO", "SkullParticleO", "ORANGE ALERT: New medium-level threat detected!", 2, 83, 6, 10, 20);
+derive SkullSpawnerY as SkullSpawner::("SKLY", 60, "MonSpawnY", "SkullParticleY", "YELLOW ALERT: New low-level threat detected!", 4, 75, 7, 12, 16);

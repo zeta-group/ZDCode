@@ -1,11 +1,14 @@
 import re
+import sys
 import os
+import traceback
 import parsy
 
-from parsy import generate, string, regex, seq, whitespace, success
+from parsy import generate, string, regex, seq, whitespace, success, fail
 
 
 s = string
+fa = fail
 wo = whitespace.optional()
 
 def istring(st):
@@ -105,6 +108,11 @@ def literal():
     yield
 
 @generate
+def array_literal():
+    return (wo >> s('{') >> wo >> expression.sep_by(s(',') << wo) << s('}')).tag('array')
+    yield
+
+@generate
 def paren_expr():
     return s('(') >> expression << s(')')
     yield
@@ -116,13 +124,13 @@ def expression():
             wo >>
             (
                 (
+                    paren_expr.tag('paren expr').desc('parenthetic expression') |
                     literal.tag('literal') |
-                    regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%x]+').desc('operator').tag('oper') |
-                    paren_expr.tag('paren expr').desc('parenthetic expression')
+                    regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%\[\]]+').desc('operator').tag('oper')
                 ).sep_by(wo).tag('expr')
             )
             << wo
-        ) | paren_expr.tag('paren expr')
+        ) | (wo >> paren_expr.tag('paren expr') << wo)
     )
     yield
 
@@ -157,10 +165,15 @@ def parameter():
     return anonymous_class | templated_class_derivation | expression.tag('expression')
     yield
 
-@generate
-def parameter_list():
-    return parameter.sep_by(regex(r',\s*'))
-    yield
+def specialized_parameter_list(ptype):
+    @generate
+    def plist():
+        return ptype.sep_by(regex(r',\s*'))
+        yield
+
+    return plist
+
+parameter_list = specialized_parameter_list(parameter)
 
 @generate
 def actor_function_call():
@@ -207,16 +220,28 @@ def templated_class_derivation():
         (
             wo >> s('{') >>
                 wo.then(
-                    (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_.]+').desc('flag name')).tag('flag') |
+                    (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_]+').desc('flag name')).tag('flag') |
                     (((ist("isn't") << whitespace) | string('-')) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
 
                     seq(
                         ist("macro") >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
                         (wo >> s('(') >> macro_argument_list << s(')') << wo).optional().map(lambda a: a or []).tag('args'),
                         state_body.tag('body')
-                    ).map(dict).tag('macro') |
+                    ).map(dict).desc('override macro').tag('macro') |
 
-                    label.desc('ovveride label').tag('label')
+                    label.desc('ovveride label').tag('label') |
+
+                    ((ist('var') << whitespace) >> seq(
+                        regex('user_[a-zA-Z0-9_]+').desc('var name').tag('name'),
+                        (wo >> s('[') >> replaceable_number << s(']')).optional().map(lambda x: int(x or 0)).tag('size'),
+                        (wo >> s(':') >> wo >> regex('[a-zA-Z_.][a-zA-Z0-9_]+')).desc('var type').optional().map(lambda t: t or 'int').tag('type'),
+                        (wo >> s('=') >> (expression.tag('val') | array_literal.tag('arr'))).optional().tag('value')
+                    ).map(dict).tag('user var')) |
+
+                    ((ist('array') << whitespace) >> seq(
+                        regex('user_[a-zA-Z0-9_]+').desc('array name').tag('name'),
+                        (wo >> s('=') >> wo >> array_literal).desc('array values').tag('value')
+                    ).map(dict).desc('override array').tag('array'))
                 ).skip(wo).skip(s(';')).skip(wo).many().optional()
             << s('}')
         ).optional().map(lambda x: x or [])
@@ -226,8 +251,8 @@ def templated_class_derivation():
 @generate
 def static_template_derivation():
     return wo >> seq(
-        ist('derive') >> whitespace >> templated_class_derivation.tag('source'),
-        whitespace >> ist('as') >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of derived class').tag('classname')
+        ist('derive') >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of derived class').tag('classname'),
+        whitespace >> ist('as') >> whitespace >> templated_class_derivation.tag('source'),
     ).desc('static template derivation') << s(';') << wo
     yield
 
@@ -240,13 +265,18 @@ def class_body():
                 state_body.tag('body')
             ).map(dict).tag('macro') |
             seq(
-                (ist('set') >> whitespace).desc("'set' keyword") >> regex('[a-zA-Z0-9_.]+').tag('name'),
-                ((whitespace >> ist('to') << whitespace) | (wo >> s('=') << wo)).desc("'to' or equal sign") >> parameter.sep_by((s(',') + wo)).tag('value')
+                (ist('set') >> whitespace).desc("'set' keyword") >> regex('[a-zA-Z0-9_]+').tag('name'),
+                ((whitespace >> ist('to') << whitespace) | (wo >> s('=') << wo)).desc("'to' or equal sign") >> parameter.sep_by((s(',') << wo)).tag('value')
             ).map(dict).tag('property') |
-            (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_.]+').desc('flag name')).tag('flag') |
-            (ist('var') << whitespace) >> seq(regex('user_[a-zA-Z0-9_.]+').desc('var name').tag('name'), (wo >> s(':') >> wo >> regex('[a-zA-Z_.][a-zA-Z0-9_.]+')).desc('var type').optional().map(lambda t: t or 'int').tag('type')).map(dict).tag('user var') |
+            (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_]+').desc('flag name')).tag('flag') |
+            (ist('var') << whitespace) >> seq(
+                regex('user_[a-zA-Z0-9_]+').desc('var name').tag('name'),
+                (wo >> s('[') >> replaceable_number << s(']')).desc('array size').optional().map(lambda x: int(x or 0)).tag('size'),
+                (wo >> s(':') >> wo >> regex('[a-zA-Z_.][a-zA-Z0-9_]+')).desc('var type').optional().map(lambda t: t or 'int').tag('type'),
+                (wo >> s('=') >> (expression.tag('val') | array_literal.tag('arr'))).optional().tag('value')
+            ).map(dict).tag('user var') |
             (((ist("isn't") << whitespace) | string('-')) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
-            (ist('combo') >> whitespace >> regex('[a-zA-Z0-9_.]+').desc('combo name')).tag('flag combo') |
+            (ist('combo') >> whitespace >> regex('[a-zA-Z0-9_]+').desc('combo name')).tag('flag combo') |
             seq((ist("function ") | ist('method ')) >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('function name').tag('name'), state_body.tag('body')).map(dict).tag('function') |
             label.tag('label')
     ).skip(wo) << s(';') << wo
@@ -255,6 +285,15 @@ def class_body():
 @generate
 def abstract_label_body():
     return (ist("abstract label") | ist('abstract state')) >> whitespace >> regex('[a-zA-Z_]+').desc('label name') << s(';')
+    yield
+
+@generate
+def abstract_array_body():
+    return seq(
+        ist("abstract array") >> whitespace >> regex('user_[a-zA-Z0-9_]+').desc('array name').tag('name'),
+        (wo >> s('[') >> replaceable_number << s(']')).optional().map(lambda x: int(x) if x else 'any').tag('size'),
+        (wo >> s(':') >> wo >> regex('[a-zA-Z_.][a-zA-Z0-9_]+')).desc('var type').optional().map(lambda t: t or 'int').tag('type')
+    ).map(dict) << wo << s(';') << wo
     yield
 
 @generate
@@ -288,6 +327,7 @@ def actor_class():
         ((whitespace >> (ist('inherits') | ist('extends') | ist('expands'))) >> whitespace >> superclass.desc('inherited class')).optional().tag('inheritance').desc('inherited class name'),
         (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
         (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
+
         (s('{') >> wo >> class_body.many().optional() << wo.then(s('}')).skip(wo)).tag('body')
     )
     yield
@@ -300,7 +340,8 @@ def templated_actor_class():
         ((whitespace >> (ist('inherits') | ist('extends') | ist('expands'))) >> whitespace >> superclass.desc('inherited class')).optional().tag('inheritance').desc('inherited class name'),
         (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
         (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
-        (s('{') >> wo >> (abstract_macro_body.desc('abstract macro').tag('abstract macro') | abstract_label_body.desc('abstract label').tag('abstract label') | class_body).many().optional() << wo.then(s('}')).skip(wo)).tag('body')
+
+        (s('{') >> wo >> (abstract_macro_body.desc('abstract macro').tag('abstract macro') | abstract_array_body.desc('abstract array').tag('abstract array') | abstract_label_body.desc('abstract label').tag('abstract label') | class_body).many().optional() << wo.then(s('}')).skip(wo)).tag('body')
     )
     yield
 
@@ -340,7 +381,12 @@ def normal_state():
         regex(r"\-?\d+").map(int).desc('state duration').skip(wo),
         modifier.many().desc('modifier').skip(wo).optional(),
         state_action.optional()
-    ).map(lambda l: [('normal', '"####"'), '"#"', *l])
+    ).map(lambda l: [('normal', '"####"'), '"#"', *l]) | seq(
+        ist('invis').desc('\'invis\' state').skip(wo) >>\
+        regex(r"\-?\d+").map(int).desc('state duration').skip(wo),
+        modifier.many().desc('modifier').skip(wo).optional(),
+        state_action.optional()
+    ).map(lambda l: [('normal', 'TNT1'), 'A', *l])
     yield
 
 @generate
@@ -481,6 +527,60 @@ def source_code():
     return wo.desc('ignored whitespace') >> (actor_class.tag('class') | static_template_derivation.tag('static template derivation') | templated_actor_class.tag('class template')).sep_by(wo) << wo.desc('ignored whitespace')
     yield
 
+def rpcont(i=0):
+    @generate
+    def recursive_paren_content():
+        return ((regex(r'[^\(\)]') if i else regex(r'[^\(\)\,]')) | (s('(') + rpcont(i+1)) + s(')')).many().concat()
+        yield
+
+    return recursive_paren_content
+
+def preprocess_for_macros(code, defines=(), this_fname=None, i=0):
+    l = code
+    found = False
+
+    for key, (val, d_args) in defines.items():
+        nl = ""
+
+        while True:
+            j = l.upper().find(key.upper() + '(')
+
+            if j == -1:
+                nl += l
+                break
+
+            found = True
+
+            nl += l[:j]
+            l = l[j + len(key):]
+
+            try:
+                args, l = (s('(') >> rpcont().sep_by(s(',') << wo) << s(')')).parse_partial(l)
+                args = [x for x in args if x]
+
+            except parsy.ParseError as e:
+                print('\n')
+                traceback.print_exc()
+                print()
+
+                raise PreprocessingError("Unexpected error using parametrized preprocessor alias '{}'".format(key), i, this_fname, code + '\n\n')
+
+            if len(d_args) != len(args):
+                raise PreprocessingError("Bad number of arguments using parametrized preprocessor alias '{}': expected {}, got {}!".format(key, len(d_args), len(args)), i, this_fname, code)
+
+            v = val
+
+            for aname, aval in zip(d_args, args):
+                ov = v
+                v = re.sub('\({}\)'.format(re.escape(aname)), '({})'.format(aval), v)
+
+            res = preprocess_for_macros(v, defines, this_fname, i)
+            nl += res
+
+        l = nl
+
+    return l
+
 def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_dir='.', begin_char=None):
     if not begin_char:
         begin_char = [0]
@@ -506,18 +606,16 @@ def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_
 
     code = re.sub(r'\/\/[^\r\n]+', lambda x: re.sub(r'[^\n]', ' ', x.group(0)), code)
     code = re.sub(r'\/\*(\n|.)+?\*\/', lambda x: re.sub(r'[^\n]', ' ', x.group(0)), code)
+    code = re.sub(r'\\\n', '', code)
+
     codelines = code.split('\n')
 
     for _i, l in enumerate(codelines):
         i = _i + 1
         src_l = src_lines[_i]
 
-        check_line_case = re.sub(r'^\s+', '', l)
+        check_line_case = re.sub(r'\s+', ' ', re.sub(r'^\s+', '', l))
         check_line = check_line_case.upper()
-
-        # preprocessor macro replacement
-        for key, value in defines.items():
-            l = re.sub(r'\B{}\B'.format(re.escape(key)), value, l)
 
         # conditional blocks
         if check_line.startswith('#IFDEF ') or check_line.startswith('#IFDEFINED '):
@@ -612,21 +710,24 @@ def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_
                 key = check_line_case.split(' ')[1]
                 value = ' '.join(check_line_case.split(' ')[2:])
 
-                if value != '':
+                if value == '':
                     defs[key] = None
 
                 else:
                     defs[key] = value
 
             elif defmacro.match(check_line.split(' ')[0]):
-                key = check_line_case.split(' ')[1]
+                name = check_line_case.split(' ')[1]
                 value = ' '.join(check_line_case.split(' ')[2:])
 
+                (key, args), _ = seq(regex(r'[a-zA-Z_][a-zA-Z0-9_]*'), (s('(') >> (regex(r'[a-zA-Z_][a-zA-Z0-9_]*').sep_by(s(','))) << s(')')).optional().map(lambda x: x or [])).parse_partial(name)
+                args = [x for x in args if x]
+
                 if value == '':
-                    raise PreprocessingError("Empty macro definitions ('{}') are not allowed!".format(key), i, this_fname, check_line_case)
+                    raise PreprocessingError("Empty preprocessor macros ('{}') are not allowed!".format(key), i, this_fname, check_line_case)
 
                 defs[key] = value
-                defines[key] = value
+                defines[key] = (value, args)
 
             elif check_line.startswith('#UNDEF ') or check_line.startswith('#UNDEFINE '):
                 key = check_line_case.split(' ')[1]
@@ -638,6 +739,9 @@ def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_
                     defines.pop(key)
 
         if not check_line.startswith('#') and cond_active:
+            l = preprocess_for_macros(l, defines, this_fname, i)
+            src_l = preprocess_for_macros(src_l, defines, this_fname, i)
+
             pcodelines.append((this_fname, i, src_l, l, begin_char[0]))
             begin_char[0] += len(l) + 1
 
@@ -645,7 +749,11 @@ def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_
 
 def parse_postcode(postcode, error_handler=None):
     try:
+        lim = sys.getrecursionlimit()
+        sys.setrecursionlimit(lim * 16)
         clazzes = source_code.parse('\n'.join(l[3] for l in postcode))
+        sys.setrecursionlimit(lim)
+
         return ((x[0], dict(x[1])) for x in clazzes)
 
     except parsy.ParseError as parse_err:

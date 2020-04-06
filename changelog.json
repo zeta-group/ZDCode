@@ -188,6 +188,21 @@
             "changes": [
                 "Added dynamic expression support to sometimes statement"
             ]
+        },
+
+        {
+            "name": "2.7.0",
+            "changes": [
+                "Improved mkexamples.py script, mainly bundling",
+                "Added incremental compilation to zdcode.ZDCode (ZDCode.add(...))",
+                "Added user variable initialization",
+                "Added user arrays",
+                "Added implicit Spawn label to actor classes",
+                "Added abstract arrays in class templates",
+                "Inherited classes now go to the Spawn label of the class they inherit by default, unless a Spawn label has already been defined",
+                "Fixed incremental compilation calling ZDCall.post_load twice",
+                "Made preprocessor macros parametrizable (see Terrain.zc2 for examples of that)"
+            ]
         }
     ]
 }

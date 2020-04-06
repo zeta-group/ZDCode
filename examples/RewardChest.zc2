@@ -81,10 +81,10 @@ class<Message, RewardType, Count, UnitChance> Reward_Simple {
 }
 
 // Common rewards
-derive Reward_Simple::("Health bonuses!", "HealthBonus", 70, 100) as Reward_HealthBonuses;
-derive Reward_Simple::("Some armor bonuses!", "ArmorBonus", 50, 100) as Reward_SomeArmorBonuses;
-derive Reward_Simple::("Many armor bonuses!", "ArmorBonus", 90, 100) as Reward_ArmorBonuses;
-derive Reward_Simple::("Stimpacks!", "Stimpack", 20, 80) as Reward_Stimpacks;
+derive Reward_HealthBonuses     as Reward_Simple::("Health bonuses!", "HealthBonus", 70, 100);
+derive Reward_SomeArmorBonuses  as Reward_Simple::("Some armor bonuses!", "ArmorBonus", 50, 100);
+derive Reward_ArmorBonuses      as Reward_Simple::("Many armor bonuses!", "ArmorBonus", 90, 100);
+derive Reward_Stimpacks         as Reward_Simple::("Stimpacks!", "Stimpack", 20, 80);
 
 // Common rewards that don't follow the usual simple reward formula
 class Reward_SomeAmmo {
@@ -101,12 +101,12 @@ class Reward_SomeAmmo {
 }
 
 // Rare rewards
-derive Reward_Simple::("A radiation suit!", "Radsuit", 1, 100) as Reward_RadSuit;
-derive Reward_Simple::("Partial invisibility!", "BlurSphere", 1, 100) as Reward_BlurSphere;
-derive Reward_Simple::("A berserk pack!", "Berserk", 1, 100) as Reward_Berserk;
-derive Reward_Simple::("Light armor!", "GreenArmor", 1, 100) as Reward_GreenArmor;
-derive Reward_Simple::("Invulnerability!", "InvulnerabilitySphere", 1, 100) as Reward_Invulnerability;
-derive Reward_Simple::("Heavy armor!", "BlueArmor", 1, 100) as Reward_BlueArmor;
-derive Reward_Simple::("A computer map!", "ComputerAreaMap", 1, 100) as Reward_ComputerMap;
-derive Reward_Simple::("Soulsphere!", "Soulsphere", 1, 100) as Reward_Soulsphere;
-derive Reward_Simple::("Megasphere!", "Megasphere", 1, 100) as Reward_Megasphere;
+derive Reward_RadSuit           as Reward_Simple::("A radiation suit!", "Radsuit", 1, 100);
+derive Reward_BlurSphere        as Reward_Simple::("Partial invisibility!", "BlurSphere", 1, 100);
+derive Reward_Berserk           as  Reward_Simple::("A berserk pack!", "Berserk", 1, 100);
+derive Reward_GreenArmor        as Reward_Simple::("Light armor!", "GreenArmor", 1, 100);
+derive Reward_Invulnerability   as Reward_Simple::("Invulnerability!", "InvulnerabilitySphere", 1, 100);
+derive Reward_BlueArmor         as  Reward_Simple::("Heavy armor!", "BlueArmor", 1, 100);
+derive Reward_ComputerMap       as Reward_Simple::("A computer map!", "ComputerAreaMap", 1, 100);
+derive Reward_Soulsphere        as Reward_Simple::("Soulsphere!", "Soulsphere", 1, 100);
+derive Reward_Megasphere        as Reward_Simple::("Megasphere!", "Megasphere", 1, 100);

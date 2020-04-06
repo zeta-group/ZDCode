@@ -1,0 +1,119 @@
+/*
+ * Terrain.
+ *
+ * It's meh, though.
+ *
+ * Doesn't work, really.
+ *
+ * Caveat, emptor.
+ */
+
+#DEFMACRO   SPOTSIZE        64
+
+#DEFMACRO   LERP(a,b,val)   ((a)+((b)-(a)*(val)))
+#DEFMACRO   TERRAGET(x,y)   (user_Heightmap[((y)*(Height)+(x))])
+#DEFMACRO   AVG(a,b)        (((a)+(b))/2)
+
+
+
+class<TerrainSprite> TerrainSpot {
+    set Scale  to   0.025;
+    set Radius to   0.1;
+    set Height to   0.1;
+
+    is  SOLID;
+
+    is  FORCEXYBILLBOARD;
+    is  CLIENTSIDEONLY;
+
+    set Gravity to 0;
+
+    label Spawn {
+        param TerrainSprite A -1;
+        stop;
+    };
+}
+
+
+class<Width, Height, GridWidth, GridHeight, ResolutionX, ResolutionY> Terrain {
+    abstract array user_Heightmap;
+
+    isn't SOLID;
+
+    var user_temp_x = 0;
+    var user_temp_y = 0;
+    var user_temp_cell_x: float = 0;
+    var user_temp_cell_y: float = 0;
+    var user_temp_cell_x_i = 0;
+    var user_temp_cell_y_i = 0;
+    var user_temp_z2 = 0;
+    var user_temp_z1 = 0;
+    var user_temp_z = 0;
+
+    abstract macro IterTerrainAt(height, rel_x, rel_y);
+
+    label Spawn {
+        while (user_temp_y < Height - 1) {
+            while (user_temp_x < Width - 1) {
+                // interpolate terrain heights at cell
+                while (user_temp_cell_y_i < 1) {
+                    while (user_temp_cell_x_i < 1) {
+                        invis 0 A_SetUserVar("user_temp_cell_x", user_temp_cell_x_i / ResolutionX);
+                        invis 0 A_SetUserVar("user_temp_cell_y", user_temp_cell_y_i / ResolutionY);
+
+                        invis 0 A_SetUserVar("user_temp_z1", LERP(TERRAGET(user_temp_x, user_temp_y),   TERRAGET(user_temp_x+1, user_temp_y),   user_temp_cell_x));
+                        invis 0 A_SetUserVar("user_temp_z2", LERP(TERRAGET(user_temp_x, user_temp_y+1), TERRAGET(user_temp_x+1, user_temp_y+1), user_temp_cell_x));
+                        invis 0 A_SetUserVar("user_temp_z", LERP(user_temp_z1, user_temp_z2, user_temp_cell_y));
+
+                        inject IterTerrainAt(
+                            user_temp_z,
+                            1.0 * (user_temp_x * ResolutionX + user_temp_cell_x_i) / Width  * GridWidth  / ResolutionX,
+                            1.0 * (user_temp_y * ResolutionY + user_temp_cell_y_i) / Height * GridHeight / ResolutionY
+                        );
+
+                        invis 0 A_SetUserVar("user_temp_cell_x_i", user_temp_cell_x_i + 1);
+                    };
+
+                    invis 0 A_SetUserVar("user_temp_cell_x_i", 0);
+                    invis 0 A_SetUserVar("user_temp_cell_y_i", user_temp_cell_y_i + 1);
+                };
+
+                invis 0 A_SetUserVar("user_temp_cell_y_i", 0);
+                invis 0 A_SetUserVar("user_temp_x", user_temp_x + 1);
+            };
+
+            invis 0 A_SetUserVar("user_temp_x", 0);
+            invis 0 A_SetUserVar("user_temp_y", user_temp_y + 1);
+        };
+        stop;
+    };
+}
+
+derive FlatTerrain as Terrain::(2, 2, 64, 64, 7, 7) {
+    array user_Heightmap = {1, 1, 1, 1};
+
+    macro IterTerrainAt(height, rel_x, rel_y) {
+        invis 0 A_SpawnItemEx(TerrainSpot::("TER1"), rel_x, rel_y, height);
+    };
+};
+
+#DEFM   S(H,x,y)  ((H)*sin((x)*(3.14159)/((y)-1)))
+
+derive SineTerrain as Terrain::(8, 3, 300, 64, 5, 3) {
+    var user_SnowHeight  = 20;
+    var user_MaxHeight   = 50;
+
+    array user_Heightmap = {
+        S(user_MaxHeight,0,8),S(user_MaxHeight,1,8),S(user_MaxHeight,2,8),S(user_MaxHeight,3,8),S(user_MaxHeight,4,8),S(user_MaxHeight,5,8),S(user_MaxHeight,6,8),S(user_MaxHeight,7,8),
+        S(user_MaxHeight,0,8),S(user_MaxHeight,1,8),S(user_MaxHeight,2,8),S(user_MaxHeight,3,8),S(user_MaxHeight,4,8),S(user_MaxHeight,5,8),S(user_MaxHeight,6,8),S(user_MaxHeight,7,8),
+        S(user_MaxHeight,0,8),S(user_MaxHeight,1,8),S(user_MaxHeight,2,8),S(user_MaxHeight,3,8),S(user_MaxHeight,4,8),S(user_MaxHeight,5,8),S(user_MaxHeight,6,8),S(user_MaxHeight,7,8)
+    };
+
+    macro IterTerrainAt(height, rel_x, rel_y) {
+        if (height > user_SnowHeight)
+            invis 0 A_SpawnItemEx(TerrainSpot::("TER1"), rel_x, rel_y, height);
+
+        if (height <= user_SnowHeight)
+            invis 0 A_SpawnItemEx(TerrainSpot::("TER2"), rel_x, rel_y, height);
+    };
+};
