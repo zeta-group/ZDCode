@@ -115,5 +115,9 @@ if errors < tot:
 
     print("Bundle compiled {}.                               ".format('with partial success' if errors else 'succesfully'))
 
+    if errors:
+        exit(1)
+
 else:
     print("Failed to build bundle: all the examples failed to compile!     ")
+    exit(1)

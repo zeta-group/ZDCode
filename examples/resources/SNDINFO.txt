@@ -38,3 +38,9 @@ $random zdpack/multisprite/animal/fox/see {
 }
 
 $volume zdpack/multisprite/animal/fox/gib/bounce 0.6
+
+
+////////////////
+
+
+zdpack/terrain/break        "WOODCRCK"

@@ -41,7 +41,6 @@ def make_id(length = 30):
 
 def decorate(o, *args, **kwargs):
     """Get the object's compiled DECORATE code."""
-    # print("Getting DECORATE code for a {}...".format(type(o).__name__))
     return o.__decorate__(*args, **kwargs)
 
 def big_lit(s, indent=4, tab_size=4, strip_borders=True):
@@ -344,26 +343,24 @@ class ZDActor(object):
         self.namefuncs = {}
         self.raw = []
 
-        if inherit and inherit in actor_list:
-            self.all_funcs = list(actor_list[inherit].all_funcs)
-            self.context.update(actor_list[inherit].context)
+        if self.inherit and self.inherit in actor_list:
+            self.all_funcs = list(actor_list[self.inherit].all_funcs)
+            self.context.update(actor_list[self.inherit].context)
 
         else:
             self.all_funcs = []
 
         actor_list[name] = self
 
-    def _make_spawn_label(self):
-        return ZDLabel(self, 'Spawn', [ZDRawDecorate('goto Super.Spawn' if self.inherit else 'stop')], auto_append=False)
+    def make_spawn_label(self):
+        return ZDLabel(self, 'Spawn', [ZDRawDecorate('goto Super::Spawn' if self.inherit else 'stop')], auto_append=False)
 
     def get_spawn_label(self):
         for l in self.labels:
             if l.name.upper() == 'SPAWN':
                 return l
 
-        l = self._make_spawn_label()
-        self.labels.insert(0, l)
-        return l
+        return None
 
     def _set_user_var_state(self, var):
         vtype, vlit = var['value']
@@ -375,15 +372,19 @@ class ZDActor(object):
             return [ZDState(action='{}({}, {}, {})'.format(_user_array_setters[var['type']], stringify(var['name']), i, v)) for i, v in enumerate(vlit)]
 
     def _get_spawn_prelude(self):
-        return [
-            ZDState(),
-            *sum([self._set_user_var_state(var) for var in self.uservars if var.get('value', None)], [])
-        ]
+        return sum([self._set_user_var_state(var) for var in self.uservars if var.get('value', None)], [])
 
     def prepare_spawn_label(self):
         label = self.get_spawn_label()
 
-        label.states = self._get_spawn_prelude() + label.states
+        if self.uservars:
+            if not label:
+                label = self.make_spawn_label()
+
+            label.states = [ZDState()] + self._get_spawn_prelude() + label.states
+
+        elif label:
+            label.states.insert(0, ZDState())
 
     def get_context(self):
         new_ctx = self.context.derive()
@@ -461,7 +462,7 @@ class ZDBaseActor(object):
     def __init__(self, code, name=None, inherit=None, replace=None, doomednum=None, _id=None):
         self.code = code
         self.name = name.strip()
-        self.inherit = None
+        self.inherit = inherit
         self.replace = replace
         self.num = doomednum
         self.id = _id or make_id(30)
@@ -608,14 +609,15 @@ class ZDInventory(object):
 
 # Parser!
 class ZDCodeParseContext(object):
-    def __init__(self, replacements=(), macros=(), templates=(), calls=()):
+    def __init__(self, replacements=(), macros=(), templates=(), calls=(), actors=()):
         self.macros = dict(macros)
         self.replacements = dict(replacements)
         self.templates = dict(templates)
         self.call_lists = list(calls) if calls else [[]]
+        self.actor_lists = list(actors) if actors else [[]]
 
     def derive(self) -> "ZDCodeParseContext":
-        return ZDCodeParseContext(self.replacements, self.macros, self.templates, self.call_lists)
+        return ZDCodeParseContext(self.replacements, self.macros, self.templates, self.call_lists, self.actor_lists)
 
     def update(self, other_ctx: "ZDCodeParseContext"):
         self.macros.update(other_ctx.macros)
@@ -625,6 +627,10 @@ class ZDCodeParseContext(object):
     def add_call(self, c: ZDCall):
         for cl in self.call_lists:
             cl.append(c)
+
+    def add_actor(self, ac: ZDActor):
+        for al in self.actor_lists:
+            al.append(ac)
 
 class ZDCode(object):
     class ZDCodeError(BaseException):
@@ -951,11 +957,13 @@ class ZDCode(object):
 
     def _parse_anonym_class(self, anonym_class, context):
         a = dict(anonym_class)
-        anonym_actor = ZDActor(self, '_AnonymClass_{}_{}'.format(self.id, len(self.anonymous_classes)), self._parse_inherit(a['inheritance'], context))
-
         new_context = context.derive()
+        
+        anonym_actor = ZDActor(self, '_AnonymClass_{}_{}'.format(self.id, len(self.anonymous_classes)), inherit=self._parse_inherit(a['inheritance'], context), context=new_context)
 
         self._parse_class_body(anonym_actor, new_context, a['body'])
+        
+        context.add_actor(anonym_actor)
 
         self.anonymous_classes.append(anonym_actor)
         self.inventories.append(anonym_actor)
@@ -1066,10 +1074,11 @@ class ZDCode(object):
 
     def _parse(self, actors):
         calls = []
-        context = ZDCodeParseContext(calls=[calls])
+        parsed_actors = []
+        
+        context = ZDCodeParseContext(calls=[calls], actors=[parsed_actors])
 
         actors = list(actors)
-        parsed_actors = []
 
         for class_type, a in actors:
             if class_type == 'class template':
@@ -1144,5 +1153,4 @@ class ZDCode(object):
         ]) # lines split for debugging
 
     def decorate(self):
-        print("Generating DECORATE...")
         return self.__decorate__()

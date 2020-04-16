@@ -77,7 +77,7 @@ Actor RewardFX
 }
 
 
-Actor RewardFXBright
+Actor RewardFXBright : RewardFX
 {
 
     States {
@@ -91,7 +91,7 @@ Actor RewardFXBright
 }
 
 
-Actor Reward_Random
+Actor Reward_Random : RandomSpawner
 {
     DropItem "Reward_HealthBonuses", 200, 30
     DropItem "Reward_SomeArmorBonuses", 200, 20
@@ -107,11 +107,6 @@ Actor Reward_Random
     DropItem "Reward_Soulsphere", 70, 3
     DropItem "Reward_BlueArmor", 60, 3
     DropItem "Reward_Megasphere", 50, 1
-    States {
-        Spawn:
-            "####" "#" 0
-            stop
-    }
 }
 
 

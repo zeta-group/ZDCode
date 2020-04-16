@@ -1280,15 +1280,10 @@ Actor ArmorFountain
 }
 
 
-Actor BackupSpot
+Actor BackupSpot : RandomSpawner
 {
     DropItem "HealthFountain"
     DropItem "ArmorFountain"
-    States {
-        Spawn:
-            "####" "#" 0
-            stop
-    }
 }
 
 

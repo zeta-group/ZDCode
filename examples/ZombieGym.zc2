@@ -30,6 +30,6 @@ derive ThinZombie as ZombieGuy::(15, 0.6, 2) {
 
 derive MuricanZombie as ZombieGuy::(40, 2, 12) {
     macro FatWalk {
-        sometimes 45 keeps 8 A_Quake(4, 60, 0, 300);
+        sometimes 45 keepst 8 A_Quake(4, 60, 0, 300);
     };
 };

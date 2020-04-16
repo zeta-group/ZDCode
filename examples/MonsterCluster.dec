@@ -1,18 +1,13 @@
-Actor ZDCode_Call_WysturIt9vbdrMC4s7pGM19mEuEYvQo5JAY_0 : Inventory {Inventory.MaxAmount 1}
-Actor ZDCode_Call_WysturIt9vbdrMC4s7pGM19mEuEYvQo5JAY_1 : Inventory {Inventory.MaxAmount 1}
+Actor ZDCode_Call_2jWJmC3xHy6PKo9fKzpbGo099ONM8nJKxyB_0 : Inventory {Inventory.MaxAmount 1}
+Actor ZDCode_Call_2jWJmC3xHy6PKo9fKzpbGo099ONM8nJKxyB_1 : Inventory {Inventory.MaxAmount 1}
 
 
-Actor MonSpawnY
+Actor MonSpawnY : RandomSpawner
 {
     DropItem "ZombieMan", 255, 2
     DropItem "DoomImp", 255, 1
     DropItem "ShotgunGuy", 255, 1
     DropItem "Demon", 255, 1
-    States {
-        Spawn:
-            "####" "#" 0
-            stop
-    }
 }
 
 
@@ -21,18 +16,13 @@ Actor MultiSpawner
     Gravity 0
     
     +NOSECTOR
-    +NOGRAVITY
-    +NOBLOCKMAP
     +THRUACTORS
-    States {
-        Spawn:
-            "####" "#" 0
-            stop
-    }
+    +NOBLOCKMAP
+    +NOGRAVITY
 }
 
 
-Actor XZombieSpawner
+Actor XZombieSpawner : MultiSpawner
 {
 
     States {
@@ -49,23 +39,23 @@ Actor XZombieSpawner
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("Zombieman", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
-            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_WysturIt9vbdrMC4s7pGM19mEuEYvQo5JAY_0", 1, "ZDCode_CLabel0")
+            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_2jWJmC3xHy6PKo9fKzpbGo099ONM8nJKxyB_0", 1, "ZDCode_CLabel0")
             TNT1 A -1
             Stop
         
         Spawn:
             "####" "#" 0
             TNT1 A 1
-            TNT1 A 0 A_GiveInventory("ZDCode_Call_WysturIt9vbdrMC4s7pGM19mEuEYvQo5JAY_0")
+            TNT1 A 0 A_GiveInventory("ZDCode_Call_2jWJmC3xHy6PKo9fKzpbGo099ONM8nJKxyB_0")
             Goto ZDCode_Func_MakeSpawn
         ZDCode_CLabel0:
-            TNT1 A 0 A_TakeInventory("ZDCode_Call_WysturIt9vbdrMC4s7pGM19mEuEYvQo5JAY_0")
+            TNT1 A 0 A_TakeInventory("ZDCode_Call_2jWJmC3xHy6PKo9fKzpbGo099ONM8nJKxyB_0")
             stop
     }
 }
 
 
-Actor XShotGuySpawner
+Actor XShotGuySpawner : MultiSpawner
 {
     Gravity 0
     States {
@@ -73,23 +63,23 @@ Actor XShotGuySpawner
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
             TNT1 A 9 A_SpawnItemEx("ShotgunGuy", FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360))
-            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_WysturIt9vbdrMC4s7pGM19mEuEYvQo5JAY_1", 1, "ZDCode_CLabel1")
+            TNT1 A 0 A_JumpIfInventory("ZDCode_Call_2jWJmC3xHy6PKo9fKzpbGo099ONM8nJKxyB_1", 1, "ZDCode_CLabel1")
             TNT1 A -1
             Stop
         
         Spawn:
             "####" "#" 0
             TNT1 A 1
-            TNT1 A 0 A_GiveInventory("ZDCode_Call_WysturIt9vbdrMC4s7pGM19mEuEYvQo5JAY_1")
+            TNT1 A 0 A_GiveInventory("ZDCode_Call_2jWJmC3xHy6PKo9fKzpbGo099ONM8nJKxyB_1")
             Goto ZDCode_Func_MakeSpawn
         ZDCode_CLabel1:
-            TNT1 A 0 A_TakeInventory("ZDCode_Call_WysturIt9vbdrMC4s7pGM19mEuEYvQo5JAY_1")
+            TNT1 A 0 A_TakeInventory("ZDCode_Call_2jWJmC3xHy6PKo9fKzpbGo099ONM8nJKxyB_1")
             stop
     }
 }
 
 
-Actor MonSpawnO
+Actor MonSpawnO : RandomSpawner
 {
     DropItem "Spectre"
     DropItem "Fatso"
@@ -97,25 +87,15 @@ Actor MonSpawnO
     DropItem "Arachnotron"
     DropItem "Revenant"
     DropItem "Cacodemon"
-    States {
-        Spawn:
-            "####" "#" 0
-            stop
-    }
 }
 
 
-Actor MonSpawnR
+Actor MonSpawnR : RandomSpawner
 {
     DropItem "PainElemental"
     DropItem "ArchVile"
     DropItem "HellKnight"
     DropItem "BaronOfHell"
-    States {
-        Spawn:
-            "####" "#" 0
-            stop
-    }
 }
 
 

@@ -377,12 +377,12 @@ def normal_state():
         modifier.many().desc('modifier').skip(wo).optional(),
         state_action.optional()
     ) | seq(
-        ist('keeps').desc('\'keeps\' state').skip(wo) >>\
+        ist('keepst').desc('\'keepst\' state').skip(wo) >>\
         regex(r"\-?\d+").map(int).desc('state duration').skip(wo),
         modifier.many().desc('modifier').skip(wo).optional(),
         state_action.optional()
     ).map(lambda l: [('normal', '"####"'), '"#"', *l]) | seq(
-        ist('invis').desc('\'invis\' state').skip(wo) >>\
+        ist('invisi').desc('\'invisi\' state').skip(wo) >>\
         regex(r"\-?\d+").map(int).desc('state duration').skip(wo),
         modifier.many().desc('modifier').skip(wo).optional(),
         state_action.optional()
@@ -429,7 +429,7 @@ def action_body_repeat():
 
 @generate
 def flow_control():
-    return (ist('stop') | ist('wait') | ist('fail') | ist('loop') | ist('goto') + whitespace.map(lambda _: ' ') + regex(r'[a-zA-Z0-9\.]+\s?(?:\+\d+)?'))
+    return (ist('stop') | ist('wait') | ist('fail') | ist('loop') | ist('goto') + whitespace.map(lambda _: ' ') + regex(r'[a-zA-Z0-9\:\.]+\s?(?:\+\d+)?'))
     yield
 
 @generate
@@ -537,20 +537,18 @@ def rpcont(i=0):
 
 def preprocess_for_macros(code, defines=(), this_fname=None, i=0):
     l = code
-    found = False
 
     for key, (val, d_args) in defines.items():
         nl = ""
 
         while True:
-            j = l.upper().find(key.upper() + '(')
+            j = re.search(r'\b' + re.escape(key.upper()) + r'\(', l.upper())
 
-            if j == -1:
+            if not j:
                 nl += l
                 break
 
-            found = True
-
+            j = j.start()
             nl += l[:j]
             l = l[j + len(key):]
 

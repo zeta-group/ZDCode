@@ -12,7 +12,7 @@
 
     "authorName": "Gustavo6046",
     "authorRealName": "Gustavo R. Rehermann",
-    "authorEmail": "gugurehermann@gmail.com",
+    "authorEmail": "rehermann6046@gmail.com",
 
     "versions": [
         {
@@ -202,6 +202,15 @@
                 "Inherited classes now go to the Spawn label of the class they inherit by default, unless a Spawn label has already been defined",
                 "Fixed incremental compilation calling ZDCall.post_load twice",
                 "Made preprocessor macros parametrizable (see Terrain.zc2 for examples of that)"
+            ]
+        },
+
+        {
+            "name": "2.7.1",
+            "changes": [
+                "Fixed anonymous class inheritance",
+                "Changed 'invis' to 'invisi' and 'keeps' to 'keepst', to prevent sprite name related ambiguity",
+                "Fixed preprocessor macro resolution"
             ]
         }
     ]
