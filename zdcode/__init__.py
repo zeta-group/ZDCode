@@ -381,10 +381,10 @@ class ZDActor(object):
             if not label:
                 label = self.make_spawn_label()
 
-            label.states = [ZDState()] + self._get_spawn_prelude() + label.states
+            label.states = [ZDState("TNT1", "A")] + self._get_spawn_prelude() + label.states
 
         elif label:
-            label.states.insert(0, ZDState())
+            label.states.insert(0, ZDState("TNT1", "A"))
 
     def get_context(self):
         new_ctx = self.context.derive()

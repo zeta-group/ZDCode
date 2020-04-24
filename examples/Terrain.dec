@@ -6,11 +6,11 @@ Actor BaseTerrainSpot
     Radius 4
     Scale 0.2
     
-    +FORCEXYBILLBOARD
     +NOBLOOD
-    +SOLID
     +SHOOTABLE
+    +SOLID
     +CANPASS
+    +FORCEXYBILLBOARD
     States {
         Death:
             TNT1 A 0 A_PlaySound("zdpack/terrain/break", 0.2)
@@ -40,7 +40,7 @@ Actor RandomTerrain
     -SOLID
     States {
         Spawn:
-            "####" "#" 0
+            TNT1 A 0
             "####" "#" 0 A_SetUserArray("user_Heightmap", 0, 0)
             "####" "#" 0 A_SetUserArray("user_Heightmap", 1, 0)
             "####" "#" 0 A_SetUserArray("user_Heightmap", 2, 0)
@@ -257,10 +257,10 @@ Actor RandomTerrain
                         TNT1 A 0 A_SetUserVar("user_spot_x", (1.0 * user_x + (1.0 * (user_cell_x) / 4096)) / 14 * 4000)
                         TNT1 A 0 A_SetUserVar("user_spot_y", (1.0 * user_y + (1.0 * (user_cell_y) / 4096)) / 14 * 4000)
                             TNT1 A 0 A_JumpIf(!(3 * user_spot_z >= (43)), 2)
-                            TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_7917b9421834f9dcaf384b9227f576613021e070", user_spot_x, user_spot_y, 3 * user_spot_z)
+                            TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_eedd3137d099994e441b1fab2709af5326967c48", user_spot_x, user_spot_y, 3 * user_spot_z)
                             TNT1 A 0
                             TNT1 A 0 A_JumpIf(3 * user_spot_z >= (43), 2)
-                            TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_c0f95c3dd4e7deec6e12c9b2a789b5f5b1f30d25", user_spot_x, user_spot_y, 3 * user_spot_z)
+                            TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_213ed3971634902eda10e4581f095085ae956e7f", user_spot_x, user_spot_y, 3 * user_spot_z)
                             TNT1 A 0
                         TNT1 A 0 A_SetUserVar("user_cell_x_i", user_cell_x_i + 1)
                         Goto _WhileBlock3
@@ -303,7 +303,7 @@ Actor RandomTerrainCoarse
     -SOLID
     States {
         Spawn:
-            "####" "#" 0
+            TNT1 A 0
             "####" "#" 0 A_SetUserArray("user_Heightmap", 0, 0)
             "####" "#" 0 A_SetUserArray("user_Heightmap", 1, 0)
             "####" "#" 0 A_SetUserArray("user_Heightmap", 2, 0)
@@ -520,10 +520,10 @@ Actor RandomTerrainCoarse
                         TNT1 A 0 A_SetUserVar("user_spot_x", (1.0 * user_x + (1.0 * (user_cell_x) / 4096)) / 14 * 2800)
                         TNT1 A 0 A_SetUserVar("user_spot_y", (1.0 * user_y + (1.0 * (user_cell_y) / 4096)) / 14 * 2800)
                             TNT1 A 0 A_JumpIf(!(3 * user_spot_z >= (43)), 2)
-                            TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_7917b9421834f9dcaf384b9227f576613021e070", user_spot_x, user_spot_y, 3 * user_spot_z)
+                            TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_eedd3137d099994e441b1fab2709af5326967c48", user_spot_x, user_spot_y, 3 * user_spot_z)
                             TNT1 A 0
                             TNT1 A 0 A_JumpIf(3 * user_spot_z >= (43), 2)
-                            TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_c0f95c3dd4e7deec6e12c9b2a789b5f5b1f30d25", user_spot_x, user_spot_y, 3 * user_spot_z)
+                            TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_213ed3971634902eda10e4581f095085ae956e7f", user_spot_x, user_spot_y, 3 * user_spot_z)
                             TNT1 A 0
                         TNT1 A 0 A_SetUserVar("user_cell_x_i", user_cell_x_i + 1)
                         Goto _WhileBlock7
@@ -545,7 +545,7 @@ Actor RandomTerrainCoarse
 }
 
 
-Actor TerrainSpot__deriv_7917b9421834f9dcaf384b9227f576613021e070 : BaseTerrainSpot
+Actor TerrainSpot__deriv_eedd3137d099994e441b1fab2709af5326967c48 : BaseTerrainSpot
 {
 
     States {
@@ -556,7 +556,7 @@ Actor TerrainSpot__deriv_7917b9421834f9dcaf384b9227f576613021e070 : BaseTerrainS
 }
 
 
-Actor TerrainSpot__deriv_c0f95c3dd4e7deec6e12c9b2a789b5f5b1f30d25 : BaseTerrainSpot
+Actor TerrainSpot__deriv_213ed3971634902eda10e4581f095085ae956e7f : BaseTerrainSpot
 {
 
     States {
