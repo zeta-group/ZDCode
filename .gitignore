@@ -9,3 +9,4 @@ bin/
 testing/
 ZDCode.spec
 *.log
+venv/
