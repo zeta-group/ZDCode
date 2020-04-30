@@ -431,7 +431,8 @@ class<PickupSprite, PickupType> FoxyPickup {
     };
 
     label Look {
-        param PickupSprite A 2 A_LookEx(LOF_NOSOUNDCHECK);
+        param PickupSprite A 2;
+        keepst A 0 A_LookEx(LOF_NOSOUNDCHECK);
         loop;
     };
 
