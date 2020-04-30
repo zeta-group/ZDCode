@@ -2,9 +2,9 @@ Actor RewardChest
 {
     Scale 0.5
     
-    +AMBUSH
-    +QUICKTORETALIATE
     +LOOKALLAROUND
+    +QUICKTORETALIATE
+    +AMBUSH
     States {
         Spawn:
             TNT1 A 0
