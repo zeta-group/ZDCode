@@ -1,4 +1,4 @@
-alias fox "summonfriend MSA_Fox"
+alias fox "summonfriend MSA_Fox 0"
 alias fox2 "fox;fox;fox;fox;fox;fox;fox;fox;fox;fox;fox;fox;fox;fox;fox;fox;fox;fox;fox"
 
 defaultbind f fox

@@ -1,3 +1,6 @@
+// #DEFINE LOGDEBUG
+
+
 class MSPart {
     isn't   SOLID;
     is      FORCEXYBILLBOARD;
@@ -129,6 +132,10 @@ derive MSG_Torso    as MSGore_FoxLimb::("MSP_Torso");
 class MSA_Fox {
     set     Health          to 40;
     set     Mass            to 8;
+    set     Obituary        to "%o got chewed by a deceivingly cutesy Fox!";
+    set     Radius          to 16;
+    set     MeleeRange      to 25;
+    set     Height          to 12;
 
     combo   Monster;
 
@@ -322,6 +329,131 @@ class MSA_Fox {
         inject DrawHeadNormal;
     };
 
+    // Common tick macros
+    macro Tick_Wander {
+        ifjump A_CheckLOF($offset, CLOFF_JUMP_ON_MISS | CLOFF_SKIPTARGET | CLOFF_ALLOWNULL | CLOFF_AIM_VERT_NOOFFSET | CLOFF_MUSTBESOLID | CLOFF_SKIPENEMY | CLOFF_SKIPFRIEND, Radius + 50, 0, 0, 0, 9) {
+            ifjump A_CheckLOF($offset, CLOFF_JUMP_ON_MISS | CLOFF_SKIPTARGET | CLOFF_ALLOWNULL | CLOFF_AIM_VERT_NOOFFSET | CLOFF_MUSTBESOLID | CLOFF_SKIPENEMY | CLOFF_SKIPFRIEND, Radius + 15, 0, 0, 0, 9) {
+                //   -- avoid getting stuck on walls --
+
+                #IFDEF LOGDEBUG
+                sometimes 50 TNT1 A 0 A_Log("wander: crap! go back!");
+                #ENDIF
+
+                x 3 {
+                    x 8 TNT1 A 0 A_SetAngle(angle + Random(-2, 2));
+                    TNT1 A 0 A_Recoil(0.25);
+                };
+            };
+
+            else {
+                //   -- check for other ways --
+                
+                ifjump A_CheckLOF($offset, CLOFF_JUMP_ON_MISS | CLOFF_SKIPTARGET | CLOFF_ALLOWNULL | CLOFF_AIM_VERT_NOOFFSET | CLOFF_MUSTBESOLID | CLOFF_SKIPENEMY | CLOFF_SKIPFRIEND, Radius + 64, 0,  45,  8, 9); else { // ...to the right
+                    #IFDEF LOGDEBUG
+                    sometimes 30 TNT1 A 0 A_Log("wander: go left");
+                    #ENDIF
+                
+                    TNT1 A 0 A_SetAngle(angle + 10);
+                    x 2 sometimes 50 TNT1 A 0 A_SetAngle(angle + 6);
+                    
+                    TNT1 A 0 A_Recoil(-0.05);
+                };
+
+                ifjump A_CheckLOF($offset, CLOFF_JUMP_ON_MISS | CLOFF_SKIPTARGET | CLOFF_ALLOWNULL | CLOFF_AIM_VERT_NOOFFSET | CLOFF_MUSTBESOLID | CLOFF_SKIPENEMY | CLOFF_SKIPFRIEND, Radius + 64, 0, -45, -8, 9); else { // ...to the left
+                    #IFDEF LOGDEBUG
+                    sometimes 30 TNT1 A 0 A_Log("wander: go right");
+                    #ENDIF
+                
+                    TNT1 A 0 A_SetAngle(angle - 10);
+                    x 2 sometimes 50 TNT1 A 0 A_SetAngle(angle - 6);
+                    
+                    TNT1 A 0 A_Recoil(-0.05);
+                };
+            
+
+                //    -- just be careful --
+
+                #IFDEF LOGDEBUG
+                sometimes 8 TNT1 A 0 A_Log("wander: go easy");
+                #ENDIF
+            
+                TNT1 A 0 A_Recoil(0.1);
+                x 5 TNT1 A 0 A_SetAngle(angle + Random(-2, 2));
+            };
+        };
+
+        else {
+            //   -- don't bother looking around if we can go forward! --
+            #IFDEF LOGDEBUG
+            sometimes 5 TNT1 A 0 A_Log("wander: go straight");
+            #ENDIF
+                
+            TNT1 A 0 A_Recoil(-0.25);
+            x 3 TNT1 A 0 A_SetAngle(angle + Random(-3, 3));
+        };
+    };
+
+    macro Tick_Chase {
+        TNT1 A 0 A_FaceTarget(2);
+
+        // bite if possible!
+        TNT1 A 0 A_JumpIfTargetInsideMeleeRange("Melee");
+
+        // "more realistic eye movements"
+        sometimes 15 ifjump A_JumpIfTargetInLOS($offset, 15) {
+            x 4 TNT1 A 0 A_SetAngle(angle + Random(-5, 5));
+        };
+
+        // chase!
+        ifjump A_JumpIfTargetInLOS($offset) TNT1 A 0 {
+            A_FaceTarget(12);
+            A_Recoil(-0.55);
+        };
+
+        // can't see target... :c
+        else {
+            TNT1 A 0 A_ClearTarget;
+            goto Idle;
+        };
+    };
+
+    macro Tick_Rest {
+        x 5 sometimes 3 TNT1 A 0 A_Recoil(-0.2);
+        x 5 sometimes 3 TNT1 A 0 A_Recoil( 0.2);
+    };
+
+    // Behaviours
+    macro FoxWander(tics, anim, sound_chance, rest_chance) {
+        x tics {
+            inject @anim;            
+            inject Tick_Wander;
+            TNT1 A 1 A_Look;
+        };
+        
+        sometimes (rest_chance) goto Rest;
+        sometimes (sound_chance * tics) TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
+    };
+
+    macro FoxRest(tics, anim, sound_chance) {
+        x tics {
+            inject @anim;       
+            inject Tick_Rest;
+            TNT1 A 1 A_Look;
+        };
+        
+        sometimes (sound_chance * tics) TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
+    };
+
+    macro FoxChase(tics, anim, sound_chance) {
+        x tics {
+            inject @anim;            
+            inject Tick_Chase;
+            TNT1 A 1;
+        };
+        
+        sometimes (sound_chance * tics) TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see");
+    };
+
     // States
     label Spawn {
         // Tail swinging to a side.
@@ -349,16 +481,21 @@ class MSA_Fox {
     };
 
     label Idle {
-        x6 { TNT1 A 1; inject DrawWalk1; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
-        sometimes 8 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
-        x4 { TNT1 A 1; inject DrawWalk2; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
-        sometimes 8 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
-        x6 { TNT1 A 1; inject DrawWalk3; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
-        sometimes 8 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
-        x4 { TNT1 A 1; inject DrawWalk4; TNT1 A 0 { A_Look; A_Wander; A_Recoil(-0.4); }; };
-        sometimes 8 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
+        inject FoxWander(8, DrawWalk1, 6, 2);
+        inject FoxWander(6, DrawWalk2, 6, 2);
+        inject FoxWander(8, DrawWalk3, 6, 2);
+        inject FoxWander(6, DrawWalk4, 6, 3);
 
         loop;
+    };
+
+    label Rest {
+        x 5 inject FoxRest(3, DrawWalk1, 2);
+        x 5 inject FoxRest(3, DrawWalk3, 2);
+
+        sometimes 30 goto Rest;
+
+        goto Idle;
     };
 
     label Pain {
@@ -368,18 +505,15 @@ class MSA_Fox {
              TNT1 A 1; inject DrawAttack1;
 
         TNT1 A 0 A_JumpIfTargetInLOS("Idle");
+        
         goto See;
     };
 
     label See {
-        x4 { TNT1 A 1; inject DrawWalk1; TNT1 A 0               { A_Chase; A_Wander; A_Recoil(-0.8); }; };
-        sometimes 7 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see");
-        x2 { TNT1 A 1; inject DrawWalk2; TNT1 A 0               { A_Chase; A_Wander; A_Recoil(-0.8); }; };
-        sometimes 6 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see");
-        x3 { TNT1 A 1; inject DrawWalk3; TNT1 A 0  { A_Chase; A_Wander; A_Recoil(-0.8); }; };
-        sometimes 7 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see");
-        x2 { TNT1 A 1; inject DrawWalk4; TNT1 A 0               { A_Chase; A_Wander; A_Recoil(-0.8); }; };
-        sometimes 6 TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see");
+        inject FoxChase(4, DrawWalk1, 9);
+        inject FoxChase(2, DrawWalk2, 9);
+        inject FoxChase(3, DrawWalk3, 9);
+        inject FoxChase(2, DrawWalk2, 9);
 
         loop;
     };
@@ -472,6 +606,10 @@ class<PickupSprite, PickupType, NormalChance, FoxChance> FoxyPickupSpawner repla
     };
 }
 
-derive FoxyHealthBonusSpawner   as FoxyPickupSpawner::("BON1", "HealthBonus",   8,  1);
-derive FoxyArmorBonusSpawner    as FoxyPickupSpawner::("BON2", "ArmorBonus",    32, 7);
-derive FoxyClipSpawner          as FoxyPickupSpawner::("CLIP", "Clip",          9,  2);
+derive FoxyHealthBonusSpawner   as FoxyPickupSpawner::("BON1", "HealthBonus",    7,  1);
+derive FoxyArmorBonusSpawner    as FoxyPickupSpawner::("BON2", "ArmorBonus",     8,  2);
+
+derive FoxyClipSpawner          as FoxyPickupSpawner::("CLIP", "Clip",           17, 2);
+derive FoxyShellSpawner         as FoxyPickupSpawner::("SHEL", "Shell",          5,  1);
+derive FoxyRocketSpawner        as FoxyPickupSpawner::("ROCK", "RocketAmmo",     6,  2);
+derive FoxyCellSpawner          as FoxyPickupSpawner::("CELL", "Cell",           9,  4);

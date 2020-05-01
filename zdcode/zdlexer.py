@@ -98,11 +98,16 @@ def number_lit():
     yield
 
 @generate
+def variable_name():
+    return regex(r'[a-zA-Z_\$][a-zA-Z0-9_\$\[\]]*')
+    yield
+
+@generate
 def literal():
     return (
         call_literal.tag('call expr').desc('call') |
         string_literal.tag('string').desc('string') |
-        regex(r'[a-zA-Z_][a-zA-Z0-9_\[\]]*').tag('actor variable').desc('actor variable') |
+        variable_name.tag('actor variable').desc('actor variable') |
         number_lit.desc('number')
     )
     yield
@@ -213,29 +218,29 @@ def label():
 @generate
 def templated_class_derivation():
     return seq(
-        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of templated class') << wo,
-        (s('::(') >> wo >>
+        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of templated class').skip(wo),
+        (s('::(').then(wo).then(
             parameter_list.optional().map(lambda x: x if x and tuple(x) != ('',) else [])
-        << wo << s(')')),
+        ).skip(wo).skip(s(')'))),
         (
-            wo >> s('{') >>
+            wo.then(s('{')).then(
                 wo.then(
                     (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_]+').desc('flag name')).tag('flag') |
                     (((ist("isn't") << whitespace) | string('-')) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
 
-                    seq(
-                        ist("macro") >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
+                    ist("macro").then(whitespace).then(seq(
+                        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
                         (wo >> s('(') >> macro_argument_list << s(')') << wo).optional().map(lambda a: a or []).tag('args'),
                         state_body.tag('body')
-                    ).map(dict).desc('override macro').tag('macro') |
+                    ).map(dict).desc('override macro').tag('macro')) |
 
-                    label.desc('ovveride label').tag('label') |
+                    label.desc('override label').tag('label') |
 
                     ((ist('var') << whitespace) >> seq(
                         regex('user_[a-zA-Z0-9_]+').desc('var name').tag('name'),
-                        (wo >> s('[') >> replaceable_number << s(']')).optional().map(lambda x: int(x or 0)).tag('size'),
-                        (wo >> s(':') >> wo >> regex('[a-zA-Z_.][a-zA-Z0-9_]+')).desc('var type').optional().map(lambda t: t or 'int').tag('type'),
-                        (wo >> s('=') >> (expression.tag('val') | array_literal.tag('arr'))).optional().tag('value')
+                        (wo.then(s('[')).then(replaceable_number).skip(s(']'))).optional().map(lambda x: int(x or 0)).tag('size'),
+                        (wo.then(s(':')).then(wo).then(regex('[a-zA-Z_.][a-zA-Z0-9_]+'))).desc('var type').optional().map(lambda t: t or 'int').tag('type'),
+                        (wo.then(s('=')).then(expression.tag('val') | array_literal.tag('arr'))).optional().tag('value')
                     ).map(dict).tag('user var')) |
 
                     ((ist('array') << whitespace) >> seq(
@@ -243,7 +248,7 @@ def templated_class_derivation():
                         (wo >> s('=') >> wo >> array_literal).desc('array values').tag('value')
                     ).map(dict).desc('override array').tag('array'))
                 ).skip(wo).skip(s(';')).skip(wo).many().optional()
-            << s('}')
+            ).skip(s('}'))
         ).optional().map(lambda x: x or [])
     ).tag('template derivation').desc('template derivation')
     yield
@@ -416,7 +421,7 @@ def action_body():
 def replaceable_number():
     return (
         regex(r'\d+').map(int) |
-        regex('[a-zA-Z_][a-zA-Z_0-9]*')
+        variable_name
     )
     yield
 
@@ -435,19 +440,19 @@ def flow_control():
 @generate
 def macro_call():
     return seq(
-        ist('inject').desc("'inject' statement").then(whitespace).then(regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('injected macro name')),
+        ist('inject').desc("'inject' statement").then(whitespace).then(regex('\@*[a-zA-Z_][a-zA-Z_0-9]*').desc('injected macro name')),
         (s('(') >> expr_argument_list.desc("macro arguments") << s(')')).optional().map(lambda x: x or [])
     )
     yield
 
 @generate
 def state():
-    return (if_statement.tag('if') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')) << s(';')
+    return (if_statement.tag('if') | ifjump_statement.tag('ifjump') | whilejump_statement.tag('whilejump') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')) << s(';')
     yield
 
 @generate
 def state_no_colon():
-    return (if_statement.tag('if') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat'))
+    return (if_statement.tag('if') | ifjump_statement.tag('ifjump') | whilejump_statement.tag('whilejump') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat'))
     yield
 
 @generate
@@ -484,6 +489,48 @@ def if_statement():
             .then(expression)
         .skip(wo)
         .skip(string(")"))
+        .skip(wo),
+
+        state_body.optional().map(lambda x: x if x != None else [])
+        .skip(wo),
+
+        s(';')
+        .then(wo)
+        .then(s('else'))
+        .then(wo)
+            .then(state_body.optional().map(lambda x: x if x != None else []))
+        .skip(wo)
+            .optional()
+    )
+    yield
+
+@generate
+def ifjump_statement():
+    return seq(
+        ist("ifjump").desc('ifjump statement')
+        .then(whitespace)
+        .then(state_call)
+        .skip(wo),
+
+        state_body.optional().map(lambda x: x if x != None else [])
+        .skip(wo),
+
+        s(';')
+        .then(wo)
+        .then(s('else'))
+        .then(wo)
+            .then(state_body.optional().map(lambda x: x if x != None else []))
+        .skip(wo)
+            .optional()
+    )
+    yield
+
+@generate
+def whilejump_statement():
+    return seq(
+        ist("whilejump").desc('whilejump statement')
+        .then(whitespace)
+        .then(state_call)
         .skip(wo),
 
         state_body.optional().map(lambda x: x if x != None else [])

@@ -95,7 +95,8 @@ assert big_lit("""
     """, 4) == "Big\n    Fluffy\nFurry.\n"
 
 def redent(code, spaces=8, unindent_first=True):
-    b = textwrap.dedent(code).splitlines()
+    b = textwrap.dedent(code).split('\n')
+        
     r = []
 
     for l in b:
@@ -103,8 +104,8 @@ def redent(code, spaces=8, unindent_first=True):
 
     r = "\n".join(r)
 
-    if unindent_first:
-        return r.lstrip("\t ")
+    if unindent_first: 
+        return r.lstrip('\t ')
 
     return r
 
@@ -121,15 +122,11 @@ class ZDProperty(object):
         return "    {} {}".format(self.name, self.value)
 
 class ZDCall(object):
-    def __init__(self, code, label, func, args=None, repeats=1):
-        if not args:
-            args = []
-
+    def __init__(self, code, label, func, repeats=1):
         repeats = int(repeats)
 
         self.func = func
         self.code = code
-        self.args = args
         self.label = label
         self.actor = label._actor
         self.repeats = repeats
@@ -142,7 +139,7 @@ class ZDCall(object):
 
         if repeats > 1:
             for _ in range(repeats):
-                ZDCall(code, label, func, args, 1)
+                ZDCall(code, label, func, 1)
 
             del self
 
@@ -156,20 +153,18 @@ class ZDCall(object):
     def num_states(self):
         return 2
 
-    def add_arg(self, a):
-        self.args.append(a)
-
     def __decorate__(self):
-        r = ""
         func = self.actor.namefuncs[self.func]
 
-        return r + "    TNT1 A 0 A_GiveInventory(\"ZDCode_Call_{2}_{1}\")\n    Goto ZDCode_Func_{0}\nZDCode_CLabel{1}:\n    TNT1 A 0 A_TakeInventory(\"ZDCode_Call_{2}_{1}\")".format(func.name, self.id, self.code.id)
+        return redent(
+            "    TNT1 A 0 A_GiveInventory(\"ZDCode_Call_{2}_{1}\")\n" +
+            "    Goto ZDCode_Func_{0}\n" +
+            "ZDCode_CLabel{1}:\n" + 
+            "    TNT1 A 0 A_TakeInventory(\"ZDCode_Call_{2}_{1}\")",
+        4, unindent_first = False).format(func.name, self.id, self.code.id)
 
 class ZDFunction(object):
-    def __init__(self, code, actor, name, args=None, states=None):
-        if not args:
-            args = []
-
+    def __init__(self, code, actor, name, states=None):
         if not states:
             states = []
 
@@ -178,26 +173,14 @@ class ZDFunction(object):
         self.states = states
         self.calls = []
         self.actor = actor
-        self.args = args
 
         self.id = len(actor.all_funcs)
         actor.funcs.append((name, self))
         actor.namefuncs[name] = self
         actor.all_funcs.append((name, self))
 
-        for a in args:
-            if a not in [x.name for x in code.inventories]:
-                ZDInventory(code, a)
-
     def add_call(self, call):
         self.calls.append(call)
-
-    def add_arg(self, argstr):
-        self.args.append(argstr)
-
-        for a in self.args:
-            if a not in [x.name for x in self.code.inventories]:
-                ZDInventory(self.code, a)
 
     def call_states(self):
         result = []
@@ -540,26 +523,113 @@ class ZDClassTemplate(ZDBaseActor):
     def get_init_replacements(self, code, context, parameter_values):
         return dict(zip((p.upper() for p in self.template_parameters), parameter_values))
 
-class ZDIfStatement(object):
-    def __init__(self, actor, condition, states, inverted=False):
+class ZDBlock(object):
+    def __init__(self, actor, states = ()):
         self._actor = actor
-        self.condition = condition
-        self.states = states
-        self.inverted = inverted
-
-        if self.inverted:
-            self.true_condition = condition
-
-        else:
-            self.true_condition = "!({})".format(condition)
+        self.states = list(states)
 
     def num_states(self):
-        return sum(x.num_states() for x in self.states) + 2
+        return sum(x.num_states() for x in self.states)
 
     def __decorate__(self):
-        num_st = sum(x.num_states() for x in self.states)
+        return redent('\n'.join(decorate(x) for x in self.states), 4, unindent_first=False)
 
-        return redent("TNT1 A 0 A_JumpIf({}, {})\n".format(self.true_condition, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
+class ZDIfStatement(object):
+    def __init__(self, actor, condition, states = ()):
+        self._actor = actor
+        self.true_condition = condition
+        self.states = list(states)
+        self.else_block = None
+
+    def set_else(self, else_block):
+        self.else_block = else_block
+
+    def num_block_states(self):
+        return sum(x.num_states() for x in self.states)
+
+    def num_else_states(self):
+        return self.else_block.num_states()
+
+    def num_states(self):
+        if self.else_block:
+            return self.num_block_states() + self.num_else_states() + 3
+
+        else:
+            return self.num_block_states() + 2
+
+    def __decorate__(self):
+        num_st_bl = self.num_block_states()
+        
+        if self.else_block:
+            num_st_el = self.num_else_states()
+
+            return redent(
+                "TNT1 A 0 A_JumpIf({}, {})\n".format(self.true_condition, num_st_el + 2) +      # 1
+                decorate(self.else_block) +                                                     # + num_st_el
+                "\nTNT1 A 0 A_Jump(255, {})\n".format(num_st_bl + 1) +                          # + 1
+                '\n'.join(decorate(x) for x in self.states) +                                   # + num_st_bl
+                "\nTNT1 A 0",                                                                   # + 1
+            4, unindent_first=False)
+
+        else:
+            return redent(
+                "TNT1 A 0 A_JumpIf(!({}), {})\n".format(self.true_condition, num_st_bl + 1) +   # 1
+                '\n'.join(decorate(x) for x in self.states) +                                   # + num_st_bl
+                "\nTNT1 A 0",                                                                   # + 1
+            4, unindent_first=False)
+
+
+class ZDIfJumpStatement(object):
+    def __init__(self, actor, condition_gen, states = ()):
+        self._actor = actor
+        self.true_condition = condition_gen
+        self.states = list(states)
+        self.else_block = None
+
+    def set_else(self, else_block):
+        self.else_block = else_block
+
+    @classmethod
+    def generate(cls, actor, states = ()):
+        def _decorator(condition_gen):
+            return cls(actor, condition_gen, states)
+
+        return _decorator
+
+    def num_block_states(self):
+        return sum(x.num_states() for x in self.states)
+
+    def num_else_states(self):
+        return self.else_block.num_states()
+
+    def num_states(self):
+        if self.else_block:
+            return self.num_block_states() + self.num_else_states() + 3
+
+        else:
+            return self.num_block_states() + 3
+
+    def __decorate__(self):
+        num_st_bl = self.num_block_states()
+        
+        if self.else_block:
+            num_st_el = self.num_else_states()
+
+            return redent(
+                "TNT1 A 0 {}\n".format(self.true_condition(num_st_el + 2)) +                # 1
+                decorate(self.else_block) +                                                 # + num_st_el
+                "\nTNT1 A 0 A_Jump(255, {})\n".format(num_st_bl + 1) +                      # + 1
+                '\n'.join(decorate(x) for x in self.states) +                               # + num_st_bl
+                "\nTNT1 A 0",                                                               # + 1
+            4, unindent_first=False)
+
+        else:
+            return redent(
+                "TNT1 A 0 {}".format(self.true_condition(2)) +                              # 1
+                "\nTNT1 A 0 A_Jump(255, {})\n".format(num_st_bl + 2) +                      # + 1
+                '\n'.join(decorate(x) for x in self.states) +                               # + num_st_bl
+                "\nTNT1 A 0",                                                               # + 1
+            4, unindent_first=False)
 
 
 class ZDSometimes(object):
@@ -574,27 +644,122 @@ class ZDSometimes(object):
     def __decorate__(self):
         num_st = sum(x.num_states() for x in self.states)
 
-        return redent("TNT1 A 0 A_Jump(255-(2.55*({})), {})\n".format(self.chance, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
+        return redent("TNT1 A 0 A_Jump(255-(255*({})/100), {})\n".format(self.chance, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
 
 num_whiles = 0
 
 class ZDWhileStatement(object):
-    def __init__(self, actor, condition, states):
-        global num_whiles
-
+    def __init__(self, actor, condition, states = ()):
         self._actor = actor
-        self.condition = condition
-        self.states = states
-        self.id = num_whiles
+        self.true_condition = condition
+        self.states = list(states)
+        self.else_block = None
+
+        global num_whiles
+        
+        self._while_id = num_whiles
         num_whiles += 1
 
+        self._loop_id = '_loop_while_' + str(self._while_id)
+
+    def set_else(self, else_block):
+        self.else_block = else_block
+
+    def num_block_states(self):
+        return sum(x.num_states() for x in self.states)
+
+    def num_else_states(self):
+        return self.else_block.num_states()
+
     def num_states(self):
-        return sum(x.num_states() for x in self.states) + 2
+        if self.else_block:
+            return self.num_block_states() + self.num_else_states() + 4
+
+        else:
+            return self.num_block_states() + 3
 
     def __decorate__(self):
-        num_st = sum(x.num_states() for x in self.states)
+        num_st_bl = self.num_block_states()
+        
+        if self.else_block:
+            num_st_el = self.num_else_states()
 
-        return redent("_WhileBlock{}:\n".format(self.id) + redent("TNT1 A 0 A_JumpIf(!({}), {})\n".format(self.condition, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nGoto _WhileBlock{}\nTNT1 A 0".format(self.id), 4, unindent_first=False), 0, unindent_first=False)
+            return redent(
+                "TNT1 A 0 A_JumpIf({}, {})\n".format(self.true_condition, num_st_el + 2) +              # 1
+                decorate(self.else_block) +                                                             # + num_st_el
+                "\nTNT1 A 0 A_Jump(255, {})".format(num_st_bl + 2) +                                    # + 1
+                "\n{}:\n".format(self._loop_id) +                                                       # |
+                '\n'.join(decorate(x) for x in self.states) +                                           # + num_st_bl
+                "\nTNT1 A 0 A_JumpIf({}, {})".format(self.true_condition, stringify(self._loop_id)) +   # + 1
+                "\nTNT1 A 0",                                                                           # + 1
+            4, unindent_first=False)
+
+        else:
+            return redent(
+                "TNT1 A 0 A_JumpIf(!({}), {})".format(self.true_condition, num_st_bl + 2) +             # 1
+                "\n{}:\n".format(self._loop_id) +                                                       # |
+                '\n'.join(decorate(x) for x in self.states) +                                           # + num_st_bl
+                "\nTNT1 A 0 A_JumpIf({}, {})".format(self.true_condition, stringify(self._loop_id)) +   # + 1
+                "\nTNT1 A 0",                                                                           # + 1
+            4, unindent_first=False)
+
+
+class ZDWhileJumpStatement(object):
+    def __init__(self, actor, condition_gen, states = ()):
+        self._actor = actor
+        self.true_condition = condition_gen
+        self.states = list(states)
+        self.else_block = None
+
+    def set_else(self, else_block):
+        self.else_block = else_block
+
+    @classmethod
+    def generate(cls, actor, states = ()):
+        def _decorator(condition_gen):
+            return cls(actor, condition_gen, states)
+
+        return _decorator
+
+    def num_block_states(self):
+        return sum(x.num_states() for x in self.states)
+
+    def num_else_states(self):
+        return self.else_block.num_states()
+
+    def num_states(self):
+        if self.else_block:
+            return self.num_block_states() + self.num_else_states() + 4
+
+        else:
+            return self.num_block_states() + 4
+
+    def __decorate__(self):
+        num_st_bl = self.num_block_states()
+
+        if self.else_block:
+            num_st_el = self.num_else_states()
+
+            return redent(
+                "TNT1 A 0 {}\n".format(self.true_condition(num_st_el + 2)) +                            # 1
+                decorate(self.else_block) +                                                             # + num_st_el
+                "\nTNT1 A 0 A_Jump(255, {})".format(num_st_bl + 2) +                                    # + 1
+                "\n{}:\n".format(self._loop_id) +                                                       # |
+                '\n'.join(decorate(x) for x in self.states) +                                           # + num_st_bl
+                "\nTNT1 A 0 {}".format(self.true_condition(stringify(self._loop_id))) +                 # + 1
+                "\nTNT1 A 0",                                                                           # + 1
+            4, unindent_first=False)
+
+        else:
+            return redent(
+                "TNT1 A 0 {}".format(self.true_condition(2)) +                                          # 1
+                "\nTNT1 A 0 A_Jump(255, {})\n".format(num_st_bl + 2) +                                  # + 1
+                "\n{}:\n".format(self._loop_id) +                                                       # |
+                '\n'.join(decorate(x) for x in self.states) +                                           # + num_st_bl
+                "\nTNT1 A 0 {}".format(self.true_condition(stringify(self._loop_id))) +                 # + 1
+                "\nTNT1 A 0",                                                                           # + 1
+            4, unindent_first=False)
+
 
 class ZDInventory(object):
     def __init__(self, code, name):
@@ -901,21 +1066,65 @@ class ZDCode(object):
 
         elif s[0] == 'if':
             ifs = ZDIfStatement(actor, self._parse_expression(s[1][0], context), [])
-            elses = None
 
             for a in s[1][1]:
                 self._parse_state(actor, context, ifs, a, func)
 
             if s[1][2] is not None:
-                elses = ZDIfStatement(actor, self._parse_expression(s[1][0], context), [], inverted=True)
+                elses = ZDBlock(actor)
 
                 for a in s[1][2]:
                     self._parse_state(actor, context, elses, a, func)
 
+                ifs.set_else(elses)
+
             label.states.append(ifs)
 
-            if elses is not None:
-                label.states.append(elses)
+        elif s[0] == 'ifjump':
+            jump, s_yes, s_no = s[1]
+        
+            @ZDIfJumpStatement.generate(actor)
+            def ifs(jump_offset):
+                jump_context = context.derive()
+                jump_context.replacements['$OFFSET'] = str(jump_offset)
+                
+                return self._parse_state_action(jump, jump_context)
+
+            for a in s_yes:
+                self._parse_state(actor, context, ifs, a, func)
+
+            if s_no is not None:
+                elses = ZDBlock(actor)
+            
+                for a in s_no:
+                    self._parse_state(actor, context, elses, a, func)
+
+                ifs.set_else(elses)
+
+            label.states.append(ifs)
+
+        elif s[0] == 'whilejump':
+            jump, s_yes, s_no = s[1]
+        
+            @ZDWhileJumpStatement.generate(actor)
+            def whs(jump_offset):
+                jump_context = context.derive()
+                jump_context.macros['$offset'] = jump_offset
+                
+                return self._parse_state_action(jump, jump_context)
+
+            for a in s_yes:
+                self._parse_state(actor, context, whs, a, func)
+
+            if s_no is not None:
+                elses = ZDBlock(actor)
+            
+                for a in s_no:
+                    self._parse_state(actor, context, elses, a, func)
+
+                whs.set_else(elses)
+
+            label.states.append(whs)
 
         elif s[0] == 'while':
             whs = ZDWhileStatement(actor, self._parse_expression(s[1][0], context), [])
@@ -928,6 +1137,16 @@ class ZDCode(object):
         elif s[0] == 'inject':
             macros = dict(context.macros)
             r_name, r_args = s[1]
+
+            while r_name[0] == '@':
+                r_casename = r_name[1:]
+                r_name = r_name[1:].upper()
+
+                if r_name in context.replacements:
+                    r_name = context.replacements[r_name]
+
+                else:
+                    raise ValueError("No such replacement {} while trying to resolve a parametrized name to inject a macro!".format(repr(r_casename)))
 
             if r_name in macros:
                 new_context = context.derive()

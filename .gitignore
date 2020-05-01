@@ -10,3 +10,4 @@ testing/
 ZDCode.spec
 *.log
 venv/
+fastenv/

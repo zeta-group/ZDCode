@@ -219,6 +219,15 @@
             "changes": [
                 "Fixed minor issue with Spawn labels"
             ]
+        },
+
+        {
+            "name": "2.8.0",
+            "changes": [
+                "Added 'ifjump' and 'whilejump' statements for state-action-based conditional state flow",
+                "Added '@' pointer-like sigil to inject name for parameterization resolution",
+                "Added 'else' to while and whilejump statements (only executes if the condition is false before the first loop)"
+            ]
         }
     ]
 }
