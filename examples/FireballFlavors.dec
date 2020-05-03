@@ -1,0 +1,30 @@
+Actor FireballRed : DoomImpBall
+{
+    Damage 40
+    Speed 8
+    Translation "0:255=%[0.15,0,0]:[0.9,0.75,0.3]"
+}
+
+
+Actor FireballYellow : DoomImpBall
+{
+    Damage 30
+    Speed 12
+    Translation "0:255=%[0.15,0.1,0]:[0.9,0.9,0.4]"
+}
+
+
+Actor FireballGreen : DoomImpBall
+{
+    Damage 15
+    Speed 14
+    Translation "0:255=%[0.1,0.2,0]:[0.4,0.9,0.2]"
+}
+
+
+Actor FireballCyan : DoomImpBall
+{
+    Damage 30
+    Speed 16
+    Translation "0:255=%[0.05,0.2,0.25]:[0.2,0.8,0.9]"
+}

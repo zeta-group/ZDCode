@@ -43,4 +43,10 @@ $volume zdpack/multisprite/animal/fox/gib/bounce 0.6
 ////////////////
 
 
+$alias zdpack/lasergun/select plats/pt1_stop
+
+
+////////////////
+
+
 zdpack/terrain/break        "WOODCRCK"

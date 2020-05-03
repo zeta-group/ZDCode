@@ -13,7 +13,7 @@ Actor BaseTerrainSpot
     +CANPASS
     States {
         Death:
-            TNT1 A 0 A_PlaySound("zdpack/terrain/break", 0.2)
+            TNT1 A 0 A_PlaySound("zdpack/terrain/break", 0, 0.2)
             stop
     }
 }
@@ -257,9 +257,9 @@ Actor RandomTerrain
                         TNT1 A 0 A_SetUserVar("user_spot_x", (1.0 * user_x + (1.0 * (user_cell_x) / 4096)) / 14 * 4000)
                         TNT1 A 0 A_SetUserVar("user_spot_y", (1.0 * user_y + (1.0 * (user_cell_y) / 4096)) / 14 * 4000)
                             TNT1 A 0 A_JumpIf(3 * user_spot_z >= (43), 3)
-                                TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_c6cc327c57f498c001ec9af227d1623d46830fee", user_spot_x, user_spot_y, 3 * user_spot_z)
-                            TNT1 A 0 A_Jump(255, 2)
-                            TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_c8f72fcccb7666f80d8e4f2646a6e4aeb4172030", user_spot_x, user_spot_y, 3 * user_spot_z)
+                                TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_a89c3ab87abd9c90f5160c0a93470765d178a098", user_spot_x, user_spot_y, 3 * user_spot_z)
+                            TNT1 A 0 A_Jump(256, 2)
+                            TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_f6b9085415896037be68cb18e48ed1e4f2eb6376", user_spot_x, user_spot_y, 3 * user_spot_z)
                             TNT1 A 0
                         TNT1 A 0 A_SetUserVar("user_cell_x_i", user_cell_x_i + 1)
                         TNT1 A 0 A_JumpIf(user_cell_x_i < 8, "_loop_while_3")
@@ -519,9 +519,9 @@ Actor RandomTerrainCoarse
                         TNT1 A 0 A_SetUserVar("user_spot_x", (1.0 * user_x + (1.0 * (user_cell_x) / 4096)) / 14 * 2800)
                         TNT1 A 0 A_SetUserVar("user_spot_y", (1.0 * user_y + (1.0 * (user_cell_y) / 4096)) / 14 * 2800)
                             TNT1 A 0 A_JumpIf(3 * user_spot_z >= (43), 3)
-                                TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_c6cc327c57f498c001ec9af227d1623d46830fee", user_spot_x, user_spot_y, 3 * user_spot_z)
-                            TNT1 A 0 A_Jump(255, 2)
-                            TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_c8f72fcccb7666f80d8e4f2646a6e4aeb4172030", user_spot_x, user_spot_y, 3 * user_spot_z)
+                                TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_a89c3ab87abd9c90f5160c0a93470765d178a098", user_spot_x, user_spot_y, 3 * user_spot_z)
+                            TNT1 A 0 A_Jump(256, 2)
+                            TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_f6b9085415896037be68cb18e48ed1e4f2eb6376", user_spot_x, user_spot_y, 3 * user_spot_z)
                             TNT1 A 0
                         TNT1 A 0 A_SetUserVar("user_cell_x_i", user_cell_x_i + 1)
                         TNT1 A 0 A_JumpIf(user_cell_x_i < 6, "_loop_while_7")
@@ -543,7 +543,7 @@ Actor RandomTerrainCoarse
 }
 
 
-Actor TerrainSpot__deriv_c8f72fcccb7666f80d8e4f2646a6e4aeb4172030 : BaseTerrainSpot
+Actor TerrainSpot__deriv_f6b9085415896037be68cb18e48ed1e4f2eb6376 : BaseTerrainSpot
 {
     
     States {
@@ -554,7 +554,7 @@ Actor TerrainSpot__deriv_c8f72fcccb7666f80d8e4f2646a6e4aeb4172030 : BaseTerrainS
 }
 
 
-Actor TerrainSpot__deriv_c6cc327c57f498c001ec9af227d1623d46830fee : BaseTerrainSpot
+Actor TerrainSpot__deriv_a89c3ab87abd9c90f5160c0a93470765d178a098 : BaseTerrainSpot
 {
     
     States {

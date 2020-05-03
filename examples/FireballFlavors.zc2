@@ -1,0 +1,10 @@
+class<translation, speed, damage> FireballFlavor extends DoomImpBall {
+    set Translation to translation;
+    set Speed       to speed;
+    set Damage      to damage;
+}
+
+derive FireballRed    as FireballFlavor::("0:255=%[0.15,0,0]:[0.9,0.75,0.3]",     8,  40);
+derive FireballYellow as FireballFlavor::("0:255=%[0.15,0.1,0]:[0.9,0.9,0.4]",    12, 30);
+derive FireballGreen  as FireballFlavor::("0:255=%[0.1,0.2,0]:[0.4,0.9,0.2]",     14, 15);
+derive FireballCyan   as FireballFlavor::("0:255=%[0.05,0.2,0.25]:[0.2,0.8,0.9]", 16, 30);

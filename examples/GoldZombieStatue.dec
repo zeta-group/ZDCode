@@ -9,10 +9,10 @@ Actor GoldZombieStatue : ZombieMan
         Spawn:
             TNT1 A 0
             POSS E 20
-            POSS E 5  Bright
+            POSS E 5
             goto Spawn
         
         See:
-            goto spawn
+            goto Spawn
     }
 }

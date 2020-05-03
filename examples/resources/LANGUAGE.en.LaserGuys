@@ -1,0 +1,12 @@
+[enu default]
+PKP_LASERGUN   = "You got the Laser Gun!";
+
+PKP_LASERMOD_Y = "You obtained the moderate Yellow Laser Module.";
+PKP_LASERMOD_O = "You obtained the strong Orange Laser Module!";
+PKP_LASERMOD_R = "You obtained the powerful Red Laser Module! Yes!";
+
+INM_LASERMOD_0 = "Weak Laser Module";
+INM_LASERMOD_Y = "Yellow Laser Module";
+INM_LASERMOD_O = "Orange Laser Module";
+INM_LASERMOD_R = "Red Laser Module";
+

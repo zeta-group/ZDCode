@@ -33,7 +33,7 @@ class BaseTerrainSpot {
     is  CANPASS;
 
     label Death {
-        invisi 0 A_PlaySound("zdpack/terrain/break", 0.2);
+        invisi 0 A_PlaySound("zdpack/terrain/break", 0, 0.2);
         stop;
     };
 }

@@ -228,6 +228,22 @@
                 "Added '@' pointer-like sigil to inject name for parameterization resolution",
                 "Added 'else' to while and whilejump statements (only executes if the condition is false before the first loop)"
             ]
+        },
+
+        {
+            "name": "2.9.0",
+            "changes": [
+                "Added class grouping",
+                "Added for loops for iteration",
+                "Added group iteration - 'for classname in my_group {...}'",
+                "Added extern macro injection - 'from OtherClass inject SomeMacro();'",
+                "Added human-readable compilation context description",
+                "Added global scope macros",
+                "Removed named arguments (ZScript-only feature)",
+                "Fixed forced jumps (256 instead of 255)",
+                "Fixed whilejump not being assigned loop IDs and crashing the compiler",
+                "Fixed whilejump's $offset parameter"
+            ]
         }
     ]
 }

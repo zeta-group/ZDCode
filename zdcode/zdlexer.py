@@ -70,7 +70,7 @@ class ZDParseError(BaseException):
 
 @generate
 def modifier():
-    return string('[').then(regex('[a-zA-Z\(\)0-9]+').desc('modifier body')).skip(s(']'))
+    return string('[').then((s('{') >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('modifier parameter name').tag('replace') << s('}') | regex('[a-zA-Z\(\)0-9\'\",\w"]').tag('char')).many().desc('modifier body')).skip(s(']'))
     yield
 
 def _apply_replacements(expr, replacements):
@@ -95,6 +95,16 @@ def number_lit():
         |   regex(r'0x[0-9A-Fa-f]+').map(int).tag('number')
         |   regex(r'0b[01]+').map(int).tag('number')
         )
+    yield
+
+@generate
+def group_name():
+    return regex(r'[a-zA-Z0-9_]+').desc('group name')
+    yield
+    
+@generate
+def p_group_name():
+    return regex(r'\@*[a-zA-Z0-9_]+').desc('group name')
     yield
 
 @generate
@@ -142,7 +152,7 @@ def expression():
 
 @generate
 def arg_expression():
-    return parameter.tag('position arg') | seq(parameter, regex(r'[\:\,]') >> wo >> expression).tag('named arg')
+    return parameter.tag('position arg').desc('positional argument value')
     yield
 
 @generate
@@ -162,7 +172,7 @@ def template_parameter_list():
 
 @generate
 def expr_argument_list():
-    return arg_expression.sep_by(regex(r',\s*'))
+    return arg_expression.sep_by(s(',') >> wo)
     yield
 
 @generate
@@ -225,7 +235,7 @@ def templated_class_derivation():
         (
             wo.then(s('{')).then(
                 wo.then(
-                    (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_]+').desc('flag name')).tag('flag') |
+                    (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('flag') |
                     (((ist("isn't") << whitespace) | string('-')) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
 
                     ist("macro").then(whitespace).then(seq(
@@ -233,6 +243,11 @@ def templated_class_derivation():
                         (wo >> s('(') >> macro_argument_list << s(')') << wo).optional().map(lambda a: a or []).tag('args'),
                         state_body.tag('body')
                     ).map(dict).desc('override macro').tag('macro')) |
+                    
+                    seq(
+                        (ist('set') >> whitespace).desc("'set' keyword") >> regex('[a-zA-Z0-9_\.]+').tag('name'),
+                        ((whitespace >> ist('to') << whitespace) | (wo >> s('=') << wo)).desc("'to' or equal sign") >> parameter.sep_by((s(',') << wo)).tag('value')
+                    ).map(dict).tag('property') |
 
                     label.desc('override label').tag('label') |
 
@@ -257,7 +272,9 @@ def templated_class_derivation():
 def static_template_derivation():
     return wo >> seq(
         ist('derive') >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of derived class').tag('classname'),
+        ((ist('group') << whitespace).desc('group keyword') >> group_name).optional().map(lambda x: x or None).tag('group'),
         whitespace >> ist('as') >> whitespace >> templated_class_derivation.tag('source'),
+        
     ).desc('static template derivation') << s(';') << wo
     yield
 
@@ -270,10 +287,10 @@ def class_body():
                 state_body.tag('body')
             ).map(dict).tag('macro') |
             seq(
-                (ist('set') >> whitespace).desc("'set' keyword") >> regex('[a-zA-Z0-9_]+').tag('name'),
+                (ist('set') >> whitespace).desc("'set' keyword") >> regex('[a-zA-Z0-9_\.]+').tag('name'),
                 ((whitespace >> ist('to') << whitespace) | (wo >> s('=') << wo)).desc("'to' or equal sign") >> parameter.sep_by((s(',') << wo)).tag('value')
             ).map(dict).tag('property') |
-            (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_]+').desc('flag name')).tag('flag') |
+            (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('flag') |
             (ist('var') << whitespace) >> seq(
                 regex('user_[a-zA-Z0-9_]+').desc('var name').tag('name'),
                 (wo >> s('[') >> replaceable_number << s(']')).desc('array size').optional().map(lambda x: int(x or 0)).tag('size'),
@@ -326,9 +343,18 @@ def superclass():
     yield
 
 @generate
+def group_declaration():
+    return seq(
+        ((ist('group') << whitespace).desc('group statement') >> wo >> group_name).tag('name'),
+        (wo >> s('{') >> regex('[a-zA-Z0-9_]+').sep_by(s(',') << wo) << s('}')).optional().map(lambda x: x if x and tuple(x) != ('',) else []).tag('items')
+    ) << s(';')
+    yield
+
+@generate
 def actor_class():
     return seq(
         ((ist('actor') | ist('class')) << whitespace).desc("class statement") >> regex('[a-zA-Z0-9_]+').desc('class name').tag('classname'),
+        ((ist('group') << whitespace).desc('group keyword') >> group_name).optional().map(lambda x: x or None).tag('group'),
         ((whitespace >> (ist('inherits') | ist('extends') | ist('expands'))) >> whitespace >> superclass.desc('inherited class')).optional().tag('inheritance').desc('inherited class name'),
         (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
         (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
@@ -342,6 +368,7 @@ def templated_actor_class():
     return seq(
         (ist('actor') | ist('class') | ist('template')).desc("class template") >> s('<') >> template_parameter_list.tag('parameters') << s('>') << wo,
         regex('[a-zA-Z0-9_]+').desc('class name').tag('classname'),
+        ((whitespace >> ist('group') << whitespace).desc('group keyword') >> group_name).optional().map(lambda x: x or None).tag('group'),
         ((whitespace >> (ist('inherits') | ist('extends') | ist('expands'))) >> whitespace >> superclass.desc('inherited class')).optional().tag('inheritance').desc('inherited class name'),
         (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
         (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
@@ -361,6 +388,8 @@ def anonymous_class():
                     superclass
                 ).desc('inherited class name').optional().tag('inheritance') <<
                 wo,
+                
+        ((ist('group') << whitespace).desc('group keyword') >> group_name).optional().map(lambda x: x or None).tag('group'),
 
         (
             ist('{') >>
@@ -382,29 +411,16 @@ def normal_state():
         modifier.many().desc('modifier').skip(wo).optional(),
         state_action.optional()
     ) | seq(
-        ist('keepst').desc('\'keepst\' state').skip(wo) >>\
+        ist('keepst').desc('\'keepst\' state').skip(whitespace) >>\
         regex(r"\-?\d+").map(int).desc('state duration').skip(wo),
         modifier.many().desc('modifier').skip(wo).optional(),
         state_action.optional()
     ).map(lambda l: [('normal', '"####"'), '"#"', *l]) | seq(
-        ist('invisi').desc('\'invisi\' state').skip(wo) >>\
-        regex(r"\-?\d+").map(int).desc('state duration').skip(wo),
+        ist('invisi').desc('\'invisi\' state').skip(whitespace) >>\
+        regex(r"\-?\d+").map(int).desc('state duration').optional().map(lambda x: x or 0).skip(wo),
         modifier.many().desc('modifier').skip(wo).optional(),
         state_action.optional()
     ).map(lambda l: [('normal', 'TNT1'), 'A', *l])
-    yield
-
-@generate
-def pure_action_state():
-    return seq(
-        ist('keep') >> whitespace >> (regex(r"\-?\d+").map(int).desc('state duration').optional().map(lambda x: x or 0)).skip(
-            wo
-        ),
-        modifier.many().desc('modifier').skip(
-            wo
-        ).optional(),
-        state_action.optional()
-    )
     yield
 
 @generate
@@ -440,19 +456,20 @@ def flow_control():
 @generate
 def macro_call():
     return seq(
-        ist('inject').desc("'inject' statement").then(whitespace).then(regex('\@*[a-zA-Z_][a-zA-Z_0-9]*').desc('injected macro name')),
+        ( ist('from').desc("'from' determiner").then(whitespace).then(regex('\@*[a-zA-Z_][a-zA-Z_0-9]*').desc('extern macro classname')).skip(whitespace) ).optional().map(lambda x: x or None),
+        ist('inject').desc("'inject' statement").then(whitespace).then(regex('\@*[a-zA-Z_][a-zA-Z_0-9]*').desc('injected macro name')).skip(wo),
         (s('(') >> expr_argument_list.desc("macro arguments") << s(')')).optional().map(lambda x: x or [])
     )
     yield
 
 @generate
 def state():
-    return (if_statement.tag('if') | ifjump_statement.tag('ifjump') | whilejump_statement.tag('whilejump') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')) << s(';')
+    return (if_statement.tag('if') | ifjump_statement.tag('ifjump') | whilejump_statement.tag('whilejump') | for_statement.tag('for') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')) << s(';')
     yield
 
 @generate
 def state_no_colon():
-    return (if_statement.tag('if') | ifjump_statement.tag('ifjump') | whilejump_statement.tag('whilejump') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat'))
+    return (if_statement.tag('if') | ifjump_statement.tag('ifjump') | whilejump_statement.tag('whilejump') | for_statement.tag('for') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat'))
     yield
 
 @generate
@@ -491,6 +508,43 @@ def if_statement():
         .skip(string(")"))
         .skip(wo),
 
+        state_body.optional().map(lambda x: x if x != None else [])
+        .skip(wo),
+
+        s(';')
+        .then(wo)
+        .then(s('else'))
+        .then(wo)
+            .then(state_body.optional().map(lambda x: x if x != None else []))
+        .skip(wo)
+            .optional()
+    )
+    yield
+
+@generate
+def for_statement():
+    return seq(
+        ist("for").desc('for statement')
+        .then(whitespace)
+        .then(variable_name.desc('iteration parameter name'))
+        .skip(whitespace),
+        
+        (
+            ist('index').desc('index keyword')
+            .then(whitespace)
+            .then(variable_name.desc('iteration index name'))
+            .skip(whitespace)
+        ).optional().map(lambda x: x or None),
+
+        # state_body.optional().map(lambda x: x if x != None else [])
+        ist("in")
+        .then(whitespace)
+        .then((
+            # Possible iteration modes
+            (ist("group") >> whitespace >> p_group_name << whitespace).tag('group')
+        ))
+        .skip(wo),
+        
         state_body.optional().map(lambda x: x if x != None else [])
         .skip(wo),
 
@@ -570,8 +624,17 @@ def repeat_statement():
     yield
 
 @generate
+def macro_def():
+    return seq(
+        ist("macro") >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
+        (wo >> s('(') >> macro_argument_list << s(')') << wo).optional().map(lambda a: a or []).tag('args'),
+        state_body.tag('body')
+    ).map(dict).tag('macro')
+    yield
+
+@generate
 def source_code():
-    return wo.desc('ignored whitespace') >> (actor_class.tag('class') | static_template_derivation.tag('static template derivation') | templated_actor_class.tag('class template')).sep_by(wo) << wo.desc('ignored whitespace')
+    return wo.desc('ignored whitespace') >> (group_declaration.tag('group') | macro_def.tag('macro') | actor_class.tag('class') | static_template_derivation.tag('static template derivation') | templated_actor_class.tag('class template')).sep_by(wo) << wo.desc('ignored whitespace')
     yield
 
 def rpcont(i=0):

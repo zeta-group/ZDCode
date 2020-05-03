@@ -1,9 +1,12 @@
 from typing import List
 
+import functools
 import warnings
 import textwrap
 import string, random
+import collections
 import hashlib
+import queue
 
 try:
     from . import zdlexer
@@ -32,6 +35,12 @@ def stringify(content):
         return '"' + repr(content)[1:-1] + '"'
 
     return repr(content)
+    
+def unstringify(content):
+    if content[0] in "'\"" and content[-1] == content[0] and len(content) > 1:
+        return content[1:-1]
+
+    return content
 
 def make_id(length = 30):
     """Returns an ID, which can be stored in the ZDCode
@@ -307,7 +316,16 @@ class ZDRawDecorate(object):
     def __decorate__(self):
         return self.raw
 
-class ZDActor(object):
+class ZDBaseActor(object):
+    def __init__(self, code, name=None, inherit=None, replace=None, doomednum=None, _id=None):
+        self.code = code
+        self.name = name.strip()
+        self.inherit = inherit
+        self.replace = replace
+        self.num = doomednum
+        self.id = _id or make_id(30)
+        
+class ZDActor(ZDBaseActor):
     def __init__(self, code, name, inherit=None, replace=None, doomednum=None, _id=None, context=None):
         if context:
             self.context = context.derive()
@@ -370,12 +388,7 @@ class ZDActor(object):
             label.states.insert(0, ZDState("TNT1", "A"))
 
     def get_context(self):
-        new_ctx = self.context.derive()
-
-        if self.inherit in actor_list:
-            new_ctx.update(actor_list[self.inherit].get_context())
-
-        return new_ctx
+        return self.context
 
     def top(self):
         r = []
@@ -441,18 +454,11 @@ class ZDActor(object):
         {}
         }}""", 8).format(self.header(), redent(self.top(), 4, unindent_first=False))
 
-class ZDBaseActor(object):
-    def __init__(self, code, name=None, inherit=None, replace=None, doomednum=None, _id=None):
-        self.code = code
-        self.name = name.strip()
-        self.inherit = inherit
-        self.replace = replace
-        self.num = doomednum
-        self.id = _id or make_id(30)
-
 class ZDClassTemplate(ZDBaseActor):
-    def __init__(self, template_parameters, parse_data, abstract_label_names, abstract_macro_names, abstract_array_names, code, name, inherit=None, replace=None, doomednum=None, _id=None):
+    def __init__(self, template_parameters, parse_data, abstract_label_names, abstract_macro_names, abstract_array_names, group_name, code, name, inherit=None, replace=None, doomednum=None, _id=None):
         ZDBaseActor.__init__(self, code, name, inherit, replace, doomednum, _id)
+
+        self.group_name = group_name or None
 
         self.template_parameters = list(template_parameters)
 
@@ -485,13 +491,16 @@ class ZDClassTemplate(ZDBaseActor):
         return '{}__deriv_{}'.format(self.name, hash.hexdigest())
 
     def generate_init_class(self, code, context, parameter_values, provided_label_names=(), provided_macro_names=(), provided_array_names=(), name=None, pending=None):
-        if tuple(parameter_values) in self.parametric_table and not self.abstract_label_names and not self.abstract_macro_names:
+        if tuple(parameter_values) in self.parametric_table and not self.abstract_label_names and not self.abstract_macro_names and not self.abstract_array_names:
             return (False, self.parametric_table[tuple(parameter_values)])
 
         provided_label_names = set(provided_label_names)
         provided_macro_names = dict(provided_macro_names)
 
         new_name = name if name is not None else self.generated_class_name(parameter_values, make_id(40))
+
+        if self.group_name:
+            self.code.groups[self.group_name].append(stringify(new_name))
 
         inh = self.inherit and context.replacements.get(self.inherit.upper(), self.inherit) or None
         rep = self.replace and context.replacements.get(self.replace.upper(), self.replace) or None
@@ -500,21 +509,21 @@ class ZDClassTemplate(ZDBaseActor):
 
         for l in self.abstract_label_names:
             if l not in provided_label_names:
-                raise RuntimeError("Tried to derive template {}, but abstract label {} does not have a definition!".format(self.name, l))
+                raise CompilerError("Tried to derive template {} in {}, but abstract label {} does not have a definition!".format(self.name, context.describe(), l))
 
         for m, a in self.abstract_macro_names.items():
             if m not in provided_macro_names.keys():
-                raise RuntimeError("Tried to derive template {}, but abstract macro {} does not have a definition!".format(self.name, m))
+                raise CompilerError("Tried to derive template {} in {}, but abstract macro {} does not have a definition!".format(self.name, context.describe(), m))
 
             if len(a) != len(provided_macro_names[m]):
-                raise RuntimeError("Tried to derive template {}, but abstract macro {} has the wrong number of arguments: expected {}, got {}!".format(self.name, m, len(a), len(provided_macro_names[m])))
+                raise CompilerError("Tried to derive template {} in {}, but abstract macro {} has the wrong number of arguments: expected {}, got {}!".format(self.name, context.describe(), m, len(a), len(provided_macro_names[m])))
 
         for m, a in self.abstract_array_names.items():
             if m not in provided_array_names.keys():
-                raise RuntimeError("Tried to derive template {}, but abstract array {} is not defined!".format(self.name, m))
+                raise CompilerError("Tried to derive template {} in {}, but abstract array {} is not defined!".format(self.name, context.describe(), m))
 
             if a['size'] != 'any' and a['size'] != provided_array_names[m]:
-                raise RuntimeError("Tried to derive template {}, but abstract array {} has a size constraint; expected {} array elements, got {}!".format(self.name, m, a['size'], provided_array_names[m]))
+                raise CompilerError("Tried to derive template {} in {}, but abstract array {} has a size constraint; expected {} array elements, got {}!".format(self.name, context.describe(), m, a['size'], provided_array_names[m]))
 
         self.parametric_table[tuple(parameter_values)] = res
 
@@ -566,7 +575,7 @@ class ZDIfStatement(object):
             return redent(
                 "TNT1 A 0 A_JumpIf({}, {})\n".format(self.true_condition, num_st_el + 2) +      # 1
                 decorate(self.else_block) +                                                     # + num_st_el
-                "\nTNT1 A 0 A_Jump(255, {})\n".format(num_st_bl + 1) +                          # + 1
+                "\nTNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 1) +                          # + 1
                 '\n'.join(decorate(x) for x in self.states) +                                   # + num_st_bl
                 "\nTNT1 A 0",                                                                   # + 1
             4, unindent_first=False)
@@ -618,7 +627,7 @@ class ZDIfJumpStatement(object):
             return redent(
                 "TNT1 A 0 {}\n".format(self.true_condition(num_st_el + 2)) +                # 1
                 decorate(self.else_block) +                                                 # + num_st_el
-                "\nTNT1 A 0 A_Jump(255, {})\n".format(num_st_bl + 1) +                      # + 1
+                "\nTNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 1) +                      # + 1
                 '\n'.join(decorate(x) for x in self.states) +                               # + num_st_bl
                 "\nTNT1 A 0",                                                               # + 1
             4, unindent_first=False)
@@ -626,7 +635,7 @@ class ZDIfJumpStatement(object):
         else:
             return redent(
                 "TNT1 A 0 {}".format(self.true_condition(2)) +                              # 1
-                "\nTNT1 A 0 A_Jump(255, {})\n".format(num_st_bl + 2) +                      # + 1
+                "\nTNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 2) +                      # + 1
                 '\n'.join(decorate(x) for x in self.states) +                               # + num_st_bl
                 "\nTNT1 A 0",                                                               # + 1
             4, unindent_first=False)
@@ -644,7 +653,7 @@ class ZDSometimes(object):
     def __decorate__(self):
         num_st = sum(x.num_states() for x in self.states)
 
-        return redent("TNT1 A 0 A_Jump(255-(255*({})/100), {})\n".format(self.chance, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
+        return redent("TNT1 A 0 A_Jump(256-(256*({})/100), {})\n".format(self.chance, num_st + 1) + '\n'.join(decorate(x) for x in self.states) + "\nTNT1 A 0", 4, unindent_first=False)
 
 num_whiles = 0
 
@@ -687,7 +696,7 @@ class ZDWhileStatement(object):
             return redent(
                 "TNT1 A 0 A_JumpIf({}, {})\n".format(self.true_condition, num_st_el + 2) +              # 1
                 decorate(self.else_block) +                                                             # + num_st_el
-                "\nTNT1 A 0 A_Jump(255, {})".format(num_st_bl + 2) +                                    # + 1
+                "\nTNT1 A 0 A_Jump(256, {})".format(num_st_bl + 2) +                                    # + 1
                 "\n{}:\n".format(self._loop_id) +                                                       # |
                 '\n'.join(decorate(x) for x in self.states) +                                           # + num_st_bl
                 "\nTNT1 A 0 A_JumpIf({}, {})".format(self.true_condition, stringify(self._loop_id)) +   # + 1
@@ -710,6 +719,13 @@ class ZDWhileJumpStatement(object):
         self.true_condition = condition_gen
         self.states = list(states)
         self.else_block = None
+
+        global num_whiles
+                
+        self._while_id = num_whiles
+        num_whiles += 1
+
+        self._loop_id = '_loop_while_' + str(self._while_id)
 
     def set_else(self, else_block):
         self.else_block = else_block
@@ -743,7 +759,7 @@ class ZDWhileJumpStatement(object):
             return redent(
                 "TNT1 A 0 {}\n".format(self.true_condition(num_st_el + 2)) +                            # 1
                 decorate(self.else_block) +                                                             # + num_st_el
-                "\nTNT1 A 0 A_Jump(255, {})".format(num_st_bl + 2) +                                    # + 1
+                "\nTNT1 A 0 A_Jump(256, {})".format(num_st_bl + 2) +                                    # + 1
                 "\n{}:\n".format(self._loop_id) +                                                       # |
                 '\n'.join(decorate(x) for x in self.states) +                                           # + num_st_bl
                 "\nTNT1 A 0 {}".format(self.true_condition(stringify(self._loop_id))) +                 # + 1
@@ -753,7 +769,7 @@ class ZDWhileJumpStatement(object):
         else:
             return redent(
                 "TNT1 A 0 {}".format(self.true_condition(2)) +                                          # 1
-                "\nTNT1 A 0 A_Jump(255, {})\n".format(num_st_bl + 2) +                                  # + 1
+                "\nTNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 2) +                                  # + 1
                 "\n{}:\n".format(self._loop_id) +                                                       # |
                 '\n'.join(decorate(x) for x in self.states) +                                           # + num_st_bl
                 "\nTNT1 A 0 {}".format(self.true_condition(stringify(self._loop_id))) +                 # + 1
@@ -772,7 +788,10 @@ class ZDInventory(object):
         return "Actor {} : Inventory {{Inventory.MaxAmount 1}}".format(self.name)
 
 
-# Parser!
+# Compiler!
+class CompilerError(Exception):
+    pass
+
 class ZDCodeParseContext(object):
     def __init__(self, replacements=(), macros=(), templates=(), calls=(), actors=()):
         self.macros = dict(macros)
@@ -780,9 +799,19 @@ class ZDCodeParseContext(object):
         self.templates = dict(templates)
         self.call_lists = list(calls) if calls else [[]]
         self.actor_lists = list(actors) if actors else [[]]
+        self.desc_stack = []
 
-    def derive(self) -> "ZDCodeParseContext":
-        return ZDCodeParseContext(self.replacements, self.macros, self.templates, self.call_lists, self.actor_lists)
+    def derive(self, desc: str = None) -> "ZDCodeParseContext":
+        res = ZDCodeParseContext(self.replacements, self.macros, self.templates, self.call_lists, self.actor_lists)
+        res.desc_stack = list(self.desc_stack)
+        
+        if desc:
+            res.desc_stack.append(desc)
+        
+        return res
+        
+    def desc_block(self, desc: str):
+        return ZDCtxDescBlock(self, desc)
 
     def update(self, other_ctx: "ZDCodeParseContext"):
         self.macros.update(other_ctx.macros)
@@ -796,6 +825,56 @@ class ZDCodeParseContext(object):
     def add_actor(self, ac: ZDActor):
         for al in self.actor_lists:
             al.append(ac)
+            
+    def describe(self):
+        return ' at '.join(self.desc_stack[::-1])
+        
+    def resolve(self, name, desc = 'a parametrizable name'):
+        while name[0] == '@':
+            resolves = len(name) - len(name.lstrip('@'))
+            casename = name[resolves:]
+            name = name[resolves:].upper()
+
+            if name in self.replacements:
+                if resolves > 1:
+                    name = '@' * (resolves - 1) + self.replacements[name]
+                
+                else:
+                    name = self.replacements[name]
+
+            else:
+                raise CompilerError("No such replacement {} while trying to resolve {} in {}!".format(repr(casename), self.describe()))
+                
+        return name
+
+@functools.total_ordering
+class PendingTask:
+    def __init__(self, priority, func):
+        self.priority = priority
+        self.func = func
+        
+    def __lt__(self, other):
+        return self.priority < other.priority
+        
+    def __eq__(self, other):
+        return self.priority == other.priority
+
+def pending_task(priority):
+    def _decorator(func):
+        return PendingTask(priority, func)
+        
+    return _decorator
+
+class ZDCtxDescBlock:
+    def __init__(self, ctx, desc):
+        self.ctx = ctx
+        self.desc = desc
+
+    def __enter__(self):
+        self.ctx.desc_stack.append(self.desc)
+        
+    def __exit__(self, _1, _2, _3):
+        assert self.ctx.desc_stack.pop() == self.desc
 
 class ZDCode(object):
     class ZDCodeError(BaseException):
@@ -807,7 +886,13 @@ class ZDCode(object):
 
         if data:
             res = cls()
-            res._parse(data)
+            
+            try:
+                res._parse(data)
+                
+            except CompilerError as err:
+                if error_handler: error_handler(err)
+                return None
 
             return res
 
@@ -818,7 +903,12 @@ class ZDCode(object):
         data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, filename=fname, error_handler=error_handler)
 
         if data:
-            self._parse(data)
+            try:
+                self._parse(data)
+                
+            except CompilerError as err:
+                if error_handler: error_handler(err)
+                return False
 
         return bool(data)
 
@@ -907,27 +997,25 @@ class ZDCode(object):
             template = context.templates[template_name]
 
         except KeyError:
-            raise RuntimeError("Unknown template to derive: '{}'".format(template_name))
+            raise CompilerError("Unknown template '{}' to derive in {}".format(template_name, context.describe()))
 
         for btype, bdata in deriv_body:
-            if btype in ('flag', 'unflag', 'user var', 'array'):
-                if btype == 'array':
-                    bdata = self._parse_array(bdata, context)
-                    template_arrays[bdata['name']] = bdata
-
-                template_body.append((btype, bdata))
+            if btype == 'array':
+                bdata = self._parse_array(bdata, context)
+                template_arrays[bdata['name']] = bdata
 
             elif btype == 'label':
-                if bdata['name'] in template.abstract_label_names:
-                    template_labels[bdata['name']] = bdata
+                template_labels[bdata['name']] = bdata
 
             elif btype == 'macro':
-                if bdata['name'] in template.abstract_macro_names:
-                    template_macros[bdata['name']] = bdata
+                template_macros[bdata['name']] = bdata
+                
+            template_body.append((btype, bdata))
 
         if len(template_parms) != len(template.template_parameters):
-            raise RuntimeError("Bad number of template parameters for '{}': expected {}, got {}".format(
+            raise CompilerError("Bad number of template parameters for '{}' in {}: expected {}, got {}".format(
                 template_name,
+                context.describe(),
                 len(template.template_parameters),
                 len(template_parms)
             ))
@@ -983,14 +1071,28 @@ class ZDCode(object):
             count = int(cval)
 
         except ValueError:
-            raise ValueError("Invalid repeat count: expected valid integer, got {}".format(repr(cval)))
+            raise CompilerError("Invalid repeat count in {}: expected valid integer, got {}".format(context.describe(), repr(cval)))
 
         else:
             return count
 
     def _parse_state(self, actor, context: ZDCodeParseContext, label, s, func=None, alabel=None):
-        if s[0] == 'frames':
-            (sprite_type, sprite_name), frames, duration, modifiers, action = s[1]
+        if s[0] == 'frames':        
+            (sprite_type, sprite_name), frames, duration, modifier_chars, action = s[1]
+            modifiers = []
+            
+            for mod in modifier_chars:
+                res = ''
+            
+                for ctype, cval in mod:
+                    if ctype == 'replace':
+                        try:
+                            cval = context.replacements[cval.upper()]
+
+                        except KeyError:
+                            raise CompilerError("No parameter {} for replacement within modifier, in {}!".format(context.describe()))
+
+                    res += cval
 
             if sprite_type == 'normal':
                 name = sprite_name
@@ -1006,12 +1108,12 @@ class ZDCode(object):
                         new_name = new_name[1:-1]
 
                     else:
-                        raise RuntimeError("Parametrized sprite '{}' in {} needs to be passed a string; got {}".format(sprite_name, actor.name, repr(new_name)))
+                        raise CompilerError("Parametrized sprite '{}' in {} needs to be passed a string; got {}".format(sprite_name, context.describe(), repr(new_name)))
 
                     name = new_name
 
                 except KeyError:
-                    raise RuntimeError("No parameter {} for parametrized sprite name!".format(repr(sprite_name)))
+                    raise CompilerError("No parameter {} for parametrized sprite name, in {}!".format(repr(sprite_name), context.describe()))
 
             if frames == '"#"':
                 frames = ['"#"']
@@ -1028,7 +1130,7 @@ class ZDCode(object):
 
         elif s[0] == 'return':
             if not isinstance(func, ZDFunction):
-                raise ValueError("Return statement in non-function label: " + repr(label.name))
+                raise CompilerError("Return statement in non-function label in {}!".format(context.describe()))
 
             else:
                 label.states.append(ZDReturnStatement(func))
@@ -1041,7 +1143,10 @@ class ZDCode(object):
                 label.states.append(ZDRawDecorate('goto {}'.format(label.name)))
 
             else:
-                label.states.append(ZDRawDecorate(s[1].lower().rstrip(';')))
+                sf    = s[1].rstrip(';').split(' ')
+                sf[0] = sf[0].lower()
+                
+                label.states.append(ZDRawDecorate(' '.join(sf)))
 
         elif s[0] == 'repeat':
             cval = s[1][0]
@@ -1085,7 +1190,7 @@ class ZDCode(object):
         
             @ZDIfJumpStatement.generate(actor)
             def ifs(jump_offset):
-                jump_context = context.derive()
+                jump_context = context.derive('ifjump check')
                 jump_context.replacements['$OFFSET'] = str(jump_offset)
                 
                 return self._parse_state_action(jump, jump_context)
@@ -1108,8 +1213,8 @@ class ZDCode(object):
         
             @ZDWhileJumpStatement.generate(actor)
             def whs(jump_offset):
-                jump_context = context.derive()
-                jump_context.macros['$offset'] = jump_offset
+                jump_context = context.derive('whilejump check')
+                jump_context.replacements['$OFFSET'] = str(jump_offset)
                 
                 return self._parse_state_action(jump, jump_context)
 
@@ -1133,25 +1238,63 @@ class ZDCode(object):
                 self._parse_state(actor, context, whs, a, func)
 
             label.states.append(whs)
+            
+        elif s[0] == 'for':
+            itername, iteridx, itermode, f_body, f_else = s[1]
+            
+            if itermode[0] == 'group':
+                group_name = context.resolve(itermode[1], 'a parametrized group name')
+                
+                if group_name.upper() not in self.groups:
+                    raise CompilerError("No such group {} to iterate in a for loop in {}!".format(repr(group_name), context.describe()))
+                    
+                elif self.groups[group_name.upper()]:
+                    for i, item in enumerate(self.groups[group_name.upper()]):
+                        iter_ctx = context.derive()
+                        iter_ctx.replacements[itername.upper()] = item
+                        
+                        if iteridx:
+                            iter_ctx.replacements[iteridx.upper()] = str(i)
+                        
+                        for a in f_body:
+                            self._parse_state(actor, iter_ctx, label, a, label)
+                            
+                else:
+                    else_ctx = context.derive()
+                
+                    for a in f_else:
+                       self._parse_state(actor, else_ctx, label, a, label)
+                       
+            else:
+                raise CompilerError("Unknown internal for loop iteration mode '{}' in {}! Please report this issue to the author.".format(itermode[0], context.describe()))
 
         elif s[0] == 'inject':
-            macros = dict(context.macros)
-            r_name, r_args = s[1]
-
-            while r_name[0] == '@':
-                r_casename = r_name[1:]
-                r_name = r_name[1:].upper()
-
-                if r_name in context.replacements:
-                    r_name = context.replacements[r_name]
-
+            r_from, r_name, r_args = s[1]
+            r_name = context.resolve(r_name, 'a parametrized macro injection')
+             
+            if r_from:
+                r_from = unstringify(context.resolve(r_from, 'a parametrized extern macro classname'))
+            
+                if r_from.upper() in self.actor_names:
+                    act = self.actor_names[r_from.upper()]
+                
                 else:
-                    raise ValueError("No such replacement {} while trying to resolve a parametrized name to inject a macro!".format(repr(r_casename)))
+                    raise CompilerError("Unknown extern macro classname {} in {}!".format(repr(r_from), context.describe()))
+            
+                macros = dict(act.context.macros)
+                
+            else:
+                macros = dict(context.macros)
 
-            if r_name in macros:
-                new_context = context.derive()
+            if r_name.upper() in macros:            
+                if r_from:
+                    new_context = context.derive("macro '{}' ({})".format(r_name, act.context.describe()))
+                    new_context.update(act.context)
+                    
+                else:
+                    new_context = context.derive("macro '{}'".format(r_name))
 
-                (m_args, m_body) = macros[r_name]
+                (m_args, m_body) = macros[r_name.upper()]
 
                 for rn, an in zip(r_args, m_args):
                     new_context.replacements[an.upper()] = self._parse_argument(rn, context)
@@ -1160,7 +1303,11 @@ class ZDCode(object):
                     self._parse_state(actor, new_context, label, a, label)
 
             else:
-                raise ValueError("Unknown macro: {}".format(repr(r_name)))
+                if r_from:
+                    raise CompilerError("Unknown macro {}.{} in {}!".format(r_from, r_name, context.describe()))
+                
+                else:
+                    raise CompilerError("Unknown macro {} in {}!".format(r_name, context.describe()))
 
     def _parse_inherit(self, inh, context):
         if inh is None:
@@ -1172,15 +1319,27 @@ class ZDCode(object):
             return context.replacements.get(pval.upper(), pval)
 
         elif ptype == 'template derivation':
-            return self._parse_template_derivation(pval, context, stringify=False).name
+            with context.desc_block('template derivation inheritance'):
+                return self._parse_template_derivation(pval, context, stringify=False).name
 
     def _parse_anonym_class(self, anonym_class, context):
         a = dict(anonym_class)
-        new_context = context.derive()
+        new_context = context.derive('anonymous class')
         
-        anonym_actor = ZDActor(self, '_AnonymClass_{}_{}'.format(self.id, len(self.anonymous_classes)), inherit=self._parse_inherit(a['inheritance'], context), context=new_context)
+        classname = '_AnonymClass_{}_{}'.format(self.id, len(self.anonymous_classes))
+        
+        if a['group']:
+            g = unstringify(a['group'])
+            
+            if g.upper() in self.groups:
+                self.groups[g.upper()].append(stringify(classname))
+                
+            else:
+                raise CompilerError("Group '{}' not found while compiling anonymous class in {}!".format(g, context.describe()))
+        
+        anonym_actor = ZDActor(self, classname, inherit=self._parse_inherit(a['inheritance'], context), context=new_context)
 
-        self._parse_class_body(anonym_actor, new_context, a['body'])
+        self._parse_class_body(anonym_actor, anonym_actor.get_context(), a['body'])
         
         context.add_actor(anonym_actor)
 
@@ -1193,74 +1352,57 @@ class ZDCode(object):
         labels = dict(labels)
         macros = dict(macros)
         arrays = dict(arrays)
-        body = list(body)
+        body  = list(body)
 
         name = name or template.generated_class_name(param_values, make_id(40))
 
-        new_context = context.derive()
+        new_context = context.derive('derivation of template {}'.format(template.name))            
         new_context.replacements.update(template.get_init_replacements(self, context, param_values))
         new_context.replacements['SELF'] = '"' + repr(name)[1:-1] + '"'
 
-        needs_init, actor = template.generate_init_class(self, new_context, param_values, set(labels.keys()), { m['name']: m['args'] for m in macros.values() }, { a['name']: len(a['value']) for a in arrays.values() }, name=name)
-
+        needs_init, actor = template.generate_init_class(self, new_context, param_values, {l.upper() for l in labels.keys()}, {m['name'].upper(): m['args'] for m in macros.values()}, {a['name'].upper(): len(a['value']) for a in arrays.values()}, name=name)
         new_context = actor.get_context()
 
-        for name, macro in macros.items():
-            new_context.macros[name] = (macro['args'], macro['body'])
-
         if needs_init:
-            for btype, bdata in body:
-                if btype == 'flag':
-                    actor.flags.add(bdata)
-
-                elif btype == 'antiflag':
-                    actor.antiflags.add(bdata)
-
-                elif btype == 'user var':
-                    bdata = { **bdata, 'value': self._parse_expression(bdata['value'], context) }
-                    actor.uservars.append(bdata)
-
-                if btype == 'array':
-                    try:
-                        absarray = template.abstract_array_names[bdata['name']]
-
-                    except KeyError:
-                        pass
-
-                    else:
-                        actor.uservars.append({'name': bdata['name'], 'size': len(bdata['value'][1]), 'value': ('arr', bdata['value'][1]), 'type': absarray['type']})
-
             def pending_oper_gen():
                 act = actor
                 new_ctx = new_context
                 temp = template
-                labls = labels
 
-                def pending_oper():
+                @pending_task(0)
+                def pending_oper():                    
+                    for btype, bdata in body:
+                        if btype == 'array':
+                            try:
+                                absarray = template.abstract_array_names[bdata['name'].upper()]
+
+                            except KeyError:
+                                raise CompilerError("Tried to define an array {} in {} that is not abstractly declared in the template {}!".format(repr(bdata['name']), new_ctx.describe(), repr(template.name)))
+
+                            act.uservars.append({'name': bdata['name'], 'size': len(bdata['value'][1]), 'value': ('arr', bdata['value'][1]), 'type': absarray['type']})
+                    
+                    self._parse_class_body(act, new_ctx, body)
                     self._parse_class_body(act, new_ctx, temp.parse_data)
-
-                    for lname, lval in labls:
-                        label = ZDLabel(act, lname)
-
-                        for s in lval['body']:
-                            self._parse_state(act, new_ctx, label, s, None)
 
                 return pending_oper
 
             if pending:
-                pending.append(pending_oper_gen())
+                pending.put_nowait(pending_oper_gen())
 
             else:
-                pending_oper_gen()()
+                pending_oper_gen().func()
 
             self.actors.append(actor)
+            self.actor_names[actor.name.upper()] = actor
 
         return actor
 
     def _parse_class_body(self, actor, context, body):
+        assert context is actor.context
+    
         for btype, bdata in body:
             if btype == 'macro':
-                context.macros[bdata['name']] = (bdata['args'], bdata['body'])
+                context.macros[bdata['name'].upper()] = (bdata['args'], bdata['body'])
 
         for btype, bdata in body:
             if btype == 'property':
@@ -1282,14 +1424,16 @@ class ZDCode(object):
             elif btype == 'label':
                 label = ZDLabel(actor, bdata['name'])
 
-                for s in bdata['body']:
-                    self._parse_state(actor, context, label, s, None)
+                with context.desc_block("label '{}'".format(label.name)):
+                    for s in bdata['body']:
+                        self._parse_state(actor, context, label, s, None)
 
             elif btype == 'function':
                 func = ZDFunction(self, actor, bdata['name'])
 
-                for s in bdata['body']:
-                    self._parse_state(actor, context, func, s, func)
+                with context.desc_block("function '{}'".format(func.name)):
+                    for s in bdata['body']:
+                        self._parse_state(actor, context, func, s, func)
 
     def _parse(self, actors):
         calls = []
@@ -1300,53 +1444,97 @@ class ZDCode(object):
         actors = list(actors)
 
         for class_type, a in actors:
+            if class_type == 'group':
+                self.groups[a['name'].upper()] = list(a['items'])
+                
+            elif class_type == 'macro':
+                context.macros[a['name']] = (a['args'], a['body'])
+
+        for class_type, a in actors:
             if class_type == 'class template':
                 abstract_labels = set()
                 abstract_macros = {}
                 abstract_arrays = {}
+                
+                if a['group']:
+                    g = unstringify(a['group'])
+                
+                    if g.upper() not in self.groups:
+                        raise CompilerError("Group '{}' not found while compiling template class {}!".format(g, a['classname']))
+                        
+                    g = g.upper()
+                    
+                else:
+                    g = None
 
                 for btype, bdata in a['body']:
                     if btype == 'abstract label':
-                        abstract_labels.add(bdata)
+                        abstract_labels.add(bdata.upper())
 
                     elif btype == 'abstract macro':
-                        abstract_macros[bdata['name']] = bdata['args']
+                        abstract_macros[bdata['name'].upper()] = bdata['args']
 
                     elif btype == 'abstract array':
-                        abstract_arrays[bdata['name']] = bdata
+                        abstract_arrays[bdata['name'].upper()] = bdata
 
-                template = ZDClassTemplate(a['parameters'], a['body'], abstract_labels, abstract_macros, abstract_arrays, self, a['classname'], self._parse_inherit(a['inheritance'], context), a['replacement'], a['class number'])
+                template = ZDClassTemplate(a['parameters'], a['body'], abstract_labels, abstract_macros, abstract_arrays, g, self, a['classname'], self._parse_inherit(a['inheritance'], context), a['replacement'], a['class number'])
                 context.templates[a['classname']] = template
 
-        pending = []
+        pending = queue.PriorityQueue()
 
         for class_type, a in actors:
             if class_type == 'class':
-                actor = ZDActor(self, a['classname'], self._parse_inherit(a['inheritance'], context), a['replacement'], a['class number'], context=context)
-                ctx = actor.get_context()
+                with context.desc_block("class '{}'".format(a['classname'])):
+                    actor = ZDActor(self, a['classname'], self._parse_inherit(a['inheritance'], context), a['replacement'], a['class number'], context=context)
+                    ctx = actor.get_context()
+                    
+                    if a['group']:
+                        g = a['group']
+                        
+                        if g in self.groups:
+                            self.groups[g.upper()].append(stringify(a['classname']))
+                            
+                        else:
+                            raise CompilerError("Group '{}' not found while compiling class '{}'!".format(g, a['classname']))
 
-                def pending_oper_gen():
-                    actor_ = actor
-                    ctx_ = ctx
-                    body_ = a['body']
+                    def pending_oper_gen():
+                        actor_ = actor
+                        ctx_ = ctx
+                        body_ = a['body']
 
-                    def pending_oper():
-                        self._parse_class_body(actor_, ctx_, body_)
+                        @pending_task(2)
+                        def pending_oper():
+                            self._parse_class_body(actor_, ctx_, body_)
 
-                    return pending_oper
+                        return pending_oper
 
-                pending.append(pending_oper_gen())
+                    pending.put_nowait(pending_oper_gen())
 
-                self.actors.append(actor)
-                parsed_actors.append(actor)
+                    self.actors.append(actor)
+                    self.actor_names[actor.name.upper()] = actor
+                    parsed_actors.append(actor)
 
             elif class_type == 'static template derivation':
                 new_name = a['classname']
+                gname = a['group']
+                context = context.derive('static template derivation \'{}\''.format(new_name))
 
                 parsed_actors.append(self._parse_template_derivation(a['source'][1], context, pending=pending, name=new_name, stringify=False))
+                
+                if gname:
+                    @pending_task(1)
+                    def pending_oper():
+                        g = unstringify(gname)
+                        
+                        if g.upper() not in self.groups:
+                            raise CompilerError("No such group {} to add the derivation {} to!".format(repr(g), new_name))
+                        
+                        self.groups[g.upper()].append(new_name)
+                
+                    pending.put_nowait(pending_oper)
 
-        for p in pending:
-            p()
+        while not pending.empty():
+            pending.get_nowait().func()
 
         for c in calls:
             c.post_load()
@@ -1358,6 +1546,8 @@ class ZDCode(object):
         self.inventories = []
         self.anonymous_classes = []
         self.actors = []
+        self.actor_names = {}
+        self.groups = {}
         self.id = make_id(35)
         self.calls = set()
 

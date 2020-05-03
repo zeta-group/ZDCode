@@ -1,0 +1,12 @@
+[ptb]
+PKP_LASERGUN   = "Você obteu a Laser Gun.";
+
+PKP_LASERMOD_Y = "Você conseguiu o Módulo Y (moderado) da Laser Gun.";
+PKP_LASERMOD_O = "Você conseguiu o Módulo O (forte) da Laser Gun!";
+PKP_LASERMOD_R = "Você conseguiu o Módulo R (poderoso) da Laser Gun! Boa!";
+
+INM_LASERMOD_0 = "Módulo de Laser Básico";
+INM_LASERMOD_Y = "Módulo de Laser Y";
+INM_LASERMOD_O = "Módulo de Laser O";
+INM_LASERMOD_R = "Módulo de Laser R";
+
