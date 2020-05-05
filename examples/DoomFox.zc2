@@ -130,7 +130,7 @@ derive MSG_Torso    as MSGore_FoxLimb::("MSP_Torso");
 
 
 class MSA_Fox {
-    set     Health          to 40;
+    set     Health          to 25;
     set     Mass            to 8;
     set     Obituary        to "%o got chewed by a deceivingly cutesy Fox!";
     set     Radius          to 16;

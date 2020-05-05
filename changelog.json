@@ -244,6 +244,13 @@
                 "Fixed whilejump not being assigned loop IDs and crashing the compiler",
                 "Fixed whilejump's $offset parameter"
             ]
+        },
+
+        {
+            "name": "2.9.1",
+            "changes": [
+                "Fixed typo-related fatal crash in stdin-stdout compilation"
+            ]
         }
     ]
 }

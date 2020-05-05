@@ -1,24 +1,24 @@
-Actor _AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_0 : "Cell"
+Actor _AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_0 : "Cell"
 {
     
 }
-Actor _AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_1 : "RocketAmmo"
+Actor _AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_1 : "RocketAmmo"
 {
     
 }
-Actor _AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_2 : "Shell"
+Actor _AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_2 : "Shell"
 {
     
 }
-Actor _AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_3 : "Clip"
+Actor _AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_3 : "Clip"
 {
     
 }
-Actor _AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_4 : "ArmorBonus"
+Actor _AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_4 : "ArmorBonus"
 {
     
 }
-Actor _AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_5 : "HealthBonus"
+Actor _AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_5 : "HealthBonus"
 {
     
 }
@@ -429,7 +429,7 @@ Actor MSG_Torso
 
 Actor MSA_Fox
 {
-    Health 40
+    Health 25
     Height 12
     Mass 8
     MeleeRange 25
@@ -4707,10 +4707,10 @@ Actor FoxyHealthBonusSpawner replaces "HealthBonus"
         Spawn:
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(100 * 1 / (7 + 1))/100), 2)
-            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_ed04607a4b661d86b656529b0065597c38d499e5", 0, 0, 4)
+            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_bb6a72e610827f47fcfc21f3756ceffe59779027", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_5")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_5")
             stop
     }
 }
@@ -4723,10 +4723,10 @@ Actor FoxyArmorBonusSpawner replaces "ArmorBonus"
         Spawn:
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(100 * 2 / (8 + 2))/100), 2)
-            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_d2e29a99c480a1f022175dc844a3bd9b7f48024f", 0, 0, 4)
+            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_2fb0b7de3b6a521f52afca3f735a470e3f118818", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_4")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_4")
             stop
     }
 }
@@ -4739,10 +4739,10 @@ Actor FoxyClipSpawner replaces "Clip"
         Spawn:
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(100 * 2 / (17 + 2))/100), 2)
-            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_653938c0d0da6abb1e3e3742dd22da4024bc731c", 0, 0, 4)
+            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_bcdc60f47566f562884ac886924e9894eb976a18", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_3")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_3")
             stop
     }
 }
@@ -4755,10 +4755,10 @@ Actor FoxyShellSpawner replaces "Shell"
         Spawn:
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(100 * 1 / (5 + 1))/100), 2)
-            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_66c8bba0ab47e55a6ed854a74bc60fd5e81900ff", 0, 0, 4)
+            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_9bab84c926971195fc4a3039fccba7d362eb3e86", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_2")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_2")
             stop
     }
 }
@@ -4771,10 +4771,10 @@ Actor FoxyRocketSpawner replaces "RocketAmmo"
         Spawn:
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(100 * 2 / (6 + 2))/100), 2)
-            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_98b888d3c3c7f1b47a2cb6f7aea35e3f8aec8e3f", 0, 0, 4)
+            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_c3711282c81fdc456fd5880ee06a8f864fdc6aa5", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_1")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_1")
             stop
     }
 }
@@ -4787,16 +4787,16 @@ Actor FoxyCellSpawner replaces "Cell"
         Spawn:
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(100 * 4 / (9 + 4))/100), 2)
-            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_7a48b57c9a97134268db67e26af2f61af16b421d", 0, 0, 4)
+            TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_1b9fb42ff61f20b0954ee61931cf01339a5fa930", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_0")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_0")
             stop
     }
 }
 
 
-Actor FoxyPickup__deriv_7a48b57c9a97134268db67e26af2f61af16b421d
+Actor FoxyPickup__deriv_1b9fb42ff61f20b0954ee61931cf01339a5fa930
 {
     +LOOKALLAROUND
     +AMBUSH
@@ -4831,13 +4831,13 @@ Actor FoxyPickup__deriv_7a48b57c9a97134268db67e26af2f61af16b421d
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_0")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_0")
             stop
     }
 }
 
 
-Actor FoxyPickup__deriv_98b888d3c3c7f1b47a2cb6f7aea35e3f8aec8e3f
+Actor FoxyPickup__deriv_c3711282c81fdc456fd5880ee06a8f864fdc6aa5
 {
     +LOOKALLAROUND
     +AMBUSH
@@ -4872,13 +4872,13 @@ Actor FoxyPickup__deriv_98b888d3c3c7f1b47a2cb6f7aea35e3f8aec8e3f
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_1")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_1")
             stop
     }
 }
 
 
-Actor FoxyPickup__deriv_66c8bba0ab47e55a6ed854a74bc60fd5e81900ff
+Actor FoxyPickup__deriv_9bab84c926971195fc4a3039fccba7d362eb3e86
 {
     +LOOKALLAROUND
     +AMBUSH
@@ -4913,13 +4913,13 @@ Actor FoxyPickup__deriv_66c8bba0ab47e55a6ed854a74bc60fd5e81900ff
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_2")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_2")
             stop
     }
 }
 
 
-Actor FoxyPickup__deriv_653938c0d0da6abb1e3e3742dd22da4024bc731c
+Actor FoxyPickup__deriv_bcdc60f47566f562884ac886924e9894eb976a18
 {
     +LOOKALLAROUND
     +AMBUSH
@@ -4954,13 +4954,13 @@ Actor FoxyPickup__deriv_653938c0d0da6abb1e3e3742dd22da4024bc731c
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_3")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_3")
             stop
     }
 }
 
 
-Actor FoxyPickup__deriv_d2e29a99c480a1f022175dc844a3bd9b7f48024f
+Actor FoxyPickup__deriv_2fb0b7de3b6a521f52afca3f735a470e3f118818
 {
     +LOOKALLAROUND
     +AMBUSH
@@ -4995,13 +4995,13 @@ Actor FoxyPickup__deriv_d2e29a99c480a1f022175dc844a3bd9b7f48024f
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_4")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_4")
             stop
     }
 }
 
 
-Actor FoxyPickup__deriv_ed04607a4b661d86b656529b0065597c38d499e5
+Actor FoxyPickup__deriv_bb6a72e610827f47fcfc21f3756ceffe59779027
 {
     +LOOKALLAROUND
     +AMBUSH
@@ -5036,7 +5036,7 @@ Actor FoxyPickup__deriv_ed04607a4b661d86b656529b0065597c38d499e5
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_a5w6IOhAKBFab7c283zJsZHTsTUYUYgBRHD_5")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_MSkyRazYzxLA7z5GjYV5ycmd8jUmGAnBIEK_5")
             stop
     }
 }

@@ -21,7 +21,11 @@ class<dmg, puff> BaseLaserEdge extends DoomImpBall {
     set BounceCount  to 8;
     set BounceFactor to 0.9;
 
-    is INVISIBLE;
+    is    INVISIBLE;
+    isn't RANDOMIZE;
+    is    BOUNCEONWALLS;
+    is    BOUNCEONFLOORS;
+    is    BOUNCEONCEILINGS;
 
     label Death {
         TNT1 A 0 {
@@ -34,7 +38,7 @@ class<dmg, puff> BaseLaserEdge extends DoomImpBall {
 }
 
 
-class<translation, dmg, puff> BaseLaser extends DoomImpBall {
+class<translation, dmg, puff, edgecount, edgedmg, edgepuff> BaseLaser extends DoomImpBall {
     set Damage       to dmg;
     set Speed        to 35;
     set Radius       to 3;
@@ -48,8 +52,20 @@ class<translation, dmg, puff> BaseLaser extends DoomImpBall {
 
     isn't RANDOMIZE;
     is    BOUNCEONWALLS;
+    is    BOUNCEONFLOORS;
+    is    BOUNCEONCEILINGS;
+
+    macro SpawnAsEdge(cls) {
+        TNT1 A 0 A_SpawnItemEx(cls, 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS);
+    };
 
     label Spawn {
+        TNT1 A 0;
+        x edgecount inject SpawnAsEdge(BaseLaserEdge::(edgedmg, edgepuff), 2);
+        goto ProjLoop;
+    };
+
+    label ProjLoop {
         BAL1 AABB 1 [Bright] {
             x 5 A_SpawnItemEx(BaseLaserTrail::(translation), Random(-8, 8), Random(-8, 8), Random(-8, 8));
         };
@@ -63,24 +79,6 @@ class<translation, dmg, puff> BaseLaser extends DoomImpBall {
         };
         
         BAL1 CDE 1 [Bright];
-        stop;
-    };
-}
-
-class<basetranslation, basedmg, basepuff, edgecount, edgedmg, edgepuff> BaseSpawnLaser {
-    set Speed to 35;
-    
-    macro SpawnAProj(cls, dist) {
-        TNT1 A 0 A_SpawnItemEx(cls, dist, 0, 0, 35, 0, velz, 0, SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH);
-    };
-
-    macro SpawnEdges(edge) {
-        x edgecount inject SpawnAProj(edge, 12);
-    };
-
-    label Spawn {
-        inject SpawnEdges(BaseLaserEdge::(edgedmg, edgepuff));
-        inject SpawnAProj(BaseLaser::(basetranslation, basedmg, basepuff), 8);
         stop;
     };
 }
@@ -105,7 +103,7 @@ class<projectile, translation, pickupmsg, pickupname, ammouse> BaseLaserModule g
     };
     
     macro PrintModule {
-        TNT1 A 0 A_Print(pickupname, 0.75, "BigFont");
+        TNT1 A 0 A_Print(pickupname);
     };
 }
 
@@ -228,10 +226,10 @@ class<projectile, monster_translation_1, monster_translation_2, mod_translation,
     };
 }
 
-derive DoomLaserWeak as BaseSpawnLaser::("0:255=%[0.2,0.4,0.1]:[1.0,1.9,0.7]", 3,  "None", 1, 2, "None");
-derive DoomLaserY    as BaseSpawnLaser::("0:255=%[0.4,0.4,0.1]:[1.6,1.6,0.4]", 6,  "None", 3, 2, "None");
-derive DoomLaserO    as BaseSpawnLaser::("0:255=%[0.4,0.3,0.1]:[1.7,1.2,0.4]", 8,  "None", 5, 4, "None");
-derive DoomLaserR    as BaseSpawnLaser::("0:255=%[0.4,0.2,0.1]:[1.8,0.6,0.4]", 15, "None", 5, 6, "None");
+derive DoomLaserWeak as BaseLaser::("0:255=%[0.2,0.4,0.1]:[1.0,1.9,0.7]", 3,  "None", 1, 2, "None");
+derive DoomLaserY    as BaseLaser::("0:255=%[0.4,0.4,0.1]:[1.6,1.6,0.4]", 6,  "None", 3, 2, "None");
+derive DoomLaserO    as BaseLaser::("0:255=%[0.4,0.3,0.1]:[1.7,1.2,0.3]", 8,  "None", 5, 4, "None");
+derive DoomLaserR    as BaseLaser::("0:255=%[0.4,0.2,0.1]:[2.0,0.6,0.2]", 15, "None", 5, 6, "None");
 
 derive DefaultLaserModule as BaseLaserModule::("DoomLaserWeak", "0:255=%[0.12,0.21,0.00]:[0.81,1.91,0.57]", "You got the default laser module (weak)! You're not supposed to pick it up. Oops!", "$INM_LASERMOD_0", 1);
 

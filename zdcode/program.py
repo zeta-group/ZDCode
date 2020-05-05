@@ -35,7 +35,7 @@ def main():
         print('[compiling from {} to {}]'.format(fnfrom, fnto), file=sys.stderr)
 
     except IndexError:
-        print('[compiling stdin to stdout]', file==sys.stderr)
+        print('[compiling stdin to stdout]', file=sys.stderr)
         from_stdin()
 
     else:
