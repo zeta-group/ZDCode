@@ -264,6 +264,13 @@
                 "Fixed regular class grouping",
                 "Removed mkexamples.py"
             ]
+        },
+
+        {
+            "name": "2.10.1",
+            "changes": [
+                "Fixed redundant dependency bundling"
+            ]
         }
     ]
 }
