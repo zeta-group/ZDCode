@@ -42,6 +42,10 @@ class Bundle:
     
             while deps:
                 mod = deps.pop()
+
+                if mod in bundled:
+                    continue
+                
                 mod_path = pathlib.Path(mod)
                     
                 if mod_path.is_dir():
@@ -73,7 +77,7 @@ class Bundle:
                                 
                                 if not dep_path.is_file():
                                     raise BundleDependencyError('The file {} depends on {}, which does not exist, neither in the dependent\'s dir, nor in the working one!')
-                                    
+
                                 deps.append(dep_path)
                                 bundled.add(dep_path)
                                 
