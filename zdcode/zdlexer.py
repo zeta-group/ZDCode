@@ -1,6 +1,7 @@
 import re
 import sys
 import os
+import glob
 import traceback
 import parsy
 
@@ -177,7 +178,7 @@ def expr_argument_list():
 
 @generate
 def parameter():
-    return anonymous_class | templated_class_derivation | expression.tag('expression')
+    return anonymous_class | anonymous_macro | templated_class_derivation | expression.tag('expression')
     yield
 
 def specialized_parameter_list(ptype):
@@ -208,6 +209,16 @@ def state_call():
 @generate
 def return_statement():
     return (wo >> ist('return')).desc('return statement')
+    yield
+    
+@generate
+def continue_statement():
+    return (wo >> ist('continue')).desc('continue statement')
+    yield
+    
+@generate
+def break_statement():
+    return (wo >> ist('break')).desc('break statement')
     yield
 
 @generate
@@ -354,7 +365,7 @@ def group_declaration():
 def actor_class():
     return seq(
         ((ist('actor') | ist('class')) << whitespace).desc("class statement") >> regex('[a-zA-Z0-9_]+').desc('class name').tag('classname'),
-        ((ist('group') << whitespace).desc('group keyword') >> group_name).optional().map(lambda x: x or None).tag('group'),
+        ((whitespace >> ist('group') << whitespace).desc('group keyword') >> group_name).optional().map(lambda x: x or None).tag('group'),
         ((whitespace >> (ist('inherits') | ist('extends') | ist('expands'))) >> whitespace >> superclass.desc('inherited class')).optional().tag('inheritance').desc('inherited class name'),
         (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
         (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
@@ -425,7 +436,7 @@ def normal_state():
 
 @generate
 def state_action():
-    return action_body_repeat.tag('inline body') | state_call.tag('action') | action_body.tag('inline body')
+    return action_body_repeat.tag('repeated inline body') | state_call.tag('action') | action_body.tag('inline body')
     yield
 
 @generate
@@ -444,8 +455,10 @@ def replaceable_number():
 @generate
 def action_body_repeat():
     return seq(
-        ist('x') >> wo >> replaceable_number.desc('amount of times to repeat') << wo, state_action
-    ).map(lambda x: [x[1] for _ in range(x[0])])
+        ist('x') >> wo >> replaceable_number.desc('amount of times to repeat'),
+        (whitespace >> ist('index') >> whitespace >> variable_name.desc('repeat index name') << whitespace).optional().map(lambda x: x or None),
+        wo >> state_action
+    )
     yield
 
 @generate
@@ -464,22 +477,19 @@ def macro_call():
 
 @generate
 def state():
-    return (if_statement.tag('if') | ifjump_statement.tag('ifjump') | whilejump_statement.tag('whilejump') | for_statement.tag('for') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')) << s(';')
+    return (return_statement.tag('return') | break_statement.tag('break') | continue_statement.tag('continue') | if_statement.tag('if') | ifjump_statement.tag('ifjump') | whilejump_statement.tag('whilejump') | for_statement.tag('for') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')) << s(';')
     yield
 
 @generate
 def state_no_colon():
-    return (if_statement.tag('if') | ifjump_statement.tag('ifjump') | whilejump_statement.tag('whilejump') | for_statement.tag('for') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat'))
+    return (return_statement.tag('return') | break_statement.tag('break') | continue_statement.tag('continue') | if_statement.tag('if') | ifjump_statement.tag('ifjump') | whilejump_statement.tag('whilejump') | for_statement.tag('for') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat'))
     yield
 
 @generate
 def state_body():
     return (
-        (state_no_colon | return_statement.tag('return')).map(lambda x: [x])
-        | (
-            wo >> string("{") >> wo >> (
-                state | (return_statement << ';').tag('return')
-            ).sep_by(wo) << wo << string("}")
+        state_no_colon.map(lambda x: [x]) | (
+            wo >> string("{") >> wo >> (state).sep_by(wo) << wo << string("}")
         )
     )
     yield
@@ -611,7 +621,17 @@ def while_statement():
         .skip(wo)
         .skip(string(")"))
         .skip(wo),
+        
         state_body.optional().map(lambda x: x if x != None else [])
+        .skip(wo),
+        
+        s(';')
+        .then(wo)
+        .then(s('else'))
+        .then(wo)
+            .then(state_body.optional().map(lambda x: x if x != None else []))
+        .skip(wo)
+            .optional()
     )
     yield
 
@@ -619,8 +639,17 @@ def while_statement():
 def repeat_statement():
     return seq(
         ist('x') >> wo >> replaceable_number.desc('amount of times to repeat'),
+        (whitespace >> ist('index') >> whitespace >> variable_name.desc('repeat index name') << whitespace).optional().map(lambda x: x or None),
         wo >> state_body
     )
+    yield
+
+@generate
+def anonymous_macro():
+    return seq(
+        ist("macro") >> (s('(') >> macro_argument_list << s(')') << wo).optional().map(lambda a: a or []),
+        state_body
+    ).tag('anonymous macro')
     yield
 
 @generate
@@ -693,8 +722,8 @@ def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_
     if not begin_char:
         begin_char = [0]
 
-    if not isinstance(imports, list):
-        imports = list(imports)
+    if not isinstance(imports, dict):
+        imports = dict(imports)
 
     if not isinstance(defs, dict):
         defs = dict(defs)
@@ -798,21 +827,39 @@ def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_
         # imports and definitions
         if cond_active:
             if check_line.startswith('#IMPORT ') or check_line.startswith('#INCLUDE '):
-                fname = os.path.join(rel_dir, ' '.join(check_line_case.split(' ')[1:]))
+                gfname = os.path.join(rel_dir, ' '.join(check_line_case.split(' ')[1:]))
+                gname = glob.glob(gfname)
+                
+                if gname:
+                    for fname in gname:
+                        if not os.path.isfile(fname):
+                            raise PreprocessingError("The module '{}' was not found".format(fname, i, this_fname, check_line_case))
 
-                if not os.path.isfile(fname):
-                    raise PreprocessingError("The module '{}' was not found".format(os.path.join(rel_dir, fname)), i, this_fname, check_line_case)
+                        if imports.get(fname, object()) == this_fname:
+                            raise PreprocessingError("The module '{}' was found in an infinite import cycle!".format(fname), i, this_fname, check_line_case)
 
-                if (this_fname, fname) in imports:
-                    raise PreprocessingError("The module '{}' was found in an infinite import cycle!".format(fname), i, this_fname, check_line_case)
+                        elif fname not in imports:
+                            imports[fname] = this_fname
 
-                imports.append((this_fname, fname))
+                            with open(fname) as fp:
+                                lines = preprocess_code(fp.read() + "\n", imports, defs, defines, this_fname=fname, rel_dir=os.path.dirname(fname), begin_char=begin_char)
 
-                with open(fname) as fp:
-                    lines = preprocess_code(fp.read() + "\n", imports, defs, defines, this_fname=fname, rel_dir=os.path.dirname(fname), begin_char=begin_char)
+                                for l in lines:
+                                    pcodelines.append(l)
+                            
+                else:
+                    raise PreprocessingError("No module matching '{}' was found".format(gfname), i, this_fname, check_line_case)
+                        
+            elif check_line.startswith('#RESOURCE ') or check_line.startswith('#RES '):
+                # Add resource to output PK3
+                key = check_line_case.split(' ')[1]
+                value = ' '.join(check_line_case.split(' ')[2:])
 
-                    for l in lines:
-                        pcodelines.append(l)
+                if value == '':
+                    defs[key] = None
+
+                else:
+                    defs[key] = value
 
             elif check_line.startswith('#DEF ') or check_line.startswith('#DEFINE '):
                 key = check_line_case.split(' ')[1]
@@ -879,9 +926,9 @@ def parse_postcode(postcode, error_handler=None):
             else:
                 error_handler(err)
 
-def parse_code(code, filename=None, dirname='.', error_handler=None):
+def parse_code(code, filename=None, dirname='.', error_handler=None, imports=()):
     try:
-        return parse_postcode(preprocess_code(code, this_fname=filename, rel_dir=dirname), error_handler=error_handler)
+        return parse_postcode(preprocess_code(code, this_fname=filename, rel_dir=dirname, imports=imports), error_handler=error_handler)
 
     except PreprocessingError as pperr:
         if error_handler is None:

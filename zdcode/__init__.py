@@ -144,7 +144,6 @@ class ZDCall(object):
 
         code.calls.add(self)
 
-        label.states.append(self)
 
         if repeats > 1:
             for _ in range(repeats):
@@ -344,14 +343,14 @@ class ZDActor(ZDBaseActor):
         self.namefuncs = {}
         self.raw = []
 
-        if self.inherit and self.inherit in actor_list:
-            self.all_funcs = list(actor_list[self.inherit].all_funcs)
-            self.context.update(actor_list[self.inherit].context)
+        if self.inherit and self.inherit.upper() in code.actor_names:
+            self.all_funcs = list(code.actor_names[self.inherit.upper()].all_funcs)
+            self.context.update(code.actor_names[self.inherit.upper()].context)
 
         else:
             self.all_funcs = []
 
-        actor_list[name] = self
+        # code.actor_names[name.upper()] = self
 
     def make_spawn_label(self):
         return ZDLabel(self, 'Spawn', [ZDRawDecorate('goto Super::Spawn' if self.inherit else 'stop')], auto_append=False)
@@ -635,7 +634,7 @@ class ZDIfJumpStatement(object):
         else:
             return redent(
                 "TNT1 A 0 {}".format(self.true_condition(2)) +                              # 1
-                "\nTNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 2) +                      # + 1
+                "\nTNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 1) +                      # + 1
                 '\n'.join(decorate(x) for x in self.states) +                               # + num_st_bl
                 "\nTNT1 A 0",                                                               # + 1
             4, unindent_first=False)
@@ -786,20 +785,112 @@ class ZDInventory(object):
 
     def __decorate__(self):
         return "Actor {} : Inventory {{Inventory.MaxAmount 1}}".format(self.name)
-
+        
+        
+class ZDSkip:
+    def __init__(self, code, skip_context, curr_ind):
+        self.code = code
+        self.context = skip_context
+        self.ind = curr_ind
+        
+    def __decorate__(self):
+        return 'TNT1 A 0 A_Jump(256, {})'.format(self.context.num_states() - self.ind + 1)
+        
+    def num_states(self):
+        return 1
 
 # Compiler!
 class CompilerError(Exception):
     pass
 
 class ZDCodeParseContext(object):
-    def __init__(self, replacements=(), macros=(), templates=(), calls=(), actors=()):
+    def __init__(self, replacements=(), macros=(), templates=(), calls=(), actors=(), remote_offset=0):
+        self.includes = {}
         self.macros = dict(macros)
         self.replacements = dict(replacements)
         self.templates = dict(templates)
         self.call_lists = list(calls) if calls else [[]]
         self.actor_lists = list(actors) if actors else [[]]
         self.desc_stack = []
+        self.states = []
+        self.remote_children = []
+        self.remote_offset = remote_offset
+        
+    def print_state_tree(self, _print_low=print, _print=print, prefix='+ '):
+        ended = 0
+        
+        _print_low = _print_low or print
+        
+        def _print_top(name):
+            _print_low(prefix + name)
+            
+        def _branch(l='', end=False):
+            if end:
+                _print("'---+ " + l)
+            
+            else:
+                _print("+---+ " + l)
+                
+        def _print_next(line=''):
+            if ended == 0:
+                _print('|   ' + line)
+                
+            elif ended == 1 and self.remote_children:
+                _print(':   ' + line)
+            
+            else:
+                _print('    ' + line)
+    
+        _print_top('{} ({}/{})'.format(self.desc_stack[-1], self.num_states(), self.remote_num_states()))
+        
+        if self.states:
+            _print('|')
+            
+            imax = len(self.states)
+            
+            for i, s in enumerate(self.states):
+                ended = 1 if i >= imax - 1 else 0
+            
+                if isinstance(s, ZDCodeParseContext):
+                    s.print_state_tree(_print, _print_next, "'---+ " if ended > 0 else "+---+ ")
+                    
+                else:
+                    _branch('{} ({})'.format(type(s).__name__, s.num_states()), ended)
+                    
+                if not ended:
+                    _print('|')
+            
+        if self.remote_children:
+            _print('&')
+            _print(':')
+            
+            imax = len(self.remote_children)
+            
+            for i, ch in enumerate(self.remote_children):
+                ended = 2 if i >= imax - 1 else 1
+                
+                ch.print_state_tree(_print, _print_next, "^---* (remote) " if ended > 1 else "%---* (remote) ")
+                
+                if not ended:
+                    _print(':')
+        
+    def num_states(self):
+        return sum(s.num_states() for s in self.states)
+        
+    def remote_num_states(self):
+        return self.remote_offset + sum(s.remote_num_states() if isinstance(s, ZDCodeParseContext) else s.num_states() for s in self.states) + sum(c.remote_num_states() for c in self.remote_children)
+
+    def remote_derive(self, desc: str = None, remote_offset: int = 0) -> "ZDCodeParseContext":
+        # derives without adding to states
+        res = ZDCodeParseContext(self.replacements, self.macros, self.templates, self.call_lists, self.actor_lists, remote_offset)
+        res.desc_stack = list(self.desc_stack)
+        
+        if desc:
+            res.desc_stack.append(desc)
+            
+        self.remote_children.append(res)
+        
+        return res
 
     def derive(self, desc: str = None) -> "ZDCodeParseContext":
         res = ZDCodeParseContext(self.replacements, self.macros, self.templates, self.call_lists, self.actor_lists)
@@ -807,8 +898,13 @@ class ZDCodeParseContext(object):
         
         if desc:
             res.desc_stack.append(desc)
+            
+        self.states.append(res)
         
         return res
+        
+    def __repr__(self):
+        return 'ZDCodeParseContext({})'.format(self.repr_describe())
         
     def desc_block(self, desc: str):
         return ZDCtxDescBlock(self, desc)
@@ -828,6 +924,9 @@ class ZDCodeParseContext(object):
             
     def describe(self):
         return ' at '.join(self.desc_stack[::-1])
+        
+    def repr_describe(self):
+        return ', '.join(self.desc_stack[::-1])
         
     def resolve(self, name, desc = 'a parametrizable name'):
         while name[0] == '@':
@@ -882,7 +981,7 @@ class ZDCode(object):
 
     @classmethod
     def parse(cls, code, fname=None, dirname='.', error_handler=None):
-        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, filename=fname, error_handler=error_handler)
+        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, filename=fname, error_handler=error_handler, imports=self.includes)
 
         if data:
             res = cls()
@@ -930,16 +1029,13 @@ class ZDCode(object):
         elif etype == 'paren expr':
             return '(' + self._parse_expression(exval, context) + ')'
 
-    def _parse_argument(self, arg, context):
+    def _parse_argument(self, arg, context, name = None):
         atype, aval = arg
 
         if atype == 'position arg':
-            return self._parse_parameter(aval, context)
+            return self._parse_parameter(aval, context, name)
 
-        elif atype == 'named arg':
-            return '{}: {}'.format(aval[0], self._parse_parameter(aval[1], context))
-
-    def _parse_parameter(self, parm, context):
+    def _parse_parameter(self, parm, context, name = None):
         ptype, pval = parm
 
         if ptype == 'expression':
@@ -950,6 +1046,17 @@ class ZDCode(object):
 
         elif ptype == 'anonymous class':
             return self._parse_anonym_class(pval, context)
+            
+        elif ptype == 'anonymous macro':
+            return self._parse_anonym_macro(*pval, context, name)
+
+    def _parse_anonym_macro(self, args, body, context, name = None):
+        name = name or 'ANONYMMACRO_{}_{}'.format(self.id.upper(), self.num_anonym_macros)
+        self.num_anonym_macros += 1
+        
+        context.macros[name.upper()] = (args, body)
+        
+        return stringify(name)
 
     def _parse_literal(self, literal, context):
         if isinstance(literal, str):
@@ -985,19 +1092,26 @@ class ZDCode(object):
 
     def _parse_template_derivation(self, deriv, context, pending=None, name=None, stringify=True):
         template_name, template_parms, deriv_body = deriv
-        template_parms = [self._parse_parameter(a, context) for a in template_parms]
-        template_parms = [a for a in template_parms if a != '']
-
-        template_labels = {}
-        template_body = []
-        template_macros = {}
-        template_arrays = {}
-
+        
         try:
             template = context.templates[template_name]
 
         except KeyError:
             raise CompilerError("Unknown template '{}' to derive in {}".format(template_name, context.describe()))
+        
+        if len(template_parms) != len(template.template_parameters):
+            raise CompilerError("Bad number of template parameters for '{}' in {}: expected {}, got {}".format(
+                template_name,
+                context.describe(),
+                len(template.template_parameters),
+                len(template_parms)
+            ))
+
+        template_parms = [self._parse_parameter(a, context, template.template_parameters[i]) for i, a in enumerate(template_parms)]
+        template_labels = {}
+        template_body = []
+        template_macros = {}
+        template_arrays = {}
 
         for btype, bdata in deriv_body:
             if btype == 'array':
@@ -1011,14 +1125,6 @@ class ZDCode(object):
                 template_macros[bdata['name']] = bdata
                 
             template_body.append((btype, bdata))
-
-        if len(template_parms) != len(template.template_parameters):
-            raise CompilerError("Bad number of template parameters for '{}' in {}: expected {}, got {}".format(
-                template_name,
-                context.describe(),
-                len(template.template_parameters),
-                len(template_parms)
-            ))
 
         new_class = self._derive_class_from_template(template, template_parms, context, template_labels, template_macros, template_arrays, template_body, pending=pending, name=name)
 
@@ -1043,12 +1149,29 @@ class ZDCode(object):
         if a[0] == 'action':
             return [self._parse_state_action(a[1], context)]
 
-        else:
+        elif a[0] == 'inline body':
             res = []
 
             for x in a[1]:
                 res.extend(self._parse_state_action_or_body(x, context))
 
+            return res
+            
+        elif a[0] == 'repeated inline body':
+            res = []
+
+            cval, xidx, body = a[1]
+            count = self._parse_replaceable_number(cval, context)
+
+            if count >= 1:
+                for idx in range(count):
+                    ctx = context.derive()
+                
+                    if xidx:
+                        ctx.replacements[xidx] = str(idx)
+                
+                    res.extend(self._parse_state_action_or_body(body, ctx))
+                        
             return res
 
     def _parse_state_action(self, a, context):
@@ -1075,8 +1198,83 @@ class ZDCode(object):
 
         else:
             return count
+    
+    def _mutate_block(self, mut_func, block, *args):
+        return [mut_func(s, *args) for s in block]
+            
+    def _maybe_mutate_block(self, mut_func, state, *args):
+        state = list(state)
+    
+        if state[0] == 'ifjump':
+            jump, s_yes, s_no = state[1]
+            state[1] = (jump, self._mutate_block(mut_func, s_yes, *args), s_no and self._mutate_block(mut_func, s_no, *args))
+            
+        elif state[0] == 'if':
+            cond, s_yes, s_no = state[1]
+            state[1] = (cond, self._mutate_block(mut_func, s_yes, *args), s_no and self._mutate_block(mut_func, s_no, *args))
+            
+        elif state[0] == 'sometimes':
+            state[1] = dict(state[1])
+            state[1]['body'] = self._mutate_block(mut_func, state[1]['body'], *args)
+        
+        return state
+        
+    def _maybe_mutate_block_or_loop(self, mut_func, state, *args):
+        state = list(state)
+    
+        if state[0] in ('while', 'whilejump'):
+            cond, f_body, f_else = state[1]
+            
+            f_body = self._mutate_block(mut_func, f_body, *args)
+            f_else = f_else and self._mutate_block(mut_func, f_else, *args)
+            
+            state[1] = (cond, f_body, f_else)
+            
+        elif state[0] == 'for':
+            itername, iteridx, itermode, f_body, f_else = state[1]
+            
+            f_body = self._mutate_block(mut_func, f_body, *args)
+            f_else = f_else and self._mutate_block(mut_func, f_else, *args)
+            
+            state[1] = (itername, iteridx, itermode, f_body, f_else)
+        
+        return self._maybe_mutate_block(mut_func, state, *args)
+            
+    def _mutate_macro_state(self, state, inj_context):
+        # Mutates each state in an injected macro, making things
+        # like macro-scope return statements possible.
+        
+        if state[0] == 'return':
+            return ('skip', inj_context)
+        
+        return self._maybe_mutate_block_or_loop(self._mutate_macro_state, state, inj_context)
+        
+    def _mutate_iter_state(self, state, break_context, loop_context):
+        # Mutates each state in a for loop, making things like
+        # break and continue statements possible.
+        
+        if state[0] == 'continue':
+            return ('skip', loop_context)
+            
+        if state[0] == 'break':
+            return ('skip', break_context)
+        
+        return self._maybe_mutate_block(self._mutate_iter_state, state, break_context, loop_context)
 
     def _parse_state(self, actor, context: ZDCodeParseContext, label, s, func=None, alabel=None):
+        def add_state(s, target=context):
+            target.states.append(s)
+            label.states.append(s)
+            
+            return s
+            
+        def pop_remote(target=context):
+            assert target.remote_children
+            target.remote_children.pop()
+            
+        def clear_remotes(target=context):
+            target.remote_children.clear()
+    
         if s[0] == 'frames':        
             (sprite_type, sprite_name), frames, duration, modifier_chars, action = s[1]
             modifiers = []
@@ -1120,43 +1318,64 @@ class ZDCode(object):
 
             for f in frames:
                 if action is None:
-                    label.states.append(ZDState(name, f, duration, modifiers))
+                    add_state(ZDState(name, f, duration, modifiers))
 
                 else:
                     body = self._parse_state_action_or_body(action, context)
 
                     for i, a in enumerate(body):
-                        label.states.append(ZDState(name, f, (0 if i + 1 < len(body) else duration), modifiers, action=a))
+                        add_state(ZDState(name, f, (0 if i + 1 < len(body) else duration), modifiers, action=a))
 
         elif s[0] == 'return':
             if not isinstance(func, ZDFunction):
-                raise CompilerError("Return statement in non-function label in {}!".format(context.describe()))
+                raise CompilerError("Return statements are not valid in {}!".format(context.describe()))
 
             else:
-                label.states.append(ZDReturnStatement(func))
+                add_state(ZDReturnStatement(func))
+                
+        elif s[0] == 'continue':
+            raise CompilerError("Continue statements are not valid in {}!".format(context.describe()))
+            
+        elif s[0] == 'break':
+            raise CompilerError("Break statements are not valid in {}!".format(context.describe()))
+                
+        elif s[0] == 'skip':
+            # Skips to the end of this context, or the one supplied.
+            if s[1]:
+                # s[1] can only be an outer context, so don't bother checking
+                add_state(ZDSkip(self, s[1], s[1].remote_num_states()))
+            
+            else:
+                add_state(ZDSkip(self, context, context.remote_num_states()))
 
         elif s[0] == 'call':
-            context.add_call(ZDCall(self, label, s[1]))
+            context.add_call(add_state(ZDCall(self, label, s[1])))
 
         elif s[0] == 'flow':
             if s[1].upper().rstrip(';') == 'LOOP':
-                label.states.append(ZDRawDecorate('goto {}'.format(label.name)))
+                add_state(ZDRawDecorate('goto {}'.format(label.name)))
 
             else:
                 sf    = s[1].rstrip(';').split(' ')
                 sf[0] = sf[0].lower()
                 
-                label.states.append(ZDRawDecorate(' '.join(sf)))
+                add_state(ZDRawDecorate(' '.join(sf)))
 
         elif s[0] == 'repeat':
-            cval = s[1][0]
+            cval, xidx, body = s[1]
 
+            break_ctx = context.derive()
             count = self._parse_replaceable_number(cval, context)
 
             if count >= 1:
-                for _ in range(count):
-                    for a in s[1][1]:
-                        self._parse_state(actor, context, label, a, func)
+                for idx in range(count):
+                    loop_ctx = break_ctx.derive()
+                
+                    if xidx:
+                        loop_ctx.replacements[xidx.upper()] = str(idx)
+                
+                    for a in body:
+                        self._parse_state(actor, loop_ctx, label, self._mutate_iter_state(a, break_ctx, loop_ctx), func)
 
         elif s[0] == 'sometimes':
             s = dict(s[1])
@@ -1167,23 +1386,25 @@ class ZDCode(object):
             for a in s['body']:
                 self._parse_state(actor, context, sms, a, func)
 
-            label.states.append(sms)
+            add_state(sms)
 
         elif s[0] == 'if':
             ifs = ZDIfStatement(actor, self._parse_expression(s[1][0], context), [])
+            if_ctx = context.remote_derive('if body', 3 if s[1][2] else 2)
 
             for a in s[1][1]:
-                self._parse_state(actor, context, ifs, a, func)
+                self._parse_state(actor, if_ctx, ifs, a, func)
 
-            if s[1][2] is not None:
+            if s[1][2]:
                 elses = ZDBlock(actor)
 
                 for a in s[1][2]:
-                    self._parse_state(actor, context, elses, a, func)
+                    self._parse_state(actor, if_ctx, elses, a, func)
 
                 ifs.set_else(elses)
 
-            label.states.append(ifs)
+            add_state(ifs)
+            pop_remote()
 
         elif s[0] == 'ifjump':
             jump, s_yes, s_no = s[1]
@@ -1194,32 +1415,37 @@ class ZDCode(object):
                 jump_context.replacements['$OFFSET'] = str(jump_offset)
                 
                 return self._parse_state_action(jump, jump_context)
-
+                
+            if_ctx = context.remote_derive('ifjump body', 3)
+            
             for a in s_yes:
-                self._parse_state(actor, context, ifs, a, func)
+                self._parse_state(actor, if_ctx, ifs, a, func)
 
-            if s_no is not None:
+            if s_no:
                 elses = ZDBlock(actor)
             
                 for a in s_no:
-                    self._parse_state(actor, context, elses, a, func)
+                    self._parse_state(actor, if_ctx, elses, a, func)
 
                 ifs.set_else(elses)
 
-            label.states.append(ifs)
+            add_state(ifs)
+            pop_remote()
 
         elif s[0] == 'whilejump':
+            break_ctx = context.remote_derive('whilejump', 4)
             jump, s_yes, s_no = s[1]
         
             @ZDWhileJumpStatement.generate(actor)
             def whs(jump_offset):
-                jump_context = context.derive('whilejump check')
+                jump_context = break_ctx.derive('whilejump check')
                 jump_context.replacements['$OFFSET'] = str(jump_offset)
                 
                 return self._parse_state_action(jump, jump_context)
 
             for a in s_yes:
-                self._parse_state(actor, context, whs, a, func)
+                loop_ctx = break_ctx.derive('body')
+                self._parse_state(actor, loop_ctx, whs, self._mutate_iter_state(a, break_ctx, loop_ctx), func)
 
             if s_no is not None:
                 elses = ZDBlock(actor)
@@ -1228,16 +1454,28 @@ class ZDCode(object):
                     self._parse_state(actor, context, elses, a, func)
 
                 whs.set_else(elses)
-
-            label.states.append(whs)
+   
+            add_state(whs)
+            clear_remotes(break_ctx)
 
         elif s[0] == 'while':
-            whs = ZDWhileStatement(actor, self._parse_expression(s[1][0], context), [])
-
+            break_ctx = context.remote_derive('while', 4 if s[1][2] else 3)
+            whs = ZDWhileStatement(actor, self._parse_expression(s[1][0], break_ctx), [])
+                        
             for a in s[1][1]:
-                self._parse_state(actor, context, whs, a, func)
+                loop_ctx = break_ctx.derive('body')
+                self._parse_state(actor, loop_ctx, whs, self._mutate_iter_state(a, break_ctx, loop_ctx), func)
+                
+            if s[1][2]:
+                elses = ZDBlock(actor)
 
-            label.states.append(whs)
+                for a in s[1][2]:
+                    self._parse_state(actor, if_ctx, elses, a, func)
+
+                whs.set_else(elses)
+
+            add_state(whs)
+            clear_remotes(break_ctx)
             
         elif s[0] == 'for':
             itername, iteridx, itermode, f_body, f_else = s[1]
@@ -1246,21 +1484,26 @@ class ZDCode(object):
                 group_name = context.resolve(itermode[1], 'a parametrized group name')
                 
                 if group_name.upper() not in self.groups:
-                    raise CompilerError("No such group {} to iterate in a for loop in {}!".format(repr(group_name), context.describe()))
+                    raise CompilerError("No such group {} to 3 in a for loop in {}!".format(repr(group_name), context.describe()))
                     
                 elif self.groups[group_name.upper()]:
+                    break_ctx = context.derive('for')
+                
                     for i, item in enumerate(self.groups[group_name.upper()]):
-                        iter_ctx = context.derive()
+                        iter_ctx = break_ctx.derive('loop body')
                         iter_ctx.replacements[itername.upper()] = item
                         
                         if iteridx:
                             iter_ctx.replacements[iteridx.upper()] = str(i)
                         
-                        for a in f_body:
-                            self._parse_state(actor, iter_ctx, label, a, label)
+                        break_skip_size = len(f_body) * (len(self.groups[group_name.upper()]) - i)
+                        continue_skip_size = len(f_body) * (len(self.groups[group_name.upper()]) - i)
+                        
+                        for si, a in enumerate(f_body):
+                            self._parse_state(actor, iter_ctx, label, self._mutate_iter_state(a, break_ctx, iter_ctx), label)
                             
                 else:
-                    else_ctx = context.derive()
+                    else_ctx = context.derive('for-else')
                 
                     for a in f_else:
                        self._parse_state(actor, else_ctx, label, a, label)
@@ -1288,7 +1531,7 @@ class ZDCode(object):
 
             if r_name.upper() in macros:            
                 if r_from:
-                    new_context = context.derive("macro '{}' ({})".format(r_name, act.context.describe()))
+                    new_context = context.derive("macro '{}' from {}".format(r_name, act.name))
                     new_context.update(act.context)
                     
                 else:
@@ -1297,10 +1540,10 @@ class ZDCode(object):
                 (m_args, m_body) = macros[r_name.upper()]
 
                 for rn, an in zip(r_args, m_args):
-                    new_context.replacements[an.upper()] = self._parse_argument(rn, context)
+                    new_context.replacements[an.upper()] = self._parse_argument(rn, context, an)
 
                 for a in m_body:
-                    self._parse_state(actor, new_context, label, a, label)
+                    self._parse_state(actor, new_context, label, self._mutate_macro_state(a, new_context), label)
 
             else:
                 if r_from:
@@ -1445,7 +1688,13 @@ class ZDCode(object):
 
         for class_type, a in actors:
             if class_type == 'group':
-                self.groups[a['name'].upper()] = list(a['items'])
+                gname = a['name'].upper()
+                
+                if gname in self.groups:
+                    self.groups[gname].extend(list(a['items']))
+                    
+                else:
+                    self.groups[gname] = list(a['items'])
                 
             elif class_type == 'macro':
                 context.macros[a['name']] = (a['args'], a['body'])
@@ -1491,7 +1740,7 @@ class ZDCode(object):
                     if a['group']:
                         g = a['group']
                         
-                        if g in self.groups:
+                        if g.upper() in self.groups:
                             self.groups[g.upper()].append(stringify(a['classname']))
                             
                         else:
@@ -1550,6 +1799,7 @@ class ZDCode(object):
         self.groups = {}
         self.id = make_id(35)
         self.calls = set()
+        self.num_anonym_macros = 0
 
     def __decorate__(self):
         if not self.inventories:
@@ -1562,4 +1812,5 @@ class ZDCode(object):
         ]) # lines split for debugging
 
     def decorate(self):
-        return self.__decorate__()
+        return decorate(self)
+

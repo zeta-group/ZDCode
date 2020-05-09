@@ -408,7 +408,7 @@ States {
         // executes instantly, like C code would.
         TNT1 A 0 A_JumpIfCloser(128, 2) // player must be closer than 128 units
         TNT1 A 0
-          Goto GoBack // control flow does not count as states, hence jumping by 2, not by 3
+          Goto GoBack
         TNT1 A 0 A_JumpIf(z == floorz, 2) // torch must still be in ground, *as well*
         TNT1 A 0
           Goto GoBack

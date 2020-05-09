@@ -170,7 +170,7 @@ derive RandomTerrainCoarse as Terrain::(14, 14, 2800, 2800, 6, 6) {
         0, R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()), 0,
         0, R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()),R(MAXHEIGHT()), 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    }; // ewwwwwwww
+    }; // ewwwwwwwwwwwwwwwwh!
 
     macro InitTerrain() {};
 

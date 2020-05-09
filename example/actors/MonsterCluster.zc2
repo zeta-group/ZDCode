@@ -1,17 +1,15 @@
-#IFDEF HasJumpZombies
 class LameZombieman extends Zombieman {}
-#ENDIF
 
-class MonSpawnY extends RandomSpawner {
-    #IFDEF HasJumpZombies
-    set DropItem to "RunZombie", 255, 1;
-    set DropItem to "LameZombimMan", 255, 1;
-    #ELSE
-    set DropItem to "ZombieMan", 255, 2;
-    #ENDIF
-    set DropItem to "DoomImp", 255, 1;
-    set DropItem to "ShotgunGuy", 255, 1;
-    set DropItem to "Demon", 255, 1;}
+group skull_spawns;
+
+class MonSpawnY group skull_spawns extends RandomSpawner {
+    set DropItem to "RunZombie";
+    set DropItem to "LaserGuyY";
+    set DropItem to "LameZombieman";
+    set DropItem to "DoomImp";
+    set DropItem to "ShotgunGuy";
+    set DropItem to "Demon";
+}
 
 class MultiSpawner {
     set Gravity to 0;
@@ -22,10 +20,27 @@ class MultiSpawner {
     is THRUACTORS;
 }
 
+class AppearZombieman {
+    label Spawn {
+        TNT1 A 0;
+        TNT1 A 0 A_SpawnItemEx('TeleportFog');
+        TNT1 A 0 A_SpawnItemEx('Zombieman');
+        stop;
+    };
+}
+
+class AppearShotgunGuy {
+    label Spawn {
+        TNT1 A 0;
+        TNT1 A 0 A_SpawnItemEx('TeleportFog');
+        TNT1 A 0 A_SpawnItemEx('AppearShotgunGuy');
+        stop;
+    };
+}
+
 class XZombieSpawner extends MultiSpawner {
     function MakeSpawn {
-        x 12
-            TNT1 A 9 A_SpawnItemEx('Zombieman', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
+        x 12 TNT1 A 9 A_SpawnItemEx('AppearZombieman', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
     };
 
     label Spawn {
@@ -39,7 +54,7 @@ class XShotGuySpawner extends MultiSpawner {
     set Gravity to 0;
 
     function MakeSpawn {
-        x 3 TNT1 A 9 A_SpawnItemEx('ShotgunGuy', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
+        x 3 TNT1 A 9 A_SpawnItemEx('AppearShotgunGuy', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
     };
 
     label Spawn {
@@ -49,20 +64,24 @@ class XShotGuySpawner extends MultiSpawner {
     };
 }
 
-class MonSpawnO extends RandomSpawner {
+class MonSpawnO group skull_spawns extends RandomSpawner {
+    set DropItem to "LaserGuyO";
     set DropItem to "Spectre";
     set DropItem to "Fatso";
     set DropItem to "ChaingunGuy";
     set DropItem to "Arachnotron";
     set DropItem to "Revenant";
     set DropItem to "Cacodemon";
+    set DropItem to "XZombieSpawner";
 }
 
-class MonSpawnR extends RandomSpawner {
+class MonSpawnR group skull_spawns extends RandomSpawner {
     set DropItem to "PainElemental";
     set DropItem to "ArchVile";
     set DropItem to "HellKnight";
     set DropItem to "BaronOfHell";
+    set DropItem to "LaserGuyR";
+    set DropItem to "XShotGuySpawner";
 }
 
 class<ParticleSprite, Scale> SkullParticle {
@@ -79,7 +98,9 @@ class<ParticleSprite, Scale> SkullParticle {
     };
 }
 
-class<SkullSprite, Radius, SpawnedStuff, ParticleType, AlertMessage, SpawnCount, SpawnChance, DuplicateCount, DuplicateChance, ParticleCount> SkullSpawner {
+group skull_projs;
+
+class<SkullSprite, Radius, SpawnedStuff, ParticleType, AlertMessage, SpawnCount, SpawnChance, DuplicateCount, DuplicateChance, ParticleCount> SkullSpawner group skull_projs {
     set Scale to 0.3;
     set Alpha to 0.7;
     set RenderStyle to Translucent;
@@ -87,10 +108,12 @@ class<SkullSprite, Radius, SpawnedStuff, ParticleType, AlertMessage, SpawnCount,
     set Damage to 0;
     set Radius to Radius;
     set Height to 2;
+    set Species to "SkullSpawner";
 
     combo Projectile;
 
     is THRUACTORS;
+    is THRUSPECIES;
 
     macro Duplicate {
         if (z - floorz < 40)
@@ -132,3 +155,4 @@ derive SkullParticleY as SkullParticle::("SKPY", 0.5);
 derive SkullSpawnerR as SkullSpawner::("SKLR", 30, "MonSpawnR", "SkullParticleR", "RED ALERT: New high-level threat detected!", 1, 96, 5, 8, 20);
 derive SkullSpawnerO as SkullSpawner::("SKLO", 45, "MonSpawnO", "SkullParticleO", "ORANGE ALERT: New medium-level threat detected!", 2, 83, 6, 10, 20);
 derive SkullSpawnerY as SkullSpawner::("SKLY", 60, "MonSpawnY", "SkullParticleY", "YELLOW ALERT: New low-level threat detected!", 4, 75, 7, 12, 16);
+

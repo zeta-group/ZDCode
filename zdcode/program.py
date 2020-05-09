@@ -1,8 +1,10 @@
 import sys
+import argparse
 import os
 
 try:
     import zdcode
+    from zdcode.bundle import Bundle
 
 except ImportError:
     try:
@@ -11,6 +13,7 @@ except ImportError:
 
     except ImportError:
         import __init__ as zdcode
+        from bundle import Bundle
 
 def print_parse_error(e):
     print('{}: {}'.format(type(e).__name__, str(e)))
@@ -28,27 +31,44 @@ def from_stdin():
 
     print(zdcode.ZDCode.parse("\n".join(data), error_handler=print_parse_error).decorate())
 
+def arg_parser():
+    aparser = argparse.ArgumentParser(description='ZDCode compilation and bundling engine.')
+    subparsers = aparser.add_subparsers(help='sub-command help')
+    
+    aparser_compile = subparsers.add_parser('compile', aliases=['c'], help='compile ZDCode input files (and any other files that may be included by the preprocessor) to a single DECORATE file')
+    aparser_compile.add_argument('input', type=str, metavar='INFILES', nargs='+', help='input files for the compiler (zc2)')
+    aparser_compile.add_argument('-o', '--output', type=str, required=True, metavar='OUTFILE', dest='out_compile', help='output file from the compiler (DECORATE)')
+    aparser_compile.set_defaults(func=do_compile)
+    
+    aparser_bundle = subparsers.add_parser('bundle', aliases=['b'], help='bundle multiple files (asset folder, PK3 or ZDCode), alongside dependencies, to two output PK3 files: the assets file, and the code file')
+    aparser_bundle.add_argument('input', type=str, metavar='INFILES', nargs='+', help='input files for the bundler (folder, pk3 or zc2)')
+    aparser_bundle.add_argument('-a', '--asset-output', type=str, required=True, metavar='OUTFILE', dest='out_asset', help='asset output file from the bundler (pk3)')
+    aparser_bundle.add_argument('-c', '--code-output', type=str, required=True, metavar='OUTFILE', dest='out_code', help='code output file from the bundler (pk3)')
+    aparser_bundle.set_defaults(func=do_bundle)
+    
+    return aparser
+
 def main():
-    try:
-        fnfrom = sys.argv[1]
-        fnto  = sys.argv[2]
-        print('[compiling from {} to {}]'.format(fnfrom, fnto), file=sys.stderr)
+    args = arg_parser().parse_args()
+    return args.func(args)
 
-    except IndexError:
-        print('[compiling stdin to stdout]', file=sys.stderr)
-        from_stdin()
+# Actions
 
-    else:
-        try:
-            dec = zdcode.ZDCode.parse(open(fnfrom).read(), os.path.basename(fnto), os.path.dirname(fnto), error_handler=print_parse_error)
-
-            if dec:
-                dec = dec.decorate()
-                open(sys.argv[2], "w").write(dec)
-                print("Wrote to file successfully.")
-
-            else:
-                print("Syntax error found, aborting.")
-
-        except IOError:
-            from_stdin()
+def do_compile(args):
+    code = zdcode.ZDCode()
+    
+    for fn in args.input:
+        with open(fn) as fp:
+            if not code.add(fp.read(), os.path.basename(fn), os.path.dirname(fn), error_handler=print_parse_error):
+                return 1
+    
+    dec = code.decorate()
+    open(args.out_compile, "w").write(dec)
+    print("Output compiled successfully.")
+    
+def do_bundle(args):
+    bundle = Bundle(*args.input, error_handler=print_parse_error)
+    status, msg = bundle.bundle(args.out_asset, args.out_code)
+    
+    print(msg)
+    return status

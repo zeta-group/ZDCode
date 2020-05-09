@@ -139,7 +139,6 @@ class MSA_Fox {
 
     combo   Monster;
 
-    is      FRIENDLY;
     is      NOBLOCKMONST;
     is      DROPOFF;
     is      SLIDESONWALLS;
@@ -552,6 +551,10 @@ class MSA_Fox {
     };
 }
 
+class MSA_Fox_Good extends MSA_Fox {
+    is FRIENDLY;
+}
+
 // now, adding to the normal game
 
 class<PickupSprite, PickupType> FoxyPickup {
@@ -584,7 +587,7 @@ class<PickupSprite, PickupType> FoxyPickup {
             sometimes 50 keepst 20;
         };
 
-        TNT1 A 0 A_SpawnItemEx("MSA_Fox");
+        TNT1 A 0 A_SpawnItemEx("MSA_Fox_Good");
         TNT1 A 0 A_SpawnItemEx(PickupType);
 
         stop;
@@ -613,3 +616,32 @@ derive FoxyClipSpawner          as FoxyPickupSpawner::("CLIP", "Clip",          
 derive FoxyShellSpawner         as FoxyPickupSpawner::("SHEL", "Shell",          5,  1);
 derive FoxyRocketSpawner        as FoxyPickupSpawner::("ROCK", "RocketAmmo",     6,  2);
 derive FoxyCellSpawner          as FoxyPickupSpawner::("CELL", "Cell",           9,  4);
+
+class<foxtype> BaseFoxyFountain {
+    label Spawn {
+        TNT1 A 120;
+        goto SpawnLoop;
+    };
+
+    macro Add(height, addtype, teletype) {
+        TNT1 A 0 {
+            A_SpawnItemEx(addtype, 0, 0, height);
+            A_SpawnItemEx(teletype, 0, 0, height);
+        };
+    };
+
+    label SpawnLoop {
+        TNT1 A 20;
+        x 50 sometimes 20 TNT1 A 5;
+        x 3 index which_fox sometimes 50 {
+            inject Add(which_fox * 40, foxtype, class extends TeleportFog {
+                set Translation to "Ice";
+            });
+        };
+        TNT1 A 2;
+        loop;
+    };
+}
+
+derive FoxyFountain      as BaseFoxyFountain::("MSA_Fox");
+derive FoxyFountain_Good as BaseFoxyFountain::("MSA_Fox_Good");

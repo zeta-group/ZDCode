@@ -235,7 +235,7 @@
             "changes": [
                 "Added class grouping",
                 "Added for loops for iteration",
-                "Added group iteration - 'for classname in my_group {...}'",
+                "Added group iteration - 'for classname index iter_idx in my_group {...}'",
                 "Added extern macro injection - 'from OtherClass inject SomeMacro();'",
                 "Added human-readable compilation context description",
                 "Added global scope macros",
@@ -250,6 +250,19 @@
             "name": "2.9.1",
             "changes": [
                 "Fixed typo-related fatal crash in stdin-stdout compilation"
+            ]
+        },
+
+        {
+            "name": "2.10.0",
+            "changes": [
+                "Rewrote program.py; command syntax now includes bundling from PK3s and folders",
+                "Added for-like index enumeration syntax to repeats - 'x 20 index rep_idx inject SpawnStuff(\"HealthBonus\", 0, 0, rep_idx * 22)'",
+                "Added break and continue support to for, repeat, while and whilejump loops",
+                "Added return support to macros",
+                "Fixed include checking",
+                "Fixed regular class grouping",
+                "Removed mkexamples.py"
             ]
         }
     ]
