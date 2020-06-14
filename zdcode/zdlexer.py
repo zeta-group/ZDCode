@@ -1,9 +1,16 @@
+# pylint: disable=unreachable
 import re
 import sys
 import os
 import glob
 import traceback
 import parsy
+
+try:
+    import simplejson as json
+
+except ImportError:
+    import json
 
 from parsy import generate, string, regex, seq, whitespace, success, fail
 
@@ -70,8 +77,14 @@ class ZDParseError(BaseException):
         return "expected one of {} at line {}{} {}:\n> {}\n{}^".format(', '.join(repr(l) for l in self.parsy_error.expected), error_line, ':' + str(self.parsy_error.index - self.postline[4]), 'of input code' if filename is None else 'in "{}"'.format(filename), line_source, ' ' * max(0, self.parsy_error.index - self.postline[4] + 2))
 
 @generate
+def state_modifier_name():
+    return (s('{') >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('modifier parameter name').tag('replace') << s('}') | regex(r'[a-zA-Z\(\)0-9\'\",\w"]').tag('char')).many().desc('modifier body')
+    yield
+
+@generate
 def modifier():
-    return string('[').then((s('{') >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('modifier parameter name').tag('replace') << s('}') | regex('[a-zA-Z\(\)0-9\'\",\w"]').tag('char')).many().desc('modifier body')).skip(s(']'))
+    # State modifier. Not to be confused with the 'mod' modifier block.
+    return string('[').then(state_modifier_name).skip(s(']'))
     yield
 
 def _apply_replacements(expr, replacements):
@@ -163,12 +176,12 @@ def argument_list():
 
 @generate
 def macro_argument_list():
-    return wo >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro argument name').sep_by(regex(r',\s*')) << wo
+    return wo >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('macro argument name').sep_by(regex(r',\s*')) << wo
     yield
 
 @generate
 def template_parameter_list():
-    return wo >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('template parameter name').sep_by(regex(r',\s*')) << wo
+    return wo >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('template parameter name').sep_by(regex(r',\s*')) << wo
     yield
 
 @generate
@@ -193,13 +206,13 @@ parameter_list = specialized_parameter_list(parameter)
 
 @generate
 def actor_function_call():
-    return ist('call ').desc("'call' statement").then(regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('called function name'))
+    return ist('call ').desc("'call' statement").then(regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('called function name'))
     yield
 
 @generate
 def state_call():
     return seq(
-        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('called state function name').skip(wo),
+        regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('called state function name').skip(wo),
         s('(').then(wo).then(
             expr_argument_list
         ).skip(wo).skip(s(')')).optional()
@@ -224,7 +237,7 @@ def break_statement():
 @generate
 def call_literal():
     return seq(
-        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('called expression function name') << wo,
+        regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('called expression function name') << wo,
         (s('(') >> wo >>
             expr_argument_list
         << wo << s(')'))
@@ -233,44 +246,44 @@ def call_literal():
 
 @generate
 def label():
-    return (seq(((ist("label") | ist('state')) << whitespace) >> regex('[a-zA-Z_]+').desc('label name').tag('name'), state_body.tag('body')).map(dict) << wo)
+    return (seq(((ist("label") | ist('state')) << whitespace) >> regex(r'[a-zA-Z_]+').desc('label name').tag('name'), state_body.tag('body')).map(dict) << wo)
     yield
 
 @generate
 def templated_class_derivation():
     return seq(
-        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of templated class').skip(wo),
+        regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('name of templated class').skip(wo),
         (s('::(').then(wo).then(
             parameter_list.optional().map(lambda x: x if x and tuple(x) != ('',) else [])
         ).skip(wo).skip(s(')'))),
         (
             wo.then(s('{')).then(
                 wo.then(
-                    (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('flag') |
-                    (((ist("isn't") << whitespace) | string('-')) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
+                    (((ist('is') << whitespace) | string("+")) >> regex(r'[a-zA-Z0-9_\.]+').desc('flag name')).tag('flag') |
+                    (((ist("isn't") << whitespace) | string('-')) >> regex(r'[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
 
                     ist("macro").then(whitespace).then(seq(
-                        regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
+                        regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
                         (wo >> s('(') >> macro_argument_list << s(')') << wo).optional().map(lambda a: a or []).tag('args'),
                         state_body.tag('body')
                     ).map(dict).desc('override macro').tag('macro')) |
                     
                     seq(
-                        (ist('set') >> whitespace).desc("'set' keyword") >> regex('[a-zA-Z0-9_\.]+').tag('name'),
+                        (ist('set') >> whitespace).desc("'set' keyword") >> regex(r'[a-zA-Z0-9_\.]+').tag('name'),
                         ((whitespace >> ist('to') << whitespace) | (wo >> s('=') << wo)).desc("'to' or equal sign") >> parameter.sep_by((s(',') << wo)).tag('value')
                     ).map(dict).tag('property') |
 
                     label.desc('override label').tag('label') |
 
                     ((ist('var') << whitespace) >> seq(
-                        regex('user_[a-zA-Z0-9_]+').desc('var name').tag('name'),
+                        regex(r'user_[a-zA-Z0-9_]+').desc('var name').tag('name'),
                         (wo.then(s('[')).then(replaceable_number).skip(s(']'))).optional().map(lambda x: int(x or 0)).tag('size'),
-                        (wo.then(s(':')).then(wo).then(regex('[a-zA-Z_.][a-zA-Z0-9_]+'))).desc('var type').optional().map(lambda t: t or 'int').tag('type'),
+                        (wo.then(s(':')).then(wo).then(regex(r'[a-zA-Z_.][a-zA-Z0-9_]+'))).desc('var type').optional().map(lambda t: t or 'int').tag('type'),
                         (wo.then(s('=')).then(expression.tag('val') | array_literal.tag('arr'))).optional().tag('value')
                     ).map(dict).tag('user var')) |
 
                     ((ist('array') << whitespace) >> seq(
-                        regex('user_[a-zA-Z0-9_]+').desc('array name').tag('name'),
+                        regex(r'user_[a-zA-Z0-9_]+').desc('array name').tag('name'),
                         (wo >> s('=') >> wo >> array_literal).desc('array values').tag('value')
                     ).map(dict).desc('override array').tag('array'))
                 ).skip(wo).skip(s(';')).skip(wo).many().optional()
@@ -282,7 +295,7 @@ def templated_class_derivation():
 @generate
 def static_template_derivation():
     return wo >> seq(
-        ist('derive') >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('name of derived class').tag('classname'),
+        ist('derive') >> whitespace >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('name of derived class').tag('classname'),
         ((ist('group') << whitespace).desc('group keyword') >> group_name).optional().map(lambda x: x or None).tag('group'),
         whitespace >> ist('as') >> whitespace >> templated_class_derivation.tag('source'),
         
@@ -290,49 +303,60 @@ def static_template_derivation():
     yield
 
 @generate
+def mod_name():
+    return regex(r'[a-zA-Z_-][a-zA-Z_0-9-]+')
+    yield
+
+@generate
+def mod_block():
+    return (seq((ist("mod") << whitespace) >> mod_name.desc('modifier name'), mod_block_body) << wo)
+    yield
+
+@generate
 def class_body():
     return wo.then(
             seq(
-                ist("macro") >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
+                ist("macro") >> whitespace >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
                 (wo >> s('(') >> macro_argument_list << s(')') << wo).optional().map(lambda a: a or []).tag('args'),
                 state_body.tag('body')
             ).map(dict).tag('macro') |
             seq(
-                (ist('set') >> whitespace).desc("'set' keyword") >> regex('[a-zA-Z0-9_\.]+').tag('name'),
+                (ist('set') >> whitespace).desc("'set' keyword") >> regex(r'[a-zA-Z0-9_\.]+').tag('name'),
                 ((whitespace >> ist('to') << whitespace) | (wo >> s('=') << wo)).desc("'to' or equal sign") >> parameter.sep_by((s(',') << wo)).tag('value')
             ).map(dict).tag('property') |
-            (((ist('is') << whitespace) | string("+")) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('flag') |
+            (((ist('is') << whitespace) | string("+")) >> regex(r'[a-zA-Z0-9_\.]+').desc('flag name')).tag('flag') |
             (ist('var') << whitespace) >> seq(
-                regex('user_[a-zA-Z0-9_]+').desc('var name').tag('name'),
+                regex(r'user_[a-zA-Z0-9_]+').desc('var name').tag('name'),
                 (wo >> s('[') >> replaceable_number << s(']')).desc('array size').optional().map(lambda x: int(x or 0)).tag('size'),
-                (wo >> s(':') >> wo >> regex('[a-zA-Z_.][a-zA-Z0-9_]+')).desc('var type').optional().map(lambda t: t or 'int').tag('type'),
+                (wo >> s(':') >> wo >> regex(r'[a-zA-Z_.][a-zA-Z0-9_]+')).desc('var type').optional().map(lambda t: t or 'int').tag('type'),
                 (wo >> s('=') >> (expression.tag('val') | array_literal.tag('arr'))).optional().tag('value')
             ).map(dict).tag('user var') |
-            (((ist("isn't") << whitespace) | string('-')) >> regex('[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
-            (ist('combo') >> whitespace >> regex('[a-zA-Z0-9_]+').desc('combo name')).tag('flag combo') |
-            seq((ist("function ") | ist('method ')) >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('function name').tag('name'), state_body.tag('body')).map(dict).tag('function') |
-            label.tag('label')
+            (((ist("isn't") << whitespace) | string('-')) >> regex(r'[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
+            (ist('combo') >> whitespace >> regex(r'[a-zA-Z0-9_]+').desc('combo name')).tag('flag combo') |
+            seq((ist("function ") | ist('method ')) >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('function name').tag('name'), state_body.tag('body')).map(dict).tag('function') |
+            label.tag('label') |
+            mod_block.tag('mod')
     ).skip(wo) << s(';') << wo
     yield
 
 @generate
 def abstract_label_body():
-    return (ist("abstract label") | ist('abstract state')) >> whitespace >> regex('[a-zA-Z_]+').desc('label name') << s(';')
+    return (ist("abstract label") | ist('abstract state')) >> whitespace >> regex(r'[a-zA-Z_]+').desc('label name') << s(';')
     yield
 
 @generate
 def abstract_array_body():
     return seq(
-        ist("abstract array") >> whitespace >> regex('user_[a-zA-Z0-9_]+').desc('array name').tag('name'),
+        ist("abstract array") >> whitespace >> regex(r'user_[a-zA-Z0-9_]+').desc('array name').tag('name'),
         (wo >> s('[') >> replaceable_number << s(']')).optional().map(lambda x: int(x) if x else 'any').tag('size'),
-        (wo >> s(':') >> wo >> regex('[a-zA-Z_.][a-zA-Z0-9_]+')).desc('var type').optional().map(lambda t: t or 'int').tag('type')
+        (wo >> s(':') >> wo >> regex(r'[a-zA-Z_.][a-zA-Z0-9_]+')).desc('var type').optional().map(lambda t: t or 'int').tag('type')
     ).map(dict) << wo << s(';') << wo
     yield
 
 @generate
 def abstract_macro_body():
     return seq(
-        ist("abstract macro") >> whitespace >> regex('[a-zA-Z_]+').desc('macro name').tag('name') << wo,
+        ist("abstract macro") >> whitespace >> regex(r'[a-zA-Z_]+').desc('macro name').tag('name') << wo,
         (s('(') >> wo >> macro_argument_list << wo << s(')')).optional().map(lambda x: x or []).tag('args')
     ).map(dict) << wo << s(';') << wo
     yield
@@ -341,7 +365,7 @@ def abstract_macro_body():
 def sprite_name():
     return (
         (regex(r'[A-Z0-9_]{4}') | s('"#"')).tag('normal') |
-        (ist('param') >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*')).tag('parametrized')
+        (ist('param') >> whitespace >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*')).tag('parametrized')
     )
     yield
 
@@ -349,7 +373,7 @@ def sprite_name():
 def superclass():
     return (
         templated_class_derivation |
-        regex('[a-zA-Z][a-zA-Z0-9_]+').tag('classname')
+        regex(r'[a-zA-Z][a-zA-Z0-9_]+').tag('classname')
     )
     yield
 
@@ -357,18 +381,18 @@ def superclass():
 def group_declaration():
     return seq(
         ((ist('group') << whitespace).desc('group statement') >> wo >> group_name).tag('name'),
-        (wo >> s('{') >> regex('[a-zA-Z0-9_]+').sep_by(s(',') << wo) << s('}')).optional().map(lambda x: x if x and tuple(x) != ('',) else []).tag('items')
+        (wo >> s('{') >> regex(r'[a-zA-Z0-9_]+').sep_by(s(',') << wo) << s('}')).optional().map(lambda x: x if x and tuple(x) != ('',) else []).tag('items')
     ) << s(';')
     yield
 
 @generate
 def actor_class():
     return seq(
-        ((ist('actor') | ist('class')) << whitespace).desc("class statement") >> regex('[a-zA-Z0-9_]+').desc('class name').tag('classname'),
+        ((ist('actor') | ist('class')) << whitespace).desc("class statement") >> regex(r'[a-zA-Z0-9_]+').desc('class name').tag('classname'),
         ((whitespace >> ist('group') << whitespace).desc('group keyword') >> group_name).optional().map(lambda x: x or None).tag('group'),
         ((whitespace >> (ist('inherits') | ist('extends') | ist('expands'))) >> whitespace >> superclass.desc('inherited class')).optional().tag('inheritance').desc('inherited class name'),
-        (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
-        (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
+        (whitespace >> (ist('replaces') >> whitespace >> regex(r'[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
+        (whitespace >> s('#') >> regex(r'[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
 
         (s('{') >> wo >> class_body.many().optional() << wo.then(s('}')).skip(wo)).tag('body')
     )
@@ -378,11 +402,11 @@ def actor_class():
 def templated_actor_class():
     return seq(
         (ist('actor') | ist('class') | ist('template')).desc("class template") >> s('<') >> template_parameter_list.tag('parameters') << s('>') << wo,
-        regex('[a-zA-Z0-9_]+').desc('class name').tag('classname'),
+        regex(r'[a-zA-Z0-9_]+').desc('class name').tag('classname'),
         ((whitespace >> ist('group') << whitespace).desc('group keyword') >> group_name).optional().map(lambda x: x or None).tag('group'),
         ((whitespace >> (ist('inherits') | ist('extends') | ist('expands'))) >> whitespace >> superclass.desc('inherited class')).optional().tag('inheritance').desc('inherited class name'),
-        (whitespace >> (ist('replaces') >> whitespace >> regex('[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
-        (whitespace >> s('#') >> regex('[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
+        (whitespace >> (ist('replaces') >> whitespace >> regex(r'[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
+        (whitespace >> s('#') >> regex(r'[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
 
         (s('{') >> wo >> (abstract_macro_body.desc('abstract macro').tag('abstract macro') | abstract_array_body.desc('abstract array').tag('abstract array') | abstract_label_body.desc('abstract label').tag('abstract label') | class_body).many().optional() << wo.then(s('}')).skip(wo)).tag('body')
     )
@@ -469,20 +493,150 @@ def flow_control():
 @generate
 def macro_call():
     return seq(
-        ( ist('from').desc("'from' determiner").then(whitespace).then(regex('\@*[a-zA-Z_][a-zA-Z_0-9]*').desc('extern macro classname')).skip(whitespace) ).optional().map(lambda x: x or None),
-        ist('inject').desc("'inject' statement").then(whitespace).then(regex('\@*[a-zA-Z_][a-zA-Z_0-9]*').desc('injected macro name')).skip(wo),
+        ( ist('from').desc("'from' determiner").then(whitespace).then(regex(r'\@*[a-zA-Z_][a-zA-Z_0-9]*').desc('extern macro classname')).skip(whitespace) ).optional().map(lambda x: x or None),
+        ist('inject').desc("'inject' statement").then(whitespace).then(regex(r'\@*[a-zA-Z_][a-zA-Z_0-9]*').desc('injected macro name')).skip(wo),
         (s('(') >> expr_argument_list.desc("macro arguments") << s(')')).optional().map(lambda x: x or [])
     )
     yield
 
 @generate
 def state():
-    return (return_statement.tag('return') | break_statement.tag('break') | continue_statement.tag('continue') | if_statement.tag('if') | ifjump_statement.tag('ifjump') | whilejump_statement.tag('whilejump') | for_statement.tag('for') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat')) << s(';')
+    return state_no_colon << s(';')
     yield
 
 @generate
 def state_no_colon():
-    return (return_statement.tag('return') | break_statement.tag('break') | continue_statement.tag('continue') | if_statement.tag('if') | ifjump_statement.tag('ifjump') | whilejump_statement.tag('whilejump') | for_statement.tag('for') | sometimes_statement.tag('sometimes') | while_statement.tag('while') | actor_function_call.tag('call') | macro_call.tag('inject') | flow_control.tag('flow') | normal_state.tag('frames') | repeat_statement.tag('repeat'))
+    return (
+        return_statement.tag('return') |
+        break_statement.tag('break') |
+        continue_statement.tag('continue') |
+        if_statement.tag('if') |
+        ifjump_statement.tag('ifjump') |
+        whilejump_statement.tag('whilejump') |
+        for_statement.tag('for') |
+        sometimes_statement.tag('sometimes') |
+        while_statement.tag('while') |
+        actor_function_call.tag('call') |
+        apply_block.tag('apply') |
+        macro_call.tag('inject') |
+        flow_control.tag('flow') |
+        normal_state.tag('frames') |
+        repeat_statement.tag('repeat')
+    )
+    yield
+
+# Modifier effect functions.
+def mod_flag(mod):
+    def _eff(code, ctx, state):
+        state.keywords.append(code._parse_state_modifier(mod))
+        yield
+    return _eff
+
+def mod_prefix(pre):
+    def _eff(code, ctx, state):
+        yield from code._parse_state_expr(ctx, state)
+        yield state
+    return _eff
+
+def mod_suffix(pre):
+    def _eff(code, ctx, state):
+        yield state
+        yield from code._parse_state_expr(ctx, state)
+    return _eff
+
+def mod_manipulate(state_macro_name, state_body):
+    def _eff(code, ctx, state):
+        fake_macro = [state]
+        
+        new_ctx = ctx.derive('effect manipulation')
+        new_ctx.macros[state_macro_name.upper()] = fake_macro
+        
+        yield from code._parse_state_expr(new_ctx, state_body)
+    return _eff
+
+@generate
+def modifier_effect():
+    # A modifier effect.
+    return (
+        (ist('flag') >> wo >> state_modifier_name).map(mod_flag),
+        (ist('prefix') >> wo >> state_body).map(mod_prefix),
+        (ist('suffix') >> wo >> state_body).map(mod_suffix),
+        (ist('manipulate') >> wo >> seq(
+            regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('virtual macro name') << wo,
+            state_body.desc('manipulated state body template')
+        )).tag('manipulate'),
+    )
+    yield
+    
+@generate
+def modifier_effect_body():
+    # A modifier effect with semicolon.
+    return (
+        modifier_effect << wo << s(';') << wo
+    )
+    yield
+
+@generate
+def modifier_selector_basic():
+    # A basic state selector, the building blocks of a
+    # state selector in a modifier
+
+    return (
+        ist('all') .result(lambda _: True),
+        ist('none').result(lambda _: False),
+        
+        (
+            (ist('flag') >> wo >> s('(') >> state_modifier_name << s(')'))
+                .map(lambda name: (
+                    lambda code, ctx, state: state.keywords and code._parse_state_modifier(ctx, name) in state.keywords
+                ))
+        ).desc('flag selector'),
+
+        (
+            (ist('sprite') >> wo >> s('(') >> sprite_name << s(')'))
+                .map(lambda name: (
+                    lambda code, ctx, state: code._parse_state_sprite(ctx, name) == state.sprite
+                ))
+        ).desc('sprite selector'),
+    )
+    yield
+
+@generate
+def modifier_selector_expr():
+    # A selector is an expression, always enclosed between
+    # parens, where basic selectors are joined by boolean
+    # logic.
+
+    return wo >> s('(') >> wo >> (
+        modifier_selector_basic | (
+            (s('(') >> modifier_selector_expr << s(')')) |
+            (s('!') >> wo >> modifier_selector_expr).map(lambda a: (lambda code, ctx, state: not a(code, ctx, state))) |
+            (seq(modifier_selector_expr, wo >> s('&&') >> wo >> modifier_selector_expr)).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state) and a[1](code, ctx, state))) |
+            (seq(modifier_selector_expr, wo >> s('||') >> wo >> modifier_selector_expr)).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state)  or a[1](code, ctx, state))) |
+            (seq(modifier_selector_expr, wo >> s('^^') >> wo >> modifier_selector_expr)).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state)  != a[1](code, ctx, state)))
+        )
+    ) << wo << s(')') << wo
+    yield
+
+@generate
+def modifier_clause():
+    # One clause, a selector and its respective effects.
+    return seq(
+        modifier_selector_expr.desc('modifier selector expression'),
+        (
+            modifier_effect_body.map(lambda e: [e]) |
+            (wo >> s('{') >> wo >> modifier_effect_body.many() << wo << s('}') << wo << s(';'))
+        ).desc('modifier effects body')
+    )
+    yield
+
+@generate
+def mod_block_body():
+    return modifier_clause.map(lambda a: [a]) | (
+        wo >> s('{') >> wo >> (
+            (modifier_clause << wo << s(';')).many()
+        ) << wo << s('}') << wo << s(';')
+    )
     yield
 
 @generate
@@ -505,6 +659,18 @@ def sometimes_statement():
         state_body.optional().map(lambda x: x if x != None else []).tag('body')
     )
     yield
+
+@generate
+def apply_block():
+    return seq(
+        ist('apply').desc('apply statement')
+        .then(whitespace)
+            .then(mod_name)
+        .skip(wo),
+
+        state_body.desc('apply block body')
+        .skip(wo)
+    )
 
 @generate
 def if_statement():
@@ -655,7 +821,7 @@ def anonymous_macro():
 @generate
 def macro_def():
     return seq(
-        ist("macro") >> whitespace >> regex('[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
+        ist("macro") >> whitespace >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
         (wo >> s('(') >> macro_argument_list << s(')') << wo).optional().map(lambda a: a or []).tag('args'),
         state_body.tag('body')
     ).map(dict).tag('macro')
@@ -700,7 +866,7 @@ def preprocess_for_macros(code, defines=(), this_fname=None, i=0):
                 traceback.print_exc()
                 print()
 
-                raise PreprocessingError("Unexpected error using parametrized preprocessor alias '{}'".format(key), i, this_fname, code + '\n\n')
+                raise PreprocessingError("Unexpected parse error using parametrized preprocessor alias '{}' ({})".format(key, e), i, this_fname, code + '\n\n')
 
             if len(d_args) != len(args):
                 raise PreprocessingError("Bad number of arguments using parametrized preprocessor alias '{}': expected {}, got {}!".format(key, len(d_args), len(args)), i, this_fname, code)
@@ -708,8 +874,8 @@ def preprocess_for_macros(code, defines=(), this_fname=None, i=0):
             v = val
 
             for aname, aval in zip(d_args, args):
-                ov = v
-                v = re.sub('\({}\)'.format(re.escape(aname)), '({})'.format(aval), v)
+                #ov = v
+                v = re.sub(r'\({}\)'.format(re.escape(aname)), '({})'.format(aval), v)
 
             res = preprocess_for_macros(v, defines, this_fname, i)
             nl += res
@@ -833,7 +999,7 @@ def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_
                 if gname:
                     for fname in gname:
                         if not os.path.isfile(fname):
-                            raise PreprocessingError("The module '{}' was not found".format(fname, i, this_fname, check_line_case))
+                            raise PreprocessingError("The module '{}' was not found".format(fname), i, this_fname, check_line_case)
 
                         if imports.get(fname, object()) == this_fname:
                             raise PreprocessingError("The module '{}' was found in an infinite import cycle!".format(fname), i, this_fname, check_line_case)

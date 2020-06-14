@@ -233,7 +233,7 @@ class ZDState(object):
 
         self.sprite = sprite
         self.frame = frame
-        self.keywords = keywords
+        self.keywords = keywords or []
         self.action = action
         self.duration = duration
 
@@ -258,6 +258,43 @@ class ZDState(object):
             " ".join(keywords),
             action
         )
+
+class ZDDummyActor:
+    def __init__(self, code, context=None, _id=None):
+        if context:
+            self.context = context.derive()
+
+        else:
+            self.context = ZDCodeParseContext()
+
+        ZDBaseActor.__init__(self, code, None, None, None, None, _id)
+        
+    def get_context(self):
+        return self.context
+
+    def __decorate__(self):
+        raise NotImplementedError
+
+class ZDDummyLabel(object):
+    def __init__(self, actor, states=None):
+        if not states:
+            states = []
+
+        self.name = None
+        self.states = states
+        self._actor = actor
+
+    def __repr__(self):
+        return '[dummy state]'
+
+    def label_name(self):
+        raise NotImplementedError
+
+    def __decorate__(self):
+        raise NotImplementedError
+
+    def add_state(self, state):
+            self.states.append(state)
 
 class ZDLabel(object):
     def __init__(self, _actor, name, states=None, auto_append=True):
@@ -352,6 +389,9 @@ class ZDActor(ZDBaseActor):
 
         # code.actor_names[name.upper()] = self
 
+    def get_context(self):
+        return self.context
+
     def make_spawn_label(self):
         return ZDLabel(self, 'Spawn', [ZDRawDecorate('goto Super::Spawn' if self.inherit else 'stop')], auto_append=False)
 
@@ -385,9 +425,6 @@ class ZDActor(ZDBaseActor):
 
         elif label:
             label.states.insert(0, ZDState("TNT1", "A"))
-
-    def get_context(self):
-        return self.context
 
     def top(self):
         r = []
@@ -504,7 +541,12 @@ class ZDClassTemplate(ZDBaseActor):
         inh = self.inherit and context.replacements.get(self.inherit.upper(), self.inherit) or None
         rep = self.replace and context.replacements.get(self.replace.upper(), self.replace) or None
 
-        res = ZDActor(self.code, new_name, inh, rep, self.num, context=context)
+        context_new = context.derive('derivation of template {}'.format(self.name))
+        
+        context_new.replacements.update(self.get_init_replacements(parameter_values))
+        context_new.replacements['SELF'] = stringify(new_name)
+
+        res = ZDActor(self.code, new_name, inh, rep, self.num, context=context_new)
 
         for l in self.abstract_label_names:
             if l not in provided_label_names:
@@ -528,7 +570,7 @@ class ZDClassTemplate(ZDBaseActor):
 
         return (True, res)
 
-    def get_init_replacements(self, code, context, parameter_values):
+    def get_init_replacements(self, parameter_values):
         return dict(zip((p.upper() for p in self.template_parameters), parameter_values))
 
 class ZDBlock(object):
@@ -804,11 +846,12 @@ class CompilerError(Exception):
     pass
 
 class ZDCodeParseContext(object):
-    def __init__(self, replacements=(), macros=(), templates=(), calls=(), actors=(), remote_offset=0):
-        self.includes = {}
+    def __init__(self, replacements=(), macros=(), templates=(), calls=(), actors=(), mods=(), applied_mods=(), remote_offset=0):
         self.macros = dict(macros)
         self.replacements = dict(replacements)
         self.templates = dict(templates)
+        self.mods = dict(mods)
+        self.applied_mods = list(applied_mods)
         self.call_lists = list(calls) if calls else [[]]
         self.actor_lists = list(actors) if actors else [[]]
         self.desc_stack = []
@@ -882,7 +925,7 @@ class ZDCodeParseContext(object):
 
     def remote_derive(self, desc: str = None, remote_offset: int = 0) -> "ZDCodeParseContext":
         # derives without adding to states
-        res = ZDCodeParseContext(self.replacements, self.macros, self.templates, self.call_lists, self.actor_lists, remote_offset)
+        res = ZDCodeParseContext(self.replacements, self.macros, self.templates, self.call_lists, self.actor_lists, self.mods, remote_offset)
         res.desc_stack = list(self.desc_stack)
         
         if desc:
@@ -893,7 +936,7 @@ class ZDCodeParseContext(object):
         return res
 
     def derive(self, desc: str = None) -> "ZDCodeParseContext":
-        res = ZDCodeParseContext(self.replacements, self.macros, self.templates, self.call_lists, self.actor_lists)
+        res = ZDCodeParseContext(self.replacements, self.macros, self.templates, self.call_lists, self.actor_lists, self.mods, self.applied_mods)
         res.desc_stack = list(self.desc_stack)
         
         if desc:
@@ -913,6 +956,7 @@ class ZDCodeParseContext(object):
         self.macros.update(other_ctx.macros)
         self.replacements.update(other_ctx.replacements)
         self.templates.update(other_ctx.templates)
+        self.mods.update(other_ctx.mods)
 
     def add_call(self, c: ZDCall):
         for cl in self.call_lists:
@@ -942,7 +986,7 @@ class ZDCodeParseContext(object):
                     name = self.replacements[name]
 
             else:
-                raise CompilerError("No such replacement {} while trying to resolve {} in {}!".format(repr(casename), self.describe()))
+                raise CompilerError("No such replacement {} while trying to resolve {} in {}!".format(repr(name), repr(casename), self.describe()))
                 
         return name
 
@@ -975,13 +1019,32 @@ class ZDCtxDescBlock:
     def __exit__(self, _1, _2, _3):
         assert self.ctx.desc_stack.pop() == self.desc
 
-class ZDCode(object):
+class ZDModClause:
+    def __init__(self, code: "ZDCode", ctx: ZDCodeParseContext, selector, effects):
+        self.code = code
+        self.context = ctx
+        self.selector = selector
+        self.effects = effects
+
+    def apply(self, ctx: ZDCodeParseContext, states):
+        clause_ctx = self.context.derive('mod clause')
+        clause_ctx.update(ctx)
+    
+        for s in states:
+            if self.selector(self.code, clause_ctx, s):
+                for eff in self.effects:
+                    yield from eff(self.code, clause_ctx, s)
+
+            else:
+                yield s
+
+class ZDCode:
     class ZDCodeError(BaseException):
         pass
 
     @classmethod
     def parse(cls, code, fname=None, dirname='.', error_handler=None):
-        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, filename=fname, error_handler=error_handler, imports=self.includes)
+        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, filename=fname, error_handler=error_handler)
 
         if data:
             res = cls()
@@ -999,7 +1062,7 @@ class ZDCode(object):
             return None
 
     def add(self, code, fname=None, dirname='.', error_handler=None):
-        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, filename=fname, error_handler=error_handler)
+        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, filename=fname, error_handler=error_handler, imports=self.includes)
 
         if data:
             try:
@@ -1082,7 +1145,7 @@ class ZDCode(object):
             return self._parse_anonym_class(literal[1], context)
 
         elif literal[0] == 'template derivation':
-            return self._parse_template_derivation(literal[1])
+            return self._parse_template_derivation(literal[1], context)
 
     def _parse_array(self, arr, context):
         arr = dict(arr)
@@ -1261,12 +1324,83 @@ class ZDCode(object):
         
         return self._maybe_mutate_block(self._mutate_iter_state, state, break_context, loop_context)
 
-    def _parse_state(self, actor, context: ZDCodeParseContext, label, s, func=None, alabel=None):
+    def _parse_state_modifier(self, context: ZDCodeParseContext, modifier_chars):
+        res = ''
+
+        for mod in modifier_chars:
+            res = ''
+        
+            for ctype, cval in mod:
+                if ctype == 'replace':
+                    try:
+                        cval = context.replacements[cval.upper()]
+
+                    except KeyError:
+                        raise CompilerError("No parameter {} for replacement within modifier, in {}!".format(cval, context.describe()))
+
+                res += cval
+
+        return res
+
+    def _parse_mod_clause(self, context: ZDCodeParseContext, selector, effects):
+        return ZDModClause(self, context, selector, effects)
+
+    def _parse_mod_block(self, context: ZDCodeParseContext, mod_block):
+        mod_name, mod_body = mod_block
+        new_clauses = []
+    
+        for selector, effects in mod_body:
+            new_clauses.append(self._parse_mod_clause(context, selector, effects))
+
+        context.mods[mod_name.upper()] = new_clauses
+
+    def _parse_state_sprite(self, context: ZDCodeParseContext, sprite):
+        sprite_type, sprite_name = sprite
+    
+        if sprite_type == 'normal':
+            name = sprite_name
+
+        elif sprite_type == 'parametrized':
+            try:
+                new_name = context.replacements[sprite_name.upper()]
+
+                if new_name[0] == "'" and new_name[-1] == "'":
+                    new_name = new_name[1:-1]
+
+                elif new_name[0] == '"' and new_name[-1] == '"':
+                    new_name = new_name[1:-1]
+
+                else:
+                    raise CompilerError("Parametrized sprite '{}' in {} needs to be passed a string; got {}".format(sprite_name, context.describe(), repr(new_name)))
+
+                name = new_name
+
+            except KeyError:
+                raise CompilerError("No parameter {} for parametrized sprite name, in {}!".format(repr(sprite_name), context.describe()))
+
+        return name
+
+    def _parse_state_expr(self, context: ZDCodeParseContext, s):
+        label = ZDDummyLabel(self)
+        actor = ZDDummyActor(self, context)
+        
+        self._parse_state(actor, context, label, s)
+
+        return label.states
+
+    def _parse_state(self, actor, context: ZDCodeParseContext, label, s, func=None):
         def add_state(s, target=context):
+            for m in context.applied_mods:
+                s = m.apply(s)
+
             target.states.append(s)
             label.states.append(s)
             
             return s
+
+        if hasattr(s, '__decorate__'):
+            add_state(s)
+            return
             
         def pop_remote(target=context):
             assert target.remote_children
@@ -1276,42 +1410,13 @@ class ZDCode(object):
             target.remote_children.clear()
     
         if s[0] == 'frames':        
-            (sprite_type, sprite_name), frames, duration, modifier_chars, action = s[1]
+            sprite, frames, duration, modifiers, action = s[1]
             modifiers = []
-            
-            for mod in modifier_chars:
-                res = ''
-            
-                for ctype, cval in mod:
-                    if ctype == 'replace':
-                        try:
-                            cval = context.replacements[cval.upper()]
 
-                        except KeyError:
-                            raise CompilerError("No parameter {} for replacement within modifier, in {}!".format(context.describe()))
+            for modifier_chars in modifiers:
+                modifiers.append(self._parse_state_modifier(context, modifier_chars))
 
-                    res += cval
-
-            if sprite_type == 'normal':
-                name = sprite_name
-
-            elif sprite_type == 'parametrized':
-                try:
-                    new_name = context.replacements[sprite_name.upper()]
-
-                    if new_name[0] == "'" and new_name[-1] == "'":
-                        new_name = new_name[1:-1]
-
-                    elif new_name[0] == '"' and new_name[-1] == '"':
-                        new_name = new_name[1:-1]
-
-                    else:
-                        raise CompilerError("Parametrized sprite '{}' in {} needs to be passed a string; got {}".format(sprite_name, context.describe(), repr(new_name)))
-
-                    name = new_name
-
-                except KeyError:
-                    raise CompilerError("No parameter {} for parametrized sprite name, in {}!".format(repr(sprite_name), context.describe()))
+            name = self._parse_state_sprite(context, sprite)
 
             if frames == '"#"':
                 frames = ['"#"']
@@ -1387,6 +1492,21 @@ class ZDCode(object):
                 self._parse_state(actor, context, sms, a, func)
 
             add_state(sms)
+
+        elif s[0] == 'apply':
+            apply_mod, apply_block = s[1]
+
+            try:
+                mod = context.mods[apply_mod.upper()]  # type: List[ZDModClause]
+
+            except KeyError:
+                raise CompilerError("Tried to apply unkown state mod {} in apply statement inside {}!".format(repr(apply_mod), context.describe()))
+
+            apply_ctx = context.derive()
+            apply_ctx.applied_mods += mod
+
+            for a in apply_block:
+                self._parse_state(actor, apply_ctx, label, self._mutate_iter_state(a, apply_ctx, apply_ctx), func)
 
         elif s[0] == 'if':
             ifs = ZDIfStatement(actor, self._parse_expression(s[1][0], context), [])
@@ -1599,11 +1719,7 @@ class ZDCode(object):
 
         name = name or template.generated_class_name(param_values, make_id(40))
 
-        new_context = context.derive('derivation of template {}'.format(template.name))            
-        new_context.replacements.update(template.get_init_replacements(self, context, param_values))
-        new_context.replacements['SELF'] = '"' + repr(name)[1:-1] + '"'
-
-        needs_init, actor = template.generate_init_class(self, new_context, param_values, {l.upper() for l in labels.keys()}, {m['name'].upper(): m['args'] for m in macros.values()}, {a['name'].upper(): len(a['value']) for a in arrays.values()}, name=name)
+        needs_init, actor = template.generate_init_class(self, context, param_values, {l.upper() for l in labels.keys()}, {m['name'].upper(): m['args'] for m in macros.values()}, {a['name'].upper(): len(a['value']) for a in arrays.values()}, name=name)
         new_context = actor.get_context()
 
         if needs_init:
@@ -1624,8 +1740,7 @@ class ZDCode(object):
 
                             act.uservars.append({'name': bdata['name'], 'size': len(bdata['value'][1]), 'value': ('arr', bdata['value'][1]), 'type': absarray['type']})
                     
-                    self._parse_class_body(act, new_ctx, body)
-                    self._parse_class_body(act, new_ctx, temp.parse_data)
+                    self._parse_class_body(act, new_ctx, temp.parse_data + body)
 
                 return pending_oper
 
@@ -1704,6 +1819,7 @@ class ZDCode(object):
                 abstract_labels = set()
                 abstract_macros = {}
                 abstract_arrays = {}
+                template_body   = []
                 
                 if a['group']:
                     g = unstringify(a['group'])
@@ -1726,7 +1842,10 @@ class ZDCode(object):
                     elif btype == 'abstract array':
                         abstract_arrays[bdata['name'].upper()] = bdata
 
-                template = ZDClassTemplate(a['parameters'], a['body'], abstract_labels, abstract_macros, abstract_arrays, g, self, a['classname'], self._parse_inherit(a['inheritance'], context), a['replacement'], a['class number'])
+                    else:
+                        template_body.append((btype, bdata))
+
+                template = ZDClassTemplate(a['parameters'], template_body, abstract_labels, abstract_macros, abstract_arrays, g, self, a['classname'], self._parse_inherit(a['inheritance'], context), a['replacement'], a['class number'])
                 context.templates[a['classname']] = template
 
         pending = queue.PriorityQueue()
@@ -1792,6 +1911,7 @@ class ZDCode(object):
             a.prepare_spawn_label()
 
     def __init__(self):
+        self.includes = {}
         self.inventories = []
         self.anonymous_classes = []
         self.actors = []
