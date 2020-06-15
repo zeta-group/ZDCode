@@ -34,7 +34,7 @@ class Bundle:
         code = ZDCode()
         build_tasks = []
         deps = list(self.mods)
-        bundled = set(self.mods)
+        bundled = set()
         
         # Scan input
         with tempfile.TemporaryDirectory() as destname:
@@ -45,6 +45,8 @@ class Bundle:
 
                 if mod in bundled:
                     continue
+                    
+                bundled.add(mod)
                 
                 mod_path = pathlib.Path(mod)
                     
@@ -79,7 +81,6 @@ class Bundle:
                                     raise BundleDependencyError('The file {} depends on {}, which does not exist, neither in the dependent\'s dir, nor in the working one!')
 
                                 deps.append(dep_path)
-                                bundled.add(dep_path)
                                 
                 elif mod_path.suffix.upper() in ('.PK3', '.PKZ'):
                     mod_dest = dest / mod_path.stem
@@ -109,7 +110,6 @@ class Bundle:
                                         raise BundleDependencyError('The file {} depends on {}, which does not exist, neither in the dependent\'s dir, nor in the working one!')
                                         
                                     deps.append(dep_path)
-                                    bundled.add(dep_path)
                                     
                 elif mod_path.suffix.upper() == '.ZC2':
                     build_tasks.append(self._compile_task(code, mod_path, error_handler or self.error_handler))
@@ -141,7 +141,7 @@ class Bundle:
                                 with asset_zip.open(info) as info_fp:
                                     asset_bundle.writestr(info, info_fp.read())
                         
-        # Write compiled output         
+        # Write compiled output        
         with zipfile.ZipFile(out_code_path, 'w') as code_bundle:
             code_bundle.writestr('DECORATE', code.decorate(), zipfile.ZIP_DEFLATED)
 

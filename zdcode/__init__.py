@@ -538,12 +538,13 @@ class ZDClassTemplate(ZDBaseActor):
         if self.group_name:
             self.code.groups[self.group_name].append(stringify(new_name))
 
-        inh = self.inherit and context.replacements.get(self.inherit.upper(), self.inherit) or None
-        rep = self.replace and context.replacements.get(self.replace.upper(), self.replace) or None
-
         context_new = context.derive('derivation of template {}'.format(self.name))
         
         context_new.replacements.update(self.get_init_replacements(parameter_values))
+
+        inh = self.inherit and context_new.replacements.get(self.inherit.upper(), self.inherit) or None
+        rep = self.replace and context_new.replacements.get(self.replace.upper(), self.replace) or None
+        
         context_new.replacements['SELF'] = stringify(new_name)
 
         res = ZDActor(self.code, new_name, inh, rep, self.num, context=context_new)
@@ -925,7 +926,7 @@ class ZDCodeParseContext(object):
 
     def remote_derive(self, desc: str = None, remote_offset: int = 0) -> "ZDCodeParseContext":
         # derives without adding to states
-        res = ZDCodeParseContext(self.replacements, self.macros, self.templates, self.call_lists, self.actor_lists, self.mods, remote_offset)
+        res = ZDCodeParseContext(self.replacements, self.macros, self.templates, self.call_lists, self.actor_lists, self.mods, self.applied_mods, remote_offset)
         res.desc_stack = list(self.desc_stack)
         
         if desc:

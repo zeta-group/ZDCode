@@ -671,6 +671,7 @@ def apply_block():
         state_body.desc('apply block body')
         .skip(wo)
     )
+    yield
 
 @generate
 def if_statement():
