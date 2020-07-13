@@ -17,6 +17,7 @@ from parsy import generate, string, regex, seq, whitespace, success, fail
 
 s = string
 fa = fail
+whitespace = whitespace.desc('whitespace')
 wo = whitespace.optional()
 
 def istring(st):
@@ -197,7 +198,7 @@ def parameter():
 def specialized_parameter_list(ptype):
     @generate
     def plist():
-        return ptype.sep_by(regex(r',\s*'))
+        return ptype.sep_by(s(',') >> wo, min=1)
         yield
 
     return plist
@@ -246,16 +247,29 @@ def call_literal():
 
 @generate
 def label():
-    return (seq(((ist("label") | ist('state')) << whitespace) >> regex(r'[a-zA-Z_]+').desc('label name').tag('name'), state_body.tag('body')).map(dict) << wo)
+    return (seq(((ist("label") | ist('state')) << whitespace) >> regex(r'[a-zA-Z\_\-]+').desc('label name').tag('name'), state_body.tag('body')).map(dict) << wo)
     yield
+
+def expression_not_empty(expr):
+    if expr[0] == 'expression':
+        return expression_not_empty(expr[1])
+        
+    elif expr[0] == 'expr':
+        return len(expr[1]) > 0
+        
+    else:
+        return bool(expr)
 
 @generate
 def templated_class_derivation():
     return seq(
         regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('name of templated class').skip(wo),
-        (s('::(').then(wo).then(
-            parameter_list.optional().map(lambda x: x if x and tuple(x) != ('',) else [])
-        ).skip(wo).skip(s(')'))),
+        (
+            (s('::()') >> success([])) |
+            (s('::(').then(wo).then(
+                parameter_list
+            ).skip(wo).skip(s(')')))
+        ),
         (
             wo.then(s('{')).then(
                 wo.then(
@@ -263,13 +277,13 @@ def templated_class_derivation():
                     (((ist("isn't") << whitespace) | string('-')) >> regex(r'[a-zA-Z0-9_\.]+').desc('flag name')).tag('unflag') |
 
                     ist("macro").then(whitespace).then(seq(
-                        regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('macro name').tag('name'),
+                        regex(r'[a-zA-Z\_][a-zA-Z\_0-9]*').desc('macro name').tag('name'),
                         (wo >> s('(') >> macro_argument_list << s(')') << wo).optional().map(lambda a: a or []).tag('args'),
                         state_body.tag('body')
-                    ).map(dict).desc('override macro').tag('macro')) |
+                    ).map(dict).tag('macro')) |
                     
                     seq(
-                        (ist('set') >> whitespace).desc("'set' keyword") >> regex(r'[a-zA-Z0-9_\.]+').tag('name'),
+                        (ist('set') >> whitespace).desc("'set' keyword") >> regex(r'[a-zA-Z0-9\_\.]+').tag('name'),
                         ((whitespace >> ist('to') << whitespace) | (wo >> s('=') << wo)).desc("'to' or equal sign") >> parameter.sep_by((s(',') << wo)).tag('value')
                     ).map(dict).tag('property') |
 
@@ -285,7 +299,9 @@ def templated_class_derivation():
                     ((ist('array') << whitespace) >> seq(
                         regex(r'user_[a-zA-Z0-9_]+').desc('array name').tag('name'),
                         (wo >> s('=') >> wo >> array_literal).desc('array values').tag('value')
-                    ).map(dict).desc('override array').tag('array'))
+                    ).map(dict).desc('override array').tag('array')) |
+                    
+                    mod_block.tag('mod')
                 ).skip(wo).skip(s(';')).skip(wo).many().optional()
             ).skip(s('}'))
         ).optional().map(lambda x: x or [])
@@ -487,7 +503,7 @@ def action_body_repeat():
 
 @generate
 def flow_control():
-    return (ist('stop') | ist('wait') | ist('fail') | ist('loop') | ist('goto') + whitespace.map(lambda _: ' ') + regex(r'[a-zA-Z0-9\:\.]+\s?(?:\+\d+)?'))
+    return (ist('stop') | ist('wait') | ist('fail') | ist('loop') | ist('goto') + whitespace.map(lambda _: ' ') + regex(r'[a-zA-Z0-9\_\-\:\.]+\s?(?:\+\d+)?'))
     yield
 
 @generate
@@ -558,23 +574,25 @@ def mod_manipulate(state_macro_name, state_body):
 def modifier_effect():
     # A modifier effect.
     return (
-        (ist('flag') >> wo >> state_modifier_name).map(mod_flag),
-        (ist('prefix') >> wo >> state_body).map(mod_prefix),
-        (ist('suffix') >> wo >> state_body).map(mod_suffix),
-        (ist('manipulate') >> wo >> seq(
+        (ist('flag').desc('flag effect') >> whitespace >> state_modifier_name).map(mod_flag) |
+        (ist('prefix').desc('prefix effect') >> whitespace >> state_body).map(mod_prefix) |
+        (ist('suffix').desc('suffix effect') >> whitespace >> state_body).map(mod_suffix) |
+        (ist('manipulate').desc('manipulate effect') >> whitespace >> seq(
             regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('virtual macro name') << wo,
             state_body.desc('manipulated state body template')
-        )).tag('manipulate'),
+        )).map(mod_manipulate)
     )
     yield
+
+def selector_flag(name):
+    def _sel(code, ctx, state):
+        return hasattr(state, 'keywords') and state.keywords and code._parse_state_modifier(ctx, name) in state.keywords
+    return _sel
     
-@generate
-def modifier_effect_body():
-    # A modifier effect with semicolon.
-    return (
-        modifier_effect << wo << s(';') << wo
-    )
-    yield
+def selector_name(name):
+    def _sel(code, ctx, state):
+        return hasattr(state, 'sprite') and code._parse_state_sprite(ctx, name) == state.sprite
+    return _sel
 
 @generate
 def modifier_selector_basic():
@@ -582,51 +600,40 @@ def modifier_selector_basic():
     # state selector in a modifier
 
     return (
-        ist('all') .result(lambda _: True),
-        ist('none').result(lambda _: False),
-        
-        (
-            (ist('flag') >> wo >> s('(') >> state_modifier_name << s(')'))
-                .map(lambda name: (
-                    lambda code, ctx, state: state.keywords and code._parse_state_modifier(ctx, name) in state.keywords
-                ))
-        ).desc('flag selector'),
-
-        (
-            (ist('sprite') >> wo >> s('(') >> sprite_name << s(')'))
-                .map(lambda name: (
-                    lambda code, ctx, state: code._parse_state_sprite(ctx, name) == state.sprite
-                ))
-        ).desc('sprite selector'),
+        (ist('flag') >> wo >> s('(') >> state_modifier_name << s(')')).map(selector_flag) |
+        (ist('sprite') >> wo >> s('(') >> sprite_name << s(')')).map(selector_name)
     )
     yield
 
 @generate
 def modifier_selector_expr():
-    # A selector is an expression, always enclosed between
-    # parens, where basic selectors are joined by boolean
-    # logic.
+    # A selector is a sort of selection condition expression,
+    # where basic selectors are joined by boolean logic.
 
-    return wo >> s('(') >> wo >> (
-        modifier_selector_basic | (
-            (s('(') >> modifier_selector_expr << s(')')) |
-            (s('!') >> wo >> modifier_selector_expr).map(lambda a: (lambda code, ctx, state: not a(code, ctx, state))) |
-            (seq(modifier_selector_expr, wo >> s('&&') >> wo >> modifier_selector_expr)).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state) and a[1](code, ctx, state))) |
-            (seq(modifier_selector_expr, wo >> s('||') >> wo >> modifier_selector_expr)).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state)  or a[1](code, ctx, state))) |
-            (seq(modifier_selector_expr, wo >> s('^^') >> wo >> modifier_selector_expr)).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state)  != a[1](code, ctx, state)))
-        )
-    ) << wo << s(')') << wo
+    return wo.then(
+        ist('any').map(lambda _: (lambda _1, _2, _3: True)).desc('any selector') |
+        modifier_selector_basic |
+        (s('(') >> (
+            modifier_selector_expr.skip(wo) |
+            ( # operators
+                (s('not').desc('not operator') >> whitespace >> modifier_selector_expr.skip(wo)).map(lambda a: (lambda code, ctx, state: not a(code, ctx, state))) |
+                (seq(modifier_selector_expr, whitespace >> s('and').desc('and operator') >> whitespace >> modifier_selector_expr.skip(wo))).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state) and a[1](code, ctx, state))) |
+                (seq(modifier_selector_expr, whitespace >> s('or').desc('or operator') >> whitespace >> modifier_selector_expr.skip(wo))).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state)  or a[1](code, ctx, state))) |
+                (seq(modifier_selector_expr, whitespace >> s('xor').desc('xor operator') >> whitespace >> modifier_selector_expr.skip(wo))).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state)  != a[1](code, ctx, state)))
+            )
+        ) << s(')'))
+    )
     yield
 
 @generate
 def modifier_clause():
     # One clause, a selector and its respective effects.
     return seq(
-        modifier_selector_expr.desc('modifier selector expression'),
+        wo >> modifier_selector_expr.skip(wo),
         (
-            modifier_effect_body.map(lambda e: [e]) |
-            (wo >> s('{') >> wo >> modifier_effect_body.many() << wo << s('}') << wo << s(';'))
-        ).desc('modifier effects body')
+            modifier_effect.map(lambda e: [e]) |
+            (s('{') >> wo >> (modifier_effect << s(';')).at_least(1) << wo << s('}'))
+        ) << wo
     )
     yield
 
@@ -635,7 +642,7 @@ def mod_block_body():
     return modifier_clause.map(lambda a: [a]) | (
         wo >> s('{') >> wo >> (
             (modifier_clause << wo << s(';')).many()
-        ) << wo << s('}') << wo << s(';')
+        ) << wo << s('}')
     )
     yield
 

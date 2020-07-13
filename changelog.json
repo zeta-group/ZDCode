@@ -277,7 +277,9 @@
             "name": "2.11.0",
             "changes": [
                 "Added state modifiers and apply blocks",
-                "Fixed template body + template derivation body resolution; macros in either can now be accessed from either"
+                "Fixed template body + template derivation body resolution; macros in either can now be accessed from either",
+                "Removed functions and function calls - use macros!",
+                "Rewrote DECORATE generation"
             ]
         }
     ]

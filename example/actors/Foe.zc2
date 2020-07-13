@@ -1,0 +1,570 @@
+/*
+ *  - P: Performer
+ *
+ *  Macros that perform something.
+ *  For example,
+ *
+ *      macro P_Shoot {
+ *          SPOS F 4 Bright A_SPosAttackUseAtkSound;
+ *      };
+ *
+ *  - N: Sounder
+ *
+ *  Macros that emit sound.
+ *
+ *  - R: Routine
+ *
+ *  Macros that execute Performers and
+ *  orchestrate with the Fighter's AI.
+ *
+ *  - S: State
+ *
+ *  Labels that perform Routines for
+ *  various purposes.
+ *
+ *  - C: Checkers
+ *
+ *  Macros used by state modifiers to
+ *  add AI checks after every frame in
+ *  a Performer.
+ *
+ */
+
+group fighter_foes; // for ZDCode group iteration
+class BaseFoe {}    // for e.g. dumpclasses
+
+class<> Fighter group fighter_foes extends BaseFoe {
+    combo Monster;
+
+    // Anim macros below.
+
+    abstract macro P_Idle;          // anim: stay or walk           | action: idle around
+    abstract macro P_LookAround;    // anim: stay or walk           | action: look for enemy
+    abstract macro P_Seek;          // anim: run                    | action: seek and look for enemy
+    abstract macro P_Hide;          // anim: stay                   | action: stay in cover
+    abstract macro P_Dodge;         // anim: run or dodge           | action: dodge potential enemy fire
+    abstract macro P_Aim;           // anim: aim + stay or walk     | action: aim at or toward enemy
+    abstract macro P_Shoot;         // anim: shoot + stay           | action: shoot at enemy
+    abstract macro P_Melee;         // anim: melee + stay or walk   | action: shoot at enemy
+    abstract macro P_Avoid;         // anim: run or walk            | action: avoid enemy, whether by fleeing or flying or bouncing randomly, etc
+    
+    abstract macro P_Die;           // anim: die                    | action: standard death sequence  +  death sound
+    abstract macro P_XDie;          // anim: die gibbed             | action: standard xdeath sequence + xdeath sound
+    abstract macro P_Pain;          // anim: pain                   | action: standard pain sequence   +   pain sound
+    
+    // Sound macros below - please use TNT1 A 0!
+    
+    abstract macro N_Forget;        // sound played when target dismissed and idle state resumed
+    abstract macro N_Active;        // sound played when target acquired
+    abstract macro N_Alert;         // sound played when alert
+    
+    var user_prevhealth = -1;
+    var user_alert = 0;
+    
+    //====  Routines  ====//
+
+    macro R_Aim {
+        apply WhileAiming inject P_Aim;
+        
+        goto S_Root;
+    };
+    
+    macro R_Shoot {
+        apply WhileFiring inject P_Shoot;
+        
+        goto S_Root;
+    };
+    
+    macro R_Melee {
+        apply WhileMelee inject P_Melee;
+    };
+    
+    macro R_Hide {
+        apply WhileCovered inject P_Hide;
+    };
+    
+    macro R_Attack {
+        ifjump A_JumpIfTargetInsideMeleeRange($offset) // do melee if possible
+            inject R_Melee;
+    
+        else
+        ifjump A_JumpIfTargetInLOS(35)
+            inject R_Shoot;
+        
+        else
+        ifjump A_JumpIfTargetInLOS(135)
+            inject R_Aim;
+       
+        else
+            goto S_Root;
+    };
+    
+    macro R_Avoid {
+        apply WhileIdle inject P_Avoid;
+    };
+    
+    macro R_Look {
+        apply WhileIdle inject P_LookAround;
+    };
+    
+    macro R_Idle {
+        apply WhileIdle inject P_Idle;
+    };
+    
+    
+    //====  States  ====//
+    
+    label S_Idle {
+        if (user_alert > 0) {
+            inject C_DecrementAlert(75, C_BecomeIdle);
+            sometimes 30 inject R_Look;
+        };
+        
+        inject R_Idle;
+        goto S_Root;
+    };
+    
+    label S_Target {
+        // Target acquired.
+        
+        if (user_alert < 3) inject N_Active;
+        TNT1 A 0 A_SetUserVar("user_alert", 35 * 3);
+    
+        ifjump A_JumpIfTargetInLOS(135) inject R_Attack;
+        
+        goto S_Root;
+    };
+    
+    label S_Root {
+        // The "root" is a state almost all others eventually return to.
+        if (health <= 0) {
+            if (health < -GetSpawnHealth()) {
+                inject P_Die;
+                stop;
+            };
+                
+            else {
+                inject P_XDie;
+                stop;
+            };
+        };
+        
+        // ...still alive, phew
+        
+        if (user_alert > 0) // still alert!
+            goto S_ConsiderAttack;
+            
+        else
+            goto S_Idle;
+    };
+    
+    label S_ConsiderAttack {
+        // This monster will here apply logic to
+        // some situation where it is aware of
+        // some enemy.
+        
+        ifjump A_JumpifTargetInLOS($offset) {
+            // enemy visible, maybe try attacking
+            if (Health > GetSpawnHealth() / 3) {
+                // not in vital danger
+                
+                sometimes 50 ifjump A_JumpIfInTargetLOS(20) // being aimed at by the target!
+                    apply WhileDodging inject P_Dodge; // dodge enemy aim
+
+                ifjump A_JumpIfTargetInsideMeleeRange($offset) // melee if possible!
+                    inject R_Melee; // do Quick Attack! go!
+
+                sometimes 30
+                    apply WhileDodging inject P_Seek; // chance to seeking instead of shooting.
+                
+                inject R_Attack; // shoot!
+            };
+            
+            else {
+                inject R_Avoid; // run/hide!
+            };
+        };
+        
+        else {
+            // enemy not visible
+            // decide between
+            // * stay in cover
+            // * become idle
+            // * seek
+            
+            if (Health >= user_prevhealth) inject C_DecrementAlert(60, C_BecomeIdle); // return to idle
+            
+            else if (Health > GetSpawnHealth() / 1.5) // considerably healthy
+                goto S_Seek;
+                
+            else
+                goto S_Hide;
+        };
+        
+        goto S_Root;
+    };
+    
+    label S_Hide {
+        inject R_Hide;
+        
+        goto S_Root;
+    };
+    
+    label S_Seek {
+        apply WhileAlert inject P_Seek;
+        
+        goto S_Root;
+    };
+    
+    label S_Spotted {
+        goto S_ConsiderAttack;
+    };
+    
+    label S_Surprise {
+        if (Health > GetSpawnHealth() / 1.5) inject R_Attack; // surprise!
+        else goto S_ConsiderAttack;
+    };
+    
+    label S_Pain {
+        inject P_Pain;
+        goto S_Root;
+    };
+    
+    label S_Alert {
+        if (user_alert < 3) inject N_Alert;
+        
+        if (user_alert < 35 * 2) TNT1 A 0 A_SetUserVar("user_alert", 35 * 2);
+    
+        apply WhileAlert inject P_LookAround;
+        inject C_AlertCheck;
+        
+        sometimes 30 goto S_Root;
+        loop;
+    };
+    
+    
+    //====  Checkers and Modifiers  ====//
+    
+    macro C_BecomeIdle {
+        TNT1 A 0 A_SetUserVar("user_alert", user_alert - 0); 
+        TNT1 A 0 A_ClearTarget;
+        
+        inject N_Forget;
+        goto S_Root;
+    };
+    
+    macro C_DecrementAlert(chance, target) {
+        sometimes chance {
+            TNT1 A 0 A_SetUserVar("user_alert", user_alert - 1);
+            
+            if (user_alert <= 0) {
+                TNT1 A 0 A_SetUserVar("user_alert", 0);
+                inject @target;
+            };
+        };
+    };
+    
+    macro C_AlertCheck {
+        if (Health >= user_prevhealth) inject C_DecrementAlert(35, C_BecomeIdle);
+        
+        else goto S_Spotted;
+    };
+    
+    macro C_InCover {
+        ifjump A_JumpIfTargetInLOS($offset, 100) {
+            ifjump A_JumpIfInTargetLOS($offset)
+                goto S_Spotted;
+                
+            else if (user_prevhealth < Health) {
+                inject C_HealthCheckSuffix;
+                goto S_Spotted;
+            };
+                
+            else {
+                inject C_HealthCheckSuffix;
+                goto S_Surprise;
+            };
+        };
+    };
+    
+    macro C_DodgeCheck {
+        inject C_HurtCheck;
+    };
+    
+    macro C_HurtCheck {
+        if (user_alert > 5)
+            goto S_Root;
+    
+        else if (user_prevhealth < Health)
+            goto S_Alert;
+            
+        inject C_HealthCheckSuffix;
+    };
+    
+    macro C_Look {
+        TNT1 A 0 A_LookEx(0, Radius + 2, 0, 4096, 110, "S_Target");
+    };
+    
+    macro C_IdleCheck {
+        inject C_Look;
+        inject C_HurtCheck;
+    };
+    
+    macro C_PreAimCheck {
+        if (Health < user_prevhealth && Health <= GetSpawnHealth() / 3 && Health > 0)
+            goto S_Root;
+                
+        inject C_HealthCheckSuffix;
+        ifjump A_JumpIfTargetInLOS(140); else goto S_Root;
+    };
+    
+    macro C_MeleeCheck {
+        if (Health < user_prevhealth && Health <= GetSpawnHealth() / 3 && Health > 0)
+            goto S_Root;
+                
+        inject C_HealthCheckSuffix;
+        ifjump A_JumpIfTargetInsideMeleeRange; else goto S_Root;
+    };
+    
+    macro C_ShootCheck {
+        if (Health < user_prevhealth && Health <= GetSpawnHealth() / 3 && Health > 0)
+            goto S_Root;
+                
+        inject C_HealthCheckSuffix;
+        ifjump A_JumpIfTargetInLOS(50); else goto S_Root;
+    };
+    
+    macro C_HealthCheckSuffix {
+        TNT1 A 0 A_SetUserVar("user_prevhealth", Health);
+    };
+    
+    mod WhileCovered {
+        (not sprite(TNT1)) suffix inject C_InCover;
+    };
+    
+    mod WhileIdle {
+        (not sprite(TNT1)) suffix inject C_IdleCheck;
+    };
+    
+    mod WhileAlert {
+        (not sprite(TNT1)) suffix inject C_AlertCheck;
+    };
+    
+    mod WhileAiming {
+        (not sprite(TNT1)) prefix inject C_PreAimCheck;
+    };
+    
+    mod WhileMelee {
+        (not sprite(TNT1)) suffix inject C_MeleeCheck;
+    };
+    
+    mod WhileFiring {
+        (not sprite(TNT1)) prefix inject C_ShootCheck;
+    };
+    
+    mod WhileDodging {
+        (not sprite(TNT1)) prefix inject C_DodgeCheck;
+    };
+    
+    
+    //====  Monster Labels  ====//
+    
+    label Spawn {
+        TNT1 A 0 A_SetUserVar("user_prevhealth", Health);
+        
+        goto S_Root;
+    };
+    
+    label See {
+        goto S_Target;
+    };
+    
+    label Pain {
+        goto S_Pain;
+    };
+}
+
+
+// example fighter foe - DoomImp
+
+
+derive Foe_Imp as Fighter::() {
+    /*      - standard imp properties
+        Health 60
+        Radius 20
+        Height 56
+        Mass 100
+        Speed 8
+        PainChance 200
+        Monster
+        +FLOORCLIP
+        SeeSound "imp/sight"
+        PainSound "imp/pain"
+        DeathSound "imp/death"
+        ActiveSound "imp/active"
+        HitObituary "$OB_IMPHIT"
+        Obituary "$OB_IMP"
+    */
+    
+    set Health      to 60;
+    set Radius      to 20;
+    set Height      to 56;
+    set Mass        to 100;
+    set Speed       to 8;
+    set PainChance  to 200;
+    
+    set ActiveSound to "imp/active";
+    set PainSound   to "imp/pain";
+    set DeathSound  to "imp/death";
+    
+    set HitObituary to "$OB_IMPHIT";
+    set Obituary    to "$OB_IMPHIT";
+    
+    is FLOORCLIP;
+    
+    
+    
+    // Animation macros //
+    
+    macro P_Idle {
+        TROO AB 10;
+        
+        x 4 sometimes 40
+            TROO AA 4 A_SetAngle(angle + FRandom(-15, 15));
+        
+        sometimes 25 {
+            TNT1 A 0 A_Wander;
+            sometimes 40
+                TROO AABBA 3 A_Recoil(0.3);
+        };
+    };
+    
+    macro P_LookAround {
+        TROO AB 10 {
+            A_SetAngle(angle + FRandom(-20, 20));
+            A_Look;
+        };
+        
+        x4 sometimes 70 {
+            TNT1 A 0 A_SetAngle(angle + FRandom(-30, 30));
+            TROO ABAB 3 A_Recoil(-0.3);
+        };
+    };
+    
+    macro P_Seek {
+        TNT1 A 0 A_SetAngle(angle + FRandom(-30, 30));
+        TROO AABCCDABBCDD 2 {
+            A_Chase;
+            A_Recoil(-0.4);
+        };
+    };
+    
+    macro P_Hide {
+        if (Random(0, 255) > 127)
+            TROO AAAA 3;
+            
+        else {
+            TROO BBBB 3;
+            sometimes 30 TROO ABA 2 A_Recoil(0.25);
+        };
+    }; 
+    
+    macro P_Dodge {
+        TROO ABCC 3 A_Recoil(0.1);
+        TNT1 A 0 ThrustThingZ(0, 6, 0, 1);
+        
+        if (Random(0, 255) > 127)
+            TROO DD 2 ThrustThing(angle * 256 / 360 + 64, 9, 0, 0);  // dodge right
+            
+        else
+            TROO DD 2 ThrustThing(angle * 256 / 360 + 192, 9, 0, 0); // dodge left
+            
+        x 5 {
+            TROO DD 3;
+            if (z <= floorz + 3) TROO CBA 3; return; // landed
+        };
+        
+        TROO CBA 5;
+    };
+    
+    macro P_Aim {
+        TROO CCBBEEE 1 A_FaceTarget(10);
+    };
+    
+    macro P_Shoot {
+        TROO EEFFFF 1 A_FaceTarget(10);
+        TROO G 3 [Bright] A_TroopAttack;
+        TROO GG 1 [Bright];
+        TROO GFE 2;
+    };
+    
+    macro P_Melee {
+        TROO EFF 1 A_FaceTarget(25);
+        TNT1 A 0 ThrustThingZ(0, 4, 0, 0);
+        TROO G 2 A_TroopAttack;
+        TROO GFE 2;
+    };
+    
+    mod MayDodgeDuring {
+        any suffix {
+            sometimes 30 TNT1 A 0 ThrustThing(angle * 256 / 360 + 64,  5, 0, 0);  // dodge right?
+            sometimes 30 TNT1 A 0 ThrustThing(angle * 256 / 360 + 192, 5, 0, 0);  // dodge left?
+        };
+    };
+    
+    macro P_Avoid {
+        apply MayDodgeDuring {
+            TROO AABCCDABBCDD 2 {
+                A_SetAngle(angle + FRandom(-25, 25));
+                A_Recoil(0.4);
+            };
+        };
+    };
+    
+    macro P_Die {
+        TROO I 3;
+        TROO J 5 A_Scream;
+        
+        while (z > floorz + 4) {
+            TROO J 7;
+            sometimes 50 TNT1 A 0 A_Scream;
+        };
+        
+        TROO K 4 A_NoBlocking;
+        TROO L 3;
+        
+        TROO M -1;
+    };
+    
+    macro P_XDie {
+        TROO N 2;
+        TROO N 2 A_XScream;
+        TROO O 4;
+        TROO P 4 A_NoBlocking;
+        TROO QR 3;
+        TROO ST 2;
+        TROO U -1;
+    };
+    
+    macro P_Pain {
+        TROO H 1;
+        TROO H 2 A_Pain;
+    };
+    
+    
+    
+    // Sound macros //
+    
+    macro N_Forget {
+        TNT1 A 0 A_PlaySound("imp/pain", CHAN_VOICE, 0.3, 3.4);
+    };
+    
+    macro N_Alert {
+        TNT1 A 0 A_PlaySound("imp/active", CHAN_VOICE);
+    };
+    
+    macro N_Active {
+        TNT1 A 0 A_PlaySound("imp/sight", CHAN_VOICE);
+    };
+};
+
