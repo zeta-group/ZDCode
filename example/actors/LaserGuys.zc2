@@ -61,7 +61,7 @@ class<translation, dmg, puff, edgecount, edgedmg, edgepuff> BaseLaser extends Do
 
     label Spawn {
         TNT1 A 0;
-        x edgecount inject SpawnAsEdge(BaseLaserEdge::(edgedmg, edgepuff), 2);
+        x edgecount inject SpawnAsEdge(BaseLaserEdge::(edgedmg, edgepuff));
         goto ProjLoop;
     };
 

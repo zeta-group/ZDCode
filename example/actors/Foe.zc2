@@ -30,7 +30,7 @@
  *
  */
 
-group fighter_foes; // for ZDCode group iteration
+group fighter_foes; // for ZDCode group iteration (for class_name in fighter_foes {...})
 class BaseFoe {}    // for e.g. dumpclasses
 
 class<> Fighter group fighter_foes extends BaseFoe {
@@ -59,6 +59,7 @@ class<> Fighter group fighter_foes extends BaseFoe {
     abstract macro N_Alert;         // sound played when alert
     
     var user_prevhealth = -1;
+    var user_spawnhealth = -1;
     var user_alert = 0;
     
     //====  Routines  ====//
@@ -134,11 +135,19 @@ class<> Fighter group fighter_foes extends BaseFoe {
         
         goto S_Root;
     };
+
+    label Death {
+        goto S_Root; // death is handled there
+    };
+
+    label XDeath {
+        goto S_Root; // xdeath is handled there too
+    };
     
     label S_Root {
         // The "root" is a state almost all others eventually return to.
-        if (health <= 0) {
-            if (health < -GetSpawnHealth()) {
+        if (Health <= 0) {
+            if (health < -user_spawnhealth) {
                 inject P_Die;
                 stop;
             };
@@ -150,6 +159,13 @@ class<> Fighter group fighter_foes extends BaseFoe {
         };
         
         // ...still alive, phew
+
+        TNT1 A 0 A_Log("-----------");
+        TNT1 A 0 A_Log("(1) Type | (2) Alert level | (3) Health");
+        TNT1 A 0 A_Log(Self);
+        TNT1 A 0 A_Log(user_alert);
+        TNT1 A 0 A_Log(health);
+        TNT1 A 0 A_Log("-----------");
         
         if (user_alert > 0) // still alert!
             goto S_ConsiderAttack;
@@ -323,7 +339,7 @@ class<> Fighter group fighter_foes extends BaseFoe {
             goto S_Root;
                 
         inject C_HealthCheckSuffix;
-        ifjump A_JumpIfTargetInsideMeleeRange; else goto S_Root;
+        ifjump A_JumpIfTargetInsideMeleeRange($offset); else goto S_Root;
     };
     
     macro C_ShootCheck {
@@ -339,31 +355,31 @@ class<> Fighter group fighter_foes extends BaseFoe {
     };
     
     mod WhileCovered {
-        (not sprite(TNT1)) suffix inject C_InCover;
+        (!sprite(TNT1)) suffix inject C_InCover;
     };
     
     mod WhileIdle {
-        (not sprite(TNT1)) suffix inject C_IdleCheck;
+        (!sprite(TNT1)) suffix inject C_IdleCheck;
     };
     
     mod WhileAlert {
-        (not sprite(TNT1)) suffix inject C_AlertCheck;
+        (!sprite(TNT1)) suffix inject C_AlertCheck;
     };
     
     mod WhileAiming {
-        (not sprite(TNT1)) prefix inject C_PreAimCheck;
+        (!sprite(TNT1)) prefix inject C_PreAimCheck;
     };
     
     mod WhileMelee {
-        (not sprite(TNT1)) suffix inject C_MeleeCheck;
+        (!sprite(TNT1)) suffix inject C_MeleeCheck;
     };
     
     mod WhileFiring {
-        (not sprite(TNT1)) prefix inject C_ShootCheck;
+        (!sprite(TNT1)) prefix inject C_ShootCheck;
     };
     
     mod WhileDodging {
-        (not sprite(TNT1)) prefix inject C_DodgeCheck;
+        (!sprite(TNT1)) prefix inject C_DodgeCheck;
     };
     
     
@@ -371,6 +387,7 @@ class<> Fighter group fighter_foes extends BaseFoe {
     
     label Spawn {
         TNT1 A 0 A_SetUserVar("user_prevhealth", Health);
+        TNT1 A 0 A_SetUserVar("user_spawnhealth", Health);
         
         goto S_Root;
     };
@@ -526,8 +543,8 @@ derive Foe_Imp as Fighter::() {
         TROO J 5 A_Scream;
         
         while (z > floorz + 4) {
-            TROO J 7;
-            sometimes 50 TNT1 A 0 A_Scream;
+            TROO J 2;
+            sometimes 50 TNT1 A 0 A_PlaySound("imp/death", CHAN_AUTO);
         };
         
         TROO K 4 A_NoBlocking;

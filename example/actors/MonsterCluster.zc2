@@ -3,7 +3,6 @@ class LameZombieman extends Zombieman {}
 group skull_spawns;
 
 class MonSpawnY group skull_spawns extends RandomSpawner {
-    set DropItem to "RunZombie";
     set DropItem to "LaserGuyY";
     set DropItem to "LameZombieman";
     set DropItem to "DoomImp";
@@ -33,33 +32,34 @@ class AppearShotgunGuy {
     label Spawn {
         TNT1 A 0;
         TNT1 A 0 A_SpawnItemEx('TeleportFog');
-        TNT1 A 0 A_SpawnItemEx('AppearShotgunGuy');
+        TNT1 A 0 A_SpawnItemEx('ShotgunGuy');
         stop;
     };
 }
 
 class XZombieSpawner extends MultiSpawner {
-    function MakeSpawn {
+    macro MakeSpawn {
         x 12 TNT1 A 9 A_SpawnItemEx('AppearZombieman', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
     };
 
     label Spawn {
         TNT1 A 1;
-        call MakeSpawn;
+        inject MakeSpawn;
         Stop;
     };
 }
 
-class XShotGuySpawner extends MultiSpawner {
+class<Amount> XShotGuySpawner extends MultiSpawner {
     set Gravity to 0;
 
-    function MakeSpawn {
-        x 3 TNT1 A 9 A_SpawnItemEx('AppearShotgunGuy', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
+    macro MakeSpawn {
+        TNT1 A 15 A_SpawnItemEx('AppearShotgunGuy', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
+        x 5 sometimes 50 TNT1 A 9;
     };
 
     label Spawn {
         TNT1 A 1;
-        call MakeSpawn;
+        x Amount inject MakeSpawn;
         Stop;
     };
 }
@@ -73,6 +73,7 @@ class MonSpawnO group skull_spawns extends RandomSpawner {
     set DropItem to "Revenant";
     set DropItem to "Cacodemon";
     set DropItem to "XZombieSpawner";
+    set DropItem to XShotGuySpawner::(1);
 }
 
 class MonSpawnR group skull_spawns extends RandomSpawner {
@@ -81,7 +82,7 @@ class MonSpawnR group skull_spawns extends RandomSpawner {
     set DropItem to "HellKnight";
     set DropItem to "BaronOfHell";
     set DropItem to "LaserGuyR";
-    set DropItem to "XShotGuySpawner";
+    set DropItem to XShotGuySpawner::(2);
 }
 
 class<ParticleSprite, Scale> SkullParticle {
