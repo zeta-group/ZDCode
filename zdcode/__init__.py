@@ -96,6 +96,9 @@ class ZDState:
         self.action = action
         self.duration = duration
 
+    def clone(self):
+        return ZDState(self.sprite, self.frame, self.duration, list(self.keywords), self.action)
+
     def state_containers(self):
         return
         yield
@@ -123,6 +126,9 @@ class ZDState:
                 action
             )
         ])
+
+    def __repr__(self):
+        return '<ZDState({} {} {}{}{})>'.format(self.sprite, self.frame, self.duration, '+' if self.keywords else '', ' ...' if self.action else '')
 
 class ZDDummyActor:
     def __init__(self, code, context=None, _id=None):
@@ -244,6 +250,13 @@ class ZDActor(ZDBaseActor):
             self.all_funcs = []
 
         # code.actor_names[name.upper()] = self
+
+    def __repr__(self):
+        return '<ZDActor({}{}{}{})>'.format(self.name,
+            self.inherit and ('extends ' + self.inherit) or '',
+            self.replace and ('replaces ' + self.replace or '') or '',
+            self.doomednuum and ('#' + str(self.doomednum)) or ''
+        )
 
     def get_context(self):
         return self.context
@@ -437,6 +450,9 @@ class ZDBlock:
     def __init__(self, actor, states = ()):
         self._actor = actor
         self.states = list(states)
+
+    def clone(self):
+        return ZDBlock(self._actor, (s.clone() for s in self.states))
         
     def num_states(self):
         return len(self.states)
@@ -453,6 +469,12 @@ class ZDIfStatement(object):
         self.true_condition = condition
         self.states = list(states)
         self.else_block = None
+
+    def clone(self):
+        res = ZDIfStatement(self._actor, self.true_condition, (s.clone() for s in self.states))
+        res.set_else(self.else_block.clone())
+
+        return res
 
     def state_containers(self):
         yield self.states
@@ -504,6 +526,12 @@ class ZDIfJumpStatement(object):
         self.true_condition = condition_gen
         self.states = list(states)
         self.else_block = None
+
+    def clone(self):
+        res = ZDIfJumpStatement(self._actor, self.true_condition, (s.clone() for s in self.states))
+        res.set_else(self.else_block.clone())
+
+        return res
         
     def state_containers(self):
         yield self.states
@@ -563,6 +591,9 @@ class ZDSometimes(object):
         self.chance = chance
         self.states = states
 
+    def clone(self):
+        return ZDSometimes(self._actor, self.chance, (s.clone() for s in self.states))
+
     def num_states(self):
         return sum(x.num_states() for x in self.states) + 2
 
@@ -597,6 +628,12 @@ class ZDWhileStatement(object):
         num_whiles += 1
 
         self._loop_id = '_loop_while_' + str(self._while_id)
+
+    def clone(self):
+        res = ZDWhileStatement(self._actor, self.true_condition, (s.clone() for s in self.states))
+        res.set_else(self.else_block.clone())
+
+        return res
     
     def state_containers(self):
         yield self.states
@@ -659,6 +696,12 @@ class ZDWhileJumpStatement(object):
         num_whiles += 1
 
         self._loop_id = '_loop_while_' + str(self._while_id)
+
+    def clone(self):
+        res = ZDWhileJumpStatement(self._actor, self.true_condition, (s.clone() for s in self.states))
+        res.set_else(self.else_block.clone())
+
+        return res
 
     def state_containers(self):
         yield self.states
@@ -732,6 +775,9 @@ class ZDSkip:
         self.code = code
         self.context = skip_context
         self.ind = curr_ind
+
+    def clone(self):
+        raise NotImplementedError("State group skipping (e.g. return in macros) could not be cloned. Injected macros cannot be cloned - please don't inject them until all else is resolved!")
         
     def state_containers(self):
         return
@@ -929,18 +975,26 @@ class ZDModClause:
         
         res = []
     
-        for i, s in enumerate(target_states):
+        for s in target_states:
             if self.selector(self.code, clause_ctx, s):
-                new_s = [s]
+                alist = [s]
             
                 for eff in self.effects:
-                     new_s = sum((list(eff(self.code, clause_ctx, x)) for x in new_s), [])
-                    
-                res.extend(new_s)
-                
-        for s in target_states:
-            for container in s.state_containers():
-                self.apply(ctx, container)
+                    nlist = []
+
+                    for a in alist:
+                        l = list(eff(self.code, clause_ctx, a))
+                        nlist.extend(l)
+
+                    alist = nlist
+
+                res.extend(alist)
+
+            else:
+                for container in s.state_containers():
+                    self.apply(ctx, container)
+            
+                res.append(s)
 
         target_states.clear()
         target_states.extend(res)
@@ -1217,6 +1271,9 @@ class ZDCode:
     def _mutate_macro_state(self, state, inj_context):
         # Mutates each state in an injected macro, making things
         # like macro-scope return statements possible.
+
+        if hasattr(state, 'to_decorate'):
+            return state.clone()
         
         if state[0] == 'return':
             return ('skip', inj_context)
@@ -1236,22 +1293,26 @@ class ZDCode:
         return self._maybe_mutate_block(self._mutate_iter_state, state, break_context, loop_context)
 
     def _parse_state_modifier(self, context: ZDCodeParseContext, modifier_chars):
-        res = ''
+        res = []
 
-        for mod in modifier_chars:
-            res = ''
-        
-            for ctype, cval in mod:
+        def recurse(modifier_chars):
+            for ctype, cval in modifier_chars:
                 if ctype == 'replace':
                     try:
-                        cval = context.replacements[cval.upper()]
+                        res.append(context.replacements[cval.upper()])
 
                     except KeyError:
                         raise CompilerError("No parameter {} for replacement within modifier, in {}!".format(cval, context.describe()))
 
-                res += cval
+                elif ctype == 'recurse':
+                    recurse(cval)
 
-        return res
+                elif ctype == 'char':
+                    res.append(cval)
+        
+        recurse(modifier_chars)
+
+        return ''.join(res)
 
     def _parse_mod_clause(self, context: ZDCodeParseContext, selector, effects):
         return ZDModClause(self, context, selector, effects)
@@ -1294,8 +1355,9 @@ class ZDCode:
     def _parse_state_expr(self, context: ZDCodeParseContext, s):
         label = ZDDummyLabel(self)
         actor = ZDDummyActor(self, context)
-        
-        self._parse_state(actor, context, label, s)
+
+        for state in s:
+            self._parse_state(actor, context, label, state)
 
         return label.states
 
@@ -1324,10 +1386,10 @@ class ZDCode:
     
         if s[0] == 'frames':        
             sprite, frames, duration, modifiers, action = s[1]
-            modifiers = []
+            parsed_modifiers = []
 
             for modifier_chars in modifiers:
-                modifiers.append(self._parse_state_modifier(context, modifier_chars))
+                parsed_modifiers.append(self._parse_state_modifier(context, modifier_chars))
 
             name = self._parse_state_sprite(context, sprite)
 
@@ -1336,13 +1398,13 @@ class ZDCode:
 
             for f in frames:
                 if action is None:
-                    add_state(ZDState(name, f, duration, modifiers))
+                    add_state(ZDState(name, f, duration, parsed_modifiers))
 
                 else:
                     body = self._parse_state_action_or_body(action, context)
 
                     for i, a in enumerate(body):
-                        add_state(ZDState(name, f, (0 if i + 1 < len(body) else duration), modifiers, action=a))
+                        add_state(ZDState(name, f, (0 if i + 1 < len(body) else duration), parsed_modifiers, action=a))
 
         elif s[0] == 'return':
             raise CompilerError("Return statements are not valid in {}!".format(context.describe()))
@@ -1562,11 +1624,16 @@ class ZDCode:
                 if r_from:
                     new_context = context.derive("macro '{}' from {}".format(r_name, act.name))
                     new_context.update(act.context)
+                    r_qualname = '{}.{}'.format(r_from, r_name)
                     
                 else:
                     new_context = context.derive("macro '{}'".format(r_name))
+                    r_qualname = r_name
 
                 (m_args, m_body) = macros[r_name.upper()]
+
+                if len(m_args) != len(r_args):
+                    raise CompilerError("Bad number of arguments while trying to inject macro {}; expected {}, got {}! (in {})".format(r_qualname, len(m_args), len(r_args), context.describe()))
 
                 for rn, an in zip(r_args, m_args):
                     new_context.replacements[an.upper()] = self._parse_argument(rn, context, an)
@@ -1830,7 +1897,7 @@ class ZDCode:
     
         if self.inventories:
             for i in self.inventories:
-                res.add_line(i)
+                res.add_line(i.to_decorate())
         
         for a in self.actors:
             res.add_line(a.to_decorate())

@@ -79,7 +79,7 @@ class ZDParseError(BaseException):
 
 @generate
 def state_modifier_name():
-    return (s('{') >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('modifier parameter name').tag('replace') << s('}') | regex(r'[a-zA-Z\(\)0-9\'\",\w"]').tag('char')).many().desc('modifier body')
+    return (s('{') >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('modifier parameter name').tag('replace') << s('}') | (ist('(').tag('char') + state_modifier_name.tag('recurse') + ist(')').tag('char')) | regex(r'[a-zA-Z0-9\'\",\w"]').tag('char')).many().desc('state keyword')
     yield
 
 @generate
@@ -544,28 +544,47 @@ def state_no_colon():
 # Modifier effect functions.
 def mod_flag(mod):
     def _eff(code, ctx, state):
-        state.keywords.append(code._parse_state_modifier(mod))
-        yield
+        state = state.clone()
+        flname = code._parse_state_modifier(ctx, mod)
+    
+        if all(x.upper() != flname.upper() for x in state.keywords):
+            state.keywords.append(flname)
+            
+        yield state
+    return _eff
+
+def mod_delflag(mod):
+    def _eff(code, ctx, state):
+        state = state.clone()
+        flname = code._parse_state_modifier(ctx, mod)
+        
+        while any(x.upper() == flname.upper() for x in state.keywords):
+            i = next(i for i, x in enumerate(state.keywords) if x.upper() == flname.upper())
+            state.keywords.pop(i)
+
+        yield state
     return _eff
 
 def mod_prefix(pre):
     def _eff(code, ctx, state):
-        yield from code._parse_state_expr(ctx, state)
+        yield from code._parse_state_expr(ctx, pre)
         yield state
     return _eff
 
 def mod_suffix(pre):
     def _eff(code, ctx, state):
         yield state
-        yield from code._parse_state_expr(ctx, state)
+        yield from code._parse_state_expr(ctx, pre)
     return _eff
 
-def mod_manipulate(state_macro_name, state_body):
+def mod_manipulate(pre):
+    state_macro_name, state_body = pre
+
     def _eff(code, ctx, state):
-        fake_macro = [state]
+        fake_macro = [state.clone()]
         
         new_ctx = ctx.derive('effect manipulation')
-        new_ctx.macros[state_macro_name.upper()] = fake_macro
+        new_ctx.macros[state_macro_name.upper()] = ([], fake_macro)
         
         yield from code._parse_state_expr(new_ctx, state_body)
     return _eff
@@ -574,7 +593,8 @@ def mod_manipulate(state_macro_name, state_body):
 def modifier_effect():
     # A modifier effect.
     return (
-        (ist('flag').desc('flag effect') >> whitespace >> state_modifier_name).map(mod_flag) |
+        (ist('+flag').desc('+flag effect') >> whitespace >> state_modifier_name).map(mod_flag) |
+        (ist('-flag').desc('-flag effect') >> whitespace >> state_modifier_name).map(mod_delflag) |
         (ist('prefix').desc('prefix effect') >> whitespace >> state_body).map(mod_prefix) |
         (ist('suffix').desc('suffix effect') >> whitespace >> state_body).map(mod_suffix) |
         (ist('manipulate').desc('manipulate effect') >> whitespace >> seq(
@@ -586,7 +606,12 @@ def modifier_effect():
 
 def selector_flag(name):
     def _sel(code, ctx, state):
-        return hasattr(state, 'keywords') and state.keywords and code._parse_state_modifier(ctx, name) in state.keywords
+        if not (hasattr(state, 'keywords') and state.keywords):
+            return False
+    
+        flname = code._parse_state_modifier(ctx, name).upper()
+        
+        return any(flname == x.upper() for x in state.keywords)
     return _sel
     
 def selector_name(name):
@@ -611,16 +636,18 @@ def modifier_selector_expr():
     # where basic selectors are joined by boolean logic.
 
     return wo.then(
-        ist('any').map(lambda _: (lambda _1, _2, _3: True)).desc('any selector') |
         modifier_selector_basic |
+        ist('any').map(lambda _: (lambda _1, _2, _3: True)).desc('any selector') |
+
+        (ist('!').desc('not operator') >> wo >> modifier_selector_expr.skip(wo)).map(lambda a: (lambda code, ctx, state: not a(code, ctx, state))) |
         (s('(') >> (
-            modifier_selector_expr.skip(wo) |
-            ( # operators
-                (s('not').desc('not operator') >> whitespace >> modifier_selector_expr.skip(wo)).map(lambda a: (lambda code, ctx, state: not a(code, ctx, state))) |
-                (seq(modifier_selector_expr, whitespace >> s('and').desc('and operator') >> whitespace >> modifier_selector_expr.skip(wo))).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state) and a[1](code, ctx, state))) |
-                (seq(modifier_selector_expr, whitespace >> s('or').desc('or operator') >> whitespace >> modifier_selector_expr.skip(wo))).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state)  or a[1](code, ctx, state))) |
-                (seq(modifier_selector_expr, whitespace >> s('xor').desc('xor operator') >> whitespace >> modifier_selector_expr.skip(wo))).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state)  != a[1](code, ctx, state)))
-            )
+            (
+                (seq(modifier_selector_expr.skip(wo >> ist('&&').desc('and operator')), wo >> modifier_selector_expr.skip(wo))).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state) and a[1](code, ctx, state))) |
+                (seq(modifier_selector_expr.skip(wo >> ist('||').desc('or operator')), wo >> modifier_selector_expr.skip(wo))).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state)  or a[1](code, ctx, state))) |
+                (seq(modifier_selector_expr.skip(wo >> ist('^^').desc('xor operator')), wo >> modifier_selector_expr.skip(wo))).map(lambda a: (lambda code, ctx, state: a[0](code, ctx, state)  != a[1](code, ctx, state)))
+            ) |
+        
+            modifier_selector_expr.skip(wo)
         ) << s(')'))
     )
     yield
@@ -632,7 +659,7 @@ def modifier_clause():
         wo >> modifier_selector_expr.skip(wo),
         (
             modifier_effect.map(lambda e: [e]) |
-            (s('{') >> wo >> (modifier_effect << s(';')).at_least(1) << wo << s('}'))
+            (s('{') >> wo >> (modifier_effect << wo << s(';') << wo).at_least(1) << s('}'))
         ) << wo
     )
     yield
