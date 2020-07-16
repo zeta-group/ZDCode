@@ -21,7 +21,7 @@ class BaseMultiSpawner {
     is THRUACTORS;
 }
 
-class<Amount, Chance, Interval, Type, Width> MultiSpawner extends BaseMultiSpawner {
+class<Amount, Chance, Interval, Type, SpawnRadius> MultiSpawner extends BaseMultiSpawner {
     label Spawn {
         TNT1 A 1;
         x Amount {
