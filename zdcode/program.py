@@ -79,7 +79,7 @@ def do_compile(args, preproc_defs=()):
     
 def do_bundle(args, preproc_defs=()):
     bundle = Bundle(*args.input, error_handler=print_parse_error)
-    status, msg = bundle.bundle(args.out_asset, args.out_code, args.out_compile, preproc_defs=dict(getattr(args, 'prepdefs', [])))
+    status, msg = bundle.bundle(args.out_asset, args.out_code, args.out_compile, preproc_defs={k.upper(): v for (k, v) in getattr(args, 'prepdefs', [])})
     
     print(msg)
     return status
