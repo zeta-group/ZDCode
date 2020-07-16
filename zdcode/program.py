@@ -31,20 +31,31 @@ def from_stdin():
 
     print(zdcode.ZDCode.parse("\n".join(data), error_handler=print_parse_error).decorate())
 
+class TupleTrue(argparse.Action):
+    def __init__(self, option_strings, dest, nargs=None, **kwargs):
+        if nargs != 1:
+            raise ValueError("Invalid nargs for TupleTrue action (only 1 available)")
+            
+        super(TupleTrue, self).__init__(option_strings, dest, **kwargs)
+        
+    def __call__(self, parser, namespace, values, option_string=None):
+        l = getattr(namespace, self.dest, None) or []
+
+        if not l:
+            setattr(namespace, self.dest, l)
+        
+        l.append((values, True))
+
 def arg_parser():
     aparser = argparse.ArgumentParser(description='ZDCode compilation and bundling engine.')
-    subparsers = aparser.add_subparsers(help='sub-command help')
     
-    aparser_compile = subparsers.add_parser('compile', aliases=['c'], help='compile ZDCode input files (and any other files that may be included by the preprocessor) to a single DECORATE file')
-    aparser_compile.add_argument('input', type=str, metavar='INFILES', nargs='+', help='input files for the compiler (zc2)')
-    aparser_compile.add_argument('-o', '--output', type=str, required=True, metavar='OUTFILE', dest='out_compile', help='output file from the compiler (DECORATE)')
-    aparser_compile.set_defaults(func=do_compile)
-    
-    aparser_bundle = subparsers.add_parser('bundle', aliases=['b'], help='bundle multiple files (asset folder, PK3 or ZDCode), alongside dependencies, to two output PK3 files: the assets file, and the code file')
-    aparser_bundle.add_argument('input', type=str, metavar='INFILES', nargs='+', help='input files for the bundler (folder, pk3 or zc2)')
-    aparser_bundle.add_argument('-a', '--asset-output', type=str, required=True, metavar='OUTFILE', dest='out_asset', help='asset output file from the bundler (pk3)')
-    aparser_bundle.add_argument('-c', '--code-output', type=str, required=True, metavar='OUTFILE', dest='out_code', help='code output file from the bundler (pk3)')
-    aparser_bundle.set_defaults(func=do_bundle)
+    aparser.add_argument('input', type=str, metavar='INFILES', nargs='+', help='input files for the compiler (zc2)')
+    aparser.add_argument('-od', '--output-decorate', type=argparse.FileType('w'), required=False, metavar='OUTFILE', dest='out_compile', default=None, help='output plain text file from with compiled DECORATE')
+    aparser.add_argument('-oa', '--output-pk3-asset', type=argparse.FileType('wb'), required=False, metavar='OUTFILE', dest='out_asset', default=None, help='output file with assets bundled in a pk3')
+    aparser.add_argument('-oc', '--output-pk3-code', type=argparse.FileType('wb'), required=False, metavar='OUTFILE', dest='out_code', default=None, help='output file with compiled DECORATE bundled in a pk3')
+    aparser.add_argument('-D', '--define', type=str, nargs=1, metavar='DEFNAMES', dest='prepdefs', action=TupleTrue, required=False, help='preprocessor definitions (set to True)')
+    aparser.add_argument('-S', '--set', type=str, nargs=2, metavar=('DEFNAME', 'DEFVALS'), dest='prepdefs', action='append', required=False, help='preprocessor definitions (set to a string value)')
+    aparser.set_defaults(func=do_bundle)
     
     return aparser
 
@@ -54,21 +65,21 @@ def main():
 
 # Actions
 
-def do_compile(args):
+def do_compile(args, preproc_defs=()):
     code = zdcode.ZDCode()
     
     for fn in args.input:
         with open(fn) as fp:
-            if not code.add(fp.read(), os.path.basename(fn), os.path.dirname(fn), error_handler=print_parse_error):
+            if not code.add(fp.read(), os.path.basename(fn), os.path.dirname(fn), preproc_defs=preproc_defs, error_handler=print_parse_error):
                 return 1
     
     dec = code.decorate()
     open(args.out_compile, "w").write(dec)
     print("Output compiled successfully.")
     
-def do_bundle(args):
+def do_bundle(args, preproc_defs=()):
     bundle = Bundle(*args.input, error_handler=print_parse_error)
-    status, msg = bundle.bundle(args.out_asset, args.out_code)
+    status, msg = bundle.bundle(args.out_asset, args.out_code, args.out_compile, preproc_defs=dict(getattr(args, 'prepdefs', [])))
     
     print(msg)
     return status

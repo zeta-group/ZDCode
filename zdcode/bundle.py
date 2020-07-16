@@ -23,18 +23,21 @@ class Bundle:
         self.mods = list(mods)
         self.error_handler = error_handler
         
-    def _compile_task(self, code, zdc, error_handler):
+    def _compile_task(self, code, zdc, error_handler, preproc_defs):
         def compile_mod_zdcode():
             with zdc.open() as zdc_fp:
-                return code.add(zdc_fp.read(), zdc.name, zdc.parent, error_handler)
+                return code.add(zdc_fp.read(), zdc.name, zdc.parent, error_handler, preproc_defs=preproc_defs)
                 
         return compile_mod_zdcode
         
-    def bundle(self, out_asset_path, out_code_path, error_handler=None):
+    def bundle(self, out_asset_file=None, out_code_file=None, out_dec_file=None, error_handler=None, preproc_defs=()):
         code = ZDCode()
         build_tasks = []
         deps = list(self.mods)
         bundled = set()
+
+        if not (hasattr(preproc_defs, '__getitem__') and hasattr(preproc_defs, '__setitem__')):
+            preproc_defs = dict(preproc_defs)
         
         # Scan input
         with tempfile.TemporaryDirectory() as destname:
@@ -61,7 +64,7 @@ class Bundle:
                             shutil.copyfile(fn, dest_fpath)
                             
                             if fn.stem.split('.')[0].upper() == 'ZDCODE':
-                                build_tasks.append(self._compile_task(code, dest_fpath, error_handler or self.error_handler))
+                                build_tasks.append(self._compile_task(code, dest_fpath, error_handler or self.error_handler, preproc_defs))
                         
                     indx_path = mod_dest / 'DEPINDEX'
                     
@@ -90,7 +93,7 @@ class Bundle:
                         zmod.extractall(mod_dest)
                     
                         for zdc in mod_dest.glob(''.join('[{}{}]'.format(c.lower(), c) for c in 'ZDCODE') + '*'):
-                            build_tasks.append(self._compile_task(code, zdc, error_handler or self.error_handler))
+                            build_tasks.append(self._compile_task(code, zdc, error_handler or self.error_handler, preproc_defs))
                             
                         indx_path = mod_dest / 'DEPINDEX'
                         
@@ -112,38 +115,44 @@ class Bundle:
                                     deps.append(dep_path)
                                     
                 elif mod_path.suffix.upper() == '.ZC2':
-                    build_tasks.append(self._compile_task(code, mod_path, error_handler or self.error_handler))
+                    build_tasks.append(self._compile_task(code, mod_path, error_handler or self.error_handler, preproc_defs))
                                     
             # Build ZDCode              
             for task in build_tasks:
                 if not task():
                     return 1, 'Errors were found during the compilation of the ZDCode lumps!'
                 
-        # Bundle assets             
-        with zipfile.ZipFile(out_asset_path, 'w') as asset_bundle:
-            for asset in bundled:
-                asset_path = pathlib.Path(asset)
+        # Bundle assets to zip (pk3)
+        if out_asset_file:       
+            with zipfile.ZipFile(out_asset_file, 'w') as asset_bundle:
+                for asset in bundled:
+                    asset_path = pathlib.Path(asset)
+                    
+                    if asset_path.is_dir():
+                        for ipath in asset_path.rglob('*'):
+                            if ipath.stem.split('.')[0].upper() != 'ZDCODE' and ipath.suffix.upper() != '.ZC2' and ipath.is_file():
+                                asset_bundle.write(ipath, ipath.relative_to(asset_path))
                 
-                if asset_path.is_dir():
-                    for ipath in asset_path.rglob('*'):
-                        if ipath.stem.split('.')[0].upper() != 'ZDCODE' and ipath.suffix.upper() != '.ZC2' and ipath.is_file():
-                            asset_bundle.write(ipath, ipath.relative_to(asset_path))
-            
-                elif asset_path.suffix.upper() == '.WAD':
-                    asset_bundle.write(asset_path, asset_path.name)
-            
-                elif asset_path.suffix.upper() in ('.PK3', '.PKZ'):
-                    with zipfile.ZipFile(asset) as asset_zip:
-                        for info in asset_zip:
-                            ipath = pathlib.Path(info.filename)
-                            
-                            if ipath.stem.split('.')[0].upper() != 'ZDCODE' and ipath.suffix.upper() != '.ZC2':
-                                with asset_zip.open(info) as info_fp:
-                                    asset_bundle.writestr(info, info_fp.read())
+                    elif asset_path.suffix.upper() == '.WAD':
+                        asset_bundle.write(asset_path, asset_path.name)
+                
+                    elif asset_path.suffix.upper() in ('.PK3', '.PKZ'):
+                        with zipfile.ZipFile(asset) as asset_zip:
+                            for info in asset_zip:
+                                ipath = pathlib.Path(info.filename)
+                                
+                                if ipath.stem.split('.')[0].upper() != 'ZDCODE' and ipath.suffix.upper() != '.ZC2':
+                                    with asset_zip.open(info) as info_fp:
+                                        asset_bundle.writestr(info, info_fp.read())
                         
-        # Write compiled output        
-        with zipfile.ZipFile(out_code_path, 'w') as code_bundle:
-            code_bundle.writestr('DECORATE', code.decorate(), zipfile.ZIP_DEFLATED)
+        # Write compiled output to zip (pk3)
+        if out_code_file:
+            with zipfile.ZipFile(out_code_file, 'w') as code_bundle:
+                code_bundle.writestr('DECORATE', code.decorate(), zipfile.ZIP_DEFLATED)
+
+        # Write compiled output to plain text file
+        if out_dec_file:
+            out_dec_file.write(code.decorate())
 
         return 0, 'Bundled successfully!'
 

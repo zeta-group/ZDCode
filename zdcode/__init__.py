@@ -1004,8 +1004,8 @@ class ZDCode:
         pass
 
     @classmethod
-    def parse(cls, code, fname=None, dirname='.', error_handler=None):
-        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, filename=fname, error_handler=error_handler)
+    def parse(cls, code, fname=None, dirname='.', error_handler=None, preproc_defs=()):
+        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, filename=fname, error_handler=error_handler, preproc_defs=preproc_defs)
 
         if data:
             res = cls()
@@ -1022,8 +1022,8 @@ class ZDCode:
         else:
             return None
 
-    def add(self, code, fname=None, dirname='.', error_handler=None):
-        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, filename=fname, error_handler=error_handler, imports=self.includes)
+    def add(self, code, fname=None, dirname='.', error_handler=None, preproc_defs=()):
+        data = zdlexer.parse_code(code.strip(' \t\n'), dirname=dirname, filename=fname, error_handler=error_handler, imports=self.includes, preproc_defs=preproc_defs)
 
         if data:
             try:

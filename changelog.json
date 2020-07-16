@@ -279,7 +279,10 @@
                 "Added state modifiers and apply blocks",
                 "Fixed template body + template derivation body resolution; macros in either can now be accessed from either",
                 "Removed functions and function calls - use macros!",
-                "Rewrote DECORATE generation"
+                "Rewrote DECORATE generation",
+                "Small fixes to the state keyword parser",
+                "Added preprocessor definition argument to the command-line interface.",
+                "Merged subcommands compile and bundle into one single command, supporting any combination of output arguments (see --help)"
             ]
         }
     ]

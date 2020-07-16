@@ -3,58 +3,67 @@ class LameZombieman extends Zombieman {}
 group skull_spawns;
 
 class MonSpawnY group skull_spawns extends RandomSpawner {
+#ifdef MONSPAWN_LASERGUYS
     set DropItem to "LaserGuyY";
+#endif
     set DropItem to "LameZombieman";
     set DropItem to "DoomImp";
     set DropItem to "ShotgunGuy";
     set DropItem to "Demon";
 }
 
-class MultiSpawner {
+class BaseMultiSpawner {
     set Gravity to 0;
-
+    
     is NOBLOCKMAP;
     is NOSECTOR;
     is NOGRAVITY;
     is THRUACTORS;
 }
 
-class AppearZombieman {
-    label Spawn {
-        TNT1 A 0;
-        TNT1 A 0 A_SpawnItemEx('TeleportFog');
-        TNT1 A 0 A_SpawnItemEx('Zombieman');
-        stop;
-    };
-}
-
-class AppearShotgunGuy {
-    label Spawn {
-        TNT1 A 0;
-        TNT1 A 0 A_SpawnItemEx('TeleportFog');
-        TNT1 A 0 A_SpawnItemEx('ShotgunGuy');
-        stop;
-    };
-}
-
-class XZombieSpawner extends MultiSpawner {
-    macro MakeSpawn {
-        x 12 TNT1 A 9 A_SpawnItemEx('AppearZombieman', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
-    };
-
+class<Amount, Chance, Interval, Type, Width> MultiSpawner extends BaseMultiSpawner {
     label Spawn {
         TNT1 A 1;
-        inject MakeSpawn;
+        x Amount {
+            x Interval invisi 1;
+            sometimes Chance invisi A_SpawnItemEx(type, FRandom(-SpawnRadius, SpawnRadius), FRandom(-SpawnRadius, SpawnRadius), 8, 0, 0, 0, FRandom(0, 360));
+        };
         Stop;
     };
 }
 
-class<Amount> XShotGuySpawner extends MultiSpawner {
+class BaseAppear {
     set Gravity to 0;
+        
+    is NOBLOCKMAP;
+    is NOSECTOR;
+    is NOGRAVITY;
+    is THRUACTORS;
+}
 
+class<SpawnType> Appear extends BaseAppear {
+    label Spawn {
+        TNT1 A 0;
+        TNT1 A 0 A_SpawnItemEx('TeleportFog');
+        TNT1 A 0 A_SpawnItemEx(SpawnType);
+        stop;
+    };
+}
+
+derive AppearZombieman      as Appear::("Zombieman");
+derive AppearShotgunGuy     as Appear::("ShotgunGuy");
+
+derive XZombieSpawner       as MultiSpawner::(15, 90, 15, "AppearZombieman", 100);
+
+#ifdef MONSPAWN_LASERGUYS
+derive AppearLaserGuyR      as Appear::("LaserGuyR");
+derive XLaserGuyRSpawner    as MultiSpawner::(6, 75, 35, "AppearLaserGuyR", 80);
+#endif
+
+class<Amount> XCustomShotGuySpawner extends BaseMultiSpawner {
     macro MakeSpawn {
-        TNT1 A 15 A_SpawnItemEx('AppearShotgunGuy', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
-        x 5 sometimes 50 TNT1 A 9;
+        TNT1 A 10 A_SpawnItemEx('AppearShotgunGuy', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
+        x 5 sometimes 50 TNT1 A 7;
     };
 
     label Spawn {
@@ -65,7 +74,9 @@ class<Amount> XShotGuySpawner extends MultiSpawner {
 }
 
 class MonSpawnO group skull_spawns extends RandomSpawner {
+#ifdef MONSPAWN_LASERGUYS
     set DropItem to "LaserGuyO";
+#endif
     set DropItem to "Spectre";
     set DropItem to "Fatso";
     set DropItem to "ChaingunGuy";
@@ -73,7 +84,7 @@ class MonSpawnO group skull_spawns extends RandomSpawner {
     set DropItem to "Revenant";
     set DropItem to "Cacodemon";
     set DropItem to "XZombieSpawner";
-    set DropItem to XShotGuySpawner::(1);
+    set DropItem to XCustomShotGuySpawner::(3);
 }
 
 class MonSpawnR group skull_spawns extends RandomSpawner {
@@ -81,8 +92,10 @@ class MonSpawnR group skull_spawns extends RandomSpawner {
     set DropItem to "ArchVile";
     set DropItem to "HellKnight";
     set DropItem to "BaronOfHell";
-    set DropItem to "LaserGuyR";
-    set DropItem to XShotGuySpawner::(2);
+#ifdef MONSPAWN_LASERGUYS
+    set DropItem to "XLaserGuyRSpawner";
+#endif
+    set DropItem to XCustomShotGuySpawner::(7);
 }
 
 class<ParticleSprite, Scale> SkullParticle {

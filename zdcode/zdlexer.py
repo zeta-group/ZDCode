@@ -1127,9 +1127,9 @@ def parse_postcode(postcode, error_handler=None):
             else:
                 error_handler(err)
 
-def parse_code(code, filename=None, dirname='.', error_handler=None, imports=()):
+def parse_code(code, filename=None, dirname='.', error_handler=None, preproc_defs=(), imports=()):
     try:
-        return parse_postcode(preprocess_code(code, this_fname=filename, rel_dir=dirname, imports=imports), error_handler=error_handler)
+        return parse_postcode(preprocess_code(code, defs=preproc_defs, this_fname=filename, rel_dir=dirname, imports=imports), error_handler=error_handler)
 
     except PreprocessingError as pperr:
         if error_handler is None:
