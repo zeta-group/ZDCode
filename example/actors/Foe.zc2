@@ -52,7 +52,7 @@ class<> Fighter group fighter_foes extends BaseFoe {
     abstract macro P_XDie;          // anim: die gibbed             | action: standard xdeath sequence + xdeath sound
     abstract macro P_Pain;          // anim: pain                   | action: standard pain sequence   +   pain sound
     
-    // Sound macros below - please use TNT1 A 0!
+    // Sound macros below - please use invisi (aka TNT1 A 0)!
     
     abstract macro N_Forget;        // sound played when target dismissed and idle state resumed
     abstract macro N_Active;        // sound played when target acquired
@@ -65,35 +65,69 @@ class<> Fighter group fighter_foes extends BaseFoe {
     //====  Routines  ====//
 
     macro R_Aim {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call aim");
+#endif
+    
         apply WhileAiming inject P_Aim;
         
         goto S_Root;
     };
     
     macro R_Shoot {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call shoot");
+#endif
+    
         apply WhileFiring inject P_Shoot;
         
         goto S_Root;
     };
     
     macro R_Melee {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call melee");
+#endif
+    
         apply WhileMelee inject P_Melee;
+        
+        goto S_Root;
+    };
+
+    macro R_Dodge {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call dodge");
+#endif
+    
+        apply WhileDodging inject P_Dodge;
+        
+        goto S_Root;
     };
     
     macro R_Hide {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call hide");
+#endif
+    
         apply WhileCovered inject P_Hide;
+        
+        goto S_Root;
     };
     
     macro R_Attack {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call attack");
+#endif
+    
         ifjump A_JumpIfTargetInsideMeleeRange($offset) // do melee if possible
             inject R_Melee;
     
         else
-        ifjump A_JumpIfTargetInLOS(35)
+        ifjump A_JumpIfTargetInLOS($offset, 50)
             inject R_Shoot;
         
         else
-        ifjump A_JumpIfTargetInLOS(135)
+        ifjump A_JumpIfTargetInLOS($offset)
             inject R_Aim;
        
         else
@@ -101,21 +135,53 @@ class<> Fighter group fighter_foes extends BaseFoe {
     };
     
     macro R_Avoid {
-        apply WhileIdle inject P_Avoid;
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call avoid");
+#endif
+    
+        apply WhileAvoiding inject P_Avoid;
+
+        goto S_Root;
     };
     
     macro R_Look {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call look");
+#endif
+    
         apply WhileIdle inject P_LookAround;
+
+        goto S_Root;
     };
     
     macro R_Idle {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call idle");
+#endif
+    
         apply WhileIdle inject P_Idle;
+
+        goto S_Root;
+    };
+
+    macro R_Seek {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call seek");
+#endif
+    
+        apply WhileAlert inject P_Seek;
+        
+        goto S_Root;
     };
     
     
     //====  States  ====//
     
     label S_Idle {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state idle");
+#endif
+    
         if (user_alert > 0) {
             inject C_DecrementAlert(75, C_BecomeIdle);
             sometimes 30 inject R_Look;
@@ -127,11 +193,15 @@ class<> Fighter group fighter_foes extends BaseFoe {
     
     label S_Target {
         // Target acquired.
+
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state target");
+#endif
         
         if (user_alert < 3) inject N_Active;
-        TNT1 A 0 A_SetUserVar("user_alert", 35 * 3);
+        invisi A_SetUserVar("user_alert", 35 * 3);
     
-        ifjump A_JumpIfTargetInLOS(135) inject R_Attack;
+        ifjump A_JumpIfTargetInLOS($offset, 135) inject R_Attack;
         
         goto S_Root;
     };
@@ -145,27 +215,24 @@ class<> Fighter group fighter_foes extends BaseFoe {
     };
     
     label S_Root {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state root");
+#endif
+    
         // The "root" is a state almost all others eventually return to.
         if (Health <= 0) {
             if (health < -user_spawnhealth) {
-                inject P_Die;
+                inject P_XDie;
                 stop;
             };
                 
             else {
-                inject P_XDie;
+                inject P_Die;
                 stop;
             };
         };
         
         // ...still alive, phew
-
-        TNT1 A 0 A_Log("-----------");
-        TNT1 A 0 A_Log("(1) Type | (2) Alert level | (3) Health");
-        TNT1 A 0 A_Log(Self);
-        TNT1 A 0 A_Log(user_alert);
-        TNT1 A 0 A_Log(health);
-        TNT1 A 0 A_Log("-----------");
         
         if (user_alert > 0) // still alert!
             goto S_ConsiderAttack;
@@ -175,81 +242,163 @@ class<> Fighter group fighter_foes extends BaseFoe {
     };
     
     label S_ConsiderAttack {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state considerattack");
+#endif
+    
         // This monster will here apply logic to
         // some situation where it is aware of
         // some enemy.
         
-        ifjump A_JumpifTargetInLOS($offset) {
+        ifjump A_JumpIfTargetInLOS($offset) {    
+#ifdef DEBUG_FOES
+            invisi A_Log("+ target visible");
+#endif
+        
             // enemy visible, maybe try attacking
-            if (Health > GetSpawnHealth() / 3) {
+            if (Health > user_spawnhealth / 3 || FRandom(0, 100) < 30) {
                 // not in vital danger
-                
-                sometimes 50 ifjump A_JumpIfInTargetLOS(20) // being aimed at by the target!
-                    apply WhileDodging inject P_Dodge; // dodge enemy aim
 
-                ifjump A_JumpIfTargetInsideMeleeRange($offset) // melee if possible!
+#ifdef DEBUG_FOES
+                invisi A_Log("+ not in danger");
+#endif
+                
+                sometimes 50 ifjump A_JumpIfInTargetLOS($offset, 20) { // being aimed at by the target!
+#ifdef DEBUG_FOES
+                    invisi A_Log("+ in crosshair; dodge");
+#endif
+                
+                    inject R_Dodge; // dodge enemy aim
+
+                    goto S_Root;
+                };
+
+                ifjump A_JumpIfTargetInsideMeleeRange($offset) { // melee if possible!
+#ifdef DEBUG_FOES
+                    invisi A_Log("+ in range; melee");
+#endif
+                    
                     inject R_Melee; // do Quick Attack! go!
 
-                sometimes 30
+                    goto S_Root;
+                };
+
+                sometimes 30 {
+#ifdef DEBUG_FOES
+                    invisi A_Log("+ not in range; just do seek (30% chance)");
+#endif
+                
                     apply WhileDodging inject P_Seek; // chance to seeking instead of shooting.
+
+                    goto S_Root;
+                };
+
+#ifdef DEBUG_FOES
+                invisi A_Log("+ not in range; ranged attack");
+#endif
                 
                 inject R_Attack; // shoot!
+
+                goto S_Root;
             };
             
             else {
+#ifdef DEBUG_FOES
+                invisi A_Log("+ in danger; should avoid");
+#endif
+            
                 inject R_Avoid; // run/hide!
+
+                goto S_Root;
             };
+
+            goto S_Root;
         };
         
         else {
+#ifdef DEBUG_FOES
+            invisi A_Log("+ target not visible");
+#endif
+        
             // enemy not visible
             // decide between
             // * stay in cover
             // * become idle
             // * seek
             
-            if (Health >= user_prevhealth) inject C_DecrementAlert(60, C_BecomeIdle); // return to idle
-            
-            else if (Health > GetSpawnHealth() / 1.5) // considerably healthy
+            if (Health >= user_prevhealth) {
+                inject C_DecrementAlert(60, C_BecomeIdle); // may return to idle
+                goto S_Seek;
+            };
+                        
+            else if (Health > user_spawnhealth / 1.5) // considerably healthy
                 goto S_Seek;
                 
             else
                 goto S_Hide;
+
+            stop;
+            goto S_Root;
         };
-        
+
+        stop;
         goto S_Root;
     };
     
     label S_Hide {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state hide");
+#endif
+    
         inject R_Hide;
         
         goto S_Root;
     };
     
     label S_Seek {
-        apply WhileAlert inject P_Seek;
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state seek");
+#endif
+    
+        inject R_Seek;
         
         goto S_Root;
     };
     
     label S_Spotted {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state spotted");
+#endif
+    
         goto S_ConsiderAttack;
     };
     
     label S_Surprise {
-        if (Health > GetSpawnHealth() / 1.5) inject R_Attack; // surprise!
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state ambush");
+#endif
+    
+        if (Health > user_spawnhealth / 1.5) inject R_Attack; // surprise!
         else goto S_ConsiderAttack;
     };
     
     label S_Pain {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state pain");
+#endif
+    
         inject P_Pain;
         goto S_Root;
     };
     
     label S_Alert {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state alert");
+#endif
+    
         if (user_alert < 3) inject N_Alert;
         
-        if (user_alert < 35 * 2) TNT1 A 0 A_SetUserVar("user_alert", 35 * 2);
+        if (user_alert < 35 * 2) invisi A_SetUserVar("user_alert", 35 * 2);
     
         apply WhileAlert inject P_LookAround;
         inject C_AlertCheck;
@@ -262,8 +411,8 @@ class<> Fighter group fighter_foes extends BaseFoe {
     //====  Checkers and Modifiers  ====//
     
     macro C_BecomeIdle {
-        TNT1 A 0 A_SetUserVar("user_alert", user_alert - 0); 
-        TNT1 A 0 A_ClearTarget;
+        invisi A_SetUserVar("user_alert", user_alert - 0); 
+        invisi A_ClearTarget;
         
         inject N_Forget;
         goto S_Root;
@@ -271,10 +420,10 @@ class<> Fighter group fighter_foes extends BaseFoe {
     
     macro C_DecrementAlert(chance, target) {
         sometimes chance {
-            TNT1 A 0 A_SetUserVar("user_alert", user_alert - 1);
+            invisi A_SetUserVar("user_alert", user_alert - 1);
             
             if (user_alert <= 0) {
-                TNT1 A 0 A_SetUserVar("user_alert", 0);
+                invisi A_SetUserVar("user_alert", 0);
                 inject @target;
             };
         };
@@ -318,7 +467,7 @@ class<> Fighter group fighter_foes extends BaseFoe {
     };
     
     macro C_Look {
-        TNT1 A 0 A_LookEx(0, Radius + 2, 0, 4096, 110, "S_Target");
+        if (user_alert <= 5) invisi A_LookEx(0, Radius + 2, 0, 4096, 110, "S_Target");
     };
     
     macro C_IdleCheck {
@@ -327,15 +476,15 @@ class<> Fighter group fighter_foes extends BaseFoe {
     };
     
     macro C_PreAimCheck {
-        if (Health < user_prevhealth && Health <= GetSpawnHealth() / 3 && Health > 0)
+        if (Health < user_prevhealth && Health <= user_spawnhealth / 3 && Health > 0)
             goto S_Root;
                 
         inject C_HealthCheckSuffix;
-        ifjump A_JumpIfTargetInLOS(140); else goto S_Root;
+        ifjump A_JumpIfTargetInLOS($offset, 140); else goto S_Root;
     };
     
     macro C_MeleeCheck {
-        if (Health < user_prevhealth && Health <= GetSpawnHealth() / 3 && Health > 0)
+        if (Health < user_prevhealth && Health <= user_spawnhealth / 3 && Health > 0)
             goto S_Root;
                 
         inject C_HealthCheckSuffix;
@@ -343,15 +492,15 @@ class<> Fighter group fighter_foes extends BaseFoe {
     };
     
     macro C_ShootCheck {
-        if (Health < user_prevhealth && Health <= GetSpawnHealth() / 3 && Health > 0)
+        if (Health < user_prevhealth && Health <= user_spawnhealth / 3 && Health > 0)
             goto S_Root;
                 
         inject C_HealthCheckSuffix;
-        ifjump A_JumpIfTargetInLOS(50); else goto S_Root;
+        ifjump A_JumpIfTargetInLOS($offset, 50); else goto S_Root;
     };
     
     macro C_HealthCheckSuffix {
-        TNT1 A 0 A_SetUserVar("user_prevhealth", Health);
+        invisi A_SetUserVar("user_prevhealth", Health);
     };
     
     mod WhileCovered {
@@ -360,6 +509,10 @@ class<> Fighter group fighter_foes extends BaseFoe {
     
     mod WhileIdle {
         (!sprite(TNT1)) suffix inject C_IdleCheck;
+    };
+
+    mod WhileAvoiding {
+        (!sprite(TNT1)) suffix inject C_HurtCheck;
     };
     
     mod WhileAlert {
@@ -386,8 +539,8 @@ class<> Fighter group fighter_foes extends BaseFoe {
     //====  Monster Labels  ====//
     
     label Spawn {
-        TNT1 A 0 A_SetUserVar("user_prevhealth", Health);
-        TNT1 A 0 A_SetUserVar("user_spawnhealth", Health);
+        invisi A_SetUserVar("user_prevhealth", Health);
+        invisi A_SetUserVar("user_spawnhealth", Health);
         
         goto S_Root;
     };
@@ -450,7 +603,7 @@ derive Foe_Imp as Fighter::() {
             TROO AA 4 A_SetAngle(angle + FRandom(-15, 15));
         
         sometimes 25 {
-            TNT1 A 0 A_Wander;
+            invisi A_Wander;
             sometimes 40
                 TROO AABBA 3 A_Recoil(0.3);
         };
@@ -463,13 +616,13 @@ derive Foe_Imp as Fighter::() {
         };
         
         x4 sometimes 70 {
-            TNT1 A 0 A_SetAngle(angle + FRandom(-30, 30));
+            invisi A_SetAngle(angle + FRandom(-30, 30));
             TROO ABAB 3 A_Recoil(-0.3);
         };
     };
     
     macro P_Seek {
-        TNT1 A 0 A_SetAngle(angle + FRandom(-30, 30));
+        invisi A_SetAngle(angle + FRandom(-30, 30));
         TROO AABCCDABBCDD 2 {
             A_Chase;
             A_Recoil(-0.4);
@@ -487,8 +640,13 @@ derive Foe_Imp as Fighter::() {
     }; 
     
     macro P_Dodge {
+        x 5 {
+            ifjump A_JumpIfTargetInLOS($offset, 60) break;
+            else TROO A 2 A_FaceTarget(20);
+        };
+    
         TROO ABCC 3 A_Recoil(0.1);
-        TNT1 A 0 ThrustThingZ(0, 6, 0, 1);
+        invisi ThrustThingZ(0, 6, 0, 1);
         
         if (Random(0, 255) > 127)
             TROO DD 2 ThrustThing(angle * 256 / 360 + 64, 9, 0, 0);  // dodge right
@@ -517,15 +675,15 @@ derive Foe_Imp as Fighter::() {
     
     macro P_Melee {
         TROO EFF 1 A_FaceTarget(25);
-        TNT1 A 0 ThrustThingZ(0, 4, 0, 0);
+        invisi ThrustThingZ(0, 4, 0, 0);
         TROO G 2 A_TroopAttack;
         TROO GFE 2;
     };
     
     mod MayDodgeDuring {
         any suffix {
-            sometimes 30 TNT1 A 0 ThrustThing(angle * 256 / 360 + 64,  5, 0, 0);  // dodge right?
-            sometimes 30 TNT1 A 0 ThrustThing(angle * 256 / 360 + 192, 5, 0, 0);  // dodge left?
+            sometimes 30 invisi ThrustThing(angle * 256 / 360 + 64,  5, 0, 0);  // dodge right?
+            sometimes 30 invisi ThrustThing(angle * 256 / 360 + 192, 5, 0, 0);  // dodge left?
         };
     };
     
@@ -544,7 +702,7 @@ derive Foe_Imp as Fighter::() {
         
         while (z > floorz + 4) {
             TROO J 2;
-            sometimes 50 TNT1 A 0 A_PlaySound("imp/death", CHAN_AUTO);
+            sometimes 50 invisi A_PlaySound("imp/death", CHAN_AUTO);
         };
         
         TROO K 4 A_NoBlocking;
@@ -573,15 +731,15 @@ derive Foe_Imp as Fighter::() {
     // Sound macros //
     
     macro N_Forget {
-        TNT1 A 0 A_PlaySound("imp/pain", CHAN_VOICE, 0.3, 3.4);
+        invisi A_PlaySound("imp/pain", CHAN_VOICE, 0.3, 3.4);
     };
     
     macro N_Alert {
-        TNT1 A 0 A_PlaySound("imp/active", CHAN_VOICE);
+        invisi A_PlaySound("imp/active", CHAN_VOICE);
     };
     
     macro N_Active {
-        TNT1 A 0 A_PlaySound("imp/sight", CHAN_VOICE);
+        invisi A_PlaySound("imp/sight", CHAN_VOICE);
     };
 };
 

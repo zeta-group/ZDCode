@@ -455,7 +455,7 @@ class ZDBlock:
         return ZDBlock(self._actor, (s.clone() for s in self.states))
         
     def num_states(self):
-        return len(self.states)
+        return sum(x.num_states() for x in self.states)
         
     def state_containers(self):
         yield self.states
@@ -505,9 +505,9 @@ class ZDIfStatement(object):
             num_st_el = self.num_else_states()
 
             return TextNode([
-                "TNT1 A 0 A_JumpIf({}, {})\n".format(self.true_condition, num_st_el + 2),
+                "TNT1 A 0 A_JumpIf({}, {})".format(self.true_condition, num_st_el + 2),
                     self.else_block.to_decorate(),
-                "TNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 1),
+                "TNT1 A 0 A_Jump(256, {})".format(num_st_bl + 1),
                     TextNode([x.to_decorate() for x in self.states]),
                 "TNT1 A 0",
             ])
@@ -569,19 +569,19 @@ class ZDIfJumpStatement(object):
             num_st_el = self.num_else_states()
 
             return TextNode([
-                "TNT1 A 0 {}\n".format(self.true_condition(num_st_el + 2)),
+                "TNT1 A 0 {}".format(self.true_condition(num_st_el + 2)),
                     self.else_block.to_decorate(),
-                "\nTNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 1),
+                "TNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 1),
                     TextNode([x.to_decorate() for x in self.states]),
-                "\nTNT1 A 0",
+                "TNT1 A 0",
             ])
 
         else:
             return TextNode([
                 "TNT1 A 0 {}".format(self.true_condition(2)),
-                "\nTNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 1),
+                "TNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 1),
                     TextNode([x.to_decorate() for x in self.states]),
-                "\nTNT1 A 0",
+                "TNT1 A 0",
             ])
 
 
@@ -1475,9 +1475,13 @@ class ZDCode:
 
             apply_ctx = context.derive('apply block')
             apply_ctx.applied_mods.extend(mod)
-            
+
+            apply = ZDBlock(actor)
+
             for a in apply_block:
-                self._parse_state(actor, apply_ctx, label, self._mutate_iter_state(a, apply_ctx, apply_ctx), func)
+                self._parse_state(actor, apply_ctx, apply, a, func)
+
+            add_state(apply)
 
         elif s[0] == 'if':
             ifs = ZDIfStatement(actor, self._parse_expression(s[1][0], context), [])
