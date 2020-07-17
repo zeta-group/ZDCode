@@ -557,7 +557,7 @@ class<> Fighter group fighter_foes extends BaseFoe {
     label Raise {
         inject P_Raise;
         goto S_Root;
-    }
+    }; 
 }
 
 
@@ -819,7 +819,7 @@ derive Foe_HellKnight as Fighter::() {
     
     macro P_Seek {
         invisi A_SetAngle(angle + FRandom(-30, 30));
-        BOS2 AABCCDABBCDD 2 {
+        BOS2 AABCCDABBCDD 4 {
             A_Chase;
             A_Recoil(-0.4);
         };
@@ -863,8 +863,8 @@ derive Foe_HellKnight as Fighter::() {
     };
     
     macro P_Shoot {
-        BOS2 EEFFFF 1 A_FaceTarget(10);
-        BOS2 G 3 [Bright] A_TroopAttack;
+        BOS2 EEEEEFFFFF 1 A_FaceTarget(5);
+        BOS2 G 5 [Bright] A_BruisAttack;
         BOS2 GG 1 [Bright];
         BOS2 GFE 2;
     };
@@ -872,7 +872,7 @@ derive Foe_HellKnight as Fighter::() {
     macro P_Melee {
         BOS2 EFF 1 A_FaceTarget(25);
         invisi ThrustThingZ(0, 4, 0, 0);
-        BOS2 G 2 A_TroopAttack;
+        BOS2 G 4 A_BruisAttack;
         BOS2 GFE 2;
     };
     
@@ -1005,7 +1005,7 @@ derive Foe_BaronOfHell as Fighter::() {
     
     macro P_Seek {
         invisi A_SetAngle(angle + FRandom(-30, 30));
-        BOSS AABCCDABBCDD 2 {
+        BOSS AABCCDABBCDD 4 {
             A_Chase;
             A_Recoil(-0.4);
         };
@@ -1049,8 +1049,8 @@ derive Foe_BaronOfHell as Fighter::() {
     };
     
     macro P_Shoot {
-        BOSS EEFFFF 1 A_FaceTarget(10);
-        BOSS G 3 [Bright] A_TroopAttack;
+        BOSS EEEEEFFFFF 1 A_FaceTarget(5);
+        BOSS G 5 [Bright] A_BruisAttack;
         BOSS GG 1 [Bright];
         BOSS GFE 2;
     };
@@ -1058,7 +1058,7 @@ derive Foe_BaronOfHell as Fighter::() {
     macro P_Melee {
         BOSS EFF 1 A_FaceTarget(25);
         invisi ThrustThingZ(0, 4, 0, 0);
-        BOSS G 2 A_TroopAttack;
+        BOSS G 2 A_BruisAttack;
         BOSS GFE 2;
     };
     
