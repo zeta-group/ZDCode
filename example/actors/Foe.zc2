@@ -49,6 +49,7 @@ class<> Fighter group fighter_foes extends BaseFoe {
     abstract macro P_Avoid;         // anim: run or walk            | action: avoid enemy, whether by fleeing or flying or bouncing randomly, etc
     
     abstract macro P_Die;           // anim: die                    | action: standard death sequence  +  death sound
+    abstract macro P_Raise;         // anim: raised (e.g. by vile)  | action: standard raise sequence  +  raise sound
     abstract macro P_XDie;          // anim: die gibbed             | action: standard xdeath sequence + xdeath sound
     abstract macro P_Pain;          // anim: pain                   | action: standard pain sequence   +   pain sound
     
@@ -552,6 +553,11 @@ class<> Fighter group fighter_foes extends BaseFoe {
     label Pain {
         goto S_Pain;
     };
+
+    label Raise {
+        inject P_Raise;
+        goto S_Root;
+    }
 }
 
 
@@ -588,7 +594,7 @@ derive Foe_Imp as Fighter::() {
     set DeathSound  to "imp/death";
     
     set HitObituary to "$OB_IMPHIT";
-    set Obituary    to "$OB_IMPHIT";
+    set Obituary    to "$OB_IMP";
     
     is FLOORCLIP;
     
@@ -710,6 +716,11 @@ derive Foe_Imp as Fighter::() {
         
         TROO M -1;
     };
+
+    macro P_Raise {
+        TROO ML 8;
+        TROO KJI 5;
+    };
     
     macro P_XDie {
         TROO N 2;
@@ -731,11 +742,11 @@ derive Foe_Imp as Fighter::() {
     // Sound macros //
     
     macro N_Forget {
-        invisi A_PlaySound("imp/pain", CHAN_VOICE, 0.3, 3.4);
+        invisi A_PlaySound("imp/active", CHAN_VOICE, 0.3, 3.4);
     };
     
     macro N_Alert {
-        invisi A_PlaySound("imp/active", CHAN_VOICE);
+        invisi A_PlaySound("imp/pain", CHAN_VOICE);
     };
     
     macro N_Active {
@@ -743,3 +754,372 @@ derive Foe_Imp as Fighter::() {
     };
 };
 
+derive Foe_HellKnight as Fighter::() {
+    /*      - standard hk properties
+        Health 500
+        Radius 24
+        Height 64
+        Mass 1000
+        Speed 8
+        PainChance 50
+        Monster
+        +FLOORCLIP
+        SeeSound "knight/sight"
+        ActiveSound "knight/active"
+        PainSound "knight/pain"
+        DeathSound "knight/death"
+        HitObituary "$OB_KNIGHTHIT"
+        Obituary "$OB_KNIGHT"
+    */
+
+    set Health      to 500;
+    set Radius      to 24;
+    set Height      to 64;
+    set Mass        to 1000;
+    set Speed       to 8;
+    set PainChance  to 50;
+    
+    set ActiveSound to "knight/active";
+    set PainSound   to "knight/pain";
+    set DeathSound  to "knight/death";
+    
+    set HitObituary to "$OB_KNIGHTHIT";
+    set Obituary    to "$OB_KNIGHT";
+    
+    is FLOORCLIP;
+    
+    
+    
+    // Animation macros //
+    
+    macro P_Idle {
+        BOS2 AB 10;
+        
+        x 4 sometimes 40
+            BOS2 AA 4 A_SetAngle(angle + FRandom(-15, 15));
+        
+        sometimes 25 {
+            invisi A_Wander;
+            sometimes 40
+                BOS2 AABBA 3 A_Recoil(0.3);
+        };
+    };
+    
+    macro P_LookAround {
+        BOS2 AB 10 {
+            A_SetAngle(angle + FRandom(-20, 20));
+            A_Look;
+        };
+        
+        x4 sometimes 70 {
+            invisi A_SetAngle(angle + FRandom(-30, 30));
+            BOS2 ABAB 3 A_Recoil(-0.3);
+        };
+    };
+    
+    macro P_Seek {
+        invisi A_SetAngle(angle + FRandom(-30, 30));
+        BOS2 AABCCDABBCDD 2 {
+            A_Chase;
+            A_Recoil(-0.4);
+        };
+    };
+    
+    macro P_Hide {
+        if (Random(0, 255) > 127)
+            BOS2 AAAA 3;
+            
+        else {
+            BOS2 BBBB 3;
+            sometimes 30 BOS2 ABA 2 A_Recoil(0.25);
+        };
+    }; 
+    
+    macro P_Dodge {
+        x 5 {
+            ifjump A_JumpIfTargetInLOS($offset, 60) break;
+            else BOS2 A 2 A_FaceTarget(20);
+        };
+    
+        BOS2 ABCC 3 A_Recoil(0.1);
+        invisi ThrustThingZ(0, 6, 0, 1);
+        
+        if (Random(0, 255) > 127)
+            BOS2 DD 2 ThrustThing(angle * 256 / 360 + 64, 9, 0, 0);  // dodge right
+            
+        else
+            BOS2 DD 2 ThrustThing(angle * 256 / 360 + 192, 9, 0, 0); // dodge left
+            
+        x 5 {
+            BOS2 DD 3;
+            if (z <= floorz + 3) BOS2 CBA 3; return; // landed
+        };
+        
+        BOS2 CBA 5;
+    };
+    
+    macro P_Aim {
+        BOS2 CCBBEEE 1 A_FaceTarget(10);
+    };
+    
+    macro P_Shoot {
+        BOS2 EEFFFF 1 A_FaceTarget(10);
+        BOS2 G 3 [Bright] A_TroopAttack;
+        BOS2 GG 1 [Bright];
+        BOS2 GFE 2;
+    };
+    
+    macro P_Melee {
+        BOS2 EFF 1 A_FaceTarget(25);
+        invisi ThrustThingZ(0, 4, 0, 0);
+        BOS2 G 2 A_TroopAttack;
+        BOS2 GFE 2;
+    };
+    
+    mod MayDodgeDuring {
+        any suffix {
+            sometimes 30 invisi ThrustThing(angle * 256 / 360 + 64,  5, 0, 0);  // dodge right?
+            sometimes 30 invisi ThrustThing(angle * 256 / 360 + 192, 5, 0, 0);  // dodge left?
+        };
+    };
+    
+    macro P_Avoid {
+        apply MayDodgeDuring {
+            BOS2 AABCCDABBCDD 2 {
+                A_SetAngle(angle + FRandom(-25, 25));
+                A_Recoil(0.4);
+            };
+        };
+    };
+    
+    macro P_Die {
+        BOS2 I 3;
+        BOS2 J 5 A_Scream;
+        
+        while (z > floorz + 4) {
+            BOS2 J 2;
+            sometimes 50 invisi A_PlaySound("imp/death", CHAN_AUTO);
+        };
+        
+        BOS2 K 4 A_NoBlocking;
+        BOS2 LMN 4;
+        
+        BOS2 O -1;
+    };
+
+    macro P_Raise {
+        BOS2 ON 12;
+        BOS2 MLKJI 8;
+    };
+    
+    macro P_XDie {
+        inject P_Die;
+    };
+    
+    macro P_Pain {
+        BOS2 H 1;
+        BOS2 H 2 A_Pain;
+    };
+    
+    
+    
+    // Sound macros //
+    
+    macro N_Forget {
+        invisi A_PlaySound("knight/active", CHAN_VOICE, 0.3, 3.4);
+    };
+    
+    macro N_Alert {
+        invisi A_PlaySound("knight/pain", CHAN_VOICE);
+    };
+    
+    macro N_Active {
+        invisi A_PlaySound("knight/sight", CHAN_VOICE);
+    };
+};
+
+derive Foe_BaronOfHell as Fighter::() {
+    /*      - standard boh properties
+        Health 1000
+        Radius 24
+        Height 64
+        Mass 1000
+        Speed 8
+        PainChance 50
+        Monster
+        +FLOORCLIP
+        +BOSSDEATH
+        SeeSound "baron/sight"
+        ActiveSound "baron/active"
+        PainSound "baron/pain"
+        DeathSound "baron/death"
+        HitObituary "$OB_BARONHIT"
+        Obituary "$OB_BARON"
+    */
+
+    set Health      to 500;
+    set Radius      to 24;
+    set Height      to 64;
+    set Mass        to 1000;
+    set Speed       to 8;
+    set PainChance  to 50;
+    
+    set ActiveSound to "baron/active";
+    set PainSound   to "baron/pain";
+    set DeathSound  to "baron/death";
+    
+    set HitObituary to "$OB_BARONHIT";
+    set Obituary    to "$OB_BARON";
+    
+    is FLOORCLIP;
+    is BOSSDEATH;
+    
+    
+    
+    // Animation macros //
+    
+    macro P_Idle {
+        BOSS AB 10;
+        
+        x 4 sometimes 40
+            BOSS AA 4 A_SetAngle(angle + FRandom(-15, 15));
+        
+        sometimes 25 {
+            invisi A_Wander;
+            sometimes 40
+                BOSS AABBA 3 A_Recoil(0.3);
+        };
+    };
+    
+    macro P_LookAround {
+        BOSS AB 10 {
+            A_SetAngle(angle + FRandom(-20, 20));
+            A_Look;
+        };
+        
+        x4 sometimes 70 {
+            invisi A_SetAngle(angle + FRandom(-30, 30));
+            BOSS ABAB 3 A_Recoil(-0.3);
+        };
+    };
+    
+    macro P_Seek {
+        invisi A_SetAngle(angle + FRandom(-30, 30));
+        BOSS AABCCDABBCDD 2 {
+            A_Chase;
+            A_Recoil(-0.4);
+        };
+    };
+    
+    macro P_Hide {
+        if (Random(0, 255) > 127)
+            BOSS AAAA 3;
+            
+        else {
+            BOSS BBBB 3;
+            sometimes 30 BOSS ABA 2 A_Recoil(0.25);
+        };
+    }; 
+    
+    macro P_Dodge {
+        x 5 {
+            ifjump A_JumpIfTargetInLOS($offset, 60) break;
+            else BOSS A 2 A_FaceTarget(20);
+        };
+    
+        BOSS ABCC 3 A_Recoil(0.1);
+        invisi ThrustThingZ(0, 6, 0, 1);
+        
+        if (Random(0, 255) > 127)
+            BOSS DD 2 ThrustThing(angle * 256 / 360 + 64, 9, 0, 0);  // dodge right
+            
+        else
+            BOSS DD 2 ThrustThing(angle * 256 / 360 + 192, 9, 0, 0); // dodge left
+            
+        x 5 {
+            BOSS DD 3;
+            if (z <= floorz + 3) BOSS CBA 3; return; // landed
+        };
+        
+        BOSS CBA 5;
+    };
+    
+    macro P_Aim {
+        BOSS CCBBEEE 1 A_FaceTarget(10);
+    };
+    
+    macro P_Shoot {
+        BOSS EEFFFF 1 A_FaceTarget(10);
+        BOSS G 3 [Bright] A_TroopAttack;
+        BOSS GG 1 [Bright];
+        BOSS GFE 2;
+    };
+    
+    macro P_Melee {
+        BOSS EFF 1 A_FaceTarget(25);
+        invisi ThrustThingZ(0, 4, 0, 0);
+        BOSS G 2 A_TroopAttack;
+        BOSS GFE 2;
+    };
+    
+    mod MayDodgeDuring {
+        any suffix {
+            sometimes 30 invisi ThrustThing(angle * 256 / 360 + 64,  5, 0, 0);  // dodge right?
+            sometimes 30 invisi ThrustThing(angle * 256 / 360 + 192, 5, 0, 0);  // dodge left?
+        };
+    };
+    
+    macro P_Avoid {
+        apply MayDodgeDuring {
+            BOSS AABCCDABBCDD 2 {
+                A_SetAngle(angle + FRandom(-25, 25));
+                A_Recoil(0.4);
+            };
+        };
+    };
+    
+    macro P_Die {
+        BOSS I 3;
+        BOSS J 5 A_Scream;
+        
+        while (z > floorz + 4) {
+            BOSS J 2;
+            sometimes 50 invisi A_PlaySound("imp/death", CHAN_AUTO);
+        };
+        
+        BOSS K 4 A_NoBlocking;
+        BOSS LMN 4;
+        
+        BOSS O -1;
+    };
+
+    macro P_Raise {
+        BOSS ON 12;
+        BOSS MLKJI 8;
+    };
+    
+    macro P_XDie {
+        inject P_Die;
+    };
+    
+    macro P_Pain {
+        BOSS H 1;
+        BOSS H 2 A_Pain;
+    };
+    
+    
+    
+    // Sound macros //
+    
+    macro N_Forget {
+        invisi A_PlaySound("baron/active", CHAN_VOICE, 0.3, 3.4);
+    };
+    
+    macro N_Alert {
+        invisi A_PlaySound("baron/pain", CHAN_VOICE);
+    };
+    
+    macro N_Active {
+        invisi A_PlaySound("baron/sight", CHAN_VOICE);
+    };
+};

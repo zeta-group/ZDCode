@@ -131,7 +131,7 @@ class LaserGun extends Shotgun {
         
         for mod index i in group laser_modules {
             ifjump A_JumpIfInventory(mod, 1, $offset) {
-                if (i== args[0] + 1) {
+                if (i > args[0] && (args[1] == -1 || i <= args[1])) {
                     TNT1 A 0 A_SetArg(1, i);
                     break;
                 };
