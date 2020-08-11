@@ -197,14 +197,6 @@ Just slap the output in your WAD and... [look at what happens!](https://i.imgur.
 # Design Concepts
 
 
-### Ecosystem
-
-The ZDCode ecosystem is meant to simplify writing DECORATE code, mostly in the occasion that a
-mod is built from a directory, instead of modified directly in the PK3. It is still possible to
-modify the contents of a PK3 like a directory, but it is a Linux-only technique, that involves
-mounting the file into a folder using `fuse-zip`. Thus, it is meant to be integrated with
-another build system, which automatically builds an InfoZIP file (with `.pk3` extension).
-
 
 ### Bundling
 
