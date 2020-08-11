@@ -1,0 +1,21 @@
+class SpinZombie extends Zombieman {
+    mod SpinAndRepeat {
+        (!sprite(TNT1)) {
+            +flag Bright;
+            manipulate State {
+                x 24 {
+                    invisi A_SetAngle(angle + 15);
+                    inject State; // state duration effects (and selectors) will be added soon(TM)
+                };
+            };
+        };
+    };
+
+    label Missile {
+        POSS E 10 A_FaceTarget;
+        apply SpinAndRepeat POSS F 8 A_PosAttack;
+
+        POSS EDE 10; // phew!..
+        goto See;
+    };
+}
