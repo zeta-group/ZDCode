@@ -288,7 +288,7 @@ jumps rather than groups of statements.
 
 ZDCode allows the programmer to group their state code into blocks, useful for statements
 like repetition (`x 5 { A_Print ("I'm said five times!") }`), control flow, or even
-mere readability. There can be both blocks of states and blocks of _state actions_.
+mere readability.
 
 
 
