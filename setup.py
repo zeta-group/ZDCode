@@ -40,19 +40,30 @@ if path.isfile('README.md'):
     with open(path.join(this_dir, 'README.md'), encoding='utf-8') as f:
         long_description = f.read()
 
-setup(
-    name=changelog['name'],
-    version=changelog['versions'][-1]['name'],
-    packages=[changelog['packageName']],
+def setup_with(**kwargs):
+    return setup(
+        name=changelog['name'],
+        version=changelog['versions'][-1]['name'],
+        packages=[changelog['packageName']],
+    
+        # metadata to display on PyPI
+        author=changelog['authorName'],
+        author_email=changelog['authorEmail'],
+        description=changelog.get('description', ''),
+        license=changelog['license'],
+        keywords=" ".join([x.replace(' ', '-') for x in changelog['tags']]),
+        install_requires=changelog['dependencies'],
+    
+        long_description=long_description,
+        long_description_content_type=('text/markdown' if long_description is not None else None),
+    
+        **kwargs
+    )
 
-    # metadata to display on PyPI
-    author=changelog['authorName'],
-    author_email=changelog['authorEmail'],
-    description=changelog.get('description', ''),
-    license=changelog['license'],
-    keywords=" ".join([x.replace(' ', '-') for x in changelog['tags']]),
-    install_requires=changelog['dependencies'],
-
-    long_description=long_description,
-    long_description_content_type=('text/markdown' if long_description is not None else None)
+setup_with(
+    entry_points = {
+        'console_scripts': [
+            'zdcode = zdcode.program:main'
+        ]
+    }
 )
