@@ -29,8 +29,8 @@ class Bundle:
                 return code.add(zdc_fp.read(), zdc.name, zdc.parent, error_handler, preproc_defs=preproc_defs)
                 
         return compile_mod_zdcode
-        
-    def bundle(self, out_asset_file=None, out_code_file=None, out_dec_file=None, error_handler=None, preproc_defs=()):
+
+    def bundle(self, out_asset_file=None, out_code_file=None, out_full_file=None, out_dec_file=None, error_handler=None, preproc_defs=()):
         code = ZDCode()
         build_tasks = []
         deps = list(self.mods)
@@ -134,6 +134,7 @@ class Bundle:
                                 asset_bundle.write(ipath, ipath.relative_to(asset_path))
                 
                     elif asset_path.suffix.upper() == '.WAD':
+                        # Just add wads instead of parsing their content
                         asset_bundle.write(asset_path, asset_path.name)
                 
                     elif asset_path.suffix.upper() in ('.PK3', '.PKZ'):
@@ -143,7 +144,25 @@ class Bundle:
                                 
                                 if ipath.stem.split('.')[0].upper() != 'ZDCODE' and ipath.suffix.upper() != '.ZC2':
                                     with asset_zip.open(info) as info_fp:
-                                        asset_bundle.writestr(info, info_fp.read())
+                                        # check if file already exists in target;
+                                        # if so, add extension
+
+                                        # (ignore folders)
+
+                                        p = zipfile.Path(asset_bundle, info.filename)
+
+                                        if p.exists() and p.is_file():
+                                            num = 1
+                                            p = p.with_suffix(p.suffix + '.' + str(num))
+
+                                            # keep checking until we find a vacant name
+                                            while True:
+                                                p = p.with_suffix('.' + str(num))
+
+                                                if not (p.exists() and p.is_file()): break
+                                                num += 1 # .num exists too, increment num
+
+                                        asset_bundle.writestr(p, info_fp.read())
                         
         # Write compiled output to zip (pk3)
         if out_code_file:

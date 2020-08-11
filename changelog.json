@@ -284,6 +284,14 @@
                 "Added preprocessor definition argument to the command-line interface.",
                 "Merged subcommands compile and bundle into one single command, supporting any combination of output arguments (see --help)"
             ]
+        },
+
+        {
+            "name": "2.11.1",
+            "changes": [
+                "Added experimental handling for bundling PK3 assets of same name",
+                "Added ZDCode entrypoint to setuptools script"
+            ]
         }
     ]
 }
