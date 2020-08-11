@@ -263,16 +263,16 @@ The concept of _distribution_ in ZDCode is intimately related to that of bundlin
 because it concerns with the ease of availability of libraries to the programmer, and also the
 ease of distribution and dependency management.
 
-It is planned to create a ZDCode packaging and distribution format, akin to npm or PyPI, to aid
-the users of this project in their endeavors. Instead of being a centralized service, this subproject
-will consist merely of client software, whose purpose is to read _channels_ from existing Git repositories,
-which are an index, for the ZDCode package(s) the repository contains. This client software has the
-main purpose of finding, downloading a ZDCode library, and installing it. It can also install
-from local package files.
+At one point, it was planned to create a rather standardized format for fetching ZDCode packages
+using indexes stored in Git. However, this has been wholly deemed unnecessary. Instead, the
+current roadmap is to add simple support via transports like HTTP, Git and FTP, and allowing
+other transport implementations as well, using a termina-friendly URI-like format. This is very
+reminiscent of the syntax Go package management uses, e.g. `go get github.com/someone/something`.
 
-This will help ensure that ZDCode authors will always have many options, and is part of the expansion of
-possibilities in oldschool ZDoom modding.
-
+This deals with two issues at the same time: it ensures both that players can easily retrieve mods (and
+updates thereof) directly from the Internet (automatically bundling them if necessary), whilst at
+the same time enabling ZDCode mod authors to both obtain and share code more efficiently, both for libraries
+and finished mods.
 
 
 # Programming Constructs
@@ -292,159 +292,26 @@ mere readability. There can be both blocks of states and blocks of _state action
 
 
 
-## Condition Templates
-
-Condition templates are a way to describe a DECORATE conditional check in a way ZScript
-can generalize and apply to other situations. Example:
-
-```
-class JumpNearby extends RedTorch {
-    condition target_closer(dist) { A_JumpIfCloser(dist, @target) };
-    condition on_floor() { A_JumpIf(z == floorz, @target) };
-
-    macro DoTheJump {
-        // ...
-    }
-
-    label Spawn {
-        TRED ABCD 4 [Bright] {
-            if target_closer(128) && on_floor() {
-                inject DoTheJump;
-            };
-        };
-        Loop;
-    }
-}
-```
-
-This is actually a nice feature, and a bit more than just syntax sugar. The reason is
-unfortunately longer than convenient, so hold tight.
-
-DECORATE has a very simple state label system. A state lasts for X frames, and once all the
-frames have elapsed, the actor goes to the next state, which, in turn, lasts for Y frames.
-Some actions, however, can override this behaviour; they jump to different states. `A_Jump*`
-state actions do exactly this: they go forward, or backward, a specific number of states
-from the current one, instead of rolling to the next state. However, as the number of states
-in an actor grows and grows, it becomes more difficult to maintain jump offsets. To combat
-this, DECORATE comes with a state label system, where a label is inserted between states,
-as a sort of grouping. Instead of jumping N states forward or backward, a state can instead
-also jump to the state right after label L.
-
-Therefore, for example,
-
-```
-PrevLabel:
-- A
-- B
-MyLabel:
-- C goto PrevLabel if happy
-- D goto MyLabel   if sad
-```
-
-becomes equivalent to
-
-```
-    - A                                      _  -2
-                                            |     
-    - B                                     |
-                                            |
-    - C jump by -2 if happy   0   # happy >' _  -1
-                                            |
-    - D jump by -1 if sad     0   #   sad >'
-```
-
-but has a much clearer intent, and does not require maintenance of jump offsets ~~if~~ when the
-number of states changes. Much convenience!
-
-However, this is still not enough. Conditions are usally poorly expressable; you can say
-
-```
-class BunnyhoppingImp extends DoomImp replaces DoomImp {
-    // ....
-    States {
-        See:
-            TNT1 A 0 A_JumpIf(z == floorz, "Jump")   // any imp born after 1993 can't double-jump... https://www.reddit.com/r/copypasta/comments/fqcgst/imps_after_1993_cant_doublejump/
-            Goto Run
-
-        Run:
-            // ...
-            Goto See
-
-        Jump:
-            TNT1 A 0 A_MoveUpAndActuallyJump(...)
-            // ...
-            Goto Run
-    }
-}
-```
-
-But there is no way to parametrize it. Let's say you want to define a common condition,
-`higher_than(height)`, where the actual condition is `z > floorz + height`. Sure, this
-isn't really necessary, and isn't a particularly significant instance of extracting
-duplicate code. But it already has its use case – what if you want to change the `>` to
-a `>=` later on, or likewise alter the behaviour of this use case? Also, it becomes
-even more important as the size of the actual condition grows, or the number of parameters
-increase.
-
-Plus, there are many `A_Jump*` actions; some conditions can't be expressed as DECORATE expressions,
-and thus need to be expressed natively, and exposed via different actions. Like `A_JumpIfCloser` to
-detect the proximity between a game object and its target (for a monster, this is usually player
-proximity, with exceptions like during a monster infighting scenario). There is no `target_proximity`
-value you can use in DECORATE.
-
-ZDCode fixes those issues by abridging actions that jump with common syntax, which are those condition
-templates. It also takes advantage of the label system, making it possible to insert labels _inside_
-the code of other labels, to perform conditional jumps and loops.
-
-It is possible to do conditional jumping in plain DECORATE, and even to do a jump that only happens if
-two conditional jumps occur:
-
-```
-States {
-    Spawn:
-        TRED ABCD 4 Bright
-        // 'TNT1 A' is invisible; 0 means the frame runs instantly. So it just
-        // performs the state action without waiting, so all of the code below
-        // executes instantly, like C code would.
-        TNT1 A 0 A_JumpIfCloser(128, 2) // player must be closer than 128 units
-        TNT1 A 0
-          Goto GoBack
-        TNT1 A 0 A_JumpIf(z == floorz, 2) // torch must still be in ground, *as well*
-        TNT1 A 0
-          Goto GoBack
-        // if either of these conditions is not satisfied, the code does not reach here
-        // therefore, this is basically an 'if (a && b)' thing
-        TNT1 A 0 // ...and this is the else
-          Loop
-
-    IfBody:
-        TNT1 A 0
-          Goto DoTheJump
-
-    GoBack:
-        TNT1 A 0
-          Goto Spawn
-}
-```
-
-But ZDCode helps clean this syntax up, and it also makes conditions more easily parametrized, as well
-as providing support for some sorts of code blocks.
-
-
 ## Macros
 
 Macros are a way to inject common behaviour into different locations, as states that are
 used multiple times.
 
 ```
+// Global macros!
+macro ThrustUpward(amount) {
+    TNT1 A 0 ThrustThingZ(0, amount, 0, 1);  // My, DECORATE has some convoluted things sometimes.
+}
+
 class YipYipHurrahMan extends ZombieMan {
+    // Class-local macros!
     macro Yip {
-        TNT1 A 0 A_ThrustUpward(20);
-    }
+        inject ThrustUpward(20);
+    };
 
     macro Hurrah {
-        TNT1 A 0 A_ThrustUpward(90);
-    }
+        inject ThrustUpward(90);
+    };
 
     label Spawn {
         POSS A 12;   // '12' means short yips
@@ -454,7 +321,7 @@ class YipYipHurrahMan extends ZombieMan {
         POSS D 50;   // '50' means long hurrahs
           inject Hurrah;
           loop;
-    }
+    };
 }
 ```
 
@@ -463,7 +330,214 @@ called at runtime. (Functions are legacy, unreliable, and now deprecated.) They 
 static parameters, as well. They can't change at runtime, but they do make life easier too.
 
 
+
+## Conditions
+
+In contrast to DECORATE's highly manual and tediously finnicky (and almost Assembly-like)
+state jumps, ZDCode boasts a much nicer format, that does not require offset maintenance
+in the source code, nor separate state labels, and that is easier to both integrate with
+existing code, extend with new code, or nest with more conditions and other constructs.
+
+```
+class RedBlue {
+    label Spawn {
+        if (z > floorz + 64) {
+            // Red sprite, normal gravity (except half, but you know).
+            RDBL R 2 A_SetGravity(0.5);
+        };
+
+        else {
+            // Blue sprite, reverse gravity.
+            RDBL B 2 A_SetGravity(-0.5);
+        };
+        
+        loop;
+    };
+}
+```
+
+
 ## Preprocessor
 
 Yes, there is a C-like preprocessor in ZDCode! It has the usual `#DEFINE`, `#IFDEF`,
-`#IFNDEF`, and the staple of any library - `#INCLUDE`. Among other things.
+`#IFNDEF`, and the fundamental part of using any library - `#INCLUDE`. Among other things,
+too.
+
+```
+class LocalizedZombie extends Zombieman replaces Zombieman {
+    // This is a merely illustrative example.
+    // For actual locatization, please just use ZDoom's LANGUAGE lump instead.
+    // Apart from that, it demonstrates the effectiveness of the otherwise
+    // simple and rudimentary preprocessor ZDCode uses.
+
+    macro SeeMessage(message) {
+        invisi A_Print(message); // invisi == TNT1, also duration defaults to 0
+
+        // Any better ideas for a message printing macro? I'm all ears!
+    };
+
+    label See {
+        #ifdef LANG
+            #ifeq LANG EN_US
+                inject SeeMessage("Hey, you!");
+            #else
+            #ifeq LANG PT_BR
+                inject SeeMessage("Ei, você!");
+            #else // I know, not very pretty. Python gets away with it, though!
+            #ifeq LANG DE_DE
+                inject SeeMessage("Achtung! Halt!");
+            #else
+                inject SeeMessage("/!\"); // Attention?
+            #endif
+            #endif
+            #endif
+            #endif
+        #endif
+        goto Super.See;
+    };
+}
+```
+
+
+## Templates
+
+It was already possible to have a class inherit another. It is very simple DECORATE
+behaviour that ZDCode of course permits as well, although with a bit cleaner syntax.
+
+In addition to that, ZDCode allows instantiating multiple classes that differ slightly
+from a base _template_. The difference between this and inheritance is that, rather than
+happening at load time (where ZDoom reads the DECORATE), it happens at compile-time, which
+means many cool tricks can be done by using this alongside other ZDCode features.
+
+```
+class<size> ZombieSizes extends Zombieman {
+    set Scale to size;
+};
+
+derive SmallZombie  as ZombieSizes::(0.5);
+derive BiggerZombie as ZombieSizes::(1.3);
+derive SuperZombie  as ZombieSizes::(2.2);
+```
+
+Derivations can optionally include extra definitions, including the ability to 'implement'
+**abstract macros**, **abstract labels** and define the values of **abstract arrays** that
+the template may specify.
+
+```
+class<> FiveNumbers {
+    abstract array numbers;
+
+    abstract macro PrintNumber(n);
+
+    label Spawn {
+        // for ranges are not supported yet
+        
+        inject PrintNumber(numbers[0]);
+        inject PrintNumber(numbers[1]);
+        inject PrintNumber(numbers[2]);
+        inject PrintNumber(numbers[3]);
+        inject PrintNumber(numbers[4]);
+
+        stop;
+    };
+}
+
+derive PlainFibonacci as FiveNumbers::() {
+    macro PrintNumber(n) {
+        TNT1 A 0 A_Log(n);
+    };
+
+    array numbers { 1, 1, 2, 3, 5 };
+}
+```
+
+It is recommended that classes that derive a template also inherit a base class, even
+if for purely symbolic reasons, since it helps organize the code a bit, and so classes
+that derive from such templates can be listed property by ZDoom's `dumpclasses` command
+(using the inheritance base class as an argument), among other things.
+
+
+## Groups and Group Iteration
+
+A _group_ is a compile-time sequence of literals that can be iterated using a `for in` loop.
+Class syntax allows adding the class' name to a group. More importantly, templates can also
+specify a group, but rather than the template itself, the names of all derived classes are
+added to the group when the code is parsed by the ZDCode compiler.
+
+```
+group fruits;
+
+class<name> Fruit group fruits {
+    macro PrintMe() {
+        TNT1 A 0 A_Print(name);
+    };
+}
+
+derive Orange as Fruit::("Orange");
+derive Banana as Fruit::("Banana");
+derive Lemon  as Fruit::("Lemon");
+derive Grapes as Fruit::("Grapes");
+
+class FruitPrinter {
+    label Spawn {
+        // 'index ___' is optional, but retrieves
+        // the # of the iteration, like the i in a
+        // C 'for (i = 0; i < n; i++)' loop, and can be
+        // quite useful
+        
+        for fruitname index ind in fruits {
+            // Log the index and fruit classname, like some sort of debug example
+            
+            TNT1 A 0 A_Log("Fruit #, Fruit Name");
+            TNT1 A 0 A_Log(ind);
+            TNT1 A 0 A_Log(fruitname);
+
+            // Call the derived class macro from FruitPrinter. Yes.
+            // The 'from' keyword means that the macro is from a
+            // different class. The at sign means that the class
+            // name is taken from the parameter 'fruitname', rather
+            // than it being the name of the class itself. It can
+            // also be used in the macro name part for interesting
+            // tricks, similar to C's function pointer syntax.
+
+            from @fruitname inject PrintMe();
+        };
+
+        stop;
+    };
+}
+```
+
+
+## State Modifiers
+
+Another powerful feature of ZDCode is the ability to modify states at runtime,
+where each modifier applies certain effects based on certain selectors.
+
+Each modifier is actually a list of clause, where a clause pairs a selector with
+one or more effects.
+
+```
+class DiscoZombie extends Zombieman {
+    mod DiscoLight {
+        (sprite(TNT1)) suffix TNT1 A 0 A_PlaySound("disco/yeah"); // now we can use TNT1 frames to play some weird sound!
+
+        (all) +flag Bright; // Always bright, all the time!
+    };
+
+    label Spawn {
+        apply DiscoLight {
+            POSS AB 4;
+        };
+
+        loop;
+    };
+
+    // You can also apply the modifier to other state labels (like See or Missile)
+    // using the apply syntax, but you get the gist.
+}
+```
+
+
+
+
