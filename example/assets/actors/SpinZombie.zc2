@@ -3,9 +3,9 @@ class SpinZombie extends Zombieman {
         (!sprite(TNT1)) {
             +flag Bright;
             manipulate State {
-                x 12 {
-                    invisi A_SetAngle(30 + angle);
+                x 13 {
                     inject State; // state duration effects (and selectors) will be added soon(TM)
+                    invisi A_SetAngle(30 + angle);
 
                     // Zake release builds will omit this,
                     // debug builds will include
@@ -13,15 +13,25 @@ class SpinZombie extends Zombieman {
                     #ifdef DEBUG
                         invisi A_LogFloat(angle);
                     #endif
+
+                    // 25% chance to skip out of attack if player can't be seen
+                    sometimes 25 ifjump A_JumpIfTargetInLOS($offset); else
+                        goto See;
                 };
             };
         };
     };
 
     label Missile {
-        POSS E 10 A_FaceTarget;
+        POSS E 8 A_FaceTarget;
 
-        apply SpinAndRepeat POSS F 4 A_PosAttack;
+        POSS E 2 A_FaceTarget; // face again right before attacking
+        apply SpinAndRepeat POSS F 4 {
+            // A_PosAttack but without turning to face target.
+            // Reference: https://zdoom.org/wiki/A_PosAttack
+            A_PlaySound("grunt/attack");
+            A_CustomBulletAttack(22.5, 0, 1, random(1,5) * 3, "BulletPuff", 0, CBAF_NORANDOM | CBAF_AIMFACING);
+        };
 
         POSS EDE 10; // phew!..
         goto See;
