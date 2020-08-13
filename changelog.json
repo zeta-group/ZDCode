@@ -290,7 +290,8 @@
             "name": "2.11.1",
             "changes": [
                 "Added experimental handling for bundling PK3 assets of same name",
-                "Added ZDCode entrypoint to setuptools script"
+                "Added ZDCode entrypoint to setuptools script",
+                "Added Zake build system (see Zake.ini for an example)"
             ]
         }
     ]

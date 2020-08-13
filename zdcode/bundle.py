@@ -30,7 +30,7 @@ class Bundle:
                 
         return compile_mod_zdcode
 
-    def bundle(self, out_asset_file=None, out_code_file=None, out_full_file=None, out_dec_file=None, error_handler=None, preproc_defs=()):
+    def bundle(self, out_asset_file=None, out_code_file=None, out_dec_file=None, error_handler=None, preproc_defs=()):
         code = ZDCode()
         build_tasks = []
         deps = list(self.mods)

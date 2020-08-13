@@ -4,16 +4,13 @@ import os
 
 try:
     import zdcode
+    import zdcode.zake as zake
     from zdcode.bundle import Bundle
 
 except ImportError:
-    try:
-        #import . as zdcode
-        raise ImportError
-
-    except ImportError:
-        import __init__ as zdcode
-        from bundle import Bundle
+    import __init__ as zdcode
+    import zake
+    from bundle import Bundle
 
 def print_parse_error(e):
     print('{}: {}'.format(type(e).__name__, str(e)))
@@ -60,8 +57,11 @@ def arg_parser():
     return aparser
 
 def main():
-    args = arg_parser().parse_args()
-    return args.func(args)
+    if len(sys.argv) > 1:
+        args = arg_parser().parse_args()
+        return args.func(args)
+
+    return zake.main(print_status_code=False)
 
 # Actions
 
