@@ -3,8 +3,8 @@ class SpinZombie extends Zombieman {
         (!sprite(TNT1)) {
             +flag Bright;
             manipulate State {
-                x 24 {
-                    invisi A_SetAngle(angle + 15);
+                x 12 {
+                    invisi A_SetAngle(30 + angle);
                     inject State; // state duration effects (and selectors) will be added soon(TM)
                 };
             };
@@ -13,7 +13,8 @@ class SpinZombie extends Zombieman {
 
     label Missile {
         POSS E 10 A_FaceTarget;
-        apply SpinAndRepeat POSS F 8 A_PosAttack;
+
+        apply SpinAndRepeat POSS F 4 A_PosAttack;
 
         POSS EDE 10; // phew!..
         goto See;
