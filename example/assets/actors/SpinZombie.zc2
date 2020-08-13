@@ -6,6 +6,13 @@ class SpinZombie extends Zombieman {
                 x 12 {
                     invisi A_SetAngle(30 + angle);
                     inject State; // state duration effects (and selectors) will be added soon(TM)
+
+                    // Zake release builds will omit this,
+                    // debug builds will include
+
+                    #ifdef DEBUG
+                        invisi A_LogFloat(angle);
+                    #endif
                 };
             };
         };

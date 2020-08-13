@@ -1,123 +1,123 @@
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_0 : TeleportFog
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_0 : TeleportFog
 {
     Translation "Ice"
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_1 : TeleportFog
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_1 : TeleportFog
 {
     Translation "Ice"
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_2 : TeleportFog
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_2 : TeleportFog
 {
     Translation "Ice"
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_3 : TeleportFog
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_3 : TeleportFog
 {
     Translation "Ice"
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_4 : TeleportFog
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_4 : TeleportFog
 {
     Translation "Ice"
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_5 : TeleportFog
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_5 : TeleportFog
 {
     Translation "Ice"
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_6 : "Cell"
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_6 : "Cell"
 {
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_7 : "Shell"
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_7 : "Shell"
 {
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_8 : "RocketAmmo"
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_8 : "RocketAmmo"
 {
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_9 : "Clip"
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_9 : "Clip"
 {
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_10 : "ArmorBonus"
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_10 : "ArmorBonus"
 {
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_11 : "HealthBonus"
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_11 : "HealthBonus"
 {
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_12 : TeleportFog
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_12 : TeleportFog
 {
     Translation "Ice"
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_13 : RandomSpawner
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_13 : RandomSpawner
 {
     DropItem "ChaingunGuy", 128, 22
     DropItem "Revenant", 200, 6
     DropItem "ArchVile", 255, 1
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_14 : TeleportFog
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_14 : TeleportFog
 {
     Translation "Ice"
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_15 : RandomSpawner
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_15 : RandomSpawner
 {
     DropItem "ChaingunGuy", 128, 22
     DropItem "Revenant", 200, 6
     DropItem "PainElemental", 255, 1
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_16 : TeleportFog
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_16 : TeleportFog
 {
     Translation "Ice"
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_17 : RandomSpawner
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_17 : RandomSpawner
 {
     DropItem "ChaingunGuy", 128, 22
     DropItem "Revenant", 200, 6
     DropItem "ArchVile", 255, 1
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_18 : TeleportFog
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_18 : TeleportFog
 {
     Translation "Ice"
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_19 : RandomSpawner
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_19 : RandomSpawner
 {
     DropItem "ChaingunGuy", 128, 22
     DropItem "Revenant", 200, 6
     DropItem "PainElemental", 255, 1
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_20 : TeleportFog
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_20 : TeleportFog
 {
     Translation "Ice"
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_21 : RandomSpawner
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_21 : RandomSpawner
 {
     DropItem "ChaingunGuy", 128, 22
     DropItem "Revenant", 200, 6
     DropItem "ArchVile", 255, 1
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_22 : TeleportFog
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_22 : TeleportFog
 {
     Translation "Ice"
     
 }
-Actor _AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_23 : RandomSpawner
+Actor _AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_23 : RandomSpawner
 {
     DropItem "ChaingunGuy", 128, 22
     DropItem "Revenant", 200, 6
@@ -1448,8 +1448,8 @@ Actor MSPart
 {
     Gravity 0
     
-    +FORCEXYBILLBOARD
     +CLIENTSIDEONLY
+    +FORCEXYBILLBOARD
     -SOLID
 }
 Actor MSP_Head1 : MSPart
@@ -1611,22 +1611,22 @@ Actor MSG_Leg
     
     var int user_limbangle;
     +BOUNCEONACTORS
-    +DROPOFF
-    +SLIDESONWALLS
-    +ALLOWBOUNCEONACTORS
-    +CANBOUNCEWATER
-    +CORPSE
-    +SOLID
-    +CANBLAST
-    +THRUSPECIES
-    +BOUNCEONWALLS
-    +CANNOTPUSH
     +PUSHABLE
     +NOBLOCKMONST
-    +NOTELESTOMP
-    +BOUNCEONCEILINGS
-    +CANPASS
     +PAINLESS
+    +CANPASS
+    +CANNOTPUSH
+    +NOTELESTOMP
+    +CANBLAST
+    +ALLOWBOUNCEONACTORS
+    +SOLID
+    +CANBOUNCEWATER
+    +BOUNCEONWALLS
+    +CORPSE
+    +THRUSPECIES
+    +DROPOFF
+    +BOUNCEONCEILINGS
+    +SLIDESONWALLS
     States {
         Spawn:
             TNT1 A 0
@@ -1684,22 +1684,22 @@ Actor MSG_Head
     
     var int user_limbangle;
     +BOUNCEONACTORS
-    +DROPOFF
-    +SLIDESONWALLS
-    +ALLOWBOUNCEONACTORS
-    +CANBOUNCEWATER
-    +CORPSE
-    +SOLID
-    +CANBLAST
-    +THRUSPECIES
-    +BOUNCEONWALLS
-    +CANNOTPUSH
     +PUSHABLE
     +NOBLOCKMONST
-    +NOTELESTOMP
-    +BOUNCEONCEILINGS
-    +CANPASS
     +PAINLESS
+    +CANPASS
+    +CANNOTPUSH
+    +NOTELESTOMP
+    +CANBLAST
+    +ALLOWBOUNCEONACTORS
+    +SOLID
+    +CANBOUNCEWATER
+    +BOUNCEONWALLS
+    +CORPSE
+    +THRUSPECIES
+    +DROPOFF
+    +BOUNCEONCEILINGS
+    +SLIDESONWALLS
     States {
         Spawn:
             TNT1 A 0
@@ -1757,22 +1757,22 @@ Actor MSG_Torso
     
     var int user_limbangle;
     +BOUNCEONACTORS
-    +DROPOFF
-    +SLIDESONWALLS
-    +ALLOWBOUNCEONACTORS
-    +CANBOUNCEWATER
-    +CORPSE
-    +SOLID
-    +CANBLAST
-    +THRUSPECIES
-    +BOUNCEONWALLS
-    +CANNOTPUSH
     +PUSHABLE
     +NOBLOCKMONST
-    +NOTELESTOMP
-    +BOUNCEONCEILINGS
-    +CANPASS
     +PAINLESS
+    +CANPASS
+    +CANNOTPUSH
+    +NOTELESTOMP
+    +CANBLAST
+    +ALLOWBOUNCEONACTORS
+    +SOLID
+    +CANBOUNCEWATER
+    +BOUNCEONWALLS
+    +CORPSE
+    +THRUSPECIES
+    +DROPOFF
+    +BOUNCEONCEILINGS
+    +SLIDESONWALLS
     States {
         Spawn:
             TNT1 A 0
@@ -6224,10 +6224,10 @@ Actor FoxyHealthBonusSpawner replaces "HealthBonus"
         Spawn:
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(100 * 1 / (7 + 1))/100), 2)
-                TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_feb862eda6537119505bebfccdb5c3aa5bd90833", 0, 0, 4)
+                TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_6bb7e3ea0c63474b38910c5561e43d8bde4cf14f", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_11")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_11")
         stop
     }
 }
@@ -6238,10 +6238,10 @@ Actor FoxyArmorBonusSpawner replaces "ArmorBonus"
         Spawn:
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(100 * 2 / (8 + 2))/100), 2)
-                TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_543e46978277ce53a00c229ca6707fb1c7703474", 0, 0, 4)
+                TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_88a28927cd532a5908400a2acb16726c1a44d9c6", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_10")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_10")
         stop
     }
 }
@@ -6252,10 +6252,10 @@ Actor FoxyClipSpawner replaces "Clip"
         Spawn:
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(100 * 2 / (17 + 2))/100), 2)
-                TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_96da51af12eeb5915c25e008a5b1cd781bfb5214", 0, 0, 4)
+                TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_f261d8cc6ff4fa3f35adfc1f7bafafa122919c72", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_9")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_9")
         stop
     }
 }
@@ -6266,10 +6266,10 @@ Actor FoxyShellSpawner replaces "Shell"
         Spawn:
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(100 * 1 / (5 + 1))/100), 2)
-                TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_089bc8b2e3d609d77596b80e3a585c01edfd1cc1", 0, 0, 4)
+                TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_9b8f8d05afc41705ae377504daa9e8b88a063b48", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_7")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_7")
         stop
     }
 }
@@ -6280,10 +6280,10 @@ Actor FoxyRocketSpawner replaces "RocketAmmo"
         Spawn:
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(100 * 2 / (6 + 2))/100), 2)
-                TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_af0813457d9ec3fdd609a4ef41071072f6cacada", 0, 0, 4)
+                TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_e322ab1ee43737d901a2dfe8135ea0172db393b8", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_8")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_8")
         stop
     }
 }
@@ -6294,10 +6294,10 @@ Actor FoxyCellSpawner replaces "Cell"
         Spawn:
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(100 * 4 / (9 + 4))/100), 2)
-                TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_d24761c2ce68da5e6e383f207b3cee7277d4e631", 0, 0, 4)
+                TNT1 A 0 A_SpawnItemEx("FoxyPickup__deriv_8a40be374b2a95b6247f9e6f3ed64089dc3bf666", 0, 0, 4)
             stop
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_6")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_6")
         stop
     }
 }
@@ -6463,15 +6463,15 @@ Actor FoxyFountain
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(50)/100), 3)
                 TNT1 A 0 A_SpawnItemEx("MSA_Fox", 0, 0, 0 * 40)
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_3", 0, 0, 0 * 40)
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_3", 0, 0, 0 * 40)
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(50)/100), 3)
                 TNT1 A 0 A_SpawnItemEx("MSA_Fox", 0, 0, 1 * 40)
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_4", 0, 0, 1 * 40)
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_4", 0, 0, 1 * 40)
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(50)/100), 3)
                 TNT1 A 0 A_SpawnItemEx("MSA_Fox", 0, 0, 2 * 40)
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_5", 0, 0, 2 * 40)
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_5", 0, 0, 2 * 40)
             TNT1 A 0
             TNT1 A 2
         goto SpawnLoop
@@ -6639,15 +6639,15 @@ Actor FoxyFountain_Good
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(50)/100), 3)
                 TNT1 A 0 A_SpawnItemEx("MSA_Fox_Good", 0, 0, 0 * 40)
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_0", 0, 0, 0 * 40)
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_0", 0, 0, 0 * 40)
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(50)/100), 3)
                 TNT1 A 0 A_SpawnItemEx("MSA_Fox_Good", 0, 0, 1 * 40)
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_1", 0, 0, 1 * 40)
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_1", 0, 0, 1 * 40)
             TNT1 A 0
             TNT1 A 0 A_Jump(256-(256*(50)/100), 3)
                 TNT1 A 0 A_SpawnItemEx("MSA_Fox_Good", 0, 0, 2 * 40)
-                TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_2", 0, 0, 2 * 40)
+                TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_2", 0, 0, 2 * 40)
             TNT1 A 0
             TNT1 A 2
         goto SpawnLoop
@@ -15818,8 +15818,8 @@ Actor Foe_BaronOfHell : BaseFoe
     var int user_prevhealth;
     var int user_spawnhealth;
     var int user_alert;
-    +FLOORCLIP
     +BOSSDEATH
+    +FLOORCLIP
     Monster
     States {
         S_Idle:
@@ -20459,28 +20459,40 @@ Actor SpinZombie : Zombieman
             POSS E 10 A_FaceTarget
                 TNT1 A 0 A_SetAngle(30 + angle)
                 POSS F 4  Bright A_PosAttack
+                TNT1 A 0 A_LogFloat(angle)
                 TNT1 A 0 A_SetAngle(30 + angle)
                 POSS F 4  Bright A_PosAttack
+                TNT1 A 0 A_LogFloat(angle)
                 TNT1 A 0 A_SetAngle(30 + angle)
                 POSS F 4  Bright A_PosAttack
+                TNT1 A 0 A_LogFloat(angle)
                 TNT1 A 0 A_SetAngle(30 + angle)
                 POSS F 4  Bright A_PosAttack
+                TNT1 A 0 A_LogFloat(angle)
                 TNT1 A 0 A_SetAngle(30 + angle)
                 POSS F 4  Bright A_PosAttack
+                TNT1 A 0 A_LogFloat(angle)
                 TNT1 A 0 A_SetAngle(30 + angle)
                 POSS F 4  Bright A_PosAttack
+                TNT1 A 0 A_LogFloat(angle)
                 TNT1 A 0 A_SetAngle(30 + angle)
                 POSS F 4  Bright A_PosAttack
+                TNT1 A 0 A_LogFloat(angle)
                 TNT1 A 0 A_SetAngle(30 + angle)
                 POSS F 4  Bright A_PosAttack
+                TNT1 A 0 A_LogFloat(angle)
                 TNT1 A 0 A_SetAngle(30 + angle)
                 POSS F 4  Bright A_PosAttack
+                TNT1 A 0 A_LogFloat(angle)
                 TNT1 A 0 A_SetAngle(30 + angle)
                 POSS F 4  Bright A_PosAttack
+                TNT1 A 0 A_LogFloat(angle)
                 TNT1 A 0 A_SetAngle(30 + angle)
                 POSS F 4  Bright A_PosAttack
+                TNT1 A 0 A_LogFloat(angle)
                 TNT1 A 0 A_SetAngle(30 + angle)
                 POSS F 4  Bright A_PosAttack
+                TNT1 A 0 A_LogFloat(angle)
             POSS E 10
             POSS D 10
             POSS E 10
@@ -20495,11 +20507,11 @@ Actor BaseTerrainSpot
     Radius 4
     Scale 0.2
     
-    +NOBLOOD
-    +SHOOTABLE
+    +CANPASS
     +SOLID
     +FORCEXYBILLBOARD
-    +CANPASS
+    +SHOOTABLE
+    +NOBLOOD
     States {
         Death:
             TNT1 A 0 A_PlaySound("zdpack/terrain/break", 0, 0.2)
@@ -20745,9 +20757,9 @@ Actor RandomTerrain
                                             TNT1 A 0 A_SetUserVar("user_spot_x", (1.0 * user_x + (1.0 * (user_cell_x) / 4096)) / 14 * 4000)
                                             TNT1 A 0 A_SetUserVar("user_spot_y", (1.0 * user_y + (1.0 * (user_cell_y) / 4096)) / 14 * 4000)
                                             TNT1 A 0 A_JumpIf(3 * user_spot_z >= (43), 3)
-                                                    TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_b12568123dceea84bfc52a6f353ff797602b73f0", user_spot_x, user_spot_y, 3 * user_spot_z)
+                                                    TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_b1b8bf070fc4b3d6d02a343e068680d04d1af5e8", user_spot_x, user_spot_y, 3 * user_spot_z)
                                             TNT1 A 0 A_Jump(256, 2)
-                                                    TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_e74df7f3b2d958b2dff41be9c97347f136516650", user_spot_x, user_spot_y, 3 * user_spot_z)
+                                                    TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_3efcd2ad486bb128d1f654735c690cc5e33cd9e5", user_spot_x, user_spot_y, 3 * user_spot_z)
                                             TNT1 A 0
                                             TNT1 A 0 A_SetUserVar("user_cell_x_i", user_cell_x_i + 1)
                                     TNT1 A 0 A_JumpIf(user_cell_x_i < 8, "_loop_while_7")
@@ -21006,9 +21018,9 @@ Actor RandomTerrainCoarse
                                             TNT1 A 0 A_SetUserVar("user_spot_x", (1.0 * user_x + (1.0 * (user_cell_x) / 4096)) / 14 * 2800)
                                             TNT1 A 0 A_SetUserVar("user_spot_y", (1.0 * user_y + (1.0 * (user_cell_y) / 4096)) / 14 * 2800)
                                             TNT1 A 0 A_JumpIf(3 * user_spot_z >= (43), 3)
-                                                    TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_b12568123dceea84bfc52a6f353ff797602b73f0", user_spot_x, user_spot_y, 3 * user_spot_z)
+                                                    TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_b1b8bf070fc4b3d6d02a343e068680d04d1af5e8", user_spot_x, user_spot_y, 3 * user_spot_z)
                                             TNT1 A 0 A_Jump(256, 2)
-                                                    TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_e74df7f3b2d958b2dff41be9c97347f136516650", user_spot_x, user_spot_y, 3 * user_spot_z)
+                                                    TNT1 A 0 A_SpawnItemEx("TerrainSpot__deriv_3efcd2ad486bb128d1f654735c690cc5e33cd9e5", user_spot_x, user_spot_y, 3 * user_spot_z)
                                             TNT1 A 0
                                             TNT1 A 0 A_SetUserVar("user_cell_x_i", user_cell_x_i + 1)
                                     TNT1 A 0 A_JumpIf(user_cell_x_i < 6, "_loop_while_3")
@@ -21033,8 +21045,8 @@ Actor GoldZombieStatue : ZombieMan
     Translation "0:255=%[0.12,0.2,0.01]:[2.1,2.0,0.6]"
     
     +NOBLOOD
-    +NOPAIN
     +INVULNERABLE
+    +NOPAIN
     States {
         Spawn:
             TNT1 A 0
@@ -21055,28 +21067,28 @@ Actor AaaSpawner
             TNT1 A 35
             TNT1 A 0 A_Jump(256-(256*(35)/100), 25)
                 TNT1 A 0 A_Jump(256-(256*(60)/100), 3)
-                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_12")
-                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_13")
+                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_12")
+                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_13")
                 TNT1 A 0
                 TNT1 A 0 A_Jump(256-(256*(60)/100), 3)
-                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_14")
-                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_15")
+                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_14")
+                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_15")
                 TNT1 A 0
                 TNT1 A 0 A_Jump(256-(256*(60)/100), 3)
-                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_16")
-                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_17")
+                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_16")
+                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_17")
                 TNT1 A 0
                 TNT1 A 0 A_Jump(256-(256*(60)/100), 3)
-                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_18")
-                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_19")
+                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_18")
+                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_19")
                 TNT1 A 0
                 TNT1 A 0 A_Jump(256-(256*(60)/100), 3)
-                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_20")
-                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_21")
+                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_20")
+                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_21")
                 TNT1 A 0
                 TNT1 A 0 A_Jump(256-(256*(60)/100), 3)
-                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_22")
-                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_23")
+                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_22")
+                    TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_23")
                 TNT1 A 0
             TNT1 A 0
         goto Spawn
@@ -21099,8 +21111,8 @@ Actor BaseMultiSpawner
     Gravity 0
     
     +NOGRAVITY
-    +NOBLOCKMAP
     +NOSECTOR
+    +NOBLOCKMAP
     +THRUACTORS
 }
 Actor BaseAppear
@@ -21108,8 +21120,8 @@ Actor BaseAppear
     Gravity 0
     
     +NOGRAVITY
-    +NOBLOCKMAP
     +NOSECTOR
+    +NOBLOCKMAP
     +THRUACTORS
 }
 Actor AppearZombieman : BaseAppear
@@ -21425,7 +21437,7 @@ Actor MonSpawnO : RandomSpawner
     DropItem "Revenant"
     DropItem "Cacodemon"
     DropItem "XZombieSpawner"
-    DropItem "XCustomShotGuySpawner__deriv_93d91dbfdcfa1383c126b634bb4d9b5a8c7db873"
+    DropItem "XCustomShotGuySpawner__deriv_44b675bf718d682bc7d8525d79d614d3535d2ea1"
     
 }
 Actor MonSpawnR : RandomSpawner
@@ -21434,7 +21446,7 @@ Actor MonSpawnR : RandomSpawner
     DropItem "ArchVile"
     DropItem "HellKnight"
     DropItem "BaronOfHell"
-    DropItem "XCustomShotGuySpawner__deriv_6037856dd1caf12a7a4b9f89cb534a8a156610a0"
+    DropItem "XCustomShotGuySpawner__deriv_a18a0a597c478355039f04fe63bfaec36e23a73a"
     
 }
 Actor SkullParticleR
@@ -21493,8 +21505,8 @@ Actor SkullSpawnerR
     Species "SkullSpawner"
     Speed 9
     
-    +THRUSPECIES
     +THRUACTORS
+    +THRUSPECIES
     Projectile
     States {
         Spawn:
@@ -21694,8 +21706,8 @@ Actor SkullSpawnerO
     Species "SkullSpawner"
     Speed 9
     
-    +THRUSPECIES
     +THRUACTORS
+    +THRUSPECIES
     Projectile
     States {
         Spawn:
@@ -21906,8 +21918,8 @@ Actor SkullSpawnerY
     Species "SkullSpawner"
     Speed 9
     
-    +THRUSPECIES
     +THRUACTORS
+    +THRUSPECIES
     Projectile
     States {
         Spawn:
@@ -23533,7 +23545,7 @@ Actor LaserGun : Shotgun
                         TNT1 A 0 A_Jump(256, 26)
                     TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_92129b5356000bf6cfcd0258ecbb6a2d99acdd67", 1, 2)
+            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_e47d2e3b6d69926e64b008276e07b2cb47398097", 1, 2)
             TNT1 A 0 A_Jump(256, 6)
             
                     TNT1 A 0 A_JumpIf(!(1 == args[0]), 4)
@@ -23543,7 +23555,7 @@ Actor LaserGun : Shotgun
                         TNT1 A 0 A_Jump(256, 18)
                     TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_f2ce4c540038559944af0458ba8975f05f378ed8", 1, 2)
+            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_93516bddccda0fe1690caccd9c4eb0dd21c97318", 1, 2)
             TNT1 A 0 A_Jump(256, 6)
             
                     TNT1 A 0 A_JumpIf(!(2 == args[0]), 4)
@@ -23553,7 +23565,7 @@ Actor LaserGun : Shotgun
                         TNT1 A 0 A_Jump(256, 10)
                     TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_8b1c2b34a6f3f924e7681d95ea80e0060b5c87a5", 1, 2)
+            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_9a9daa008205a9446f8acf56ec54bdd00b14b3e6", 1, 2)
             TNT1 A 0 A_Jump(256, 6)
             
                     TNT1 A 0 A_JumpIf(!(3 == args[0]), 4)
@@ -23587,7 +23599,7 @@ Actor LaserGun : Shotgun
                         TNT1 A 0 A_Jump(256, 23)
                     TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_92129b5356000bf6cfcd0258ecbb6a2d99acdd67", 1, 2)
+            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_e47d2e3b6d69926e64b008276e07b2cb47398097", 1, 2)
             TNT1 A 0 A_Jump(256, 5)
             
                     TNT1 A 0 A_JumpIf(!(1 > args[0] && (args[1] == -1 || 1 <= args[1])), 3)
@@ -23596,7 +23608,7 @@ Actor LaserGun : Shotgun
                         TNT1 A 0 A_Jump(256, 16)
                     TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_f2ce4c540038559944af0458ba8975f05f378ed8", 1, 2)
+            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_93516bddccda0fe1690caccd9c4eb0dd21c97318", 1, 2)
             TNT1 A 0 A_Jump(256, 5)
             
                     TNT1 A 0 A_JumpIf(!(2 > args[0] && (args[1] == -1 || 2 <= args[1])), 3)
@@ -23605,7 +23617,7 @@ Actor LaserGun : Shotgun
                         TNT1 A 0 A_Jump(256, 9)
                     TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_8b1c2b34a6f3f924e7681d95ea80e0060b5c87a5", 1, 2)
+            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_9a9daa008205a9446f8acf56ec54bdd00b14b3e6", 1, 2)
             TNT1 A 0 A_Jump(256, 5)
             
                     TNT1 A 0 A_JumpIf(!(3 > args[0] && (args[1] == -1 || 3 <= args[1])), 3)
@@ -23629,7 +23641,7 @@ Actor LaserGun : Shotgun
                         TNT1 A 0 A_Jump(256, 26)
                     TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_92129b5356000bf6cfcd0258ecbb6a2d99acdd67", 1, 2)
+            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_e47d2e3b6d69926e64b008276e07b2cb47398097", 1, 2)
             TNT1 A 0 A_Jump(256, 6)
             
                     TNT1 A 0 A_JumpIf(!(1 == args[0]), 4)
@@ -23639,7 +23651,7 @@ Actor LaserGun : Shotgun
                         TNT1 A 0 A_Jump(256, 18)
                     TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_f2ce4c540038559944af0458ba8975f05f378ed8", 1, 2)
+            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_93516bddccda0fe1690caccd9c4eb0dd21c97318", 1, 2)
             TNT1 A 0 A_Jump(256, 6)
             
                     TNT1 A 0 A_JumpIf(!(2 == args[0]), 4)
@@ -23649,7 +23661,7 @@ Actor LaserGun : Shotgun
                         TNT1 A 0 A_Jump(256, 10)
                     TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_8b1c2b34a6f3f924e7681d95ea80e0060b5c87a5", 1, 2)
+            TNT1 A 0 A_JumpIfInventory("BaseLaserModule__deriv_9a9daa008205a9446f8acf56ec54bdd00b14b3e6", 1, 2)
             TNT1 A 0 A_Jump(256, 6)
             
                     TNT1 A 0 A_JumpIf(!(3 == args[0]), 4)
@@ -23685,29 +23697,29 @@ Actor DoomLaserWeak : DoomImpBall
         Spawn:
             TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_80bdfb9271da9ede734fd0b617e008da2c6b7338", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_294a95a011c93bd173123a2b076f3f35184cb68f", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
         goto ProjLoop
         ProjLoop:
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
         goto ProjLoop
         Death:
             TNT1 A 0 A_PlaySound("weapons/plasmax", CHAN_WEAPON)
@@ -23739,31 +23751,31 @@ Actor DoomLaserY : DoomImpBall
         Spawn:
             TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_80bdfb9271da9ede734fd0b617e008da2c6b7338", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_80bdfb9271da9ede734fd0b617e008da2c6b7338", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_80bdfb9271da9ede734fd0b617e008da2c6b7338", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_294a95a011c93bd173123a2b076f3f35184cb68f", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_294a95a011c93bd173123a2b076f3f35184cb68f", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_294a95a011c93bd173123a2b076f3f35184cb68f", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
         goto ProjLoop
         ProjLoop:
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b", Random(-8, 8), Random(-8, 8), Random(-8, 8))
         goto ProjLoop
         Death:
             TNT1 A 0 A_PlaySound("weapons/plasmax", CHAN_WEAPON)
@@ -23795,33 +23807,33 @@ Actor DoomLaserO : DoomImpBall
         Spawn:
             TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_062b6199eea0148678d8cc5d76731c2195553384", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_062b6199eea0148678d8cc5d76731c2195553384", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_062b6199eea0148678d8cc5d76731c2195553384", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_062b6199eea0148678d8cc5d76731c2195553384", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_062b6199eea0148678d8cc5d76731c2195553384", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_deaa60944794b687a28db9bb438eea6853649054", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_deaa60944794b687a28db9bb438eea6853649054", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_deaa60944794b687a28db9bb438eea6853649054", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_deaa60944794b687a28db9bb438eea6853649054", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_deaa60944794b687a28db9bb438eea6853649054", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
         goto ProjLoop
         ProjLoop:
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a", Random(-8, 8), Random(-8, 8), Random(-8, 8))
         goto ProjLoop
         Death:
             TNT1 A 0 A_PlaySound("weapons/plasmax", CHAN_WEAPON)
@@ -23853,33 +23865,33 @@ Actor DoomLaserR : DoomImpBall
         Spawn:
             TNT1 A 0
             TNT1 A 0
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_75e09ce185c245ec804444ccf6c12b059a3a45a6", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_75e09ce185c245ec804444ccf6c12b059a3a45a6", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_75e09ce185c245ec804444ccf6c12b059a3a45a6", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_75e09ce185c245ec804444ccf6c12b059a3a45a6", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
-            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_75e09ce185c245ec804444ccf6c12b059a3a45a6", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_c34140fe649d46f0a10fcedc20601ce96a98e071", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_c34140fe649d46f0a10fcedc20601ce96a98e071", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_c34140fe649d46f0a10fcedc20601ce96a98e071", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_c34140fe649d46f0a10fcedc20601ce96a98e071", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
+            TNT1 A 0 A_SpawnItemEx("BaseLaserEdge__deriv_c34140fe649d46f0a10fcedc20601ce96a98e071", 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS)
         goto ProjLoop
         ProjLoop:
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
-            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 A 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 0  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
+            BAL1 B 1  Bright A_SpawnItemEx("BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98", Random(-8, 8), Random(-8, 8), Random(-8, 8))
         goto ProjLoop
         Death:
             TNT1 A 0 A_PlaySound("weapons/plasmax", CHAN_WEAPON)
@@ -23908,7 +23920,7 @@ Actor DefaultLaserModule : Inventory
 Actor LaserGuyY : ShotgunGuy
 {
     DropItem LaserGun
-    DropItem "BaseLaserModule__deriv_8b1c2b34a6f3f924e7681d95ea80e0060b5c87a5", 40
+    DropItem "BaseLaserModule__deriv_9a9daa008205a9446f8acf56ec54bdd00b14b3e6", 40
     Translation "80:111=%[0.00,0.00,0.00]:[1.99,1.51,0.00]", "5:8=%[0.00,0.00,0.00]:[1.61,0.94,0.04]"
     
     States {
@@ -23966,7 +23978,7 @@ Actor LaserGuyY : ShotgunGuy
 Actor LaserGuyO : ShotgunGuy
 {
     DropItem LaserGun
-    DropItem "BaseLaserModule__deriv_f2ce4c540038559944af0458ba8975f05f378ed8", 40
+    DropItem "BaseLaserModule__deriv_93516bddccda0fe1690caccd9c4eb0dd21c97318", 40
     Translation "80:111=%[0.00,0.00,0.00]:[2.00,0.72,0.00]", "5:8=%[0.00,0.00,0.00]:[1.30,0.45,0.00]"
     
     States {
@@ -24024,7 +24036,7 @@ Actor LaserGuyO : ShotgunGuy
 Actor LaserGuyR : ShotgunGuy
 {
     DropItem LaserGun
-    DropItem "BaseLaserModule__deriv_92129b5356000bf6cfcd0258ecbb6a2d99acdd67", 40
+    DropItem "BaseLaserModule__deriv_e47d2e3b6d69926e64b008276e07b2cb47398097", 40
     Translation "80:111=[242,27,34]:[35,0,2]", "5:8=%[0.00,0.00,0.00]:[1.47,0.00,0.10]"
     
     States {
@@ -24229,7 +24241,7 @@ Actor MuricanZombie : ZombieMan
         goto See
     }
 }
-Actor BaseLaserModule__deriv_92129b5356000bf6cfcd0258ecbb6a2d99acdd67 : Inventory
+Actor BaseLaserModule__deriv_e47d2e3b6d69926e64b008276e07b2cb47398097 : Inventory
 {
     Inventory.MaxAmount 1
     Inventory.PickupMessage "$PKP_LASERMOD_R"
@@ -24243,7 +24255,7 @@ Actor BaseLaserModule__deriv_92129b5356000bf6cfcd0258ecbb6a2d99acdd67 : Inventor
         stop
     }
 }
-Actor BaseLaserModule__deriv_f2ce4c540038559944af0458ba8975f05f378ed8 : Inventory
+Actor BaseLaserModule__deriv_93516bddccda0fe1690caccd9c4eb0dd21c97318 : Inventory
 {
     Inventory.MaxAmount 1
     Inventory.PickupMessage "$PKP_LASERMOD_O"
@@ -24257,7 +24269,7 @@ Actor BaseLaserModule__deriv_f2ce4c540038559944af0458ba8975f05f378ed8 : Inventor
         stop
     }
 }
-Actor BaseLaserModule__deriv_8b1c2b34a6f3f924e7681d95ea80e0060b5c87a5 : Inventory
+Actor BaseLaserModule__deriv_9a9daa008205a9446f8acf56ec54bdd00b14b3e6 : Inventory
 {
     Inventory.MaxAmount 1
     Inventory.PickupMessage "$PKP_LASERMOD_Y"
@@ -24271,7 +24283,7 @@ Actor BaseLaserModule__deriv_8b1c2b34a6f3f924e7681d95ea80e0060b5c87a5 : Inventor
         stop
     }
 }
-Actor BaseLaserEdge__deriv_75e09ce185c245ec804444ccf6c12b059a3a45a6 : DoomImpBall
+Actor BaseLaserEdge__deriv_c34140fe649d46f0a10fcedc20601ce96a98e071 : DoomImpBall
 {
     BounceCount 8
     BounceFactor 0.9
@@ -24281,9 +24293,9 @@ Actor BaseLaserEdge__deriv_75e09ce185c245ec804444ccf6c12b059a3a45a6 : DoomImpBal
     Speed 35
     
     +BOUNCEONFLOORS
+    +INVISIBLE
     +BOUNCEONWALLS
     +BOUNCEONCEILINGS
-    +INVISIBLE
     -RANDOMIZE
     States {
         Death:
@@ -24292,7 +24304,7 @@ Actor BaseLaserEdge__deriv_75e09ce185c245ec804444ccf6c12b059a3a45a6 : DoomImpBal
         stop
     }
 }
-Actor BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae
+Actor BaseLaserTrail__deriv_3559b4081e2eb66fbcd31c824769ea9c20749e98
 {
     Alpha 0.35
     RenderStyle "Add"
@@ -24309,7 +24321,7 @@ Actor BaseLaserTrail__deriv_a0745ce99ef90f931bf6fbfde14655ed96cd28ae
         stop
     }
 }
-Actor BaseLaserEdge__deriv_062b6199eea0148678d8cc5d76731c2195553384 : DoomImpBall
+Actor BaseLaserEdge__deriv_deaa60944794b687a28db9bb438eea6853649054 : DoomImpBall
 {
     BounceCount 8
     BounceFactor 0.9
@@ -24319,9 +24331,9 @@ Actor BaseLaserEdge__deriv_062b6199eea0148678d8cc5d76731c2195553384 : DoomImpBal
     Speed 35
     
     +BOUNCEONFLOORS
+    +INVISIBLE
     +BOUNCEONWALLS
     +BOUNCEONCEILINGS
-    +INVISIBLE
     -RANDOMIZE
     States {
         Death:
@@ -24330,7 +24342,7 @@ Actor BaseLaserEdge__deriv_062b6199eea0148678d8cc5d76731c2195553384 : DoomImpBal
         stop
     }
 }
-Actor BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c
+Actor BaseLaserTrail__deriv_9775dd7a5a46fd18fa47c0671045d49afa9a245a
 {
     Alpha 0.35
     RenderStyle "Add"
@@ -24347,7 +24359,7 @@ Actor BaseLaserTrail__deriv_a18d3a4626517c6c9d9be49f005f47b402fd7d5c
         stop
     }
 }
-Actor BaseLaserEdge__deriv_80bdfb9271da9ede734fd0b617e008da2c6b7338 : DoomImpBall
+Actor BaseLaserEdge__deriv_294a95a011c93bd173123a2b076f3f35184cb68f : DoomImpBall
 {
     BounceCount 8
     BounceFactor 0.9
@@ -24357,9 +24369,9 @@ Actor BaseLaserEdge__deriv_80bdfb9271da9ede734fd0b617e008da2c6b7338 : DoomImpBal
     Speed 35
     
     +BOUNCEONFLOORS
+    +INVISIBLE
     +BOUNCEONWALLS
     +BOUNCEONCEILINGS
-    +INVISIBLE
     -RANDOMIZE
     States {
         Death:
@@ -24368,7 +24380,7 @@ Actor BaseLaserEdge__deriv_80bdfb9271da9ede734fd0b617e008da2c6b7338 : DoomImpBal
         stop
     }
 }
-Actor BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8
+Actor BaseLaserTrail__deriv_d08482b96de1c313be5ff2e2f919e0c322fa5b3a
 {
     Alpha 0.35
     RenderStyle "Add"
@@ -24385,7 +24397,7 @@ Actor BaseLaserTrail__deriv_a6cda35741354abf6f781cff441c54642297f8b8
         stop
     }
 }
-Actor TerrainSpot__deriv_e74df7f3b2d958b2dff41be9c97347f136516650 : BaseTerrainSpot
+Actor TerrainSpot__deriv_3efcd2ad486bb128d1f654735c690cc5e33cd9e5 : BaseTerrainSpot
 {
     
     States {
@@ -24394,7 +24406,7 @@ Actor TerrainSpot__deriv_e74df7f3b2d958b2dff41be9c97347f136516650 : BaseTerrainS
         goto Spawn
     }
 }
-Actor TerrainSpot__deriv_b12568123dceea84bfc52a6f353ff797602b73f0 : BaseTerrainSpot
+Actor TerrainSpot__deriv_b1b8bf070fc4b3d6d02a343e068680d04d1af5e8 : BaseTerrainSpot
 {
     
     States {
@@ -24403,7 +24415,7 @@ Actor TerrainSpot__deriv_b12568123dceea84bfc52a6f353ff797602b73f0 : BaseTerrainS
         goto Spawn
     }
 }
-Actor FoxyPickup__deriv_d24761c2ce68da5e6e383f207b3cee7277d4e631
+Actor FoxyPickup__deriv_8a40be374b2a95b6247f9e6f3ed64089dc3bf666
 {
     
     +LOOKALLAROUND
@@ -24436,11 +24448,11 @@ Actor FoxyPickup__deriv_d24761c2ce68da5e6e383f207b3cee7277d4e631
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox_Good")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_6")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_6")
         stop
     }
 }
-Actor FoxyPickup__deriv_089bc8b2e3d609d77596b80e3a585c01edfd1cc1
+Actor FoxyPickup__deriv_9b8f8d05afc41705ae377504daa9e8b88a063b48
 {
     
     +LOOKALLAROUND
@@ -24473,11 +24485,11 @@ Actor FoxyPickup__deriv_089bc8b2e3d609d77596b80e3a585c01edfd1cc1
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox_Good")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_7")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_7")
         stop
     }
 }
-Actor FoxyPickup__deriv_af0813457d9ec3fdd609a4ef41071072f6cacada
+Actor FoxyPickup__deriv_e322ab1ee43737d901a2dfe8135ea0172db393b8
 {
     
     +LOOKALLAROUND
@@ -24510,11 +24522,11 @@ Actor FoxyPickup__deriv_af0813457d9ec3fdd609a4ef41071072f6cacada
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox_Good")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_8")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_8")
         stop
     }
 }
-Actor BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4
+Actor BaseLaserTrail__deriv_85c0c7b8638b258bf42a705aab8d8ea3dc3d922b
 {
     Alpha 0.35
     RenderStyle "Add"
@@ -24531,7 +24543,7 @@ Actor BaseLaserTrail__deriv_3ed61220bdbb3009e16a7718d782d441f2e51eb4
         stop
     }
 }
-Actor FoxyPickup__deriv_96da51af12eeb5915c25e008a5b1cd781bfb5214
+Actor FoxyPickup__deriv_f261d8cc6ff4fa3f35adfc1f7bafafa122919c72
 {
     
     +LOOKALLAROUND
@@ -24564,11 +24576,11 @@ Actor FoxyPickup__deriv_96da51af12eeb5915c25e008a5b1cd781bfb5214
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox_Good")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_9")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_9")
         stop
     }
 }
-Actor FoxyPickup__deriv_543e46978277ce53a00c229ca6707fb1c7703474
+Actor FoxyPickup__deriv_88a28927cd532a5908400a2acb16726c1a44d9c6
 {
     
     +LOOKALLAROUND
@@ -24601,11 +24613,11 @@ Actor FoxyPickup__deriv_543e46978277ce53a00c229ca6707fb1c7703474
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox_Good")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_10")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_10")
         stop
     }
 }
-Actor FoxyPickup__deriv_feb862eda6537119505bebfccdb5c3aa5bd90833
+Actor FoxyPickup__deriv_6bb7e3ea0c63474b38910c5561e43d8bde4cf14f
 {
     
     +LOOKALLAROUND
@@ -24638,11 +24650,11 @@ Actor FoxyPickup__deriv_feb862eda6537119505bebfccdb5c3aa5bd90833
                 TNT1 A 0
             TNT1 A 0
             TNT1 A 0 A_SpawnItemEx("MSA_Fox_Good")
-            TNT1 A 0 A_SpawnItemEx("_AnonymClass_ZwcEuWcbFsHCg70luV1OnP0iFXB0d9UJljj_11")
+            TNT1 A 0 A_SpawnItemEx("_AnonymClass_dAnSAuYfOrIsPXj3itAwTnjS85TuGoEBbac_11")
         stop
     }
 }
-Actor XCustomShotGuySpawner__deriv_6037856dd1caf12a7a4b9f89cb534a8a156610a0 : BaseMultiSpawner
+Actor XCustomShotGuySpawner__deriv_a18a0a597c478355039f04fe63bfaec36e23a73a : BaseMultiSpawner
 {
     
     States {
@@ -24763,7 +24775,7 @@ Actor XCustomShotGuySpawner__deriv_6037856dd1caf12a7a4b9f89cb534a8a156610a0 : Ba
         stop
     }
 }
-Actor XCustomShotGuySpawner__deriv_93d91dbfdcfa1383c126b634bb4d9b5a8c7db873 : BaseMultiSpawner
+Actor XCustomShotGuySpawner__deriv_44b675bf718d682bc7d8525d79d614d3535d2ea1 : BaseMultiSpawner
 {
     
     States {
