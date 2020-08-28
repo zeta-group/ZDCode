@@ -147,6 +147,14 @@ def main(print_status_code=True):
         else:
             acc_status = max(status, acc_status)
 
+        if status == 0:
+            success += 1
+
+        else:
+            error += 1
+
+        total += 1
+
         print(' - {}: {}'.format(tname, message))
 
     print('{tot} targets processed ({successes}).{status}'.format(
