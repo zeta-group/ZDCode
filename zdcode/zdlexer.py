@@ -119,14 +119,116 @@ def p_group_name():
     yield
 
 @generate
+def p_range_vals():
+    return seq(
+        (replaceable_number | success(0)) << wo,
+        ist('..') >>\
+        wo >> (s('=') >> wo >> replaceable_number).tag(1) | replaceable_number.tag(0)
+    )
+    yield
+
+@generate
 def variable_name():
     return regex(r'[a-zA-Z_\$][a-zA-Z0-9_\$\[\]]*')
+    yield
+
+@generate
+def format_string_literal():
+    return (
+        ist('f') >> wo >> s('{') >> wo >> (
+            (
+                string_literal.tag('str') |
+                variable_name.tag('fmt')
+            ).sep_by(wo)
+        ) << wo << s('}')
+    )
+    yield
+
+eval_literal = regex('[\-\+]?\d+()').map(int) | regex('[\-\+]?\d*(\.\d*)?([Ee]\d+)?').map(float)
+
+@generate
+def eval_body():
+    return wo >> (
+        (ist('(') >> eval_body << ist(')')) |
+        eval_literal.tag('literal') | eval_operation.tag('operation')
+    ) << wo
+    yield
+
+# operator precedence based on C
+def opmap(operands, func):
+    if operands == 1:
+        return lambda _, a: (func, (a,))
+
+    else:
+        return lambda a, _, b: (func, (a, b))
+
+operators = [
+    # Unary sign precedence
+    seq(eval_body, ist('+') << wo, eval_body).map(opmap(1, lambda a: +a)),
+    seq(eval_body, ist('-') << wo, eval_body).map(opmap(1, lambda a: -a)),
+
+    # Multiplicative precedence
+    seq(eval_body, wo >> ist('%') << wo, eval_body).map(opmap(2, lambda a, b: a % b)),
+    seq(eval_body, wo >> ist('*') << wo, eval_body).map(opmap(2, lambda a, b: a * b)),
+    seq(eval_body, wo >> ist('/') << wo, eval_body).map(opmap(2, lambda a, b: a / b)),
+
+    # Additive precedence
+    seq(eval_body, wo >> ist('+') << wo, eval_body).map(opmap(2, lambda a, b: a + b)),
+    seq(eval_body, wo >> ist('-') << wo, eval_body).map(opmap(2, lambda a, b: a - b)),
+
+    # Bit shift precedence
+    seq(eval_body, wo >> ist('>>') << wo, eval_body).map(opmap(2, lambda a, b: a >> b)),
+    seq(eval_body, wo >> ist('<<') << wo, eval_body).map(opmap(2, lambda a, b: a << b)),
+
+    # Bitwise operation precedence
+    seq(eval_body, wo >> ist('&') << wo, eval_body).map(opmap(2, lambda a, b: a & b)),
+    seq(eval_body, wo >> ist('^') << wo, eval_body).map(opmap(2, lambda a, b: a ^ b)),
+    seq(eval_body, wo >> ist('|') << wo, eval_body).map(opmap(2, lambda a, b: a | b)),
+
+    # Logical (1 or 0) operation precedence
+    seq(eval_body, wo >> ist('&&') << wo, eval_body).map(opmap(2, lambda a, b: 1 if (a and b)               else 0)),
+    seq(eval_body, wo >> ist('||') << wo, eval_body).map(opmap(2, lambda a, b: 1 if (a or  b)               else 0)),
+    seq(eval_body, wo >> ist('^^') << wo, eval_body).map(opmap(2, lambda a, b: 1 if ((a == 0) != (b == 0))  else 0)),
+
+    # Ternary operation precedence
+    seq(eval_body, wo >> ist('?') << wo, eval_body, wo >> ist(':') << wo, eval_body).map(
+        lambda cond, _, yes, _2, no: (
+            (lambda cond, yes, no: yes if cond else no),
+            (cond, yes, no)
+        )
+    ),
+
+    # Comma operation precedence
+    seq(eval_body, ist(','), eval_body).map(opmap(2, lambda a, b: b)),
+]
+
+@generate
+def eval_operation():
+    res = None
+
+    for o in operators:
+        if res is None:
+            res = o
+
+        else:
+            res = res | o
+
+    return res
+    yield
+
+@generate
+def numeric_eval():
+    return (
+        ist('e') >> wo >> s('{') >> eval_body << s('}')
+    )
     yield
 
 @generate
 def literal():
     return (
         call_literal.tag('call expr').desc('call') |
+        format_string_literal.tag('format string') |
+        numeric_eval.tag('eval').desc('numerical evaluation') |
         string_literal.tag('string').desc('string') |
         variable_name.tag('actor variable').desc('actor variable') |
         number_lit.desc('number')
@@ -301,17 +403,27 @@ def templated_class_derivation():
                 ).skip(wo).skip(s(';')).skip(wo).many().optional()
             ).skip(s('}'))
         ).optional().map(lambda x: x or [])
-    ).tag('template derivation').desc('template derivation')
+    ).tag('template derivation')
     yield
 
 @generate
 def static_template_derivation():
-    return wo >> seq(
-        ist('derive') >> whitespace >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('name of derived class').tag('classname'),
-        ((ist('group') << whitespace).desc('group keyword') >> group_name).optional().map(lambda x: x or None).tag('group'),
-        whitespace >> ist('as') >> whitespace >> templated_class_derivation.tag('source'),
+    return wo >> (
+        # anonymous derive
+        seq(
+            (ist('derive') >> success(None) << whitespace).tag('classname'),
+            ((ist('group') << whitespace) >> group_name << whitespace).optional().map(lambda x: x or None).tag('group'),
+            ist('a') >> whitespace >> templated_class_derivation.tag('source'),
+        ) |
+
+        # named derive
+        seq(
+            ist('derive') >> whitespace >> (regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('name of derived class')).tag('classname') << whitespace,
+            ((ist('group') << whitespace) >> group_name << whitespace).optional().map(lambda x: x or None).tag('group'),
+            ist('as') >> whitespace >> templated_class_derivation.tag('source'),
+        )
         
-    ).desc('static template derivation') << s(';') << wo
+    ) << s(';') << wo
     yield
 
 @generate
@@ -347,7 +459,8 @@ def class_body():
             (ist('combo') >> whitespace >> regex(r'[a-zA-Z0-9_]+').desc('combo name')).tag('flag combo') |
             seq((ist("function ") | ist('method ')) >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('function name').tag('name'), state_body.tag('body')).map(dict).tag('function') |
             label.tag('label') |
-            mod_block.tag('mod')
+            mod_block.tag('mod') |
+            global_apply.tag('apply')
     ).skip(wo) << s(';') << wo
     yield
 
@@ -483,7 +596,7 @@ def action_body():
 @generate
 def replaceable_number():
     return (
-        regex(r'\d+').map(int) |
+        regex(r'\-?\d+') |
         variable_name
     )
     yield
@@ -686,7 +799,7 @@ def sometimes_statement():
                 (s('(') >> wo >> expression << wo << s(')') | replaceable_number.map(lambda r: ('expr', [('literal', (('number' if type(r) is int else 'actor variable'), r))]))).tag('chance') <<\
                 s('%').optional() <<
                 wo,
-        state_body.optional().map(lambda x: x if x != None else []).tag('body')
+        state_body.optional().map(lambda x: x if x is not None else []).tag('body')
     )
     yield
 
@@ -704,6 +817,16 @@ def apply_block():
     yield
 
 @generate
+def global_apply():
+    return (
+        ist('apply').desc('class-scoped apply statement')
+            .then(whitespace)
+                .then(mod_block_body.tag('body') | mod_name.tag('name'))
+            .skip(wo)
+    )
+    yield
+
+@generate
 def if_statement():
     return seq(
         ist("if").desc('if statement')
@@ -715,21 +838,20 @@ def if_statement():
         .skip(string(")"))
         .skip(wo),
 
-        state_body.optional().map(lambda x: x if x != None else [])
+        state_body.optional().map(lambda x: x if x is not None else [])
         .skip(wo),
 
         s(';')
         .then(wo)
         .then(s('else'))
         .then(wo)
-            .then(state_body.optional().map(lambda x: x if x != None else []))
+            .then(state_body.optional().map(lambda x: x if x is not None else []))
         .skip(wo)
             .optional()
     )
     yield
 
-@generate
-def for_statement():
+def for_template(bodytype):
     return seq(
         ist("for").desc('for statement')
         .then(whitespace)
@@ -743,26 +865,37 @@ def for_statement():
             .skip(whitespace)
         ).optional().map(lambda x: x or None),
 
-        # state_body.optional().map(lambda x: x if x != None else [])
+        # state_body.optional().map(lambda x: x if x is not None else [])
         ist("in")
         .then(whitespace)
         .then((
             # Possible iteration modes
-            (ist("group") >> whitespace >> p_group_name << whitespace).tag('group')
+            (ist("group") >> whitespace >> p_group_name << wo).tag('group') |
+            (ist("range") >> whitespace >> p_range_vals << wo).tag('range')
         ))
         .skip(wo),
         
-        state_body.optional().map(lambda x: x if x != None else [])
+        bodytype
         .skip(wo),
 
-        s(';')
-        .then(wo)
-        .then(s('else'))
-        .then(wo)
-            .then(state_body.optional().map(lambda x: x if x != None else []))
-        .skip(wo)
-            .optional()
+        wo.then(
+            (
+                ist('else')
+                .then(wo)
+                    .then(bodytype)
+                .skip(wo)
+            ).optional()
+        )
     )
+
+@generate
+def for_statement():
+    return for_template(state_body.optional().map(lambda x: x if x is not None else []))
+    yield
+
+@generate
+def static_for_loop():
+    return for_template(nested_source_code.optional().map(lambda x: x if x is not None else []))
     yield
 
 @generate
@@ -773,14 +906,14 @@ def ifjump_statement():
         .then(state_call)
         .skip(wo),
 
-        state_body.optional().map(lambda x: x if x != None else [])
+        state_body.optional().map(lambda x: x if x is not None else [])
         .skip(wo),
 
         s(';')
         .then(wo)
         .then(s('else'))
         .then(wo)
-            .then(state_body.optional().map(lambda x: x if x != None else []))
+            .then(state_body.optional().map(lambda x: x if x is not None else []))
         .skip(wo)
             .optional()
     )
@@ -794,14 +927,14 @@ def whilejump_statement():
         .then(state_call)
         .skip(wo),
 
-        state_body.optional().map(lambda x: x if x != None else [])
+        state_body.optional().map(lambda x: x if x is not None else [])
         .skip(wo),
 
         s(';')
         .then(wo)
         .then(s('else'))
         .then(wo)
-            .then(state_body.optional().map(lambda x: x if x != None else []))
+            .then(state_body.optional().map(lambda x: x if x is not None else []))
         .skip(wo)
             .optional()
     )
@@ -819,14 +952,14 @@ def while_statement():
         .skip(string(")"))
         .skip(wo),
         
-        state_body.optional().map(lambda x: x if x != None else [])
+        state_body.optional().map(lambda x: x if x is not None else [])
         .skip(wo),
         
         s(';')
         .then(wo)
         .then(s('else'))
         .then(wo)
-            .then(state_body.optional().map(lambda x: x if x != None else []))
+            .then(state_body.optional().map(lambda x: x if x is not None else []))
         .skip(wo)
             .optional()
     )
@@ -859,8 +992,18 @@ def macro_def():
     yield
 
 @generate
+def nested_source_code():
+    return ist('{') >> source_code << ist('}') << wo << ist(';')
+    yield
+
+@generate
 def source_code():
-    return wo.desc('ignored whitespace') >> (group_declaration.tag('group') | macro_def.tag('macro') | actor_class.tag('class') | static_template_derivation.tag('static template derivation') | templated_actor_class.tag('class template')).sep_by(wo) << wo.desc('ignored whitespace')
+    return wo.desc('ignored whitespace') >> (group_declaration.tag('group') | macro_def.tag('macro') | actor_class.tag('class') | static_template_derivation.tag('static template derivation') | templated_actor_class.tag('class template') | static_for_loop.tag('for')).sep_by(wo) << wo.desc('ignored whitespace')
+    yield
+
+@generate
+def source_code_top():
+    return source_code
     yield
 
 def rpcont(i=0):
@@ -1103,10 +1246,10 @@ def parse_postcode(postcode, error_handler=None):
     try:
         lim = sys.getrecursionlimit()
         sys.setrecursionlimit(lim * 16)
-        clazzes = source_code.parse('\n'.join(l[3] for l in postcode))
+        clazzes = source_code_top.parse('\n'.join(l[3] for l in postcode))
         sys.setrecursionlimit(lim)
 
-        return ((x[0], dict(x[1])) for x in clazzes)
+        return clazzes
 
     except parsy.ParseError as parse_err:
         m = error_line.match(str(parse_err))

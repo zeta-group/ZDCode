@@ -293,6 +293,25 @@
                 "Added ZDCode entrypoint to setuptools script",
                 "Added Zake build system (see Zake.ini for an example)"
             ]
+        },
+
+        {
+            "name": "2.11.2-pre1",
+            "changes": [
+                "Fixed Zake status messages"
+            ]
+        }
+        
+        {
+            "name": "2.12.0",
+            "changes": [
+                "Added range iteration ('for i in range a..=b'), including support for parameters and Rust-like up-to syntax (akin to <= instead of <)",
+                "Changed static template derivation classname to be optional",
+                "Added global static for loops",
+                "Added eval blocks ('e{ 2 + 4 * MY_PARM }'), supporting many different operators, including the ternary conditional operator (cond ? a : b)",
+                "Added format strings ('f{ \"PRE_\" param \"POST\" }')",
+                "Added class-scoped apply statements (also known as 'global apply' statements)"
+            ]
         }
     ]
 }

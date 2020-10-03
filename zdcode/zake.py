@@ -31,7 +31,7 @@ class ZakeTarget:
         self.inputs = []
 
     def output_kwargs(self):
-        return {ot.value[1]: open(self.outputs[ot.value[0]], ot.value[2]) for ot in OutputType}
+        return {ot.value[1]: (open(self.outputs[ot.value[0]], ot.value[2]) if self.outputs[ot.value[0]] is not None else None) for ot in OutputType}
 
     def set_output(self, otype, filename):
         self.outputs[otype.value[0]] = filename

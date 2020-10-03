@@ -4,6 +4,7 @@ import functools
 import warnings
 import string, random
 import collections
+import itertools
 import hashlib
 import queue
 
@@ -794,17 +795,27 @@ class CompilerError(Exception):
     pass
 
 class ZDCodeParseContext(object):
-    def __init__(self, replacements=(), macros=(), templates=(), actors=(), mods=(), applied_mods=(), remote_offset=0):
-        self.macros = dict(macros)
-        self.replacements = dict(replacements)
-        self.templates = dict(templates)
-        self.mods = dict(mods)
+    def __init__(self, replacements=(), macros=(), templates=(), actors=(), mods=(), applied_mods=None, remote_offset=0):
+        self.macros = collections.ChainMap({}, macros)
+        self.replacements = collections.ChainMap({}, replacements)
+        self.templates = collections.ChainMap({}, templates)
+        self.mods = collections.ChainMap({}, mods)
+
+        self.always_applied_mods = applied_mods
+        self.applied_mods = []
+        
         self.actor_lists = list(actors) if actors else [[]]
         self.desc_stack = []
         self.states = []
         self.remote_children = []
         self.remote_offset = remote_offset
-        self.applied_mods = list(applied_mods)
+
+    def get_applied_mods(self):
+        if self.always_applied_mods is None:
+            return iter(self.applied_mods)
+
+        else:
+            return itertools.chain(self.always_applied_mods, self.applied_mods)
         
     def print_state_tree(self, _print_low=print, _print=print, prefix='+ '):
         ended = 0
@@ -892,7 +903,7 @@ class ZDCodeParseContext(object):
         self.states.append(res)
         
         return res
-        
+
     def __repr__(self):
         return 'ZDCodeParseContext({})'.format(self.repr_describe())
         
@@ -1035,6 +1046,22 @@ class ZDCode:
 
         return bool(data)
 
+    def _parse_operation(self, operation, context):
+        ooper, oargs = operation
+
+        oargs = (self._parse_evaluation(a, context) for a in oargs)
+
+        return ooper(*oargs)
+
+    def _parse_evaluation(self, evaluation, context):
+        etype, econt = evaluation
+
+        if etype == 'literal':
+            return econt
+
+        elif etype == 'operation':
+            return self._parse_operation(econt, context)
+
     def _parse_expression(self, expr, context):
         etype, exval = expr
 
@@ -1090,7 +1117,10 @@ class ZDCode:
             return str(literal[1])
 
         elif literal[0] == 'string':
-            return '"' + repr(literal[1])[1:-1] + '"'
+            return stringify(literal[1])
+
+        elif literal[0] == 'format string':
+            return stringify(self._parse_formatted_string(literal[1], context))
 
         elif literal[0] == 'actor variable':
             if literal[1].upper() in context.replacements:
@@ -1114,7 +1144,7 @@ class ZDCode:
 
         return arr
 
-    def _parse_template_derivation(self, deriv, context, pending=None, name=None, stringify=True):
+    def _parse_template_derivation(self, deriv, context, pending=None, name=None, do_stringify=True):
         template_name, template_parms, deriv_body = deriv
         
         try:
@@ -1152,8 +1182,8 @@ class ZDCode:
 
         new_class = self._derive_class_from_template(template, template_parms, context, template_labels, template_macros, template_arrays, template_body, pending=pending, name=name)
 
-        if stringify:
-            return '"' + repr(new_class.name)[1:-1] + '"'
+        if do_stringify:
+            return stringify(new_class.name)
 
         else:
             return new_class
@@ -1209,6 +1239,23 @@ class ZDCode:
 
         else:
             return a[0]
+
+    def _parse_formatted_string(self, cval, context: ZDCodeParseContext):
+        res = []
+    
+        for part in cval:
+            ptype, pval = part
+
+            if ptype == 'str':
+                res.append(pval)
+
+            elif pval.upper() in context.replacements:
+                res.append(str(context.replacements[pval.upper()]))
+
+            else:
+                raise CompilerError("Replacement {} not found while formatting string in {}".format(pval, context.describe()))
+
+        return ''.join(res)
 
     def _parse_replaceable_number(self, cval, context: ZDCodeParseContext):
         if isinstance(cval, str):
@@ -1365,7 +1412,7 @@ class ZDCode:
         def add_state(s, target=context):
             added = [s]
             
-            for m in context.applied_mods:
+            for m in context.get_applied_mods():
                 m.apply(context, added)
         
             target.states.extend(added)
@@ -1574,34 +1621,52 @@ class ZDCode:
             
         elif s[0] == 'for':
             itername, iteridx, itermode, f_body, f_else = s[1]
+
+            def do_for(iterator):
+                break_ctx = context.derive('for')
+                            
+                for i, item in enumerate(iterator):
+                    iter_ctx = break_ctx.derive('{} loop body'.format(itermode[0]))
+                    iter_ctx.replacements[itername.upper()] = item
+                    
+                    if iteridx:
+                        iter_ctx.replacements[iteridx.upper()] = str(i)
+                    
+                    break_skip_size = len(f_body) * (len(self.groups[group_name.upper()]) - i)
+                    continue_skip_size = len(f_body) * (len(self.groups[group_name.upper()]) - i)
+                    
+                    for si, a in enumerate(f_body):
+                        self._parse_state(actor, iter_ctx, label, self._mutate_iter_state(a, break_ctx, iter_ctx), label)
+
+            def do_else():
+                else_ctx = context.derive('for-else')
+                                
+                for a in f_else:
+                   self._parse_state(actor, else_ctx, label, a, label)
             
             if itermode[0] == 'group':
                 group_name = context.resolve(itermode[1], 'a parametrized group name')
-                
+                            
                 if group_name.upper() not in self.groups:
                     raise CompilerError("No such group {} to 3 in a for loop in {}!".format(repr(group_name), context.describe()))
                     
                 elif self.groups[group_name.upper()]:
-                    break_ctx = context.derive('for')
-                
-                    for i, item in enumerate(self.groups[group_name.upper()]):
-                        iter_ctx = break_ctx.derive('loop body')
-                        iter_ctx.replacements[itername.upper()] = item
-                        
-                        if iteridx:
-                            iter_ctx.replacements[iteridx.upper()] = str(i)
-                        
-                        break_skip_size = len(f_body) * (len(self.groups[group_name.upper()]) - i)
-                        continue_skip_size = len(f_body) * (len(self.groups[group_name.upper()]) - i)
-                        
-                        for si, a in enumerate(f_body):
-                            self._parse_state(actor, iter_ctx, label, self._mutate_iter_state(a, break_ctx, iter_ctx), label)
-                            
+                    do_for(iter(self.groups[group_name.upper()]))
+
                 else:
-                    else_ctx = context.derive('for-else')
-                
-                    for a in f_else:
-                       self._parse_state(actor, else_ctx, label, a, label)
+                    do_else()
+
+            elif itermode[0] == 'range':
+                rang = itermode[1]
+
+                r_from = self._parse_replaceable_number(rang[0], context)
+                r_to = rang[0] + self._parse_replaceable_number(rang[1], context)
+
+                if r_to > r_from:
+                    do_for(list(range(r_from, r_to, 1)))
+
+                else:
+                    do_else()
                        
             else:
                 raise CompilerError("Unknown internal for loop iteration mode '{}' in {}! Please report this issue to the author.".format(itermode[0], context.describe()))
@@ -1663,7 +1728,7 @@ class ZDCode:
 
         elif ptype == 'template derivation':
             with context.desc_block('template derivation inheritance'):
-                return self._parse_template_derivation(pval, context, stringify=False).name
+                return self._parse_template_derivation(pval, context, do_stringify=False).name
 
     def _parse_anonym_class(self, anonym_class, context):
         a = dict(anonym_class)
@@ -1773,28 +1838,128 @@ class ZDCode:
             elif btype == 'function':
                 raise CompilerError("Functions have been removed since ZDCode 2.11.0! ({})".format(context.describe()))
 
+            elif btype == 'apply':
+                mtype, mval = bdata
+
+                if mtype == 'name':
+                    try:
+                        mod = context.mods[mval.strip().upper()]  # type: List[ZDModClause]
+        
+                    except KeyError:
+                        raise CompilerError("Tried to apply unkown state mod {} in global apply statement inside {}!".format(repr(apply_mod), context.describe()))
+
+                elif mtype == 'body':
+                    mod = []
+                        
+                    for selector, effects in mval:
+                        mod.append(self._parse_mod_clause(context, selector, effects))
+                
+                context.applied_mods.extend(mod)
+
     def _parse(self, actors):
         parsed_actors = []
         
         context = ZDCodeParseContext(actors=[parsed_actors])
 
-        actors = list(actors)
+        actors = [(context, a) for a in actors]
 
-        for class_type, a in actors:
-            if class_type == 'group':
-                gname = a['name'].upper()
-                
-                if gname in self.groups:
-                    self.groups[gname].extend(list(a['items']))
+        # unpack static for loops
+        def resolve_for(forbody):
+            itername, iteridx, itermode, f_body, f_else = forbody
+            
+            def do_for(iterator):
+                break_ctx = context.derive('for')
+                            
+                for i, item in enumerate(iterator):
+                    iter_ctx = break_ctx.derive('for..{} loop body'.format(itermode[0]))
+                    iter_ctx.replacements[itername.upper()] = item
                     
+                    if iteridx:
+                        iter_ctx.replacements[iteridx.upper()] = str(i)
+                    
+                    for si, a in enumerate(f_body):
+                        yield iter_ctx, a
+
+            def do_else():
+                else_ctx = context.dynamic_derive('for-else')
+                                
+                for a in f_else:
+                    yield else_ctx, a
+            
+            if itermode[0] == 'group':
+                group_name = context.resolve(itermode[1], 'a parametrized group name')
+                            
+                if group_name.upper() not in self.groups:
+                    raise CompilerError("No such group {} to 3 in a for loop in {}!".format(repr(group_name), context.describe()))
+                    
+                elif self.groups[group_name.upper()]:
+                    yield from do_for(iter(self.groups[group_name.upper()]))
+
                 else:
-                    self.groups[gname] = list(a['items'])
+                    yield from do_else()
+
+            elif itermode[0] == 'range':
+                rang = itermode[1]
+
+                r_from = self._parse_replaceable_number(rang[0], context)
+                r_to = rang[1][0] + self._parse_replaceable_number(rang[1][1], context)
+
+                if r_to > r_from:
+                    r = list(range(r_from, r_to, 1))
+                    yield from do_for(r)
+
+                else:
+                    yield from do_else()
+
+        def unpack(vals, reslist):
+            # always parse groups first,
+            # to ensure they can be seen by
+            # static for loops
+            unpacked = True
+
+            for ctx, (class_type, a) in vals:
+                if class_type == 'group':
+                    a = dict(a)
+                    
+                    gname = a['name'].upper()
+                    
+                    if gname in self.groups:
+                        self.groups[gname].extend(list(a['items']))
+                        
+                    else:
+                        self.groups[gname] = list(a['items'])
+
+            for ctx, (class_type, a) in vals:
+                if class_type == 'for':
+                    unpacked = False
+                    reslist.extend(resolve_for(a))
+
+                elif class_type != 'group':
+                    reslist.append((ctx, (class_type, a)))
+
+            return unpacked
+        
+        while True:
+            reslist = []
+
+            if unpack(actors, reslist):
+                break
+
+            else:
+                actors = reslist
+                reslist = []
+
+        # read the unpacked list
+        for ctx, (class_type, a) in actors:    
+            if class_type == 'macro':
+                a = dict(a)
                 
-            elif class_type == 'macro':
                 context.macros[a['name']] = (a['args'], a['body'])
 
-        for class_type, a in actors:
+        for actx, (class_type, a) in actors:
             if class_type == 'class template':
+                a = dict(a)
+                
                 abstract_labels = set()
                 abstract_macros = {}
                 abstract_arrays = {}
@@ -1824,15 +1989,17 @@ class ZDCode:
                     else:
                         template_body.append((btype, bdata))
 
-                template = ZDClassTemplate(a['parameters'], template_body, abstract_labels, abstract_macros, abstract_arrays, g, self, a['classname'], self._parse_inherit(a['inheritance'], context), a['replacement'], a['class number'])
-                context.templates[a['classname']] = template
+                template = ZDClassTemplate(a['parameters'], template_body, abstract_labels, abstract_macros, abstract_arrays, g, self, a['classname'], self._parse_inherit(a['inheritance'], actx), a['replacement'], a['class number'])
+                actx.templates[a['classname']] = template
 
         pending = queue.PriorityQueue()
 
-        for class_type, a in actors:
+        for actx, (class_type, a) in actors:
             if class_type == 'class':
-                with context.desc_block("class '{}'".format(a['classname'])):
-                    actor = ZDActor(self, a['classname'], self._parse_inherit(a['inheritance'], context), a['replacement'], a['class number'], context=context)
+                a = dict(a)
+                
+                with actx.desc_block("class '{}'".format(a['classname'])):
+                    actor = ZDActor(self, a['classname'], self._parse_inherit(a['inheritance'], actx), a['replacement'], a['class number'], context=actx)
                     ctx = actor.get_context()
                     
                     if a['group']:
@@ -1862,11 +2029,13 @@ class ZDCode:
                     parsed_actors.append(actor)
 
             elif class_type == 'static template derivation':
+                a = dict(a)
+            
                 new_name = a['classname']
                 gname = a['group']
                 
-                with context.desc_block('static template derivation \'{}\''.format(new_name)):
-                    parsed_actors.append(self._parse_template_derivation(a['source'][1], context, pending=pending, name=new_name, stringify=False))
+                with actx.desc_block('static template derivation \'{}\''.format(new_name)):
+                    parsed_actors.append(self._parse_template_derivation(a['source'][1], actx, pending=pending, name=new_name, do_stringify=False))
                     
                     if gname:
                         @pending_task(1)
