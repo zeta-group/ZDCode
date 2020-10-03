@@ -1,0 +1,52 @@
+zdpack/multisprite/animal/fox/bite/1        "FOXBITE1"
+zdpack/multisprite/animal/fox/bite/2        "FOXBITE2"
+zdpack/multisprite/animal/fox/hurt/1        "FOXHURT1"
+zdpack/multisprite/animal/fox/hurt/2        "FOXHURT2"
+zdpack/multisprite/animal/fox/hurt/3        "FOXHURT3"
+zdpack/multisprite/animal/fox/idle/1        "FOXIDLE1"
+zdpack/multisprite/animal/fox/idle/2        "FOXIDLE2"
+zdpack/multisprite/animal/fox/idle/3        "FOXIDLE3"
+zdpack/multisprite/animal/fox/idle/4        "FOXIDLE3"
+zdpack/multisprite/animal/fox/see/1         "FOXSEE1"
+zdpack/multisprite/animal/fox/see/2         "FOXSEE2"
+zdpack/multisprite/animal/fox/see/3         "FOXSEE3"
+zdpack/multisprite/animal/fox/gibbed        "DQGIBBED"
+zdpack/multisprite/animal/fox/gib/bounce    "DQGIBBNC"
+
+$random zdpack/multisprite/animal/fox/bite {
+    zdpack/multisprite/animal/fox/bite/1
+    zdpack/multisprite/animal/fox/bite/2
+}
+
+$random zdpack/multisprite/animal/fox/hurt {
+    zdpack/multisprite/animal/fox/hurt/1
+    zdpack/multisprite/animal/fox/hurt/2
+    zdpack/multisprite/animal/fox/hurt/3
+}
+
+$random zdpack/multisprite/animal/fox/idle {
+    zdpack/multisprite/animal/fox/idle/1
+    zdpack/multisprite/animal/fox/idle/2
+    zdpack/multisprite/animal/fox/idle/3
+    zdpack/multisprite/animal/fox/idle/4
+}
+
+$random zdpack/multisprite/animal/fox/see {
+    zdpack/multisprite/animal/fox/see/1
+    zdpack/multisprite/animal/fox/see/2
+    zdpack/multisprite/animal/fox/see/3
+}
+
+$volume zdpack/multisprite/animal/fox/gib/bounce 0.6
+
+
+////////////////
+
+
+$alias zdpack/lasergun/select plats/pt1_stop
+
+
+////////////////
+
+
+zdpack/terrain/break        "WOODCRCK"

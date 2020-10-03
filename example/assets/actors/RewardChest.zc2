@@ -1,0 +1,112 @@
+class RewardChest {
+    set Scale to 0.5;
+
+    is LOOKALLAROUND;
+    is AMBUSH;
+    is QUICKTORETALIATE;
+
+    label Spawn {
+        ELEC A 1;
+        goto Look;
+    };
+
+    label Look {
+        ELEC A 1 A_LookEx(LOF_NOSOUNDCHECK);
+        loop;
+    };
+
+    label See {
+        ELEC A 1 A_JumpIfCloser(80, "Reward");
+        goto Look;
+    };
+
+    label Reward {
+        ELEC A 10 [Bright];
+        TNT1 A 0 {
+            x 20 A_SpawnItemEx("RewardFX", 0, 0, 0, FRandom(-3, 3), FRandom(-3, 3), FRandom(-3, 3));
+            x 9  A_SpawnItemEx("RewardFXBright", 0, 0, 0, FRandom(-3, 3), FRandom(-3, 3), FRandom(-3, 3));
+            x 5  A_SpawnItemEx("Reward_Random");
+        };
+        stop;
+    };
+}
+
+class RewardFX {
+    set Scale to 1.2;
+    set Alpha to 0.5;
+    set RenderStyle to Translucent;
+    set Gravity to 0;
+
+    label Spawn {
+        MISL CDE 9;
+        Stop;
+    };
+}
+
+class RewardFXBright extends RewardFX {
+    label Spawn {
+        MISL CDE 9 [Bright];
+        Stop;
+    };
+}
+
+class Reward_Random extends RandomSpawner {
+    // Common rewards
+    set DropItem to "Reward_HealthBonuses", 200, 30;
+    set DropItem to "Reward_SomeArmorBonuses", 200, 20;
+    set DropItem to "Reward_SomeAmmo", 200, 15;
+    set DropItem to "Reward_ArmorBonuses", 200, 15;
+    set DropItem to "Reward_Stimpacks", 200, 15;
+
+    // Rare rewards
+    set DropItem to "Reward_RadSuit", 70, 9;
+    set DropItem to "Reward_BlurSphere", 70, 8;
+    set DropItem to "Reward_Berserk", 70, 7;
+    set DropItem to "Reward_GreenArmor", 70, 6;
+    set DropItem to "Reward_ComputerMap", 70, 5;
+    set DropItem to "Reward_BlueArmor", 70, 4;
+    set DropItem to "Reward_Soulsphere", 70, 3;
+    set DropItem to "Reward_BlueArmor", 60, 3;
+    set DropItem to "Reward_Megasphere", 50, 1;
+}
+
+class<Message, RewardType, Count, UnitChance> Reward_Simple {
+    label Spawn {
+        TNT1 A 1 A_Log(Message);
+        x Count {
+            sometimes UnitChance TNT1 A 0 A_SpawnItemEx(RewardType, 0, 0, 0, FRandom(-20, 20), FRandom(-20, 20), FRandom(2, 5));
+        };
+        Stop;
+    };
+}
+
+// Common rewards
+derive Reward_HealthBonuses     as Reward_Simple::("Health bonuses!", "HealthBonus", 70, 100);
+derive Reward_SomeArmorBonuses  as Reward_Simple::("Some armor bonuses!", "ArmorBonus", 50, 100);
+derive Reward_ArmorBonuses      as Reward_Simple::("Many armor bonuses!", "ArmorBonus", 90, 100);
+derive Reward_Stimpacks         as Reward_Simple::("Stimpacks!", "Stimpack", 20, 80);
+
+// Common rewards that don't follow the usual simple reward formula
+class Reward_SomeAmmo {
+    label Spawn {
+        TNT1 A 1 A_Log("Some ammunition!");
+        x 40 {
+            x 2 TNT1 A 0 A_SpawnItemEx("Clip", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
+            x 3 TNT1 A 0 A_SpawnItemEx("Shell", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
+            x 3 TNT1 A 0 A_SpawnItemEx("RocketAmmo", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
+                TNT1 A 0 A_SpawnItemEx("Cell", 0, 0, 0, FRandom(-20,20), FRandom(-20,20), FRandom(2,12));
+        };
+        Stop;
+    };
+}
+
+// Rare rewards
+derive Reward_RadSuit           as Reward_Simple::("A radiation suit!", "Radsuit", 1, 100);
+derive Reward_BlurSphere        as Reward_Simple::("Partial invisibility!", "BlurSphere", 1, 100);
+derive Reward_Berserk           as  Reward_Simple::("A berserk pack!", "Berserk", 1, 100);
+derive Reward_GreenArmor        as Reward_Simple::("Light armor!", "GreenArmor", 1, 100);
+derive Reward_Invulnerability   as Reward_Simple::("Invulnerability!", "InvulnerabilitySphere", 1, 100);
+derive Reward_BlueArmor         as  Reward_Simple::("Heavy armor!", "BlueArmor", 1, 100);
+derive Reward_ComputerMap       as Reward_Simple::("A computer map!", "ComputerAreaMap", 1, 100);
+derive Reward_Soulsphere        as Reward_Simple::("Soulsphere!", "Soulsphere", 1, 100);
+derive Reward_Megasphere        as Reward_Simple::("Megasphere!", "Megasphere", 1, 100);

@@ -1,0 +1,241 @@
+class<translation> BaseLaserTrail {
+    set Translation to translation;
+    set Scale       to 0.6;
+    set Alpha       to 0.35;
+    set RenderStyle to "Add";
+
+    is NOGRAVITY;
+
+    label Spawn {
+        BAL1 ABAB 2 A_SetScale(scaley * 8 / 10);
+        stop;
+    };
+}
+
+
+class<dmg, puff> BaseLaserEdge extends DoomImpBall {
+    set Damage       to dmg;
+    set Speed        to 35;
+    set Radius       to 3;
+    set Height       to 4;
+    set BounceCount  to 8;
+    set BounceFactor to 0.9;
+
+    is    INVISIBLE;
+    isn't RANDOMIZE;
+    is    BOUNCEONWALLS;
+    is    BOUNCEONFLOORS;
+    is    BOUNCEONCEILINGS;
+
+    label Death {
+        TNT1 A 0 {
+            A_PlaySound("weapons/plasmax", CHAN_WEAPON, 0.2);
+            A_SpawnItemEx(puff, -2);
+        };
+        
+        stop;
+    };
+}
+
+
+class<translation, dmg, puff, edgecount, edgedmg, edgepuff> BaseLaser extends DoomImpBall {
+    set Damage       to dmg;
+    set Speed        to 35;
+    set Radius       to 3;
+    set Height       to 4;
+    set BounceCount  to 8;
+    set BounceFactor to 0.9;
+    set Translation  to translation;
+    set Scale        to 0.8;
+    set Alpha        to 0.7;
+    set RenderStyle  to "Add";
+
+    isn't RANDOMIZE;
+    is    BOUNCEONWALLS;
+    is    BOUNCEONFLOORS;
+    is    BOUNCEONCEILINGS;
+
+    macro SpawnAsEdge(cls) {
+        TNT1 A 0 A_SpawnItemEx(cls, 4, 0, 0, velz, vely, velz, 0, SXF_TRANSFERPOINTERS);
+    };
+
+    label Spawn {
+        TNT1 A 0;
+        x edgecount inject SpawnAsEdge(BaseLaserEdge::(edgedmg, edgepuff));
+        goto ProjLoop;
+    };
+
+    label ProjLoop {
+        BAL1 AABB 1 [Bright] {
+            x 5 A_SpawnItemEx(BaseLaserTrail::(translation), Random(-8, 8), Random(-8, 8), Random(-8, 8));
+        };
+        loop;
+    };
+    
+    label Death {
+        TNT1 A 0 {
+            A_PlaySound("weapons/plasmax", CHAN_WEAPON);
+            A_SpawnItemEx(puff, -2);
+        };
+        
+        BAL1 CDE 1 [Bright];
+        stop;
+    };
+}
+
+group laser_modules;
+
+class<projectile, translation, pickupmsg, pickupname, ammouse> BaseLaserModule group laser_modules extends Inventory {
+    set Translation             to translation;
+    set Scale                   to 0.6;
+    set Inventory.PickupMessage to pickupmsg;
+    set Tag                     to pickupname;
+    set Inventory.MaxAmount     to 1;
+
+    label Spawn {
+        CELP A -1;
+        stop;
+    };
+    
+    macro FireLaser {
+        TNT1 A 0 A_FireCustomMissile(projectile, 0, 0);
+        TNT1 A 0 A_TakeInventory("Cell", ammouse);
+    };
+    
+    macro PrintModule {
+        TNT1 A 0 A_Print(pickupname);
+    };
+}
+
+class LaserGun extends Shotgun {
+    set Weapon.AmmoType   to "Cell";
+    set Weapon.AmmoUse    to 1;
+    set Weapon.AmmoGive   to 30;
+    set Weapon.SlotNumber to 6;
+    set Tag               to "Laser Gun";
+    set Translation       to "0:255=%[0.1,0.07,0.4]:[0.4,1.95,1.8]";
+
+    set Inventory.PickupMessage to "$PKP_LASERGUN";
+    
+    macro MFire(mod) {
+        from @mod inject FireLaser;
+    };
+    
+    macro MPrint(mod) {
+        TNT1 A 0 A_PlaySound("zdpack/lasergun/select", CHAN_WEAPON, 0.6);
+        from @mod inject PrintModule;
+    };
+    
+    macro CycleModule {
+        TNT1 A 0 A_SetArg(1, -1);
+        
+        for mod index i in group laser_modules {
+            ifjump A_JumpIfInventory(mod, 1, $offset) {
+                if (i > args[0] && (args[1] == -1 || i <= args[1])) {
+                    TNT1 A 0 A_SetArg(1, i);
+                    break;
+                };
+            };
+        };
+        
+        if (args[1] ==  -1) TNT1 A 0 A_SetArg(0, 0);
+        else                TNT1 A 0 A_SetArg(0, args[1]);
+        
+        inject FindModule(MPrint);
+    };
+    
+    macro FindModule(defer) {
+        for mod index i in group laser_modules {
+            ifjump A_JumpIfInventory(mod, 1, $offset) {
+                if (i == args[0]) {
+                    inject @defer(mod);
+                    return;
+                };
+            };
+        };
+    };
+
+    label Fire {
+        SHTG A 3 A_GiveInventory("DefaultLaserModule");
+
+        // fire!
+        inject FindModule(MFire);
+        
+        SHTG A 4 {
+            A_PlaySound("weapons/railgf", CHAN_WEAPON);
+            A_GunFlash;
+        };
+
+        // boring shotgun sequence...
+        SHTG BBCCCBB 1;
+        SHTG A  2;
+        SHTG A  5 A_ReFire;
+        goto Ready;
+    };
+
+    label AltFire {
+        SHTG B 6;
+        inject CycleModule;
+        SHTG B 3 [Bright];
+        SHTG B 4;
+        goto Ready;
+    };
+}
+
+class<projectile, monster_translation_1, monster_translation_2, mod_translation, mod_pickup_msg, mod_pickup_name, mod_ammouse> BaseLaserGuy extends ShotgunGuy {
+    set Translation to monster_translation_1, monster_translation_2;
+    set DropItem    to LaserGun;
+    set DropItem    to BaseLaserModule::(projectile, mod_translation, mod_pickup_msg, mod_pickup_name, mod_ammouse), 40;
+    
+    label Missile {
+        goto Aim;
+    };
+    
+    label Aim {
+        SPOS E 8 A_FaceTarget(20);
+    
+        ifjump A_CheckLOF($offset) {
+            goto Shoot;
+        };
+        
+        // gradual aim
+        SPOS E 2 A_FaceTarget(5);
+        
+        sometimes 30 {
+            ifjump A_JumpIfTargetInLOS($offset); else {
+                x 4 {
+                    SPOS E 2;
+                    ifjump A_JumpIfTargetInLOS($offset) { goto Missile; };
+                };
+                
+                SPOS C 3;
+                
+                goto See;
+            };
+        };
+    };
+        
+    label Shoot {
+        // pow!
+        SPOS F 6 [Bright] {
+            A_PlaySound("weapons/railgf", CHAN_WEAPON);
+            A_CustomMissile(projectile, 48);
+        };
+        
+        SPOS F 2;
+        SPOS E 3;
+        
+        goto See;
+    };
+}
+
+derive DoomLaserWeak as BaseLaser::("0:255=%[0.2,0.4,0.1]:[1.0,1.9,0.7]", 3,  "None", 1, 2, "None");
+derive DoomLaserY    as BaseLaser::("0:255=%[0.4,0.4,0.1]:[1.6,1.6,0.4]", 6,  "None", 3, 2, "None");
+derive DoomLaserO    as BaseLaser::("0:255=%[0.4,0.3,0.1]:[1.7,1.2,0.3]", 8,  "None", 5, 4, "None");
+derive DoomLaserR    as BaseLaser::("0:255=%[0.4,0.2,0.1]:[2.0,0.6,0.2]", 15, "None", 5, 6, "None");
+
+derive DefaultLaserModule as BaseLaserModule::("DoomLaserWeak", "0:255=%[0.12,0.21,0.00]:[0.81,1.91,0.57]", "You got the default laser module (weak)! You're not supposed to pick it up. Oops!", "$INM_LASERMOD_0", 1);
+
+derive LaserGuyY as BaseLaserGuy::("DoomLaserY", "80:111=%[0.00,0.00,0.00]:[1.99,1.51,0.00]", "5:8=%[0.00,0.00,0.00]:[1.61,0.94,0.04]", "0:255=%[0.12,0.21,0.00]:[1.94,1.91,0.57]", "$PKP_LASERMOD_Y", "$INM_LASERMOD_Y", 3);
+derive LaserGuyO as BaseLaserGuy::("DoomLaserO", "80:111=%[0.00,0.00,0.00]:[2.00,0.72,0.00]", "5:8=%[0.00,0.00,0.00]:[1.30,0.45,0.00]", "0:255=%[0.20,0.21,0.00]:[2.00,1.06,0.07]", "$PKP_LASERMOD_O", "$INM_LASERMOD_O", 5);
+derive LaserGuyR as BaseLaserGuy::("DoomLaserR", "80:111=[242,27,34]:[35,0,2]",               "5:8=%[0.00,0.00,0.00]:[1.47,0.00,0.10]", "0:255=%[0.35,0.17,0.09]:[1.87,0.24,0.24]", "$PKP_LASERMOD_R", "$INM_LASERMOD_R", 10);

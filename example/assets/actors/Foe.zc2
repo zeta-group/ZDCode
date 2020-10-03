@@ -1,0 +1,1125 @@
+/*
+ *  - P: Performer
+ *
+ *  Macros that perform something.
+ *  For example,
+ *
+ *      macro P_Shoot {
+ *          SPOS F 4 Bright A_SPosAttackUseAtkSound;
+ *      };
+ *
+ *  - N: Sounder
+ *
+ *  Macros that emit sound.
+ *
+ *  - R: Routine
+ *
+ *  Macros that execute Performers and
+ *  orchestrate with the Fighter's AI.
+ *
+ *  - S: State
+ *
+ *  Labels that perform Routines for
+ *  various purposes.
+ *
+ *  - C: Checkers
+ *
+ *  Macros used by state modifiers to
+ *  add AI checks after every frame in
+ *  a Performer.
+ *
+ */
+
+group fighter_foes; // for ZDCode group iteration (for class_name in fighter_foes {...})
+class BaseFoe {}    // for e.g. dumpclasses
+
+class<> Fighter group fighter_foes extends BaseFoe {
+    combo Monster;
+
+    // Anim macros below.
+
+    abstract macro P_Idle;          // anim: stay or walk           | action: idle around
+    abstract macro P_LookAround;    // anim: stay or walk           | action: look for enemy
+    abstract macro P_Seek;          // anim: run                    | action: seek and look for enemy
+    abstract macro P_Hide;          // anim: stay                   | action: stay in cover
+    abstract macro P_Dodge;         // anim: run or dodge           | action: dodge potential enemy fire
+    abstract macro P_Aim;           // anim: aim + stay or walk     | action: aim at or toward enemy
+    abstract macro P_Shoot;         // anim: shoot + stay           | action: shoot at enemy
+    abstract macro P_Melee;         // anim: melee + stay or walk   | action: shoot at enemy
+    abstract macro P_Avoid;         // anim: run or walk            | action: avoid enemy, whether by fleeing or flying or bouncing randomly, etc
+    
+    abstract macro P_Die;           // anim: die                    | action: standard death sequence  +  death sound
+    abstract macro P_Raise;         // anim: raised (e.g. by vile)  | action: standard raise sequence  +  raise sound
+    abstract macro P_XDie;          // anim: die gibbed             | action: standard xdeath sequence + xdeath sound
+    abstract macro P_Pain;          // anim: pain                   | action: standard pain sequence   +   pain sound
+    
+    // Sound macros below - please use invisi (aka TNT1 A 0)!
+    
+    abstract macro N_Forget;        // sound played when target dismissed and idle state resumed
+    abstract macro N_Active;        // sound played when target acquired
+    abstract macro N_Alert;         // sound played when alert
+    
+    var user_prevhealth = -1;
+    var user_spawnhealth = -1;
+    var user_alert = 0;
+    
+    //====  Routines  ====//
+
+    macro R_Aim {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call aim");
+#endif
+    
+        apply WhileAiming inject P_Aim;
+        
+        goto S_Root;
+    };
+    
+    macro R_Shoot {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call shoot");
+#endif
+    
+        apply WhileFiring inject P_Shoot;
+        
+        goto S_Root;
+    };
+    
+    macro R_Melee {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call melee");
+#endif
+    
+        apply WhileMelee inject P_Melee;
+        
+        goto S_Root;
+    };
+
+    macro R_Dodge {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call dodge");
+#endif
+    
+        apply WhileDodging inject P_Dodge;
+        
+        goto S_Root;
+    };
+    
+    macro R_Hide {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call hide");
+#endif
+    
+        apply WhileCovered inject P_Hide;
+        
+        goto S_Root;
+    };
+    
+    macro R_Attack {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call attack");
+#endif
+    
+        ifjump A_JumpIfTargetInsideMeleeRange($offset) // do melee if possible
+            inject R_Melee;
+    
+        else
+        ifjump A_JumpIfTargetInLOS($offset, 50)
+            inject R_Shoot;
+        
+        else
+        ifjump A_JumpIfTargetInLOS($offset)
+            inject R_Aim;
+       
+        else
+            goto S_Root;
+    };
+    
+    macro R_Avoid {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call avoid");
+#endif
+    
+        apply WhileAvoiding inject P_Avoid;
+
+        goto S_Root;
+    };
+    
+    macro R_Look {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call look");
+#endif
+    
+        apply WhileIdle inject P_LookAround;
+
+        goto S_Root;
+    };
+    
+    macro R_Idle {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call idle");
+#endif
+    
+        apply WhileIdle inject P_Idle;
+
+        goto S_Root;
+    };
+
+    macro R_Seek {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe call seek");
+#endif
+    
+        apply WhileAlert inject P_Seek;
+        
+        goto S_Root;
+    };
+    
+    
+    //====  States  ====//
+    
+    label S_Idle {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state idle");
+#endif
+    
+        if (user_alert > 0) {
+            inject C_DecrementAlert(75, C_BecomeIdle);
+            sometimes 30 inject R_Look;
+        };
+        
+        inject R_Idle;
+        goto S_Root;
+    };
+    
+    label S_Target {
+        // Target acquired.
+
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state target");
+#endif
+        
+        if (user_alert < 3) inject N_Active;
+        invisi A_SetUserVar("user_alert", 35 * 3);
+    
+        ifjump A_JumpIfTargetInLOS($offset, 135) inject R_Attack;
+        
+        goto S_Root;
+    };
+
+    label Death {
+        goto S_Root; // death is handled there
+    };
+
+    label XDeath {
+        goto S_Root; // xdeath is handled there too
+    };
+    
+    label S_Root {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state root");
+#endif
+    
+        // The "root" is a state almost all others eventually return to.
+        if (Health <= 0) {
+            if (health < -user_spawnhealth) {
+                inject P_XDie;
+                stop;
+            };
+                
+            else {
+                inject P_Die;
+                stop;
+            };
+        };
+        
+        // ...still alive, phew
+        
+        if (user_alert > 0) // still alert!
+            goto S_ConsiderAttack;
+            
+        else
+            goto S_Idle;
+    };
+    
+    label S_ConsiderAttack {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state considerattack");
+#endif
+    
+        // This monster will here apply logic to
+        // some situation where it is aware of
+        // some enemy.
+        
+        ifjump A_JumpIfTargetInLOS($offset) {    
+#ifdef DEBUG_FOES
+            invisi A_Log("+ target visible");
+#endif
+        
+            // enemy visible, maybe try attacking
+            if (Health > user_spawnhealth / 3 || FRandom(0, 100) < 30) {
+                // not in vital danger
+
+#ifdef DEBUG_FOES
+                invisi A_Log("+ not in danger");
+#endif
+                
+                sometimes 50 ifjump A_JumpIfInTargetLOS($offset, 20) { // being aimed at by the target!
+#ifdef DEBUG_FOES
+                    invisi A_Log("+ in crosshair; dodge");
+#endif
+                
+                    inject R_Dodge; // dodge enemy aim
+
+                    goto S_Root;
+                };
+
+                ifjump A_JumpIfTargetInsideMeleeRange($offset) { // melee if possible!
+#ifdef DEBUG_FOES
+                    invisi A_Log("+ in range; melee");
+#endif
+                    
+                    inject R_Melee; // do Quick Attack! go!
+
+                    goto S_Root;
+                };
+
+                sometimes 30 {
+#ifdef DEBUG_FOES
+                    invisi A_Log("+ not in range; just do seek (30% chance)");
+#endif
+                
+                    apply WhileDodging inject P_Seek; // chance to seeking instead of shooting.
+
+                    goto S_Root;
+                };
+
+#ifdef DEBUG_FOES
+                invisi A_Log("+ not in range; ranged attack");
+#endif
+                
+                inject R_Attack; // shoot!
+
+                goto S_Root;
+            };
+            
+            else {
+#ifdef DEBUG_FOES
+                invisi A_Log("+ in danger; should avoid");
+#endif
+            
+                inject R_Avoid; // run/hide!
+
+                goto S_Root;
+            };
+
+            goto S_Root;
+        };
+        
+        else {
+#ifdef DEBUG_FOES
+            invisi A_Log("+ target not visible");
+#endif
+        
+            // enemy not visible
+            // decide between
+            // * stay in cover
+            // * become idle
+            // * seek
+            
+            if (Health >= user_prevhealth) {
+                inject C_DecrementAlert(60, C_BecomeIdle); // may return to idle
+                goto S_Seek;
+            };
+                        
+            else if (Health > user_spawnhealth / 1.5) // considerably healthy
+                goto S_Seek;
+                
+            else
+                goto S_Hide;
+
+            stop;
+            goto S_Root;
+        };
+
+        stop;
+        goto S_Root;
+    };
+    
+    label S_Hide {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state hide");
+#endif
+    
+        inject R_Hide;
+        
+        goto S_Root;
+    };
+    
+    label S_Seek {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state seek");
+#endif
+    
+        inject R_Seek;
+        
+        goto S_Root;
+    };
+    
+    label S_Spotted {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state spotted");
+#endif
+    
+        goto S_ConsiderAttack;
+    };
+    
+    label S_Surprise {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state ambush");
+#endif
+    
+        if (Health > user_spawnhealth / 1.5) inject R_Attack; // surprise!
+        else goto S_ConsiderAttack;
+    };
+    
+    label S_Pain {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state pain");
+#endif
+    
+        inject P_Pain;
+        goto S_Root;
+    };
+    
+    label S_Alert {
+#ifdef DEBUG_FOES
+        invisi A_Log("foe state alert");
+#endif
+    
+        if (user_alert < 3) inject N_Alert;
+        
+        if (user_alert < 35 * 2) invisi A_SetUserVar("user_alert", 35 * 2);
+    
+        apply WhileAlert inject P_LookAround;
+        inject C_AlertCheck;
+        
+        sometimes 30 goto S_Root;
+        loop;
+    };
+    
+    
+    //====  Checkers and Modifiers  ====//
+    
+    macro C_BecomeIdle {
+        invisi A_SetUserVar("user_alert", user_alert - 0); 
+        invisi A_ClearTarget;
+        
+        inject N_Forget;
+        goto S_Root;
+    };
+    
+    macro C_DecrementAlert(chance, target) {
+        sometimes chance {
+            invisi A_SetUserVar("user_alert", user_alert - 1);
+            
+            if (user_alert <= 0) {
+                invisi A_SetUserVar("user_alert", 0);
+                inject @target;
+            };
+        };
+    };
+    
+    macro C_AlertCheck {
+        if (Health >= user_prevhealth) inject C_DecrementAlert(35, C_BecomeIdle);
+        
+        else goto S_Spotted;
+    };
+    
+    macro C_InCover {
+        ifjump A_JumpIfTargetInLOS($offset, 100) {
+            ifjump A_JumpIfInTargetLOS($offset)
+                goto S_Spotted;
+                
+            else if (user_prevhealth < Health) {
+                inject C_HealthCheckSuffix;
+                goto S_Spotted;
+            };
+                
+            else {
+                inject C_HealthCheckSuffix;
+                goto S_Surprise;
+            };
+        };
+    };
+    
+    macro C_DodgeCheck {
+        inject C_HurtCheck;
+    };
+    
+    macro C_HurtCheck {
+        if (user_alert > 5)
+            goto S_Root;
+    
+        else if (user_prevhealth < Health)
+            goto S_Alert;
+            
+        inject C_HealthCheckSuffix;
+    };
+    
+    macro C_Look {
+        if (user_alert <= 5) invisi A_LookEx(0, Radius + 2, 0, 4096, 110, "S_Target");
+    };
+    
+    macro C_IdleCheck {
+        inject C_Look;
+        inject C_HurtCheck;
+    };
+    
+    macro C_PreAimCheck {
+        if (Health < user_prevhealth && Health <= user_spawnhealth / 3 && Health > 0)
+            goto S_Root;
+                
+        inject C_HealthCheckSuffix;
+        ifjump A_JumpIfTargetInLOS($offset, 140); else goto S_Root;
+    };
+    
+    macro C_MeleeCheck {
+        if (Health < user_prevhealth && Health <= user_spawnhealth / 3 && Health > 0)
+            goto S_Root;
+                
+        inject C_HealthCheckSuffix;
+        ifjump A_JumpIfTargetInsideMeleeRange($offset); else goto S_Root;
+    };
+    
+    macro C_ShootCheck {
+        if (Health < user_prevhealth && Health <= user_spawnhealth / 3 && Health > 0)
+            goto S_Root;
+                
+        inject C_HealthCheckSuffix;
+        ifjump A_JumpIfTargetInLOS($offset, 50); else goto S_Root;
+    };
+    
+    macro C_HealthCheckSuffix {
+        invisi A_SetUserVar("user_prevhealth", Health);
+    };
+    
+    mod WhileCovered {
+        (!sprite(TNT1)) suffix inject C_InCover;
+    };
+    
+    mod WhileIdle {
+        (!sprite(TNT1)) suffix inject C_IdleCheck;
+    };
+
+    mod WhileAvoiding {
+        (!sprite(TNT1)) suffix inject C_HurtCheck;
+    };
+    
+    mod WhileAlert {
+        (!sprite(TNT1)) suffix inject C_AlertCheck;
+    };
+    
+    mod WhileAiming {
+        (!sprite(TNT1)) prefix inject C_PreAimCheck;
+    };
+    
+    mod WhileMelee {
+        (!sprite(TNT1)) suffix inject C_MeleeCheck;
+    };
+    
+    mod WhileFiring {
+        (!sprite(TNT1)) prefix inject C_ShootCheck;
+    };
+    
+    mod WhileDodging {
+        (!sprite(TNT1)) prefix inject C_DodgeCheck;
+    };
+    
+    
+    //====  Monster Labels  ====//
+    
+    label Spawn {
+        invisi A_SetUserVar("user_prevhealth", Health);
+        invisi A_SetUserVar("user_spawnhealth", Health);
+        
+        goto S_Root;
+    };
+    
+    label See {
+        goto S_Target;
+    };
+    
+    label Pain {
+        goto S_Pain;
+    };
+
+    label Raise {
+        inject P_Raise;
+        goto S_Root;
+    }; 
+}
+
+
+// example fighter foe - DoomImp
+
+
+derive Foe_Imp as Fighter::() {
+    /*      - standard imp properties
+        Health 60
+        Radius 20
+        Height 56
+        Mass 100
+        Speed 8
+        PainChance 200
+        Monster
+        +FLOORCLIP
+        SeeSound "imp/sight"
+        PainSound "imp/pain"
+        DeathSound "imp/death"
+        ActiveSound "imp/active"
+        HitObituary "$OB_IMPHIT"
+        Obituary "$OB_IMP"
+    */
+    
+    set Health      to 60;
+    set Radius      to 20;
+    set Height      to 56;
+    set Mass        to 100;
+    set Speed       to 8;
+    set PainChance  to 200;
+    
+    set ActiveSound to "imp/active";
+    set PainSound   to "imp/pain";
+    set DeathSound  to "imp/death";
+    
+    set HitObituary to "$OB_IMPHIT";
+    set Obituary    to "$OB_IMP";
+    
+    is FLOORCLIP;
+    
+    
+    
+    // Animation macros //
+    
+    macro P_Idle {
+        TROO AB 10;
+        
+        x 4 sometimes 40
+            TROO AA 4 A_SetAngle(angle + FRandom(-15, 15));
+        
+        sometimes 25 {
+            invisi A_Wander;
+            sometimes 40
+                TROO AABBA 3 A_Recoil(0.3);
+        };
+    };
+    
+    macro P_LookAround {
+        TROO AB 10 {
+            A_SetAngle(angle + FRandom(-20, 20));
+            A_Look;
+        };
+        
+        x4 sometimes 70 {
+            invisi A_SetAngle(angle + FRandom(-30, 30));
+            TROO ABAB 3 A_Recoil(-0.3);
+        };
+    };
+    
+    macro P_Seek {
+        invisi A_SetAngle(angle + FRandom(-30, 30));
+        TROO AABCCDABBCDD 2 {
+            A_Chase;
+            A_Recoil(-0.4);
+        };
+    };
+    
+    macro P_Hide {
+        if (Random(0, 255) > 127)
+            TROO AAAA 3;
+            
+        else {
+            TROO BBBB 3;
+            sometimes 30 TROO ABA 2 A_Recoil(0.25);
+        };
+    }; 
+    
+    macro P_Dodge {
+        x 5 {
+            ifjump A_JumpIfTargetInLOS($offset, 60) break;
+            else TROO A 2 A_FaceTarget(20);
+        };
+    
+        TROO ABCC 3 A_Recoil(0.1);
+        invisi ThrustThingZ(0, 6, 0, 1);
+        
+        if (Random(0, 255) > 127)
+            TROO DD 2 ThrustThing(angle * 256 / 360 + 64, 9, 0, 0);  // dodge right
+            
+        else
+            TROO DD 2 ThrustThing(angle * 256 / 360 + 192, 9, 0, 0); // dodge left
+            
+        x 5 {
+            TROO DD 3;
+            if (z <= floorz + 3) TROO CBA 3; return; // landed
+        };
+        
+        TROO CBA 5;
+    };
+    
+    macro P_Aim {
+        TROO CCBBEEE 1 A_FaceTarget(10);
+    };
+    
+    macro P_Shoot {
+        TROO EEFFFF 1 A_FaceTarget(10);
+        TROO G 3 [Bright] A_TroopAttack;
+        TROO GG 1 [Bright];
+        TROO GFE 2;
+    };
+    
+    macro P_Melee {
+        TROO EFF 1 A_FaceTarget(25);
+        invisi ThrustThingZ(0, 4, 0, 0);
+        TROO G 2 A_TroopAttack;
+        TROO GFE 2;
+    };
+    
+    mod MayDodgeDuring {
+        any suffix {
+            sometimes 30 invisi ThrustThing(angle * 256 / 360 + 64,  5, 0, 0);  // dodge right?
+            sometimes 30 invisi ThrustThing(angle * 256 / 360 + 192, 5, 0, 0);  // dodge left?
+        };
+    };
+    
+    macro P_Avoid {
+        apply MayDodgeDuring {
+            TROO AABCCDABBCDD 2 {
+                A_SetAngle(angle + FRandom(-25, 25));
+                A_Recoil(0.4);
+            };
+        };
+    };
+    
+    macro P_Die {
+        TROO I 3;
+        TROO J 5 A_Scream;
+        
+        while (z > floorz + 4) {
+            TROO J 2;
+            sometimes 50 invisi A_PlaySound("imp/death", CHAN_AUTO);
+        };
+        
+        TROO K 4 A_NoBlocking;
+        TROO L 3;
+        
+        TROO M -1;
+    };
+
+    macro P_Raise {
+        TROO ML 8;
+        TROO KJI 5;
+    };
+    
+    macro P_XDie {
+        TROO N 2;
+        TROO N 2 A_XScream;
+        TROO O 4;
+        TROO P 4 A_NoBlocking;
+        TROO QR 3;
+        TROO ST 2;
+        TROO U -1;
+    };
+    
+    macro P_Pain {
+        TROO H 1;
+        TROO H 2 A_Pain;
+    };
+    
+    
+    
+    // Sound macros //
+    
+    macro N_Forget {
+        invisi A_PlaySound("imp/active", CHAN_VOICE, 0.3, 3.4);
+    };
+    
+    macro N_Alert {
+        invisi A_PlaySound("imp/pain", CHAN_VOICE);
+    };
+    
+    macro N_Active {
+        invisi A_PlaySound("imp/sight", CHAN_VOICE);
+    };
+};
+
+derive Foe_HellKnight as Fighter::() {
+    /*      - standard hk properties
+        Health 500
+        Radius 24
+        Height 64
+        Mass 1000
+        Speed 8
+        PainChance 50
+        Monster
+        +FLOORCLIP
+        SeeSound "knight/sight"
+        ActiveSound "knight/active"
+        PainSound "knight/pain"
+        DeathSound "knight/death"
+        HitObituary "$OB_KNIGHTHIT"
+        Obituary "$OB_KNIGHT"
+    */
+
+    set Health      to 500;
+    set Radius      to 24;
+    set Height      to 64;
+    set Mass        to 1000;
+    set Speed       to 8;
+    set PainChance  to 50;
+    
+    set ActiveSound to "knight/active";
+    set PainSound   to "knight/pain";
+    set DeathSound  to "knight/death";
+    
+    set HitObituary to "$OB_KNIGHTHIT";
+    set Obituary    to "$OB_KNIGHT";
+    
+    is FLOORCLIP;
+    
+    
+    
+    // Animation macros //
+    
+    macro P_Idle {
+        BOS2 AB 10;
+        
+        x 4 sometimes 40
+            BOS2 AA 4 A_SetAngle(angle + FRandom(-15, 15));
+        
+        sometimes 25 {
+            invisi A_Wander;
+            sometimes 40
+                BOS2 AABBA 3 A_Recoil(0.3);
+        };
+    };
+    
+    macro P_LookAround {
+        BOS2 AB 10 {
+            A_SetAngle(angle + FRandom(-20, 20));
+            A_Look;
+        };
+        
+        x4 sometimes 70 {
+            invisi A_SetAngle(angle + FRandom(-30, 30));
+            BOS2 ABAB 3 A_Recoil(-0.3);
+        };
+    };
+    
+    macro P_Seek {
+        invisi A_SetAngle(angle + FRandom(-30, 30));
+        BOS2 AABCCDABBCDD 4 {
+            A_Chase;
+            A_Recoil(-0.4);
+        };
+    };
+    
+    macro P_Hide {
+        if (Random(0, 255) > 127)
+            BOS2 AAAA 3;
+            
+        else {
+            BOS2 BBBB 3;
+            sometimes 30 BOS2 ABA 2 A_Recoil(0.25);
+        };
+    }; 
+    
+    macro P_Dodge {
+        x 5 {
+            ifjump A_JumpIfTargetInLOS($offset, 60) break;
+            else BOS2 A 2 A_FaceTarget(20);
+        };
+    
+        BOS2 ABCC 3 A_Recoil(0.1);
+        invisi ThrustThingZ(0, 6, 0, 1);
+        
+        if (Random(0, 255) > 127)
+            BOS2 DD 2 ThrustThing(angle * 256 / 360 + 64, 9, 0, 0);  // dodge right
+            
+        else
+            BOS2 DD 2 ThrustThing(angle * 256 / 360 + 192, 9, 0, 0); // dodge left
+            
+        x 5 {
+            BOS2 DD 3;
+            if (z <= floorz + 3) BOS2 CBA 3; return; // landed
+        };
+        
+        BOS2 CBA 5;
+    };
+    
+    macro P_Aim {
+        BOS2 CCBBEEE 1 A_FaceTarget(10);
+    };
+    
+    macro P_Shoot {
+        BOS2 EEEEEFFFFF 1 A_FaceTarget(5);
+        BOS2 G 5 [Bright] A_BruisAttack;
+        BOS2 GG 1 [Bright];
+        BOS2 GFE 2;
+    };
+    
+    macro P_Melee {
+        BOS2 EFF 1 A_FaceTarget(25);
+        invisi ThrustThingZ(0, 4, 0, 0);
+        BOS2 G 4 A_BruisAttack;
+        BOS2 GFE 2;
+    };
+    
+    mod MayDodgeDuring {
+        any suffix {
+            sometimes 30 invisi ThrustThing(angle * 256 / 360 + 64,  5, 0, 0);  // dodge right?
+            sometimes 30 invisi ThrustThing(angle * 256 / 360 + 192, 5, 0, 0);  // dodge left?
+        };
+    };
+    
+    macro P_Avoid {
+        apply MayDodgeDuring {
+            BOS2 AABCCDABBCDD 2 {
+                A_SetAngle(angle + FRandom(-25, 25));
+                A_Recoil(0.4);
+            };
+        };
+    };
+    
+    macro P_Die {
+        BOS2 I 3;
+        BOS2 J 5 A_Scream;
+        
+        while (z > floorz + 4) {
+            BOS2 J 2;
+            sometimes 50 invisi A_PlaySound("imp/death", CHAN_AUTO);
+        };
+        
+        BOS2 K 4 A_NoBlocking;
+        BOS2 LMN 4;
+        
+        BOS2 O -1;
+    };
+
+    macro P_Raise {
+        BOS2 ON 12;
+        BOS2 MLKJI 8;
+    };
+    
+    macro P_XDie {
+        inject P_Die;
+    };
+    
+    macro P_Pain {
+        BOS2 H 1;
+        BOS2 H 2 A_Pain;
+    };
+    
+    
+    
+    // Sound macros //
+    
+    macro N_Forget {
+        invisi A_PlaySound("knight/active", CHAN_VOICE, 0.3, 3.4);
+    };
+    
+    macro N_Alert {
+        invisi A_PlaySound("knight/pain", CHAN_VOICE);
+    };
+    
+    macro N_Active {
+        invisi A_PlaySound("knight/sight", CHAN_VOICE);
+    };
+};
+
+derive Foe_BaronOfHell as Fighter::() {
+    /*      - standard boh properties
+        Health 1000
+        Radius 24
+        Height 64
+        Mass 1000
+        Speed 8
+        PainChance 50
+        Monster
+        +FLOORCLIP
+        +BOSSDEATH
+        SeeSound "baron/sight"
+        ActiveSound "baron/active"
+        PainSound "baron/pain"
+        DeathSound "baron/death"
+        HitObituary "$OB_BARONHIT"
+        Obituary "$OB_BARON"
+    */
+
+    set Health      to 500;
+    set Radius      to 24;
+    set Height      to 64;
+    set Mass        to 1000;
+    set Speed       to 8;
+    set PainChance  to 50;
+    
+    set ActiveSound to "baron/active";
+    set PainSound   to "baron/pain";
+    set DeathSound  to "baron/death";
+    
+    set HitObituary to "$OB_BARONHIT";
+    set Obituary    to "$OB_BARON";
+    
+    is FLOORCLIP;
+    is BOSSDEATH;
+    
+    
+    
+    // Animation macros //
+    
+    macro P_Idle {
+        BOSS AB 10;
+        
+        x 4 sometimes 40
+            BOSS AA 4 A_SetAngle(angle + FRandom(-15, 15));
+        
+        sometimes 25 {
+            invisi A_Wander;
+            sometimes 40
+                BOSS AABBA 3 A_Recoil(0.3);
+        };
+    };
+    
+    macro P_LookAround {
+        BOSS AB 10 {
+            A_SetAngle(angle + FRandom(-20, 20));
+            A_Look;
+        };
+        
+        x4 sometimes 70 {
+            invisi A_SetAngle(angle + FRandom(-30, 30));
+            BOSS ABAB 3 A_Recoil(-0.3);
+        };
+    };
+    
+    macro P_Seek {
+        invisi A_SetAngle(angle + FRandom(-30, 30));
+        BOSS AABCCDABBCDD 4 {
+            A_Chase;
+            A_Recoil(-0.4);
+        };
+    };
+    
+    macro P_Hide {
+        if (Random(0, 255) > 127)
+            BOSS AAAA 3;
+            
+        else {
+            BOSS BBBB 3;
+            sometimes 30 BOSS ABA 2 A_Recoil(0.25);
+        };
+    }; 
+    
+    macro P_Dodge {
+        x 5 {
+            ifjump A_JumpIfTargetInLOS($offset, 60) break;
+            else BOSS A 2 A_FaceTarget(20);
+        };
+    
+        BOSS ABCC 3 A_Recoil(0.1);
+        invisi ThrustThingZ(0, 6, 0, 1);
+        
+        if (Random(0, 255) > 127)
+            BOSS DD 2 ThrustThing(angle * 256 / 360 + 64, 9, 0, 0);  // dodge right
+            
+        else
+            BOSS DD 2 ThrustThing(angle * 256 / 360 + 192, 9, 0, 0); // dodge left
+            
+        x 5 {
+            BOSS DD 3;
+            if (z <= floorz + 3) BOSS CBA 3; return; // landed
+        };
+        
+        BOSS CBA 5;
+    };
+    
+    macro P_Aim {
+        BOSS CCBBEEE 1 A_FaceTarget(10);
+    };
+    
+    macro P_Shoot {
+        BOSS EEEEEFFFFF 1 A_FaceTarget(5);
+        BOSS G 5 [Bright] A_BruisAttack;
+        BOSS GG 1 [Bright];
+        BOSS GFE 2;
+    };
+    
+    macro P_Melee {
+        BOSS EFF 1 A_FaceTarget(25);
+        invisi ThrustThingZ(0, 4, 0, 0);
+        BOSS G 2 A_BruisAttack;
+        BOSS GFE 2;
+    };
+    
+    mod MayDodgeDuring {
+        any suffix {
+            sometimes 30 invisi ThrustThing(angle * 256 / 360 + 64,  5, 0, 0);  // dodge right?
+            sometimes 30 invisi ThrustThing(angle * 256 / 360 + 192, 5, 0, 0);  // dodge left?
+        };
+    };
+    
+    macro P_Avoid {
+        apply MayDodgeDuring {
+            BOSS AABCCDABBCDD 2 {
+                A_SetAngle(angle + FRandom(-25, 25));
+                A_Recoil(0.4);
+            };
+        };
+    };
+    
+    macro P_Die {
+        BOSS I 3;
+        BOSS J 5 A_Scream;
+        
+        while (z > floorz + 4) {
+            BOSS J 2;
+            sometimes 50 invisi A_PlaySound("imp/death", CHAN_AUTO);
+        };
+        
+        BOSS K 4 A_NoBlocking;
+        BOSS LMN 4;
+        
+        BOSS O -1;
+    };
+
+    macro P_Raise {
+        BOSS ON 12;
+        BOSS MLKJI 8;
+    };
+    
+    macro P_XDie {
+        inject P_Die;
+    };
+    
+    macro P_Pain {
+        BOSS H 1;
+        BOSS H 2 A_Pain;
+    };
+    
+    
+    
+    // Sound macros //
+    
+    macro N_Forget {
+        invisi A_PlaySound("baron/active", CHAN_VOICE, 0.3, 3.4);
+    };
+    
+    macro N_Alert {
+        invisi A_PlaySound("baron/pain", CHAN_VOICE);
+    };
+    
+    macro N_Active {
+        invisi A_PlaySound("baron/sight", CHAN_VOICE);
+    };
+};

@@ -1,0 +1,172 @@
+class LameZombieman extends Zombieman {}
+
+group skull_spawns;
+
+class MonSpawnY group skull_spawns extends RandomSpawner {
+#ifdef MONSPAWN_LASERGUYS
+    set DropItem to "LaserGuyY";
+#endif
+    set DropItem to "LameZombieman";
+    set DropItem to "DoomImp";
+    set DropItem to "ShotgunGuy";
+    set DropItem to "Demon";
+}
+
+class BaseMultiSpawner {
+    set Gravity to 0;
+    
+    is NOBLOCKMAP;
+    is NOSECTOR;
+    is NOGRAVITY;
+    is THRUACTORS;
+}
+
+class<Amount, Chance, Interval, Type, SpawnRadius> MultiSpawner extends BaseMultiSpawner {
+    label Spawn {
+        TNT1 A 1;
+        x Amount {
+            x Interval invisi 1;
+            sometimes Chance invisi A_SpawnItemEx(type, FRandom(-SpawnRadius, SpawnRadius), FRandom(-SpawnRadius, SpawnRadius), 8, 0, 0, 0, FRandom(0, 360));
+        };
+        Stop;
+    };
+}
+
+class BaseAppear {
+    set Gravity to 0;
+        
+    is NOBLOCKMAP;
+    is NOSECTOR;
+    is NOGRAVITY;
+    is THRUACTORS;
+}
+
+class<SpawnType> Appear extends BaseAppear {
+    label Spawn {
+        TNT1 A 0;
+        TNT1 A 0 A_SpawnItemEx('TeleportFog');
+        TNT1 A 0 A_SpawnItemEx(SpawnType);
+        stop;
+    };
+}
+
+derive AppearZombieman      as Appear::("Zombieman");
+derive AppearShotgunGuy     as Appear::("ShotgunGuy");
+
+derive XZombieSpawner       as MultiSpawner::(15, 90, 15, "AppearZombieman", 100);
+
+#ifdef MONSPAWN_LASERGUYS
+derive AppearLaserGuyR      as Appear::("LaserGuyR");
+derive XLaserGuyRSpawner    as MultiSpawner::(6, 75, 35, "AppearLaserGuyR", 80);
+#endif
+
+class<Amount> XCustomShotGuySpawner extends BaseMultiSpawner {
+    macro MakeSpawn {
+        TNT1 A 10 A_SpawnItemEx('AppearShotgunGuy', FRandom(-100, 100), FRandom(-100, 100), 10, 0, 0, 0, FRandom(0, 360));
+        x 5 sometimes 50 TNT1 A 7;
+    };
+
+    label Spawn {
+        TNT1 A 1;
+        x Amount inject MakeSpawn;
+        Stop;
+    };
+}
+
+class MonSpawnO group skull_spawns extends RandomSpawner {
+#ifdef MONSPAWN_LASERGUYS
+    set DropItem to "LaserGuyO";
+#endif
+    set DropItem to "Spectre";
+    set DropItem to "Fatso";
+    set DropItem to "ChaingunGuy";
+    set DropItem to "Arachnotron";
+    set DropItem to "Revenant";
+    set DropItem to "Cacodemon";
+    set DropItem to "XZombieSpawner";
+    set DropItem to XCustomShotGuySpawner::(3);
+}
+
+class MonSpawnR group skull_spawns extends RandomSpawner {
+    set DropItem to "PainElemental";
+    set DropItem to "ArchVile";
+    set DropItem to "HellKnight";
+    set DropItem to "BaronOfHell";
+#ifdef MONSPAWN_LASERGUYS
+    set DropItem to "XLaserGuyRSpawner";
+#endif
+    set DropItem to XCustomShotGuySpawner::(7);
+}
+
+class<ParticleSprite, Scale> SkullParticle {
+    set Gravity to 0.04;
+    set Scale to Scale;
+    set Alpha to 0.5;
+    set RenderStyle to Add;
+
+    is THRUACTORS;
+
+    label Spawn {
+        param ParticleSprite A 12 [Bright];
+        Stop;
+    };
+}
+
+group skull_projs;
+
+class<SkullSprite, Radius, SpawnedStuff, ParticleType, AlertMessage, SpawnCount, SpawnChance, DuplicateCount, DuplicateChance, ParticleCount> SkullSpawner group skull_projs {
+    set Scale to 0.3;
+    set Alpha to 0.7;
+    set RenderStyle to Translucent;
+    set Speed to 9;
+    set Damage to 0;
+    set Radius to Radius;
+    set Height to 2;
+    set Species to "SkullSpawner";
+
+    combo Projectile;
+
+    is THRUACTORS;
+    is THRUSPECIES;
+
+    macro Duplicate {
+        if (z - floorz < 40)
+            TNT1 A 0 A_CustomMissile(Self, 0, 0, 180 + FRandom(-50, -50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 5));
+
+        else
+            TNT1 A 0 A_CustomMissile(Self, 0, 0, 180 + FRandom(-50, 50), CMF_AIMDIRECTION | CMF_SAVEPITCH, FRandom(-20, 20));
+    };
+
+    macro MakeParticle {
+        x 2 sometimes 20 TNT1 A 0 A_SpawnItemEx(ParticleType, 0, 0, 0, FRandom(-2, 2), FRandom(-2, 2), FRandom(-2, 2));
+    };
+
+    label Spawn {
+        param SkullSprite A 2 [Bright];
+        x 3 inject MakeParticle;
+        Loop;
+    };
+
+    label Death {
+        x SpawnCount sometimes SpawnChance {
+            TNT1 A 0 A_Log(AlertMessage);
+            TNT1 A 0 A_SpawnItemEx(SpawnedStuff, 0, 0, floorz - z);
+        };
+
+        x DuplicateCount sometimes DuplicateChance
+            inject Duplicate;
+
+        x ParticleCount inject MakeParticle;
+        TNT1 A 1;
+        Stop;
+    };
+}
+
+derive SkullParticleR as SkullParticle::("SKPR", 1.0);
+derive SkullParticleO as SkullParticle::("SKPO", 0.7);
+derive SkullParticleY as SkullParticle::("SKPY", 0.5);
+
+derive SkullSpawnerR as SkullSpawner::("SKLR", 30, "MonSpawnR", "SkullParticleR", "RED ALERT: New high-level threat detected!", 1, 96, 5, 8, 20);
+derive SkullSpawnerO as SkullSpawner::("SKLO", 45, "MonSpawnO", "SkullParticleO", "ORANGE ALERT: New medium-level threat detected!", 2, 83, 6, 10, 20);
+derive SkullSpawnerY as SkullSpawner::("SKLY", 60, "MonSpawnY", "SkullParticleY", "YELLOW ALERT: New low-level threat detected!", 4, 75, 7, 12, 16);
+
