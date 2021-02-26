@@ -1059,7 +1059,7 @@ class ZDCode:
         if etype == 'literal':
             return econt
 
-        elif etype == 'operation':
+        if etype == 'operation':
             return self._parse_operation(econt, context)
 
     def _parse_expression(self, expr, context):
@@ -1068,16 +1068,16 @@ class ZDCode:
         if etype == 'expr':
             return ' '.join(self._parse_expression(item, context) for item in exval)
 
-        elif etype == 'literal':
+        if etype == 'literal':
             return self._parse_literal(exval, context)
 
-        elif etype == 'array index':
+        if etype == 'array index':
             return '[' + self._parse_expression(exval, context) + ']'
 
-        elif etype == 'oper':
+        if etype == 'oper':
             return exval
 
-        elif etype == 'paren expr':
+        if etype == 'paren expr':
             return '(' + self._parse_expression(exval, context) + ')'
 
     def _parse_argument(self, arg, context, name = None):
@@ -1092,13 +1092,13 @@ class ZDCode:
         if ptype == 'expression':
             return self._parse_expression(pval, context)
 
-        elif ptype == 'template derivation':
+        if ptype == 'template derivation':
             return self._parse_template_derivation(pval, context)
 
-        elif ptype == 'anonymous class':
+        if ptype == 'anonymous class':
             return self._parse_anonym_class(pval, context)
             
-        elif ptype == 'anonymous macro':
+        if ptype == 'anonymous macro':
             return self._parse_anonym_macro(*pval, context, name)
 
     def _parse_anonym_macro(self, args, body, context, name = None):
@@ -1116,26 +1116,26 @@ class ZDCode:
         if literal[0] == 'number':
             return str(literal[1])
 
-        elif literal[0] == 'string':
+        if literal[0] == 'string':
             return stringify(literal[1])
 
-        elif literal[0] == 'format string':
+        if literal[0] == 'format string':
             return stringify(self._parse_formatted_string(literal[1], context))
 
-        elif literal[0] == 'actor variable':
+        if literal[0] == 'actor variable':
             if literal[1].upper() in context.replacements:
                 return context.replacements[literal[1].upper()]
 
             else:
                 return literal[1]
 
-        elif literal[0] == 'call expr':
+        if literal[0] == 'call expr':
             return self._parse_action(literal[1], context)
 
-        elif literal[0] == 'anonymous class':
+        if literal[0] == 'anonymous class':
             return self._parse_anonym_class(literal[1], context)
 
-        elif literal[0] == 'template derivation':
+        if literal[0] == 'template derivation':
             return self._parse_template_derivation(literal[1], context)
 
     def _parse_array(self, arr, context):
@@ -1249,11 +1249,15 @@ class ZDCode:
             if ptype == 'str':
                 res.append(pval)
 
-            elif pval.upper() in context.replacements:
-                res.append(str(context.replacements[pval.upper()]))
+            if ptype == 'eval':
+                res.append(str(self._parse_evaluation(pval)))
 
-            else:
-                raise CompilerError("Replacement {} not found while formatting string in {}".format(pval, context.describe()))
+            if ptype == 'fmt':
+                if pval.upper() in context.replacements:
+                    res.append(str(context.replacements[pval.upper()]))
+
+                else:
+                    raise CompilerError("Replacement {} not found while formatting string in {}".format(pval, context.describe()))
 
         return ''.join(res)
 

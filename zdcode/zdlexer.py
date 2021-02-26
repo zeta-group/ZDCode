@@ -138,6 +138,7 @@ def format_string_literal():
         ist('f') >> wo >> s('{') >> wo >> (
             (
                 string_literal.tag('str') |
+                numeric_eval.tag('eval') |
                 variable_name.tag('fmt')
             ).sep_by(wo)
         ) << wo << s('}')
