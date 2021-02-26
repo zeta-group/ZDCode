@@ -1123,3 +1123,13 @@ derive Foe_BaronOfHell as Fighter::() {
         invisi A_PlaySound("baron/sight", CHAN_VOICE);
     };
 };
+
+
+#IFDEF FOE_REPLACEMENTS
+
+// replace vanilla monsters with corresopnding Foes
+class Foe_Imp_replacer extends Foe_Imp replaces DoomImp;
+class Foe_HellKnight_replacer extends Foe_HellKnight replaces HellKnight;
+class Foe_BaronOfHell_replacer extends Foe_BaronOfHell replaces BaronOfHell;
+
+#ENDIF
