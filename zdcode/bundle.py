@@ -130,7 +130,6 @@ class BundleInputWalker:
         for oname, out in self.bundle.outputs.items():
             oname = oname.lower()
 
-            print(oname, out.output)
             zipf = zipfile.ZipFile(out.output, mode="w")
             zips[oname] = zipf
             zipfiles.add(zipf)

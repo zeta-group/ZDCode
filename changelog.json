@@ -311,7 +311,8 @@
             "name": "2.12.2",
             "changes": [
                 "Fix severe error in parsing code",
-                "Added special 'inject' input types"
+                "Added special 'inject' input types",
+                "Removed leftover debug prints"
             ]
         }
     ]
