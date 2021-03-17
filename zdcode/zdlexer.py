@@ -520,7 +520,7 @@ def actor_class():
         (whitespace >> (ist('replaces') >> whitespace >> regex(r'[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
         (whitespace >> s('#') >> regex(r'[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
 
-        (s('{') >> wo >> class_body.many().optional() << wo.then(s('}')).skip(wo)).tag('body')
+        (s('{') >> wo >> class_body.many().optional() << wo.then(s('}')).skip(wo)).optional().map(lambda x: x if x is not None else []).tag('body')
     )
     yield
 

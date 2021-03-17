@@ -312,6 +312,14 @@
                 "Added format strings ('f{ \"PRE_\" param \"POST\" }')",
                 "Added class-scoped apply statements (also known as 'global apply' statements)"
             ]
+        },
+
+        {
+            "name": "2.12.1",
+            "changes": [
+                "Made class bodies optional, allowing empty class definitions ('dummy classes')",
+                
+            ]
         }
     ]
 }
