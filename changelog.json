@@ -314,6 +314,14 @@
                 "Added special 'inject' input types",
                 "Removed leftover debug prints"
             ]
+        },
+
+        {
+            "name": "2.12.3",
+            "changes": [
+                "Fix inject input type syntax parsing in bundle.py",
+                "Allow global filename excluders in Zake.ini"
+            ]
         }
     ]
 }

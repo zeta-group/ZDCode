@@ -1,4 +1,5 @@
 import heapq
+import re
 import sys
 import typing
 from configparser import ConfigParser, ExtendedInterpolation
@@ -17,7 +18,7 @@ class ZakeException(Exception):
     pass
 
 
-class ConfigError(ZakeException):
+class ZakeConfigError(ZakeException):
     pass
 
 
@@ -43,6 +44,8 @@ class ZakeTarget:
 
 
 class Zake:
+    inj_field_pat = re.compile(r'^\"(.+)\":\"(.+)\"$')
+
     def __init__(self):
         self.targets: dict[str, ZakeTarget] = {}
 
@@ -132,7 +135,7 @@ class Zake:
 
             # fetch inputs and outputs
             if "inputs" not in pats:
-                raise ConfigError(
+                raise ZakeConfigError(
                     "Required Zake field 'inputs' missing from section Paths while reading target {}.".format(
                         tname
                     )
@@ -143,13 +146,19 @@ class Zake:
 
             if "injects" in pats:
                 for injs in pats["injects"].strip().split():
-                    inp, out = injs.split()
+                    match = self.inj_field_pat.match(injs)
+
+                    if not match:
+                        raise ZakeConfigError("Malformed value found in given Zake field 'injects': {}".format(injs))
+
+                    inp, out = match.groups()
                     targ.add_input((inp, out))
 
             for bundle in bundles:
                 out_name = "output." + bundle
                 matchers_name = "matchers." + bundle
                 excluders_name = "excluders." + bundle
+                excluders_global_name = "excluders"
                 priority_name = "priority." + bundle
 
                 priority = config.getfloat(
@@ -168,7 +177,7 @@ class Zake:
                     targ.outputs[bundle].output = pats[out_name].strip()
 
                 else:
-                    raise ConfigError(
+                    raise ZakeConfigError(
                         "Required Zake field '{}' missing from section Paths while reading target {}.".format(
                             out_name, tname
                         )
@@ -176,13 +185,18 @@ class Zake:
 
                 matchers = get_bundle_cfg(s_bundle_cfg, matchers_name)
                 excluders = get_bundle_cfg(s_bundle_cfg, excluders_name)
+                excluders_global = get_bundle_cfg(s_bundle_cfg, excluders_global_name)
 
                 if matchers:
-                    for matcher in matchers:
+                    for matcher in matchers.strip().split():
                         targ.outputs[bundle].add_matcher(matcher)
 
                 if excluders:
-                    for excluder in excluders:
+                    for excluder in excluders.strip().split():
+                        targ.outputs[bundle].add_excluder(excluder)
+
+                if excluders_global:
+                    for excluder in excluders_global.strip().split():
                         targ.outputs[bundle].add_excluder(excluder)
 
             # preprocessor definitions
