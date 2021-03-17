@@ -125,7 +125,7 @@ class Zake:
                     if key in pats:
                         interp["defaults"] = pats[k]
 
-                    pats[k] = config.get(s_pats, key, vars=interp)
+                    pats[key] = config.get(s_pats, key, vars=interp)
 
             if s_defs in config:
                 defs.update(config.items(s_defs, vars=interp))
