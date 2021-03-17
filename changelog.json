@@ -1,24 +1,9 @@
 {
-    "vtrack_version": "2.1.0",
-    "name": "ZDCode",
-    "packageName": "zdcode",
-    "tags": ["zdoom", "decorate", "compiler"],
-    "description": "A language that compiles to Zandronum-compatible DECORATE syntax.",
-
-    "license": "MIT",
-    "dependencies": [
-        "parsy>=1.2.0"
-    ],
-
-    "authorName": "Gustavo6046",
-    "authorRealName": "Gustavo R. Rehermann",
-    "authorEmail": "rehermann6046@gmail.com",
-
     "versions": [
         {
             "name": "2.1.0",
             "changes": [
-                "Adopted the VTrack version description format."
+                "Start of this changelog, initially used within setup.py, although the format itself was never formalized."
             ]
         },
 
@@ -318,7 +303,7 @@
             "name": "2.12.1",
             "changes": [
                 "Made class bodies optional, allowing empty class definitions ('dummy classes')",
-                
+                "Overhauled the Zake build system, and ZDCode bundling in general"
             ]
         }
     ]

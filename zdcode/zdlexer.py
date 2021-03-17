@@ -1,9 +1,10 @@
 # pylint: disable=unreachable
+import glob
+import os
 import re
 import sys
-import os
-import glob
 import traceback
+
 import parsy
 
 try:
@@ -12,8 +13,7 @@ try:
 except ImportError:
     import json
 
-from parsy import generate, string, regex, seq, whitespace, success, fail
-
+from parsy import fail, generate, regex, seq, string, success, whitespace
 
 s = string
 fa = fail
@@ -520,7 +520,7 @@ def actor_class():
         (whitespace >> (ist('replaces') >> whitespace >> regex(r'[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
         (whitespace >> s('#') >> regex(r'[0-9]+')).desc('class number').map(int).optional().tag('class number').desc('class number').skip(wo),
 
-        (s('{') >> wo >> class_body.many().optional() << wo.then(s('}')).skip(wo)).optional().map(lambda x: x if x is not None else []).tag('body')
+        ((s('{') >> wo >> class_body.many().optional() << wo.then(s('}')).skip(wo)) | s(';').map(lambda _: [])).tag('body')
     )
     yield
 
