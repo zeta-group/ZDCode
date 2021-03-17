@@ -1,5 +1,6 @@
 # ZDCode 2.0
-## The language that compiles to ye olde DECORATE!
+
+"The language that compiles to ye olde DECORATE!"
 
 ZDCode is a project that aims to make writing DECORATE _better_; that is,
 to expand the possibilities not only of what the code itself can do, but

@@ -11,3 +11,4 @@ ZDCode.spec
 *.log
 venv/
 fastenv/
+dist/
