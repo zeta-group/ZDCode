@@ -5,6 +5,7 @@ except ImportError:
     from zdcode import ZDCode
 
 import fnmatch
+import functools
 import heapq
 import pathlib
 import shutil
@@ -12,7 +13,6 @@ import subprocess
 import tempfile
 import typing
 import zipfile
-import functools
 from collections import deque
 
 import attr
@@ -69,7 +69,7 @@ class BundleInputWalker:
         typing.Callable[[ZDCode.ZDCodeError], None]
     ] = attr.ib(default=None)
     preproc_defs: dict[str, str] = attr.ib(factory=dict)
-    collected: deque[tuple[str, str, bytes]] = attr.ib(factory=list)
+    collected: typing.Deque[tuple[str, str, bytes]] = attr.ib(factory=list)
 
     @classmethod
     def new(self, bundle, error_handler=None, preproc_defs=None) -> "BundleInputWalker":
@@ -84,13 +84,13 @@ class BundleInputWalker:
             collected=deque(),
         )
 
-    def add_dep(self, url: pathlib.Path) -> ():
-        self.deps.append(url)
+    def add_dep(self, url: pathlib.Path, target: pathlib.PurePath) -> ():
+        self.deps.append((url, target))
 
     def scan_deps(self):
         while self.deps:
-            mod = self.deps.pop()
-            self.scan_dep(mod)
+            mod, target = self.deps.pop()
+            self.scan_dep(mod, target)
 
     def build(self) -> typing.Optional[tuple[int, str]]:
         while self.build_tasks:
@@ -102,9 +102,7 @@ class BundleInputWalker:
                     "Errors were found during the compilation of the ZDCode lumps!",
                 )
 
-        self.collect(
-            pathlib.PurePath("DECORATE"), self.code.decorate().encode("utf-8")
-        )
+        self.collect(pathlib.PurePath("DECORATE"), self.code.decorate().encode("utf-8"))
 
         return None
 
@@ -142,14 +140,14 @@ class BundleInputWalker:
             out_zip = zips[oname.lower()]
             self.store_collected(out_zip, target, data)
 
-    def scan_dep(self, url: pathlib.Path):
+    def scan_dep(self, url: pathlib.Path, target: pathlib.PurePath):
         url_str = str(url)
 
         if url_str in self.bundled:
             return
 
         self.bundled.add(url_str)
-        self.scan_dep_url(url, pathlib.PurePath(""), url)
+        self.scan_dep_url(url, target, url)
 
     def scan_dep_url(
         self, url: pathlib.Path, target: pathlib.PurePath, relative: pathlib.PurePath
@@ -235,7 +233,7 @@ class BundleInputWalker:
 
 
 class Bundle:
-    def __init__(self, *mods, outputs=None, error_handler=None):
+    def __init__(self, *mods: list[tuple[str, str]], outputs=None, error_handler=None):
         self.mods = list(mods)
         self.error_handler = error_handler
 
@@ -273,8 +271,8 @@ class Bundle:
             bundle=self,
         )
 
-        for mod in self.mods:
-            walker.add_dep(pathlib.Path(mod))
+        for mod, modtarg in self.mods:
+            walker.add_dep(pathlib.Path(mod), pathlib.Path(modtarg))
 
         # scan input paths
         print("Scanning inputs...")

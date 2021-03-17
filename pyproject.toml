@@ -1,9 +1,10 @@
 [tool.poetry]
 name = "zdcode"
-version = "2.12.1"
+version = "2.12.2"
 description = "A ZDoom DECORATE transpiler and mod content build system"
 authors = ["Gustavo6046 <rehermann6046@gmail.com>"]
 license = "MIT"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"

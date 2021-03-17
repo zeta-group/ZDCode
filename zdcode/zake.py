@@ -25,7 +25,7 @@ class ZakeTarget:
     def __init__(self, name: str):
         self.name = name
         self.definitions: dict[str, str] = {}
-        self.inputs: list[str] = []
+        self.inputs: list[tuple[str, str]] = []
         self.outputs: dict[str, BundleOutput] = {}
 
     def add_input(self, inp):
@@ -139,7 +139,12 @@ class Zake:
                 )
 
             for inp in pats["inputs"].strip().split():
-                targ.add_input(inp)
+                targ.add_input((inp, ""))
+
+            if "injects" in pats:
+                for injs in pats["injects"].strip().split():
+                    inp, out = injs.split()
+                    targ.add_input((inp, out))
 
             for bundle in bundles:
                 out_name = "output." + bundle
@@ -174,11 +179,11 @@ class Zake:
 
                 if matchers:
                     for matcher in matchers:
-                        self.outputs[bundle].add_matcher(matcher)
+                        targ.outputs[bundle].add_matcher(matcher)
 
                 if excluders:
                     for excluder in excluders:
-                        self.outputs[bundle].add_excluder(excluder)
+                        targ.outputs[bundle].add_excluder(excluder)
 
             # preprocessor definitions
             for k, v in defs.items():
@@ -188,7 +193,11 @@ class Zake:
         return targs
 
     def execute(self, **kwargs):
-        print("Starting ZDCode bundling barrage with {} targets.".format(len(self.targets)))
+        print(
+            "Starting ZDCode bundling barrage with {} targets.".format(
+                len(self.targets)
+            )
+        )
 
         for name, target in self.targets.items():
             print("\n-- Bundling target: " + name)

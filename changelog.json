@@ -305,6 +305,14 @@
                 "Made class bodies optional, allowing empty class definitions ('dummy classes')",
                 "Overhauled the Zake build system, and ZDCode bundling in general"
             ]
+        },
+
+        {
+            "name": "2.12.2",
+            "changes": [
+                "Fix severe error in parsing code",
+                "Added special 'inject' input types"
+            ]
         }
     ]
 }
