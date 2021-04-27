@@ -322,6 +322,14 @@
                 "Fix inject input type syntax parsing in bundle.py",
                 "Allow global filename excluders in Zake.ini"
             ]
+        },
+
+        {
+            "name": "2.12.4",
+            "changes": [
+                "Fix duplicated actor definitions",
+                "Revert compiling all .zc2 files in input tree (use a 'ZDCODE' file and #include)"
+            ]
         }
     ]
 }

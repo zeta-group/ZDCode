@@ -171,15 +171,15 @@ class BundleInputWalker:
     def scan_dep_file(
         self, url: pathlib.Path, target: pathlib.PurePath, relative: pathlib.PurePath
     ):
-        if url.stem.split(".")[0].upper() == "ZDCODE" or url.suffix.upper() == ".ZC2":
+        if url.stem.split(".")[0].upper() == "ZDCODE":
             self.build_tasks.append(self._compile_task(url))
 
-        elif url.suffix.upper() in (".PK3", ".PKZ", ".ZIP"):
+        if url.suffix.upper() in (".PK3", ".PKZ", ".ZIP"):
             self.scan_dep_zip(url, target, relative)
+            return
 
-        else:
-            opath = target / url.name
-            self.collect(opath, url.read_bytes())
+        opath = target / url.name
+        self.collect(opath, url.read_bytes())
 
     def collect(self, out_path: pathlib.PurePath, data: bytes):
         output = self.bundle.find_output(out_path.name)
