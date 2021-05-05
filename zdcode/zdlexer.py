@@ -151,7 +151,7 @@ eval_literal = regex('[\-\+]?\d+()').map(int) | regex('[\-\+]?\d*(\.\d*)?([Ee]\d
 def eval_body():
     return wo >> (
         (ist('(') >> eval_body << ist(')')) |
-        eval_literal.tag('literal') | eval_operation.tag('operation')
+        eval_operation.tag('operation') | eval_literal.tag('literal')
     ) << wo
     yield
 
