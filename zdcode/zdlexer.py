@@ -194,44 +194,44 @@ def opmap(operands, func):
 
 def make_operators(child):
     return [
-    # Unary sign precedence
+        # Unary sign precedence
         seq(ist('+') << wo, child).map(opmap(1, lambda a: +a)),
         seq(ist('-') << wo, child).map(opmap(1, lambda a: -a)),
 
-    # Multiplicative precedence
+        # Multiplicative precedence
         seq(child, wo >> ist('%') << wo, child).map(opmap(2, lambda a, b: a % b)),
         seq(child, wo >> ist('*') << wo, child).map(opmap(2, lambda a, b: a * b)),
         seq(child, wo >> ist('/') << wo, child).map(opmap(2, lambda a, b: a / b)),
 
-    # Additive precedence
+        # Additive precedence
         seq(child, wo >> ist('+') << wo, child).map(opmap(2, lambda a, b: a + b)),
         seq(child, wo >> ist('-') << wo, child).map(opmap(2, lambda a, b: a - b)),
 
-    # Bit shift precedence
+        # Bit shift precedence
         seq(child, wo >> ist('>>') << wo, child).map(opmap(2, lambda a, b: a >> b)),
         seq(child, wo >> ist('<<') << wo, child).map(opmap(2, lambda a, b: a << b)),
 
-    # Bitwise operation precedence
+        # Bitwise operation precedence
         seq(child, wo >> ist('&') << wo, child).map(opmap(2, lambda a, b: a & b)),
         seq(child, wo >> ist('^') << wo, child).map(opmap(2, lambda a, b: a ^ b)),
         seq(child, wo >> ist('|') << wo, child).map(opmap(2, lambda a, b: a | b)),
 
-    # Logical (1 or 0) operation precedence
+        # Logical (1 or 0) operation precedence
         seq(child, wo >> ist('&&') << wo, child).map(opmap(2, lambda a, b: 1 if (a and b)               else 0)),
         seq(child, wo >> ist('||') << wo, child).map(opmap(2, lambda a, b: 1 if (a or  b)               else 0)),
         seq(child, wo >> ist('^^') << wo, child).map(opmap(2, lambda a, b: 1 if ((a == 0) != (b == 0))  else 0)),
 
-    # Ternary operation precedence
+        # Ternary operation precedence
         seq(child, wo >> ist('?') << wo, child, wo >> ist(':') << wo, child).map(
-        lambda cond, _, yes, _2, no: (
-            (lambda cond, yes, no: yes if cond else no),
-            (cond, yes, no)
-        )
-    ),
+            lambda cond, _, yes, _2, no: (
+                (lambda cond, yes, no: yes if cond else no),
+                (cond, yes, no)
+            )
+        ),
 
-    # Comma operation precedence
+        # Comma operation precedence
         seq(child, ist(','), child).map(opmap(2, lambda a, b: b)),
-]
+    ]
 
 @generate
 def eval_operation():
@@ -259,7 +259,7 @@ def literal():
     return (
         call_literal.tag('call expr').desc('call') |
         format_string_literal.tag('format string') |
-        numeric_eval.tag('eval').desc('numerical evaluation') |
+        numeric_eval.tag('eval') |
         string_literal.tag('string').desc('string') |
         variable_name.tag('actor variable').desc('actor variable') |
         number_lit.desc('number')
