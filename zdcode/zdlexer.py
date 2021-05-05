@@ -157,7 +157,17 @@ def formattable_classname():
 
 @generate
 def eval_literal():
-    return regex(r'[\-\+]?\d+()').map(int) | (regex(r'[\-\+]?(\d+\.\d*|\d*.\d+)([Ee][\-\+]?\d+)?').map(float)
+    return (
+        (
+            ( regex(r'[\-\+]?')             | success('')       ) +
+            ( regex(r'\d+\.\d*')            | regex(r'\d*.\d+') ) +
+            ( regex(r'([Ee][\-\+]?\d+)?')   | success('')       )
+        ).map(float) |
+        (
+            ( regex(r'[\-\+]') | regex(r'0x[xo]') | success('') ) +
+            regex(r'[0-9]+')
+        ).map(int)
+    )
     yield
 
 @generate
