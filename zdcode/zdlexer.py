@@ -155,7 +155,10 @@ def formattable_classname():
     return format_string_literal.tag('format') | regex(r'[a-zA-Z0-9_]+').tag('string')
     yield
 
-eval_literal = regex('[\-\+]?\d+()').map(int) | regex('[\-\+]?\d*(\.\d*)?([Ee]\d+)?').map(float)
+@generate
+def eval_literal():
+    return regex(r'[\-\+]?\d+()').map(int) | (regex(r'[\-\+]?(\d+\.\d*|\d*.\d+)([Ee][\-\+]?\d+)?').map(float)
+    yield
 
 @generate
 def eval_body():
