@@ -171,18 +171,14 @@ def eval_literal():
     yield
 
 @generate
-def eval_body():
-    return wo >> (
-        (ist('(') >> eval_body_root << ist(')'))
-        | eval_literal.tag('literal')
-        | eval_operation.tag('operation')
-    ) << wo
+def eval_body_child():
+    return eval_literal.tag('literal') | eval_body
     yield
 
 @generate
-def eval_body_root():
+def eval_body():
     return wo >> (
-        (ist('(') >> eval_body_root << ist(')'))
+        (ist('(') >> eval_body << ist(')'))
         | eval_operation.tag('operation')
         | eval_literal.tag('literal')
     ) << wo
@@ -191,41 +187,42 @@ def eval_body_root():
 # operator precedence based on C
 def opmap(operands, func):
     if operands == 1:
-        return lambda _, a: (func, (a,))
+        return lambda x: ( lambda _, a:     (func, (a,))    )(*x)
 
     else:
-        return lambda a, _, b: (func, (a, b))
+        return lambda x: ( lambda a, _, b:  (func, (a, b))  )(*x)
 
-operators = [
+def make_operators(child):
+    return [
     # Unary sign precedence
-    seq(eval_body, ist('+') << wo, eval_body).map(opmap(1, lambda a: +a)),
-    seq(eval_body, ist('-') << wo, eval_body).map(opmap(1, lambda a: -a)),
+        seq(ist('+') << wo, child).map(opmap(1, lambda a: +a)),
+        seq(ist('-') << wo, child).map(opmap(1, lambda a: -a)),
 
     # Multiplicative precedence
-    seq(eval_body, wo >> ist('%') << wo, eval_body).map(opmap(2, lambda a, b: a % b)),
-    seq(eval_body, wo >> ist('*') << wo, eval_body).map(opmap(2, lambda a, b: a * b)),
-    seq(eval_body, wo >> ist('/') << wo, eval_body).map(opmap(2, lambda a, b: a / b)),
+        seq(child, wo >> ist('%') << wo, child).map(opmap(2, lambda a, b: a % b)),
+        seq(child, wo >> ist('*') << wo, child).map(opmap(2, lambda a, b: a * b)),
+        seq(child, wo >> ist('/') << wo, child).map(opmap(2, lambda a, b: a / b)),
 
     # Additive precedence
-    seq(eval_body, wo >> ist('+') << wo, eval_body).map(opmap(2, lambda a, b: a + b)),
-    seq(eval_body, wo >> ist('-') << wo, eval_body).map(opmap(2, lambda a, b: a - b)),
+        seq(child, wo >> ist('+') << wo, child).map(opmap(2, lambda a, b: a + b)),
+        seq(child, wo >> ist('-') << wo, child).map(opmap(2, lambda a, b: a - b)),
 
     # Bit shift precedence
-    seq(eval_body, wo >> ist('>>') << wo, eval_body).map(opmap(2, lambda a, b: a >> b)),
-    seq(eval_body, wo >> ist('<<') << wo, eval_body).map(opmap(2, lambda a, b: a << b)),
+        seq(child, wo >> ist('>>') << wo, child).map(opmap(2, lambda a, b: a >> b)),
+        seq(child, wo >> ist('<<') << wo, child).map(opmap(2, lambda a, b: a << b)),
 
     # Bitwise operation precedence
-    seq(eval_body, wo >> ist('&') << wo, eval_body).map(opmap(2, lambda a, b: a & b)),
-    seq(eval_body, wo >> ist('^') << wo, eval_body).map(opmap(2, lambda a, b: a ^ b)),
-    seq(eval_body, wo >> ist('|') << wo, eval_body).map(opmap(2, lambda a, b: a | b)),
+        seq(child, wo >> ist('&') << wo, child).map(opmap(2, lambda a, b: a & b)),
+        seq(child, wo >> ist('^') << wo, child).map(opmap(2, lambda a, b: a ^ b)),
+        seq(child, wo >> ist('|') << wo, child).map(opmap(2, lambda a, b: a | b)),
 
     # Logical (1 or 0) operation precedence
-    seq(eval_body, wo >> ist('&&') << wo, eval_body).map(opmap(2, lambda a, b: 1 if (a and b)               else 0)),
-    seq(eval_body, wo >> ist('||') << wo, eval_body).map(opmap(2, lambda a, b: 1 if (a or  b)               else 0)),
-    seq(eval_body, wo >> ist('^^') << wo, eval_body).map(opmap(2, lambda a, b: 1 if ((a == 0) != (b == 0))  else 0)),
+        seq(child, wo >> ist('&&') << wo, child).map(opmap(2, lambda a, b: 1 if (a and b)               else 0)),
+        seq(child, wo >> ist('||') << wo, child).map(opmap(2, lambda a, b: 1 if (a or  b)               else 0)),
+        seq(child, wo >> ist('^^') << wo, child).map(opmap(2, lambda a, b: 1 if ((a == 0) != (b == 0))  else 0)),
 
     # Ternary operation precedence
-    seq(eval_body, wo >> ist('?') << wo, eval_body, wo >> ist(':') << wo, eval_body).map(
+        seq(child, wo >> ist('?') << wo, child, wo >> ist(':') << wo, child).map(
         lambda cond, _, yes, _2, no: (
             (lambda cond, yes, no: yes if cond else no),
             (cond, yes, no)
@@ -233,14 +230,14 @@ operators = [
     ),
 
     # Comma operation precedence
-    seq(eval_body, ist(','), eval_body).map(opmap(2, lambda a, b: b)),
+        seq(child, ist(','), child).map(opmap(2, lambda a, b: b)),
 ]
 
 @generate
 def eval_operation():
     res = None
 
-    for o in operators:
+    for o in make_operators(eval_body_child):
         if res is None:
             res = o
 
@@ -253,7 +250,7 @@ def eval_operation():
 @generate
 def numeric_eval():
     return (
-        ist('e') >> wo >> s('{') >> eval_body_root << s('}')
+        ist('e') >> wo >> s('{') >> eval_body << s('}')
     )
     yield
 
