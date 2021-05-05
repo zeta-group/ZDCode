@@ -163,8 +163,18 @@ def eval_literal():
 @generate
 def eval_body():
     return wo >> (
-        (ist('(') >> eval_body << ist(')')) |
-        eval_operation.tag('operation') | eval_literal.tag('literal')
+        (ist('(') >> eval_body_root << ist(')'))
+        | eval_literal.tag('literal')
+        | eval_operation.tag('operation')
+    ) << wo
+    yield
+
+@generate
+def eval_body_root():
+    return wo >> (
+        (ist('(') >> eval_body_root << ist(')'))
+        | eval_operation.tag('operation')
+        | eval_literal.tag('literal')
     ) << wo
     yield
 
@@ -233,7 +243,7 @@ def eval_operation():
 @generate
 def numeric_eval():
     return (
-        ist('e') >> wo >> s('{') >> eval_body << s('}')
+        ist('e') >> wo >> s('{') >> eval_body_root << s('}')
     )
     yield
 
