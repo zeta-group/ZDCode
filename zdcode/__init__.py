@@ -1422,6 +1422,7 @@ class ZDCode:
         self, deriv, context, pending=None, name=None, do_stringify=True
     ):
         template_name, template_parms, deriv_body = deriv
+        name = self._parse_formattable_string(name)
 
         try:
             template = context.templates[template_name]
@@ -1565,6 +1566,15 @@ class ZDCode:
                     )
 
         return "".join(res)
+
+    def _parse_formattable_string(self, cval, context: ZDCodeParseContext):
+        if cval[0] == 'string':
+            return cval[1]
+
+        elif cval[0] == 'format':
+            return self._parse_formatted_string(cval[1], context)
+
+        raise CompilerError("Could not parse formattable string {} in {}".format(repr(cval), context.describe()))
 
     def _parse_replaceable_number(self, cval, context: ZDCodeParseContext):
         if isinstance(cval, str):
@@ -2151,6 +2161,9 @@ class ZDCode:
         if ptype == "classname":
             return context.replacements.get(pval.upper(), pval)
 
+        elif ptype == 'format':
+            return self._parse_formatted_string(pval, context)
+
         elif ptype == "template derivation":
             with context.desc_block("template derivation inheritance"):
                 return self._parse_template_derivation(
@@ -2495,7 +2508,7 @@ class ZDCode:
                     abstract_arrays,
                     g,
                     self,
-                    a["classname"],
+                    self._parse_formattable_string(a["classname"]),
                     self._parse_inherit(a["inheritance"], actx),
                     a["replacement"],
                     a["class number"],
@@ -2511,7 +2524,7 @@ class ZDCode:
                 with actx.desc_block("class '{}'".format(a["classname"])):
                     actor = ZDActor(
                         self,
-                        a["classname"],
+                        self._parse_formattable_string(a["classname"], actx),
                         self._parse_inherit(a["inheritance"], actx),
                         a["replacement"],
                         a["class number"],

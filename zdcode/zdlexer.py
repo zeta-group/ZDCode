@@ -145,6 +145,16 @@ def format_string_literal():
     )
     yield
 
+@generate
+def formattable_string():
+    return format_string_literal.tag('format') | string_literal.tag('string')
+    yield
+
+@generate
+def formattable_classname():
+    return format_string_literal.tag('format') | regex(r'[a-zA-Z0-9_]+').tag('string')
+    yield
+
 eval_literal = regex('[\-\+]?\d+()').map(int) | regex('[\-\+]?\d*(\.\d*)?([Ee]\d+)?').map(float)
 
 @generate
@@ -419,7 +429,7 @@ def static_template_derivation():
 
         # named derive
         seq(
-            ist('derive') >> whitespace >> (regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('name of derived class')).tag('classname') << whitespace,
+            ist('derive') >> whitespace >> (formattable_classname.desc('name of derived class')).tag('classname') << whitespace,
             ((ist('group') << whitespace) >> group_name << whitespace).optional().map(lambda x: x or None).tag('group'),
             ist('as') >> whitespace >> templated_class_derivation.tag('source'),
         )
@@ -514,7 +524,7 @@ def group_declaration():
 @generate
 def actor_class():
     return seq(
-        ((ist('actor') | ist('class')) << whitespace).desc("class statement") >> regex(r'[a-zA-Z0-9_]+').desc('class name').tag('classname'),
+        ((ist('actor') | ist('class')) << whitespace).desc("class statement") >> formattable_classname.desc('class name').tag('classname'),
         ((whitespace >> ist('group') << whitespace).desc('group keyword') >> group_name).optional().map(lambda x: x or None).tag('group'),
         ((whitespace >> (ist('inherits') | ist('extends') | ist('expands'))) >> whitespace >> superclass.desc('inherited class')).optional().tag('inheritance').desc('inherited class name'),
         (whitespace >> (ist('replaces') >> whitespace >> regex(r'[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
@@ -528,7 +538,7 @@ def actor_class():
 def templated_actor_class():
     return seq(
         (ist('actor') | ist('class') | ist('template')).desc("class template") >> s('<') >> template_parameter_list.tag('parameters') << s('>') << wo,
-        regex(r'[a-zA-Z0-9_]+').desc('class name').tag('classname'),
+        formattable_classname.desc('class name').tag('classname'),
         ((whitespace >> ist('group') << whitespace).desc('group keyword') >> group_name).optional().map(lambda x: x or None).tag('group'),
         ((whitespace >> (ist('inherits') | ist('extends') | ist('expands'))) >> whitespace >> superclass.desc('inherited class')).optional().tag('inheritance').desc('inherited class name'),
         (whitespace >> (ist('replaces') >> whitespace >> regex(r'[a-zA-Z0-9_]+'))).desc('replaced class name').optional().tag('replacement').desc('replacement'),
