@@ -997,18 +997,18 @@ class CompilerError(Exception):
 class ZDCodeParseContext(object):
     def __init__(
         self,
-        replacements=(),
-        macros=(),
-        templates=(),
-        actors=(),
-        mods=(),
+        replacements=None,
+        macros=None,
+        templates=None,
+        actors=None,
+        mods=None,
         applied_mods=None,
         remote_offset=0,
     ):
-        self.macros = collections.ChainMap({}, macros)
-        self.replacements = collections.ChainMap({}, replacements)
-        self.templates = collections.ChainMap({}, templates)
-        self.mods = collections.ChainMap({}, mods)
+        self.macros = collections.ChainMap({}, macros or dict())
+        self.replacements = collections.ChainMap({}, replacements or dict())
+        self.templates = collections.ChainMap({}, templates or dict())
+        self.mods = collections.ChainMap({}, mods or dict())
 
         self.always_applied_mods = applied_mods
         self.applied_mods = []
