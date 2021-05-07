@@ -11,5 +11,5 @@ class<amount> ArmorChunk inherits ArmorChunkBase {
 }
 
 for i in range 1..=500 {
-    derive f{ "ArmorChunk" i } as ArmorChunk<i>;
+    derive f{ "ArmorChunk" i } as ArmorChunk::(i);
 };
