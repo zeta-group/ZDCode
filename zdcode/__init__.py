@@ -1329,7 +1329,7 @@ class ZDCode:
         etype, econt = evaluation
 
         if etype == "literal":
-            return econt
+            return self._parse_literal_numeric(econt, context)
 
         if etype == "operation":
             return self._parse_operation(econt, context)
@@ -1340,7 +1340,7 @@ class ZDCode:
         etype, exval = expr
 
         if etype == "expr":
-            return " ".join(self._parse_expression(item, context) for item in exval)
+            return ' '.join(str(self._parse_expression(item, context)) for item in exval)
 
         if etype == "literal":
             return self._parse_literal(exval, context)
@@ -1386,6 +1386,26 @@ class ZDCode:
         context.macros[name.upper()] = (args, body)
 
         return stringify(name)
+
+    def _parse_literal_numeric(self, literal, context):
+        if literal[0] == "number":
+            return literal[1]
+
+        if literal[0] == 'eval':
+            return self._parse_evaluation(literal[1], context)
+        
+        if literal[0] == "format string":
+            return float(self._parse_formatted_string(literal[1], context))
+        
+        if literal[0] == "actor variable":
+            if literal[1].upper() in context.replacements:
+                return float(context.replacements[literal[1].upper()])
+
+            raise CompilerError("Cannot get compile-time variable for evaluation, {}, in {}"
+                .format(repr(literal[1]), context.describe())
+            )
+        
+        raise CompilerError("Could not parse numeric expression {} at {}".format(repr(literal), context.describe()))
 
     def _parse_literal(self, literal, context):
         if isinstance(literal, str):
