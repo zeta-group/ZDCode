@@ -1311,7 +1311,10 @@ class ZDCode:
             except CompilerError as err:
                 if error_handler:
                     error_handler(err)
-                return False
+                    return False
+
+                else:
+                    raise
 
         return bool(data)
 
