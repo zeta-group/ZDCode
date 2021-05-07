@@ -1,0 +1,15 @@
+class ArmorChunkBase inherits ArmorBonus {
+    set Translation to "112:127=240:247"; // green -> deep-blue
+    set Armor.MaxSaveAmount to 500;
+    set Armor.SavePercent to 25;
+}
+
+class<amount> ArmorChunk inherits ArmorChunkBase {
+    set Armor.SaveAmount to amount;
+    set Inventory.PickupMessage to f{ "Picked up a " amount "% armor chunk." };
+    set Scale to e{ 0.5 + (amount / 200) };
+}
+
+for i in range 1..=500 {
+    derive f{ "ArmorChunk" i } as ArmorChunk<i>;
+};
