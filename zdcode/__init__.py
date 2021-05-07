@@ -1461,7 +1461,6 @@ class ZDCode:
         self, deriv, context, pending=None, name=None, do_stringify=True
     ):
         template_name, template_parms, deriv_body = deriv
-        name = name and self._parse_formattable_string(name, context)
 
         try:
             template = context.templates[template_name]
@@ -2401,7 +2400,7 @@ class ZDCode:
     def _parse(self, actors):
         parsed_actors = []
 
-        context = ZDCodeParseContext(actors=[parsed_actors])
+        context = ZDCodeParseContext(actors=[parsed_actors], description="global")
 
         actors = [(context, a) for a in actors]
 
@@ -2410,7 +2409,7 @@ class ZDCode:
             itername, iteridx, itermode, f_body, f_else = forbody
 
             def do_for(iterator):
-                break_ctx = context.derive("for")
+                break_ctx = context.derive("static for")
 
                 for i, item in enumerate(iterator):
                     iter_ctx = break_ctx.derive("for..{} loop body".format(itermode[0]))
@@ -2420,13 +2419,13 @@ class ZDCode:
                         iter_ctx.replacements[iteridx.upper()] = str(i)
 
                     for si, a in enumerate(f_body):
-                        yield iter_ctx, a
+                        yield (iter_ctx, a)
 
             def do_else():
-                else_ctx = context.derive("for-else")
+                else_ctx = context.derive("static for-else")
 
                 for a in f_else:
-                    yield else_ctx, a
+                    yield (else_ctx, a)
 
             if itermode[0] == "group":
                 group_name = context.resolve(itermode[1], "a parametrized group name")
@@ -2506,6 +2505,8 @@ class ZDCode:
             if class_type == "class template":
                 a = dict(a)
 
+                classname = self._parse_formattable_string(a['classname'], actx)
+
                 abstract_labels = set()
                 abstract_macros = {}
                 abstract_arrays = {}
@@ -2517,7 +2518,7 @@ class ZDCode:
                     if g.upper() not in self.groups:
                         raise CompilerError(
                             "Group '{}' not found while compiling template class {}!".format(
-                                g, a["classname"]
+                                g, classname
                             )
                         )
 
@@ -2547,23 +2548,24 @@ class ZDCode:
                     abstract_arrays,
                     g,
                     self,
-                    self._parse_formattable_string(a["classname"], actx),
+                    classname,
                     self._parse_inherit(a["inheritance"], actx),
                     a["replacement"],
                     a["class number"],
                 )
-                actx.templates[a["classname"]] = template
+                actx.templates[classname] = template
 
         pending = queue.PriorityQueue()
 
         for actx, (class_type, a) in actors:
             if class_type == "class":
                 a = dict(a)
+                classname = self._parse_formattable_string(a['classname'], actx)
 
-                with actx.desc_block("class '{}'".format(a["classname"])):
+                with actx.desc_block("class '{}'".format(classname)):
                     actor = ZDActor(
                         self,
-                        self._parse_formattable_string(a["classname"], actx),
+                        classname,
                         self._parse_inherit(a["inheritance"], actx),
                         a["replacement"],
                         a["class number"],
@@ -2575,12 +2577,12 @@ class ZDCode:
                         g = a["group"]
 
                         if g.upper() in self.groups:
-                            self.groups[g.upper()].append(stringify(a["classname"]))
+                            self.groups[g.upper()].append(stringify(classname))
 
                         else:
                             raise CompilerError(
                                 "Group '{}' not found while compiling class '{}'!".format(
-                                    g, a["classname"]
+                                    g, classname
                                 )
                             )
 
@@ -2606,6 +2608,8 @@ class ZDCode:
 
                 new_name = a["classname"]
                 gname = a["group"]
+
+                new_name = self._parse_formattable_string(new_name, actx)
 
                 with actx.desc_block(
                     "static template derivation '{}'".format(new_name)
