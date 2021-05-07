@@ -330,6 +330,15 @@
                 "Fix duplicated actor definitions",
                 "Revert compiling all .zc2 files in input tree (use a 'ZDCODE' file and #include)"
             ]
+        },
+
+        {
+            "name": "2.13.0",
+            "changes": [
+                "Allow formatting classnames and template names",
+                "Fix eval expressions once and for all",
+                "Add example of for-range, eval and formatted classnames"
+            ]
         }
     ]
 }
