@@ -1454,7 +1454,7 @@ class ZDCode:
         self, deriv, context, pending=None, name=None, do_stringify=True
     ):
         template_name, template_parms, deriv_body = deriv
-        name = self._parse_formattable_string(name)
+        name = self._parse_formattable_string(name, context)
 
         try:
             template = context.templates[template_name]
@@ -2540,7 +2540,7 @@ class ZDCode:
                     abstract_arrays,
                     g,
                     self,
-                    self._parse_formattable_string(a["classname"]),
+                    self._parse_formattable_string(a["classname"], actx),
                     self._parse_inherit(a["inheritance"], actx),
                     a["replacement"],
                     a["class number"],
