@@ -1397,6 +1397,9 @@ class ZDCode:
         if literal[0] == "string":
             return stringify(literal[1])
 
+        if literal[0] == 'eval':
+            return self._parse_evaluation(literal[1], context)
+
         if literal[0] == "format string":
             return stringify(self._parse_formatted_string(literal[1], context))
 
