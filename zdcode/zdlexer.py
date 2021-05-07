@@ -159,20 +159,24 @@ def formattable_classname():
 def eval_literal():
     return (
         (
-            ( regex(r'[\-\+]?')             | success('')       ) +
+            ( regex(r'[\-\+]?')                                 ) +
             ( regex(r'\d+\.\d*')            | regex(r'\d*.\d+') ) +
             ( regex(r'([Ee][\-\+]?\d+)?')   | success('')       )
         ).map(float) |
         (
             ( regex(r'[\-\+]') | regex(r'0x[xo]') | success('') ) +
-            regex(r'[0-9]+')
+            ( regex(r'[0-9]+')                                  )
         ).map(int)
     )
     yield
 
 @generate
 def eval_body_child():
-    return eval_literal.tag('literal') | eval_body
+    return (
+        (ist('(') >> eval_body << ist(')'))         |
+        eval_literal.tag('number').tag('literal')   |
+        eval_operation.tag('operation')
+    )
     yield
 
 @generate
@@ -180,7 +184,7 @@ def eval_body():
     return wo >> (
         (ist('(') >> eval_body << ist(')'))
         | eval_operation.tag('operation')
-        | eval_literal.tag('literal')
+        | eval_literal.tag('number').tag('literal')
     ) << wo
     yield
 
