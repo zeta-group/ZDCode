@@ -1334,6 +1334,8 @@ class ZDCode:
         if etype == "operation":
             return self._parse_operation(econt, context)
 
+        raise CompilerError("Could not parse evaluation {} in {}".format(repr(evaluation), context.describe()))
+
     def _parse_expression(self, expr, context):
         etype, exval = expr
 
@@ -1346,11 +1348,13 @@ class ZDCode:
         if etype == "array index":
             return "[" + self._parse_expression(exval, context) + "]"
 
-        if etype == "oper":
+        if etype == "operation":
             return exval
 
         if etype == "paren expr":
             return "(" + self._parse_expression(exval, context) + ")"
+
+        raise CompilerError("Could not parse expression {} in {}".format(repr(expr), context.describe()))
 
     def _parse_argument(self, arg, context, name=None):
         atype, aval = arg
@@ -1411,6 +1415,8 @@ class ZDCode:
 
         if literal[0] == "template derivation":
             return self._parse_template_derivation(literal[1], context)
+        
+        raise CompilerError("Could not parse literal {} in {}".format(repr(literal), context.describe()))
 
     def _parse_array(self, arr, context):
         arr = dict(arr)
