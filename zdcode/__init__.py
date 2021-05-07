@@ -1454,7 +1454,7 @@ class ZDCode:
         self, deriv, context, pending=None, name=None, do_stringify=True
     ):
         template_name, template_parms, deriv_body = deriv
-        name = self._parse_formattable_string(name, context)
+        name = name and self._parse_formattable_string(name, context)
 
         try:
             template = context.templates[template_name]
