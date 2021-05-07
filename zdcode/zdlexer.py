@@ -199,31 +199,32 @@ def opmap(operands, func):
 def make_operators(child):
     return [
         # Unary sign precedence
-        seq(ist('+') << wo, child).map(opmap(1, lambda a: +a)),
-        seq(ist('-') << wo, child).map(opmap(1, lambda a: -a)),
+        seq(ist('+') << wo, child)              .map(opmap(1, lambda a:     +a)),
+        seq(ist('-') << wo, child)              .map(opmap(1, lambda a:     -a)),
 
         # Multiplicative precedence
-        seq(child, wo >> ist('%') << wo, child).map(opmap(2, lambda a, b: a % b)),
-        seq(child, wo >> ist('*') << wo, child).map(opmap(2, lambda a, b: a * b)),
-        seq(child, wo >> ist('/') << wo, child).map(opmap(2, lambda a, b: a / b)),
+        seq(child, wo >> ist('%') << wo, child) .map(opmap(2, lambda a, b:  a % b)),
+        seq(child, wo >> ist('*') << wo, child) .map(opmap(2, lambda a, b:  a * b)),
+        seq(child, wo >> ist('/') << wo, child) .map(opmap(2, lambda a, b:  a / b)),
+        seq(child, wo >> ist('//') << wo, child).map(opmap(2, lambda a, b:  a // b)),
 
         # Additive precedence
-        seq(child, wo >> ist('+') << wo, child).map(opmap(2, lambda a, b: a + b)),
-        seq(child, wo >> ist('-') << wo, child).map(opmap(2, lambda a, b: a - b)),
+        seq(child, wo >> ist('+') << wo, child) .map(opmap(2, lambda a, b:  a + b)),
+        seq(child, wo >> ist('-') << wo, child) .map(opmap(2, lambda a, b:  a - b)),
 
         # Bit shift precedence
-        seq(child, wo >> ist('>>') << wo, child).map(opmap(2, lambda a, b: a >> b)),
-        seq(child, wo >> ist('<<') << wo, child).map(opmap(2, lambda a, b: a << b)),
+        seq(child, wo >> ist('>>') << wo, child).map(opmap(2, lambda a, b:  a >> b)),
+        seq(child, wo >> ist('<<') << wo, child).map(opmap(2, lambda a, b:  a << b)),
 
         # Bitwise operation precedence
-        seq(child, wo >> ist('&') << wo, child).map(opmap(2, lambda a, b: a & b)),
-        seq(child, wo >> ist('^') << wo, child).map(opmap(2, lambda a, b: a ^ b)),
-        seq(child, wo >> ist('|') << wo, child).map(opmap(2, lambda a, b: a | b)),
+        seq(child, wo >> ist('&') << wo, child) .map(opmap(2, lambda a, b:  a & b)),
+        seq(child, wo >> ist('^') << wo, child) .map(opmap(2, lambda a, b:  a ^ b)),
+        seq(child, wo >> ist('|') << wo, child) .map(opmap(2, lambda a, b:  a | b)),
 
         # Logical (1 or 0) operation precedence
-        seq(child, wo >> ist('&&') << wo, child).map(opmap(2, lambda a, b: 1 if (a and b)               else 0)),
-        seq(child, wo >> ist('||') << wo, child).map(opmap(2, lambda a, b: 1 if (a or  b)               else 0)),
-        seq(child, wo >> ist('^^') << wo, child).map(opmap(2, lambda a, b: 1 if ((a == 0) != (b == 0))  else 0)),
+        seq(child, wo >> ist('&&') << wo, child).map(opmap(2, lambda a, b:  1 if (a and b)               else 0)),
+        seq(child, wo >> ist('||') << wo, child).map(opmap(2, lambda a, b:  1 if (a or  b)               else 0)),
+        seq(child, wo >> ist('^^') << wo, child).map(opmap(2, lambda a, b:  1 if ((a == 0) != (b == 0))  else 0)),
 
         # Ternary operation precedence
         seq(child, wo >> ist('?') << wo, child, wo >> ist(':') << wo, child).map(
