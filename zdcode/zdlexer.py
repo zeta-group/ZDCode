@@ -173,8 +173,9 @@ def eval_literal():
 @generate
 def eval_body_child():
     return (
-        (ist('(') >> eval_body << ist(')'))         |
-        eval_literal.tag('number').tag('literal')   |
+        (ist('(') >> eval_body << ist(')'))                 |
+        eval_literal.tag('number').tag('literal')           |
+        variable_name.tag('actor variable').tag('literal')  |
         eval_operation.tag('operation')
     )
     yield
@@ -182,9 +183,10 @@ def eval_body_child():
 @generate
 def eval_body():
     return wo >> (
-        (ist('(') >> eval_body << ist(')'))
-        | eval_operation.tag('operation')
-        | eval_literal.tag('number').tag('literal')
+        (ist('(') >> eval_body << ist(')'))                 |
+        eval_operation.tag('operation')                     |
+        eval_literal.tag('number').tag('literal')           |
+        variable_name.tag('actor variable').tag('literal')
     ) << wo
     yield
 
