@@ -1004,6 +1004,7 @@ class ZDCodeParseContext(object):
         mods=None,
         applied_mods=None,
         remote_offset=0,
+        description=None
     ):
         self.macros = collections.ChainMap({}, macros or dict())
         self.replacements = collections.ChainMap({}, replacements or dict())
@@ -1018,6 +1019,12 @@ class ZDCodeParseContext(object):
         self.states = []
         self.remote_children = []
         self.remote_offset = remote_offset
+
+        if description:
+            self.add_description(description)
+
+    def add_description(self, desc):
+        self.desc_stack.append(desc)
 
     def get_applied_mods(self):
         if self.always_applied_mods is None:
