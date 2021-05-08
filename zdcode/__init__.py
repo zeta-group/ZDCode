@@ -2409,10 +2409,10 @@ class ZDCode:
             itername, iteridx, itermode, f_body, f_else = forbody
 
             def do_for(iterator):
-                break_ctx = context.derive("static for")
+                break_ctx = context.remote_derive("static for")
 
                 for i, item in enumerate(iterator):
-                    iter_ctx = break_ctx.derive("for-{} loop body".format(itermode[0]))
+                    iter_ctx = break_ctx.remote_derive("for-{} loop body".format(itermode[0]))
                     iter_ctx.replacements[itername.upper()] = item
 
                     if iteridx:
@@ -2422,13 +2422,13 @@ class ZDCode:
                         yield (iter_ctx, a)
 
             def do_else():
-                else_ctx = context.derive("static for-else")
+                else_ctx = context.remote_derive("static for-else")
 
                 for a in f_else:
                     yield (else_ctx, a)
 
             if itermode[0] == "group":
-                group_name = context.resolve(itermode[1], "a parametrized group name")
+                group_name = context.remote_derive(itermode[1], "a parametrized group name")
 
                 if group_name.upper() not in self.groups:
                     raise CompilerError(
