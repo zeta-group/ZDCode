@@ -1006,8 +1006,8 @@ class ZDCodeParseContext(object):
         remote_offset=0,
         description=None
     ):
-        self.macros = collections.ChainMap({}, macros or dict())
         self.replacements = collections.ChainMap({}, replacements or dict())
+        self.macros = collections.ChainMap({}, macros or dict())
         self.templates = collections.ChainMap({}, templates or dict())
         self.mods = collections.ChainMap({}, mods or dict())
 
