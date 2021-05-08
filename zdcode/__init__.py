@@ -2412,7 +2412,7 @@ class ZDCode:
                 break_ctx = context.derive("static for")
 
                 for i, item in enumerate(iterator):
-                    iter_ctx = break_ctx.derive("for..{} loop body".format(itermode[0]))
+                    iter_ctx = break_ctx.derive("for-{} loop body".format(itermode[0]))
                     iter_ctx.replacements[itername.upper()] = item
 
                     if iteridx:
