@@ -594,7 +594,9 @@ class<PickupSprite, PickupType, Scale> FoxyPickup {
     };
 }
 
-class<PickupSprite, PickupType, NormalChance, FoxChance, Scale> FoxyPickupSpawner replaces PickupType {
+class<PickupSprite, PickupType, NormalChance, FoxChance, Scale, MaybeTranslation> FoxyPickupSpawner replaces PickupType {
+    set Translation to MaybeTranslation;
+
     macro RandomSpawn(NormalPickupType) {
         sometimes (100 * FoxChance / (NormalChance + FoxChance)) {
             TNT1 A 0 A_SpawnItemEx(FoxyPickup::(PickupSprite, NormalPickupType, Scale), 0, 0, 4);
@@ -609,13 +611,13 @@ class<PickupSprite, PickupType, NormalChance, FoxChance, Scale> FoxyPickupSpawne
     };
 }
 
-derive FoxyHealthBonusSpawner   as FoxyPickupSpawner::("BON1", "HealthBonus",    7,  1, 1.0);
-derive FoxyArmorBonusSpawner    as FoxyPickupSpawner::("BON2", "ArmorBonus",     8,  2, 1.0);
+derive FoxyHealthBonusSpawner   as FoxyPickupSpawner::("BON1", "HealthBonus",    7,  1, 1.0, "");
+derive FoxyArmorBonusSpawner    as FoxyPickupSpawner::("BON2", "ArmorBonus",     8,  2, 1.0, "");
 
-derive FoxyClipSpawner          as FoxyPickupSpawner::("CLIP", "Clip",           17, 2, 1.0);
-derive FoxyShellSpawner         as FoxyPickupSpawner::("SHEL", "Shell",          5,  1, 1.0);
-derive FoxyRocketSpawner        as FoxyPickupSpawner::("ROCK", "RocketAmmo",     6,  2, 1.0);
-derive FoxyCellSpawner          as FoxyPickupSpawner::("CELL", "Cell",           9,  4, 1.0);
+derive FoxyClipSpawner          as FoxyPickupSpawner::("CLIP", "Clip",           17, 2, 1.0, "");
+derive FoxyShellSpawner         as FoxyPickupSpawner::("SHEL", "Shell",          5,  1, 1.0, "");
+derive FoxyRocketSpawner        as FoxyPickupSpawner::("ROCK", "RocketAmmo",     6,  2, 1.0, "");
+derive FoxyCellSpawner          as FoxyPickupSpawner::("CELL", "Cell",           9,  4, 1.0, "");
 
 class<foxtype> BaseFoxyFountain {
     label Spawn {
