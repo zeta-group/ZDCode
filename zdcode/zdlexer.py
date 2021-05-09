@@ -292,7 +292,7 @@ def expression():
                 (
                     paren_expr.tag('paren expr').desc('parenthetic expression') |
                     literal.tag('literal') |
-                    regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%\[\]]+').desc('operator').tag('oper')
+                    regex(r'[\+\-\|\>\<\~\&\!\=\*\/\%\[\]]+').desc('operator').tag('operator')
                 ).sep_by(wo).tag('expr')
             )
             << wo

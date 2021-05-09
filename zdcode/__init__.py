@@ -1355,7 +1355,7 @@ class ZDCode:
         if etype == "array index":
             return "[" + self._parse_expression(exval, context) + "]"
 
-        if etype == "operation":
+        if etype == "operator":
             return exval
 
         if etype == "paren expr":
