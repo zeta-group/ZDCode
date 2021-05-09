@@ -1006,10 +1006,10 @@ class ZDCodeParseContext(object):
         remote_offset=0,
         description=None
     ):
-        self.replacements = collections.ChainMap({}, replacements or dict())
-        self.macros = collections.ChainMap({}, macros or dict())
-        self.templates = collections.ChainMap({}, templates or dict())
-        self.mods = collections.ChainMap({}, mods or dict())
+        self.replacements = replacements.new_child() if replacements is not None else collections.ChainMap({})
+        self.macros = macros.new_child() if macros is not None else collections.ChainMap({})
+        self.templates = templates.new_child() if templates is not None else collections.ChainMap({})
+        self.mods = mods.new_child() if mods is not None else collections.ChainMap({})
 
         self.always_applied_mods = applied_mods
         self.applied_mods = []
