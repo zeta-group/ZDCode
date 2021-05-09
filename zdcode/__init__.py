@@ -2614,7 +2614,6 @@ class ZDCode:
                     self.actor_names[actor.name.upper()] = actor
                     parsed_actors.append(actor)
 
-        for actx, (class_type, a) in actors:
             if class_type == "static template derivation":
                 a = dict(a)
 
