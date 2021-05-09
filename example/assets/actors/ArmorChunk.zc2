@@ -19,7 +19,7 @@ for i in range 1..=500 {
      * - Scale is also set to match that of ArmorChunk(i)
      * - Translation is also set to match that of ArmorChunk
      */
-    derive FoxyArmorChunkSpawner as FoxyPickupSpawner::(
+    derive f{ "FoxyArmorChunkSpawner" i } as FoxyPickupSpawner::(
         "BON2",
         f{ "ArmorChunk" i },
         800, i,
