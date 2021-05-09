@@ -30,7 +30,7 @@ _user_array_setters = {
 
 def stringify(content):
     if isinstance(content, str):
-        if content[0] in "'\"" and content[-1] == content[0] and len(content) > 1:
+        if len(content) > 1 and content[0] in "'\"" and content[-1] == content[0]:
             return content
 
         return '"' + repr(content)[1:-1] + '"'

@@ -12,4 +12,18 @@ class<amount> ArmorChunk inherits ArmorChunkBase {
 
 for i in range 1..=500 {
     derive f{ "ArmorChunk" i } as ArmorChunk::(i);
+
+    /* DoomFox.zc2 compat
+     * - NormalChance 800 and FoxyChance i means that i out of 800 ArmorChunk(i)s will be
+     *   FoxySpawners
+     * - Scale is also set to match that of ArmorChunk(i)
+     * - Translation is also set to match that of ArmorChunk
+     */
+    derive FoxyArmorChunkSpawner as FoxyPickupSpawner::(
+        "BON2",
+        f{ "ArmorChunk" i },
+        800, i,
+        e{ 0.5 + (i / 200) },
+        "112:127=240:247"
+    );
 };
