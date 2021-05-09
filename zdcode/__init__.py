@@ -1163,10 +1163,10 @@ class ZDCodeParseContext(object):
         return ZDCtxDescBlock(self, desc)
 
     def update(self, other_ctx: "ZDCodeParseContext"):
-        self.macros.update(other_ctx.macros)
-        self.replacements.update(other_ctx.replacements)
-        self.templates.update(other_ctx.templates)
-        self.mods.update(other_ctx.mods)
+        self.macros.maps.insert(-1, other_ctx.macros)
+        self.replacements.maps.insert(-1, other_ctx.replacements)
+        self.templates.maps.insert(-1, other_ctx.templates)
+        self.mods.maps.insert(-1, other_ctx.mods)
 
     def add_actor(self, ac: ZDActor):
         for al in self.actor_lists:
