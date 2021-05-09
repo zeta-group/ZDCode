@@ -2268,7 +2268,7 @@ class ZDCode:
             param_values,
             {l.upper() for l in labels.keys()},
             {m["name"].upper(): m["args"] for m in macros.values()},
-            {a["name"].upper(): len(a["value"]) for a in arrays.values()},
+            {a["name"].upper(): len(a["value"][1]) for a in arrays.values()},
             name=name,
         )
         new_context = actor.get_context()
@@ -2322,6 +2322,17 @@ class ZDCode:
 
         return actor
 
+    def _parse_var_value(self, vval, context):
+        vvtype, vvbody = vval
+
+        if vvtype == 'val':
+            return ('val', self._parse_expression(vvbody, context))
+        
+        if vvtype == 'arr':
+            return self._parse_array(vval, context)
+        
+        raise CompilerError("Could not parse user var value {} in {}".format(repr(vval), context.describe()))
+
     def _parse_class_body(self, actor, context, body):
         assert context is actor.context
 
@@ -2352,7 +2363,7 @@ class ZDCode:
             elif btype == "user var":
                 bdata = {
                     **bdata,
-                    "value": self._parse_expression(bdata["value"], context),
+                    "value": self._parse_var_value(bdata["value"], context),
                 }
                 actor.uservars.append(bdata)
 
