@@ -2324,8 +2324,8 @@ class ZDCode:
 
                     self._parse_class_body(act, new_ctx, temp.parse_data + body)
 
-                    self.actor_names[act.name.upper()] = actor
-                    context.add_actor(act)
+                self.actor_names[act.name.upper()] = actor
+                context.add_actor(new_class)
 
                 return pending_oper
 
