@@ -27,3 +27,9 @@ for i in range 1..=500 {
         "112:127=240:247"
     );
 };
+
+class ArmorChunkSpawner inherits RandomSpawner {
+    for i in range 1..=500 {
+        set DropItem to f{ "ArmorChunk" i };
+    };
+}

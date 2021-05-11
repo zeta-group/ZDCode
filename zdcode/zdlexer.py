@@ -475,6 +475,15 @@ def mod_block():
     yield
 
 @generate
+def nested_class_body():
+    return (
+        s('{') >>
+            class_body.many().optional()
+        << s('}')
+    )
+    yield
+
+@generate
 def class_body():
     return wo.then(
             seq(
@@ -498,7 +507,8 @@ def class_body():
             seq((ist("function ") | ist('method ')) >> regex(r'[a-zA-Z_][a-zA-Z_0-9]*').desc('function name').tag('name'), state_body.tag('body')).map(dict).tag('function') |
             label.tag('label') |
             mod_block.tag('mod') |
-            global_apply.tag('apply')
+            global_apply.tag('apply') |
+            class_for_loop.tag('for')
     ).skip(wo) << s(';') << wo
     yield
 
@@ -934,6 +944,11 @@ def for_statement():
 @generate
 def static_for_loop():
     return for_template(nested_source_code.optional().map(lambda x: x if x is not None else []))
+    yield
+
+@generate
+def class_for_loop():
+    return for_template(nested_class_body.optional().map(lambda x: x if x is not None else []))
     yield
 
 @generate

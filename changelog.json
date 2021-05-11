@@ -338,7 +338,9 @@
                 "Allow formatting classnames and template names",
                 "Fix eval expressions once and for all",
                 "Add example of for-range, eval and formatted classnames",
-                "Add integer division (//) to evaluation expressions"
+                "Add integer division (//) to evaluation expressions",
+                "Add automatic reordering for class inheritance",
+                "Added class-level for loops"
             ]
         }
     ]

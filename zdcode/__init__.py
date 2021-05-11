@@ -2356,7 +2356,10 @@ class ZDCode:
         raise CompilerError("Could not parse user var value {} in {}".format(repr(vval), context.describe()))
 
     def _parse_class_body(self, actor, context, body):
-        assert context is actor.context
+        for btype, bdata in body:
+            if btype == 'for':
+                for ctx, unpacked_bdata in self.resolve_for(bdata, context):
+                    self._parse_class_body(actor, ctx, [unpacked_bdata])
 
         for btype, bdata in body:
             if btype == "mod":
@@ -2430,15 +2433,8 @@ class ZDCode:
 
                 context.applied_mods.extend(mod)
 
-    def _parse(self, actors):
-        parsed_actors = []
-
-        context = ZDCodeParseContext(actors=[parsed_actors], description="global")
-
-        actors = [(context, a) for a in actors]
-
         # unpack static for loops
-        def resolve_for(forbody):
+    def resolve_for(self, forbody, context):
             itername, iteridx, itermode, f_body, f_else = forbody
 
             def do_for(iterator):
@@ -2489,6 +2485,13 @@ class ZDCode:
                 else:
                     yield from do_else()
 
+    def _parse(self, actors):
+        parsed_actors = []
+
+        context = ZDCodeParseContext(actors=[parsed_actors], description="global")
+
+        actors = [(context, a) for a in actors]
+ 
         def unpack(vals, reslist):
             # always parse groups first,
             # to ensure they can be seen by
@@ -2510,7 +2513,7 @@ class ZDCode:
             for ctx, (class_type, a) in vals:
                 if class_type == "for":
                     unpacked = False
-                    reslist.extend(resolve_for(a))
+                    reslist.extend(self.resolve_for(a, ctx))
 
                 elif class_type != "group":
                     reslist.append((ctx, (class_type, a)))
@@ -2656,9 +2659,6 @@ class ZDCode:
                     )
 
                     if gname:
-
-                        @pending_task(1)
-                        def pending_oper():
                             g = unstringify(gname)
 
                             if g.upper() not in self.groups:
