@@ -471,28 +471,48 @@ class ZDClassTemplate(ZDBaseActor):
         self.abstract_array_names = dict(abstract_array_names)
 
         self.parse_data = parse_data
-        self.parametric_table = {}
+        self.existing = {}
 
-    def generated_class_name(self, parameter_values, new_id):
-        hash = hashlib.sha1()
+    def duplicate(self, parameter_values, provided_label_names, provided_macro_names, provided_array_names):
+        return self.parameter_hash( parameter_values, provided_label_names, provided_macro_names, provided_array_names) in self.existing
+    
+    def which_duplicate(self, parameter_values, provided_label_names, provided_macro_names, provided_array_names):
+        return self.existing[self.parameter_hash( parameter_values, provided_label_names, provided_macro_names, provided_array_names)]
+    
+    def register(self, parameter_values, provided_label_names, provided_macro_names, provided_array_names, result):
+        self.existing[self.parameter_hash( parameter_values, provided_label_names, provided_macro_names, provided_array_names)] = result
+
+    def parameter_hash(self, parameter_values, provided_label_names, provided_macro_names, provided_array_names) -> str:
+        hash = hashlib.sha256()
 
         hash.update(self.name.encode("utf-8"))
+        hash.update(b"|")
+
         hash.update(self.id.encode("utf-8"))
-        hash.update(new_id.encode("utf-8"))
+        hash.update(b"|")
 
         for parm in parameter_values:
             hash.update(parm.encode("utf-8"))
+            hash.update(b"-")
+        
+        hash.update(b"|")
 
-        for name in self.abstract_label_names:
+        for name in itertools.chain(provided_label_names, provided_array_names):
             hash.update(name.encode("utf-8"))
+            hash.update(b"-")
 
-        for name, args in self.abstract_macro_names.items():
+        hash.update(b"|")
+
+        for name, args in provided_macro_names.items():
+            hash.update(hex(len(args)).encode('utf-8'))
             hash.update(name.encode("utf-8"))
+            hash.update(b"-")
 
-            for arg in args:
-                hash.update(arg.encode("utf-8"))
+        return hash.hexdigest()
 
-        return "{}__deriv_{}".format(self.name, hash.hexdigest())
+    def generated_class_name(self, parameter_values):
+        hash = self.parameter_hash(parameter_values)
+        return "{}__deriv_{}".format(self.name, hash)
 
     def generate_init_class(
         self,
@@ -505,21 +525,16 @@ class ZDClassTemplate(ZDBaseActor):
         name=None,
         pending=None,
     ):
-        if (
-            tuple(parameter_values) in self.parametric_table
-            and not self.abstract_label_names
-            and not self.abstract_macro_names
-            and not self.abstract_array_names
-        ):
-            return (False, self.parametric_table[tuple(parameter_values)])
-
         provided_label_names = set(provided_label_names)
         provided_macro_names = dict(provided_macro_names)
+
+        if self.duplicate(parameter_values, provided_label_names, provided_macro_names, provided_array_names):
+            return False, self.which_duplicate(parameter_values)
 
         new_name = (
             name
             if name is not None
-            else self.generated_class_name(parameter_values, make_id(40))
+            else self.generated_class_name(parameter_values)
         )
 
         if self.group_name:
@@ -590,9 +605,9 @@ class ZDClassTemplate(ZDBaseActor):
                     )
                 )
 
-        self.parametric_table[tuple(parameter_values)] = res
+        self.register(parameter_values, provided_label_names, provided_macro_names, provided_array_names, res)
 
-        return (True, res)
+        return True, res
 
     def get_init_replacements(self, parameter_values):
         return dict(
