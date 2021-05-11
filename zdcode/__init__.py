@@ -2660,6 +2660,11 @@ class ZDCode:
         for a in parsed_actors:
             a.prepare_spawn_label()
 
+        self.actors.extend(parsed_actors)
+
+        reorders = self.reorder_inherits()
+        print("(Reordered {} actors)".format(reorders))
+
     def __init__(self):
         self.includes = {}
         self.inventories = []
@@ -2669,6 +2674,28 @@ class ZDCode:
         self.groups = {}
         self.id = make_id(35)
         self.num_anonym_macros = 0
+
+    def reorder_inherits(self) -> int:
+        new_order = []
+        positions = {}
+        reorders = 0
+
+        for actor in self.actors:
+            new_pos = len(new_order)
+
+            if actor.name in positions:
+                new_pos = positions[actor.name]
+                reorders += 1
+            
+            if actor.inherit is not None:
+                if actor.inherit not in positions or positions[actor.inherit] > new_pos:
+                    positions[actor.inherit] = new_pos
+            
+            new_order.insert(new_pos, actor)
+        
+        self.actors = new_order
+
+        return reorders
 
     def to_decorate(self):
         res = TextNode(indent=0)
