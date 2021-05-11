@@ -1031,7 +1031,7 @@ class ZDCodeParseContext(object):
         self.always_applied_mods = applied_mods
         self.applied_mods = []
 
-        self.actor_lists = list(actors) if actors else [[]]
+        self.actor_lists = list(actors) if actors else []
         self.desc_stack = []
         self.states = []
         self.remote_children = []
