@@ -2277,7 +2277,6 @@ class ZDCode:
         new_context = actor.get_context()
 
         if needs_init:
-
             def pending_oper_gen():
                 act = actor
                 new_ctx = new_context
@@ -2320,7 +2319,7 @@ class ZDCode:
             else:
                 pending_oper_gen().func()
 
-            #self.actors.append(actor)
+            self.actors.append(actor)
             self.actor_names[actor.name.upper()] = actor
 
         return actor
