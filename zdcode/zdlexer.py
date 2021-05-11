@@ -4,6 +4,7 @@ import os
 import re
 import sys
 import traceback
+import math
 
 import parsy
 
@@ -204,6 +205,15 @@ def make_operators(child):
         seq(ist('+') << wo, child)              .map(opmap(1, lambda a:     +a)),
         seq(ist('-') << wo, child)              .map(opmap(1, lambda a:     -a)),
         seq(ist('round') << wo, child)          .map(opmap(1, lambda a:     int(a))),
+        seq(ist('floor') << wo, child)          .map(opmap(1, lambda a:     math.floor(a))),
+        seq(ist('ceil') << wo, child)           .map(opmap(1, lambda a:     math.ceil(a))),
+        seq(ist('sin') << wo, child)            .map(opmap(1, lambda a:     math.sin(a))),
+        seq(ist('cos') << wo, child)            .map(opmap(1, lambda a:     math.cos(a))),
+        seq(ist('tan') << wo, child)            .map(opmap(1, lambda a:     math.tan(a))),
+        seq(ist('asin') << wo, child)           .map(opmap(1, lambda a:     math.asin(a))),
+        seq(ist('acos') << wo, child)           .map(opmap(1, lambda a:     math.acos(a))),
+        seq(ist('atan') << wo, child)           .map(opmap(1, lambda a:     math.atan(a))),
+        seq(ist('pi') << wo, child)             .map(opmap(1, lambda a:     math.pi * a)),
 
         # Multiplicative precedence
         seq(child, wo >> ist('%') << wo, child) .map(opmap(2, lambda a, b:  a % b)),
