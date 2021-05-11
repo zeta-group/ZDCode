@@ -2210,7 +2210,7 @@ class ZDCode:
                     pval, context, do_stringify=False
                 ).name
 
-    def _parse_anonym_class(self, anonym_class, context):
+    def _parse_anonym_class(self, anonym_class, context) -> str:
         a = dict(anonym_class)
         new_context = context.derive("anonymous class")
 
@@ -2241,7 +2241,8 @@ class ZDCode:
         context.add_actor(anonym_actor)
 
         self.anonymous_classes.append(anonym_actor)
-        self.inventories.append(anonym_actor)
+        #self.actors.append(anonym_actor)
+        #self.inventories.append(anonym_actor)
 
         return stringify(anonym_actor.name)
 
@@ -2319,7 +2320,7 @@ class ZDCode:
             else:
                 pending_oper_gen().func()
 
-            self.actors.append(actor)
+            #self.actors.append(actor)
             self.actor_names[actor.name.upper()] = actor
 
         return actor
@@ -2612,7 +2613,7 @@ class ZDCode:
 
                     pending.put_nowait(pending_oper_gen())
 
-                    self.actors.append(actor)
+                    #self.actors.append(actor)
                     self.actor_names[actor.name.upper()] = actor
                     parsed_actors.append(actor)
 
@@ -2659,7 +2660,7 @@ class ZDCode:
 
         for a in parsed_actors:
             a.prepare_spawn_label()
-
+        
         self.actors.extend(parsed_actors)
 
         reorders = self.reorder_inherits()
