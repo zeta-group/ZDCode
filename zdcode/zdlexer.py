@@ -1227,17 +1227,6 @@ def preprocess_code(code, imports=(), defs=(), defines=(), this_fname=None, rel_
                             
                 else:
                     raise PreprocessingError("No module matching '{}' was found".format(gfname), i, this_fname, check_line_case)
-                        
-            elif check_line.startswith('#RESOURCE ') or check_line.startswith('#RES '):
-                # Add resource to output PK3
-                key = check_line_case.split(' ')[1]
-                value = ' '.join(check_line_case.split(' ')[2:])
-
-                if value == '':
-                    defs[key] = None
-
-                else:
-                    defs[key] = value
 
             elif check_line.startswith('#DEF ') or check_line.startswith('#DEFINE '):
                 key = check_line_case.split(' ')[1]
