@@ -2628,14 +2628,12 @@ class ZDCode:
                 with actx.desc_block(
                     "static template derivation '{}'".format(new_name)
                 ):
-                    parsed_actors.append(
-                        self._parse_template_derivation(
-                            a["source"][1],
-                            actx,
-                            pending=pending,
-                            name=new_name,
-                            do_stringify=False,
-                        )
+                    self._parse_template_derivation(
+                        a["source"][1],
+                        actx,
+                        pending=pending,
+                        name=new_name,
+                        do_stringify=False,
                     )
 
                     if gname:
