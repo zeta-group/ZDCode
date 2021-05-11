@@ -474,6 +474,9 @@ class ZDClassTemplate(ZDBaseActor):
         self.existing = {}
 
     def duplicate(self, parameter_values, provided_label_names, provided_macro_names, provided_array_names):
+        if self.abstract_macro_names or self.abstract_label_names or self.abstract_array_names:
+            return False
+
         return self.parameter_hash( parameter_values, provided_label_names, provided_macro_names, provided_array_names) in self.existing
     
     def which_duplicate(self, parameter_values, provided_label_names, provided_macro_names, provided_array_names):
@@ -491,22 +494,26 @@ class ZDClassTemplate(ZDBaseActor):
         hash.update(self.id.encode("utf-8"))
         hash.update(b"|")
 
-        for parm in parameter_values:
-            hash.update(parm.encode("utf-8"))
-            hash.update(b"-")
-        
-        hash.update(b"|")
+        if self.abstract_macro_names or self.abstract_label_names or self.abstract_array_names:
+            hash.update(make_id(80).encode('utf-8'))
 
-        for name in itertools.chain(provided_label_names, provided_array_names):
-            hash.update(name.encode("utf-8"))
-            hash.update(b"-")
+        else:
+            for parm in parameter_values:
+                hash.update(parm.encode("utf-8"))
+                hash.update(b"-")
+            
+            hash.update(b"|")
 
-        hash.update(b"|")
+            for name in itertools.chain(provided_label_names, provided_array_names):
+                hash.update(name.encode("utf-8"))
+                hash.update(b"-")
 
-        for name, args in provided_macro_names.items():
-            hash.update(hex(len(args)).encode('utf-8'))
-            hash.update(name.encode("utf-8"))
-            hash.update(b"-")
+            hash.update(b"|")
+
+            for name, args in provided_macro_names.items():
+                hash.update(hex(len(args)).encode('utf-8'))
+                hash.update(name.encode("utf-8"))
+                hash.update(b"-")
 
         return hash.hexdigest()
 
