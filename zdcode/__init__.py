@@ -510,8 +510,8 @@ class ZDClassTemplate(ZDBaseActor):
 
         return hash.hexdigest()
 
-    def generated_class_name(self, parameter_values):
-        hash = self.parameter_hash(parameter_values)
+    def generated_class_name(self, parameter_values, provided_label_names, provided_macro_names, provided_array_names):
+        hash = self.parameter_hash(parameter_values, provided_label_names, provided_macro_names, provided_array_names)
         return "{}__deriv_{}".format(self.name, hash)
 
     def generate_init_class(
@@ -534,7 +534,7 @@ class ZDClassTemplate(ZDBaseActor):
         new_name = (
             name
             if name is not None
-            else self.generated_class_name(parameter_values)
+            else self.generated_class_name(parameter_values, provided_label_names, provided_macro_names, provided_array_names)
         )
 
         if self.group_name:
@@ -2279,8 +2279,6 @@ class ZDCode:
         macros = dict(macros)
         arrays = dict(arrays)
         body = list(body)
-
-        name = name or template.generated_class_name(param_values, make_id(40))
 
         needs_init, actor = template.generate_init_class(
             self,
