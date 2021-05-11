@@ -2433,57 +2433,57 @@ class ZDCode:
 
                 context.applied_mods.extend(mod)
 
-        # unpack static for loops
+    # unpack static for loops
     def resolve_for(self, forbody, context):
-            itername, iteridx, itermode, f_body, f_else = forbody
+        itername, iteridx, itermode, f_body, f_else = forbody
 
-            def do_for(iterator):
-                break_ctx = context.remote_derive("static for")
+        def do_for(iterator):
+            break_ctx = context.remote_derive("static for")
 
-                for i, item in enumerate(iterator):
-                    iter_ctx = break_ctx.remote_derive("for-{} loop body".format(itermode[0]))
-                    iter_ctx.replacements[itername.upper()] = item
+            for i, item in enumerate(iterator):
+                iter_ctx = break_ctx.remote_derive("for-{} loop body".format(itermode[0]))
+                iter_ctx.replacements[itername.upper()] = item
 
-                    if iteridx:
-                        iter_ctx.replacements[iteridx.upper()] = str(i)
+                if iteridx:
+                    iter_ctx.replacements[iteridx.upper()] = str(i)
 
-                    for si, a in enumerate(f_body):
-                        yield (iter_ctx, a)
+                for si, a in enumerate(f_body):
+                    yield (iter_ctx, a)
 
-            def do_else():
-                else_ctx = context.remote_derive("static for-else")
+        def do_else():
+            else_ctx = context.remote_derive("static for-else")
 
-                for a in f_else:
-                    yield (else_ctx, a)
+            for a in f_else:
+                yield (else_ctx, a)
 
-            if itermode[0] == "group":
-                group_name = context.remote_derive(itermode[1], "a parametrized group name")
+        if itermode[0] == "group":
+            group_name = context.remote_derive(itermode[1], "a parametrized group name")
 
-                if group_name.upper() not in self.groups:
-                    raise CompilerError(
-                        "No such group {} to 3 in a for loop in {}!".format(
-                            repr(group_name), context.describe()
-                        )
+            if group_name.upper() not in self.groups:
+                raise CompilerError(
+                    "No such group {} to 3 in a for loop in {}!".format(
+                        repr(group_name), context.describe()
                     )
+                )
 
-                elif self.groups[group_name.upper()]:
-                    yield from do_for(iter(self.groups[group_name.upper()]))
+            elif self.groups[group_name.upper()]:
+                yield from do_for(iter(self.groups[group_name.upper()]))
 
-                else:
-                    yield from do_else()
+            else:
+                yield from do_else()
 
-            elif itermode[0] == "range":
-                rang = itermode[1]
+        elif itermode[0] == "range":
+            rang = itermode[1]
 
-                r_from = self._parse_replaceable_number(rang[0], context)
-                r_to = rang[1][0] + self._parse_replaceable_number(rang[1][1], context)
+            r_from = self._parse_replaceable_number(rang[0], context)
+            r_to = rang[1][0] + self._parse_replaceable_number(rang[1][1], context)
 
-                if r_to > r_from:
-                    r = list(range(r_from, r_to, 1))
-                    yield from do_for(r)
+            if r_to > r_from:
+                r = list(range(r_from, r_to, 1))
+                yield from do_for(r)
 
-                else:
-                    yield from do_else()
+            else:
+                yield from do_else()
 
     def _parse(self, actors):
         parsed_actors = []
@@ -2659,18 +2659,16 @@ class ZDCode:
                     )
 
                     if gname:
-                            g = unstringify(gname)
+                        g = unstringify(gname)
 
-                            if g.upper() not in self.groups:
-                                raise CompilerError(
-                                    "No such group {} to add the derivation {} to!".format(
-                                        repr(g), new_name
-                                    )
+                        if g.upper() not in self.groups:
+                            raise CompilerError(
+                                "No such group {} to add the derivation {} to!".format(
+                                    repr(g), new_name
                                 )
+                            )
 
-                            self.groups[g.upper()].append(new_name)
-
-                        pending.put_nowait(pending_oper)
+                        self.groups[g.upper()].append(new_name)
 
         while not pending.empty():
             pending.get_nowait().func()
