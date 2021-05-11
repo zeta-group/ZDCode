@@ -607,6 +607,9 @@ class ZDClassTemplate(ZDBaseActor):
 
         self.register(parameter_values, provided_label_names, provided_macro_names, provided_array_names, res)
 
+        self.code.actor_names[res.name.upper()] = res
+        context.add_actor(res)
+
         return True, res
 
     def get_init_replacements(self, parameter_values):
@@ -2323,9 +2326,6 @@ class ZDCode:
                             )
 
                     self._parse_class_body(act, new_ctx, temp.parse_data + body)
-
-                self.actor_names[act.name.upper()] = actor
-                context.add_actor(new_class)
 
                 return pending_oper
 
