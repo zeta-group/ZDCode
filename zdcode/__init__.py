@@ -2663,7 +2663,9 @@ class ZDCode:
         
         self.actors.extend(parsed_actors)
 
+        self.actors.sort(key=lambda actor: actor.name) # predominantly alphabetic sort
         reorders = self.reorder_inherits()
+
         print("(Reordered {} actors)".format(reorders))
 
     def __init__(self):
