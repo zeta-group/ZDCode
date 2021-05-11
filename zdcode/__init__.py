@@ -1,3 +1,5 @@
+__VERSION__ = '2.13.0'
+
 import collections
 import functools
 import hashlib
@@ -2670,6 +2672,8 @@ class ZDCode:
 
     def to_decorate(self):
         res = TextNode(indent=0)
+
+        res.add_line("// :ZDCODE version='{}' id='{}' ".format(__VERSION__, self.id))
 
         if self.inventories:
             for i in self.inventories:
