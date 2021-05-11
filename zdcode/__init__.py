@@ -1518,6 +1518,8 @@ class ZDCode:
             name=name,
         )
 
+        context.add_actor(new_class)
+
         if do_stringify:
             return stringify(new_class.name)
 
@@ -2319,7 +2321,6 @@ class ZDCode:
             else:
                 pending_oper_gen().func()
 
-            self.actors.append(actor)
             self.actor_names[actor.name.upper()] = actor
 
         return actor
