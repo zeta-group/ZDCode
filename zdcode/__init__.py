@@ -529,7 +529,7 @@ class ZDClassTemplate(ZDBaseActor):
         provided_macro_names = dict(provided_macro_names)
 
         if self.duplicate(parameter_values, provided_label_names, provided_macro_names, provided_array_names):
-            return False, self.which_duplicate(parameter_values)
+            return False, self.which_duplicate(parameter_values, provided_label_names, provided_macro_names, provided_array_names)
 
         new_name = (
             name
