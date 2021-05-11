@@ -594,6 +594,8 @@ class<PickupSprite, PickupType, Scale> FoxyPickup {
     };
 }
 
+#DEFMACRO NOTRANSLATION() "1:1=1:1"
+
 class<PickupSprite, PickupType, NormalChance, FoxChance, Scale, MaybeTranslation> FoxyPickupSpawner replaces PickupType {
     set Translation to MaybeTranslation;
 
@@ -611,13 +613,13 @@ class<PickupSprite, PickupType, NormalChance, FoxChance, Scale, MaybeTranslation
     };
 }
 
-derive FoxyHealthBonusSpawner   as FoxyPickupSpawner::("BON1", "HealthBonus",    7,  1, 1.0, "");
-derive FoxyArmorBonusSpawner    as FoxyPickupSpawner::("BON2", "ArmorBonus",     8,  2, 1.0, "");
+derive FoxyHealthBonusSpawner   as FoxyPickupSpawner::("BON1", "HealthBonus",    7,  1, 1.0, NOTRANSLATION());
+derive FoxyArmorBonusSpawner    as FoxyPickupSpawner::("BON2", "ArmorBonus",     8,  2, 1.0, NOTRANSLATION());
 
-derive FoxyClipSpawner          as FoxyPickupSpawner::("CLIP", "Clip",           17, 2, 1.0, "");
-derive FoxyShellSpawner         as FoxyPickupSpawner::("SHEL", "Shell",          5,  1, 1.0, "");
-derive FoxyRocketSpawner        as FoxyPickupSpawner::("ROCK", "RocketAmmo",     6,  2, 1.0, "");
-derive FoxyCellSpawner          as FoxyPickupSpawner::("CELL", "Cell",           9,  4, 1.0, "");
+derive FoxyClipSpawner          as FoxyPickupSpawner::("CLIP", "Clip",           17, 2, 1.0, NOTRANSLATION());
+derive FoxyShellSpawner         as FoxyPickupSpawner::("SHEL", "Shell",          5,  1, 1.0, NOTRANSLATION());
+derive FoxyRocketSpawner        as FoxyPickupSpawner::("ROCK", "RocketAmmo",     6,  2, 1.0, NOTRANSLATION());
+derive FoxyCellSpawner          as FoxyPickupSpawner::("CELL", "Cell",           9,  4, 1.0, NOTRANSLATION());
 
 class<foxtype> BaseFoxyFountain {
     label Spawn {
