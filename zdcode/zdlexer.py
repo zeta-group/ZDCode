@@ -203,6 +203,7 @@ def make_operators(child):
         # Unary sign precedence
         seq(ist('+') << wo, child)              .map(opmap(1, lambda a:     +a)),
         seq(ist('-') << wo, child)              .map(opmap(1, lambda a:     -a)),
+        seq(ist('round') << wo, child)          .map(opmap(1, lambda a:     int(a))),
 
         # Multiplicative precedence
         seq(child, wo >> ist('%') << wo, child) .map(opmap(2, lambda a, b:  a % b)),
