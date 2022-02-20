@@ -1,8 +1,15 @@
-class<ItemType> ItemFountain {
+class RandomAmmoSmall extends RandomSpawner {
+    set DropItem to "Clip";
+    set DropItem to "Shell";
+    set DropItem to "RocketAmmo";
+    set DropItem to "Cell";
+}
+
+class<ItemType, NumItems> ItemFountain {
     set Gravity to 0;
 
     label Spawn {
-        x 90 {
+        x NumItems {
             x 2 sometimes 50 TNT1 A 20;
             TNT1 A 20 A_SpawnItemEx(ItemType, 0, 0, 0, FRandom(-5, 5), FRandom(-5, 5), 8);
         };
@@ -10,12 +17,25 @@ class<ItemType> ItemFountain {
     };
 }
 
-derive HealthFountain   as ItemFountain::("HealthBonus");
-derive ArmorFountain    as ItemFountain::("ArmorBonus");
+derive HealthFountain   as ItemFountain::("HealthBonus", 40);
+derive ArmorFountain    as ItemFountain::("ArmorBonus", 25);
+
+derive AmmoSmallFountain as ItemFountain::("RandomAmmoSmall", 10);
 
 class BackupSpot extends RandomSpawner {
     set DropItem to "HealthFountain";
     set DropItem to "ArmorFountain";
+}
+
+class BigBackupSpot {
+    label Spawn {
+        TNT1 A 0;
+        x 2 {
+            x 7 sometimes 75 TNT1 A 4;
+            TNT1 A 0 A_SpawnItemEx("BackupSpot");
+        };
+        stop;
+    };
 }
 
 class MegaBackupSpot {
