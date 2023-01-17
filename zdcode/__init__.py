@@ -1,4 +1,4 @@
-__VERSION__ = '2.13.0'
+__VERSION__ = "2.13.1"
 
 import collections
 import functools
@@ -473,19 +473,70 @@ class ZDClassTemplate(ZDBaseActor):
         self.parse_data = parse_data
         self.existing = {}
 
-    def duplicate(self, parameter_values, provided_label_names, provided_macro_names, provided_array_names):
-        if self.abstract_macro_names or self.abstract_label_names or self.abstract_array_names:
+    def duplicate(
+        self,
+        parameter_values,
+        provided_label_names,
+        provided_macro_names,
+        provided_array_names,
+    ):
+        if (
+            self.abstract_macro_names
+            or self.abstract_label_names
+            or self.abstract_array_names
+        ):
             return False
 
-        return self.parameter_hash( parameter_values, provided_label_names, provided_macro_names, provided_array_names) in self.existing
-    
-    def which_duplicate(self, parameter_values, provided_label_names, provided_macro_names, provided_array_names):
-        return self.existing[self.parameter_hash( parameter_values, provided_label_names, provided_macro_names, provided_array_names)]
-    
-    def register(self, parameter_values, provided_label_names, provided_macro_names, provided_array_names, result):
-        self.existing[self.parameter_hash( parameter_values, provided_label_names, provided_macro_names, provided_array_names)] = result
+        return (
+            self.parameter_hash(
+                parameter_values,
+                provided_label_names,
+                provided_macro_names,
+                provided_array_names,
+            )
+            in self.existing
+        )
 
-    def parameter_hash(self, parameter_values, provided_label_names, provided_macro_names, provided_array_names) -> str:
+    def which_duplicate(
+        self,
+        parameter_values,
+        provided_label_names,
+        provided_macro_names,
+        provided_array_names,
+    ):
+        return self.existing[
+            self.parameter_hash(
+                parameter_values,
+                provided_label_names,
+                provided_macro_names,
+                provided_array_names,
+            )
+        ]
+
+    def register(
+        self,
+        parameter_values,
+        provided_label_names,
+        provided_macro_names,
+        provided_array_names,
+        result,
+    ):
+        self.existing[
+            self.parameter_hash(
+                parameter_values,
+                provided_label_names,
+                provided_macro_names,
+                provided_array_names,
+            )
+        ] = result
+
+    def parameter_hash(
+        self,
+        parameter_values,
+        provided_label_names,
+        provided_macro_names,
+        provided_array_names,
+    ) -> str:
         hash = hashlib.sha256()
 
         hash.update(self.name.encode("utf-8"))
@@ -494,14 +545,18 @@ class ZDClassTemplate(ZDBaseActor):
         hash.update(self.id.encode("utf-8"))
         hash.update(b"|")
 
-        if self.abstract_macro_names or self.abstract_label_names or self.abstract_array_names:
-            hash.update(make_id(80).encode('utf-8'))
+        if (
+            self.abstract_macro_names
+            or self.abstract_label_names
+            or self.abstract_array_names
+        ):
+            hash.update(make_id(80).encode("utf-8"))
 
         else:
             for parm in parameter_values:
                 hash.update(parm.encode("utf-8"))
                 hash.update(b"-")
-            
+
             hash.update(b"|")
 
             for name in itertools.chain(provided_label_names, provided_array_names):
@@ -511,14 +566,25 @@ class ZDClassTemplate(ZDBaseActor):
             hash.update(b"|")
 
             for name, args in provided_macro_names.items():
-                hash.update(hex(len(args)).encode('utf-8'))
+                hash.update(hex(len(args)).encode("utf-8"))
                 hash.update(name.encode("utf-8"))
                 hash.update(b"-")
 
         return hash.hexdigest()
 
-    def generated_class_name(self, parameter_values, provided_label_names, provided_macro_names, provided_array_names):
-        hash = self.parameter_hash(parameter_values, provided_label_names, provided_macro_names, provided_array_names)
+    def generated_class_name(
+        self,
+        parameter_values,
+        provided_label_names,
+        provided_macro_names,
+        provided_array_names,
+    ):
+        hash = self.parameter_hash(
+            parameter_values,
+            provided_label_names,
+            provided_macro_names,
+            provided_array_names,
+        )
         return "{}__deriv_{}".format(self.name, hash)
 
     def generate_init_class(
@@ -535,13 +601,28 @@ class ZDClassTemplate(ZDBaseActor):
         provided_label_names = set(provided_label_names)
         provided_macro_names = dict(provided_macro_names)
 
-        if self.duplicate(parameter_values, provided_label_names, provided_macro_names, provided_array_names):
-            return False, self.which_duplicate(parameter_values, provided_label_names, provided_macro_names, provided_array_names)
+        if self.duplicate(
+            parameter_values,
+            provided_label_names,
+            provided_macro_names,
+            provided_array_names,
+        ):
+            return False, self.which_duplicate(
+                parameter_values,
+                provided_label_names,
+                provided_macro_names,
+                provided_array_names,
+            )
 
         new_name = (
             name
             if name is not None
-            else self.generated_class_name(parameter_values, provided_label_names, provided_macro_names, provided_array_names)
+            else self.generated_class_name(
+                parameter_values,
+                provided_label_names,
+                provided_macro_names,
+                provided_array_names,
+            )
         )
 
         if self.group_name:
@@ -612,7 +693,13 @@ class ZDClassTemplate(ZDBaseActor):
                     )
                 )
 
-        self.register(parameter_values, provided_label_names, provided_macro_names, provided_array_names, res)
+        self.register(
+            parameter_values,
+            provided_label_names,
+            provided_macro_names,
+            provided_array_names,
+            res,
+        )
 
         self.code.actor_names[res.name.upper()] = res
         context.add_actor(res)
@@ -1031,11 +1118,19 @@ class ZDCodeParseContext(object):
         mods=None,
         applied_mods=None,
         remote_offset=0,
-        description=None
+        description=None,
     ):
-        self.replacements = replacements.new_child() if replacements is not None else collections.ChainMap({})
-        self.macros = macros.new_child() if macros is not None else collections.ChainMap({})
-        self.templates = templates.new_child() if templates is not None else collections.ChainMap({})
+        self.replacements = (
+            replacements.new_child()
+            if replacements is not None
+            else collections.ChainMap({})
+        )
+        self.macros = (
+            macros.new_child() if macros is not None else collections.ChainMap({})
+        )
+        self.templates = (
+            templates.new_child() if templates is not None else collections.ChainMap({})
+        )
         self.mods = mods.new_child() if mods is not None else collections.ChainMap({})
 
         self.always_applied_mods = applied_mods
@@ -1368,13 +1463,19 @@ class ZDCode:
         if etype == "operation":
             return self._parse_operation(econt, context)
 
-        raise CompilerError("Could not parse evaluation {} in {}".format(repr(evaluation), context.describe()))
+        raise CompilerError(
+            "Could not parse evaluation {} in {}".format(
+                repr(evaluation), context.describe()
+            )
+        )
 
     def _parse_expression(self, expr, context):
         etype, exval = expr
 
         if etype == "expr":
-            return ' '.join(str(self._parse_expression(item, context)) for item in exval)
+            return " ".join(
+                str(self._parse_expression(item, context)) for item in exval
+            )
 
         if etype == "literal":
             return self._parse_literal(exval, context)
@@ -1388,7 +1489,9 @@ class ZDCode:
         if etype == "paren expr":
             return "(" + self._parse_expression(exval, context) + ")"
 
-        raise CompilerError("Could not parse expression {} in {}".format(repr(expr), context.describe()))
+        raise CompilerError(
+            "Could not parse expression {} in {}".format(repr(expr), context.describe())
+        )
 
     def _parse_argument(self, arg, context, name=None):
         atype, aval = arg
@@ -1425,21 +1528,27 @@ class ZDCode:
         if literal[0] == "number":
             return literal[1]
 
-        if literal[0] == 'eval':
+        if literal[0] == "eval":
             return self._parse_evaluation(literal[1], context)
-        
+
         if literal[0] == "format string":
             return float(self._parse_formatted_string(literal[1], context))
-        
+
         if literal[0] == "actor variable":
             if literal[1].upper() in context.replacements:
                 return float(context.replacements[literal[1].upper()])
 
-            raise CompilerError("Cannot get compile-time variable for evaluation, {}, in {}"
-                .format(repr(literal[1]), context.describe())
+            raise CompilerError(
+                "Cannot get compile-time variable for evaluation, {}, in {}".format(
+                    repr(literal[1]), context.describe()
+                )
             )
-        
-        raise CompilerError("Could not parse numeric expression {} at {}".format(repr(literal), context.describe()))
+
+        raise CompilerError(
+            "Could not parse numeric expression {} at {}".format(
+                repr(literal), context.describe()
+            )
+        )
 
     def _parse_literal(self, literal, context):
         if isinstance(literal, str):
@@ -1451,7 +1560,7 @@ class ZDCode:
         if literal[0] == "string":
             return stringify(literal[1])
 
-        if literal[0] == 'eval':
+        if literal[0] == "eval":
             return self._parse_evaluation(literal[1], context)
 
         if literal[0] == "format string":
@@ -1472,8 +1581,10 @@ class ZDCode:
 
         if literal[0] == "template derivation":
             return self._parse_template_derivation(literal[1], context)
-        
-        raise CompilerError("Could not parse literal {} in {}".format(repr(literal), context.describe()))
+
+        raise CompilerError(
+            "Could not parse literal {} in {}".format(repr(literal), context.describe())
+        )
 
     def _parse_array(self, arr, context):
         arr = dict(arr)
@@ -1633,13 +1744,17 @@ class ZDCode:
         return "".join(res)
 
     def _parse_formattable_string(self, cval, context: ZDCodeParseContext):
-        if cval[0] == 'string':
+        if cval[0] == "string":
             return cval[1]
 
-        elif cval[0] == 'format':
+        elif cval[0] == "format":
             return self._parse_formatted_string(cval[1], context)
 
-        raise CompilerError("Could not parse formattable string {} in {}".format(repr(cval), context.describe()))
+        raise CompilerError(
+            "Could not parse formattable string {} in {}".format(
+                repr(cval), context.describe()
+            )
+        )
 
     def _parse_replaceable_number(self, cval, context: ZDCodeParseContext):
         if isinstance(cval, str):
@@ -2226,7 +2341,7 @@ class ZDCode:
         if ptype == "classname":
             return context.replacements.get(pval.upper(), pval)
 
-        elif ptype == 'format':
+        elif ptype == "format":
             return self._parse_formatted_string(pval, context)
 
         elif ptype == "template derivation":
@@ -2266,8 +2381,8 @@ class ZDCode:
         context.add_actor(anonym_actor)
 
         self.anonymous_classes.append(anonym_actor)
-        #self.actors.append(anonym_actor)
-        #self.inventories.append(anonym_actor)
+        # self.actors.append(anonym_actor)
+        # self.inventories.append(anonym_actor)
 
         return stringify(anonym_actor.name)
 
@@ -2300,6 +2415,7 @@ class ZDCode:
         new_context = actor.get_context()
 
         if needs_init:
+
             def pending_oper_gen():
                 act = actor
                 new_ctx = new_context
@@ -2347,17 +2463,21 @@ class ZDCode:
     def _parse_var_value(self, vval, context):
         vvtype, vvbody = vval
 
-        if vvtype == 'val':
-            return ('val', self._parse_expression(vvbody, context))
-        
-        if vvtype == 'arr':
+        if vvtype == "val":
+            return ("val", self._parse_expression(vvbody, context))
+
+        if vvtype == "arr":
             return self._parse_array(vval, context)
-        
-        raise CompilerError("Could not parse user var value {} in {}".format(repr(vval), context.describe()))
+
+        raise CompilerError(
+            "Could not parse user var value {} in {}".format(
+                repr(vval), context.describe()
+            )
+        )
 
     def _parse_class_body(self, actor, context, body):
         for btype, bdata in body:
-            if btype == 'for':
+            if btype == "for":
                 for ctx, unpacked_bdata in self.resolve_for(bdata, context):
                     self._parse_class_body(actor, ctx, [unpacked_bdata])
 
@@ -2441,7 +2561,9 @@ class ZDCode:
             break_ctx = context.remote_derive("static for")
 
             for i, item in enumerate(iterator):
-                iter_ctx = break_ctx.remote_derive("for-{} loop body".format(itermode[0]))
+                iter_ctx = break_ctx.remote_derive(
+                    "for-{} loop body".format(itermode[0])
+                )
                 iter_ctx.replacements[itername.upper()] = item
 
                 if iteridx:
@@ -2491,7 +2613,7 @@ class ZDCode:
         context = ZDCodeParseContext(actors=[parsed_actors], description="global")
 
         actors = [(context, a) for a in actors]
- 
+
         def unpack(vals, reslist):
             # always parse groups first,
             # to ensure they can be seen by
@@ -2541,7 +2663,7 @@ class ZDCode:
             if class_type == "class template":
                 a = dict(a)
 
-                classname = self._parse_formattable_string(a['classname'], actx)
+                classname = self._parse_formattable_string(a["classname"], actx)
 
                 abstract_labels = set()
                 abstract_macros = {}
@@ -2596,7 +2718,7 @@ class ZDCode:
         for actx, (class_type, a) in actors:
             if class_type == "class":
                 a = dict(a)
-                classname = self._parse_formattable_string(a['classname'], actx)
+                classname = self._parse_formattable_string(a["classname"], actx)
 
                 with actx.desc_block("class '{}'".format(classname)):
                     actor = ZDActor(
@@ -2635,7 +2757,7 @@ class ZDCode:
 
                     pending.put_nowait(pending_oper_gen())
 
-                    #self.actors.append(actor)
+                    # self.actors.append(actor)
                     self.actor_names[actor.name.upper()] = actor
                     parsed_actors.append(actor)
 
@@ -2675,10 +2797,10 @@ class ZDCode:
 
         for a in parsed_actors:
             a.prepare_spawn_label()
-        
+
         self.actors.extend(parsed_actors)
 
-        self.actors.sort(key=lambda actor: actor.name) # predominantly alphabetic sort
+        self.actors.sort(key=lambda actor: actor.name)  # predominantly alphabetic sort
         reorders = self.reorder_inherits()
 
         print("(Reordered {} actors)".format(reorders))
@@ -2704,13 +2826,13 @@ class ZDCode:
             if actor.name in positions:
                 new_pos = positions[actor.name]
                 reorders += 1
-            
+
             if actor.inherit is not None:
                 if actor.inherit not in positions or positions[actor.inherit] > new_pos:
                     positions[actor.inherit] = new_pos
-            
+
             new_order.insert(new_pos, actor)
-        
+
         self.actors = new_order
 
         return reorders

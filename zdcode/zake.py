@@ -44,7 +44,7 @@ class ZakeTarget:
 
 
 class Zake:
-    inj_field_pat = re.compile(r'^\"(.+)\":\"(.+)\"$')
+    inj_field_pat = re.compile(r"^\"(.+)\":\"(.+)\"$")
 
     def __init__(self):
         self.targets: dict[str, ZakeTarget] = {}
@@ -149,7 +149,11 @@ class Zake:
                     match = self.inj_field_pat.match(injs)
 
                     if not match:
-                        raise ZakeConfigError("Malformed value found in given Zake field 'injects': {}".format(injs))
+                        raise ZakeConfigError(
+                            "Malformed value found in given Zake field 'injects': {}".format(
+                                injs
+                            )
+                        )
 
                     inp, out = match.groups()
                     targ.add_input((inp, out))
