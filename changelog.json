@@ -356,6 +356,13 @@
 			"changes": [
 				"Remove manual bundling interface"
 			]
+		},
+		
+		{
+			"name": "2.13.3",
+			"changes": [
+				"Fix writing DECORATE output in manual compilation interface"
+			]
 		}
     ]
 }

@@ -79,14 +79,14 @@ def arg_parser():
 
     aparser.add_argument(
         "input",
-        type=str,
+        type=argparse.FileType("r"),
         metavar="INFILES",
         nargs="+",
         help="input files for the compiler (zc2)",
     )
     aparser.add_argument(
-        "-od",
-        "--output-decorate",
+        "-o",
+        "--output",
         type=argparse.FileType("w"),
         required=False,
         metavar="OUTFILE",
@@ -117,17 +117,17 @@ def main_zake():
 def do_compile(args, preproc_defs=()):
     code = zdcode.ZDCode()
 
-    for fn in args.input:
-        with open(fn) as fp:
-            if not code.add(
-                fp.read(),
-                os.path.basename(fn),
-                os.path.dirname(fn),
-                preproc_defs=preproc_defs,
-                error_handler=print_parse_error,
-            ):
-                return 1
+    for fp in args.input:
+        if not code.add(
+            fp.read(),
+            os.path.basename(fp.name),
+            os.path.dirname(fp.name),
+            preproc_defs=preproc_defs,
+            error_handler=print_parse_error,
+        ):
+            # Compilation error found - it was already printed.
+            return 1
 
     dec = code.decorate()
-    open(args.out_compile, "w").write(dec)
+    args.out_compile.write(dec)
     print("Output compiled successfully.")
