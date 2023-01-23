@@ -51,46 +51,9 @@ class TupleTrue(argparse.Action):
 
 def arg_parser():
     aparser = argparse.ArgumentParser(
-        description="ZDCode compilation and bundling engine. The following is the direct compilation and bundling interface - if no arguments are passed, Zake is run instead."
+        description="ZDCode compilation and bundling engine. The following is the direct compilation and bundling interface - if no arguments are passed, Zake is run instead. If possible, use Zake to define a project's build."
     )
 
-    aparser.add_argument(
-        "input",
-        type=str,
-        metavar="INFILES",
-        nargs="+",
-        help="input files for the compiler (zc2)",
-    )
-    aparser.add_argument(
-        "-od",
-        "--output-decorate",
-        type=argparse.FileType("w"),
-        required=False,
-        metavar="OUTFILE",
-        dest="out_compile",
-        default=None,
-        help="output plain text file from with compiled DECORATE",
-    )
-    aparser.add_argument(
-        "-oa",
-        "--output-pk3-asset",
-        type=argparse.FileType("wb"),
-        required=False,
-        metavar="OUTFILE",
-        dest="out_asset",
-        default=None,
-        help="output file with assets bundled in a pk3",
-    )
-    aparser.add_argument(
-        "-oc",
-        "--output-pk3-code",
-        type=argparse.FileType("wb"),
-        required=False,
-        metavar="OUTFILE",
-        dest="out_code",
-        default=None,
-        help="output file with compiled DECORATE bundled in a pk3",
-    )
     aparser.add_argument(
         "-D",
         "--define",
@@ -113,7 +76,25 @@ def arg_parser():
         required=False,
         help="preprocessor definitions (set to a string value)",
     )
-    aparser.set_defaults(func=do_bundle)
+
+    aparser.add_argument(
+        "input",
+        type=str,
+        metavar="INFILES",
+        nargs="+",
+        help="input files for the compiler (zc2)",
+    )
+    aparser.add_argument(
+        "-od",
+        "--output-decorate",
+        type=argparse.FileType("w"),
+        required=False,
+        metavar="OUTFILE",
+        dest="out_compile",
+        default=None,
+        help="output plain text file from with compiled DECORATE",
+    )
+    aparser.set_defaults(func=do_compile)
 
     return aparser
 
@@ -133,7 +114,6 @@ def main_zake():
 
 # Actions
 
-
 def do_compile(args, preproc_defs=()):
     code = zdcode.ZDCode()
 
@@ -151,17 +131,3 @@ def do_compile(args, preproc_defs=()):
     dec = code.decorate()
     open(args.out_compile, "w").write(dec)
     print("Output compiled successfully.")
-
-
-def do_bundle(args, preproc_defs=()):
-    bundle = Bundle(*args.input, error_handler=print_parse_error)
-
-    status, msg = bundle.bundle(
-        args.out_asset,
-        args.out_code,
-        args.out_compile,
-        preproc_defs={k.upper(): v for (k, v) in getattr(args, "prepdefs", []) or []},
-    )
-    print(msg)
-
-    return status

@@ -1,4 +1,4 @@
-__VERSION__ = "2.13.1"
+__VERSION__ = "2.13.2"
 
 import collections
 import functools

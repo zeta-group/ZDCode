@@ -349,6 +349,13 @@
             "changes": [
                 "Reinstate direct compilation and bundling interface"
             ]
-        }
+        },
+		
+		{
+			"name": "2.13.2",
+			"changes": [
+				"Remove manual bundling interface"
+			]
+		}
     ]
 }
