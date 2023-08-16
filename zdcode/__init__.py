@@ -1399,29 +1399,10 @@ class ZDCode:
 
     @classmethod
     def parse(cls, code, fname=None, dirname=".", error_handler=None, preproc_defs=()):
-        data = zdlexer.parse_code(
-            code.strip(" \t\n"),
-            dirname=dirname,
-            filename=fname,
-            error_handler=error_handler,
-            preproc_defs=preproc_defs,
-        )
+        res = cls()
+        success = res.add(code, frame, dirname, error_handler, preproc_defs)
 
-        if data:
-            res = cls()
-
-            try:
-                res._parse(data)
-
-            except CompilerError as err:
-                if error_handler:
-                    error_handler(err)
-                return None
-
-            return res
-
-        else:
-            return None
+        return res if success else None
 
     def add(self, code, fname=None, dirname=".", error_handler=None, preproc_defs=()):
         data = zdlexer.parse_code(
@@ -1741,7 +1722,7 @@ class ZDCode:
                         )
                     )
 
-        return "".join(res)
+        return "".join(unstringify(x) for x in res)
 
     def _parse_formattable_string(self, cval, context: ZDCodeParseContext):
         if cval[0] == "string":
@@ -2803,7 +2784,7 @@ class ZDCode:
         self.actors.sort(key=lambda actor: actor.name)  # predominantly alphabetic sort
         reorders = self.reorder_inherits()
 
-        print("(Reordered {} actors)".format(reorders))
+        # print("(Reordered {} actors)".format(reorders))
 
     def __init__(self):
         self.includes = {}

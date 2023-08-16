@@ -1,10 +1,10 @@
 # pylint: disable=unreachable
 import glob
+import math
 import os
 import re
 import sys
 import traceback
-import math
 
 import parsy
 
