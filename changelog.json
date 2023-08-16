@@ -363,6 +363,13 @@
 			"changes": [
 				"Fix writing DECORATE output in manual compilation interface"
 			]
+		},
+
+		{
+			"name": "2.13.4",
+			"changes": [
+				"Unstringify parts of formatted strings to fix string + parameter concatenation"
+			]
 		}
     ]
 }
