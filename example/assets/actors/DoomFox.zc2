@@ -346,15 +346,15 @@ class MSA_Fox {
 
             else {
                 //   -- check for other ways --
-                
+
                 ifjump A_CheckLOF($offset, CLOFF_JUMP_ON_MISS | CLOFF_SKIPTARGET | CLOFF_ALLOWNULL | CLOFF_AIM_VERT_NOOFFSET | CLOFF_MUSTBESOLID | CLOFF_SKIPENEMY | CLOFF_SKIPFRIEND, Radius + 64, 0,  45,  8, 9); else { // ...to the right
                     #IFDEF LOGDEBUG
                     sometimes 30 TNT1 A 0 A_Log("wander: go left");
                     #ENDIF
-                
+
                     TNT1 A 0 A_SetAngle(angle + 10);
                     x 2 sometimes 50 TNT1 A 0 A_SetAngle(angle + 6);
-                    
+
                     TNT1 A 0 A_Recoil(-0.05);
                 };
 
@@ -362,20 +362,20 @@ class MSA_Fox {
                     #IFDEF LOGDEBUG
                     sometimes 30 TNT1 A 0 A_Log("wander: go right");
                     #ENDIF
-                
+
                     TNT1 A 0 A_SetAngle(angle - 10);
                     x 2 sometimes 50 TNT1 A 0 A_SetAngle(angle - 6);
-                    
+
                     TNT1 A 0 A_Recoil(-0.05);
                 };
-            
+
 
                 //    -- just be careful --
 
                 #IFDEF LOGDEBUG
                 sometimes 8 TNT1 A 0 A_Log("wander: go easy");
                 #ENDIF
-            
+
                 TNT1 A 0 A_Recoil(0.1);
                 x 5 TNT1 A 0 A_SetAngle(angle + Random(-2, 2));
             };
@@ -386,7 +386,7 @@ class MSA_Fox {
             #IFDEF LOGDEBUG
             sometimes 5 TNT1 A 0 A_Log("wander: go straight");
             #ENDIF
-                
+
             TNT1 A 0 A_Recoil(-0.25);
             x 3 TNT1 A 0 A_SetAngle(angle + Random(-3, 3));
         };
@@ -424,32 +424,32 @@ class MSA_Fox {
     // Behaviours
     macro FoxWander(tics, anim, sound_chance, rest_chance) {
         x tics {
-            inject @anim;            
+            inject @anim;
             inject Tick_Wander;
             TNT1 A 1 A_Look;
         };
-        
+
         sometimes (rest_chance) goto Rest;
         sometimes (sound_chance * tics) TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
     };
 
     macro FoxRest(tics, anim, sound_chance) {
         x tics {
-            inject @anim;       
+            inject @anim;
             inject Tick_Rest;
             TNT1 A 1 A_Look;
         };
-        
+
         sometimes (sound_chance * tics) TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
     };
 
     macro FoxChase(tics, anim, sound_chance) {
         x tics {
-            inject @anim;            
+            inject @anim;
             inject Tick_Chase;
             TNT1 A 1;
         };
-        
+
         sometimes (sound_chance * tics) TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see");
     };
 
@@ -504,7 +504,7 @@ class MSA_Fox {
              TNT1 A 1; inject DrawAttack1;
 
         TNT1 A 0 A_JumpIfTargetInLOS("Idle");
-        
+
         goto See;
     };
 

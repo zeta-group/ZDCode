@@ -333,7 +333,8 @@
     {
       "name": "2.13.5",
       "changes": [
-        "Replace all TNT1 A instances with \"####\" \"#\""
+        "Use \"####\" \"#\" instead of TNT1 A 0 for zerotic",
+        "Autopad Spawn labels starting with a zerotic"
       ]
     }
   ]

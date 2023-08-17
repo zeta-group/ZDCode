@@ -1,5 +1,6 @@
 # pylint: disable=unreachable
 import glob
+import json
 import math
 import os
 import re
@@ -7,13 +8,6 @@ import sys
 import traceback
 
 import parsy
-
-try:
-    import simplejson as json
-
-except ImportError:
-    import json
-
 from parsy import fail, generate, regex, seq, string, success, whitespace
 
 s = string

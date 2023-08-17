@@ -8,16 +8,9 @@ import queue
 import random
 import string
 import warnings
-from typing import List, Set
+from typing import Generator, Iterable, Protocol
 
-try:
-    from . import zdlexer
-
-except ImportError:
-    import zdlexer
-
-
-actor_list = {}
+from . import zdlexer
 
 _user_var_setters = {
     "int": "A_SetUserVar",
@@ -86,7 +79,23 @@ class TextNode:
 
 
 # ZDCode Classes
-class ZDProperty:
+class ZDObject(Protocol):
+    def to_decorate(self) -> str:
+        ...
+
+
+class ZDStateObject(ZDObject, Protocol):
+    def spawn_safe(self) -> bool:
+        ...
+
+    def num_states(self) -> int:
+        ...
+
+    def state_containers(self) -> Generator[Iterable["ZDStateObject"], None, None]:
+        ...
+
+
+class ZDProperty(ZDObject):
     def __init__(self, actor, name, value):
         self.actor = actor
         self.name = name.strip()
@@ -98,7 +107,7 @@ class ZDProperty:
         return TextNode(["{} {}".format(self.name, self.value)])
 
 
-class ZDState:
+class ZDState(ZDStateObject):
     def __init__(
         self, sprite='"####"', frame='"#"', duration=0, keywords=None, action=None
     ):
@@ -111,9 +120,16 @@ class ZDState:
         self.action = action
         self.duration = duration
 
+    def spawn_safe(self):
+        return self.sprite != '"####"' and self.frame != '"#"'
+
     @classmethod
     def zerotic(cls, keywords=None, action=None):
         return cls(keywords=keywords, action=action)
+
+    @classmethod
+    def tnt1(cls, duration=0, keywords=None, action=None):
+        return cls("TNT1", "A", duration=duration, keywords=keywords, action=action)
 
     def clone(self):
         return ZDState(
@@ -189,7 +205,7 @@ class ZDDummyLabel(object):
             states = []
 
         self.name = None
-        self.states = states
+        self.states: list[ZDStateObject] = states
         self._actor = actor
 
     def __repr__(self):
@@ -211,11 +227,14 @@ class ZDLabel(object):
             states = []
 
         self.name = name.strip()
-        self.states = states
+        self.states: list[ZDStateObject] = states
         self._actor = _actor
 
         if auto_append:
             self._actor.labels.append(self)
+
+    def spawn_safe(self):
+        return self.states[0].spawn_safe()
 
     def __repr__(self):
         return "{}({} of {})".format(
@@ -244,6 +263,9 @@ class ZDLabel(object):
 class ZDRawDecorate(object):
     def __init__(self, raw):
         self.raw = raw
+
+    def spawn_safe(self):
+        return False
 
     def state_containers(self):
         return
@@ -328,7 +350,7 @@ class ZDActor(ZDBaseActor):
     def get_spawn_label(self):
         for l in self.labels:
             if l.name.upper() == "SPAWN":
-                return l
+                return self.transform_spawn(l)
 
         return None
 
@@ -367,16 +389,11 @@ class ZDActor(ZDBaseActor):
     def prepare_spawn_label(self):
         label = self.get_spawn_label()
 
+        if not label:
+            label = self.make_spawn_label()
+
         if self.uservars:
-            if not label:
-                label = self.make_spawn_label()
-
-            label.states = (
-                [ZDState.zerotic()] + self._get_spawn_prelude() + label.states
-            )
-
-        elif label:
-            label.states.insert(0, ZDState.zerotic())
+            label.states = self._get_spawn_prelude() + label.states
 
     def top(self):
         r = TextNode()
@@ -409,6 +426,24 @@ class ZDActor(ZDBaseActor):
 
         return r
 
+    def transform_spawn(self, label: ZDLabel):
+        if label.states[0].spawn_safe():
+            return label
+
+        import pprint
+
+        # TODO: more comprehensive error handling and warning handling
+        # (sike, ZDCode is not going to get new features!)
+        print(
+            f"Warning: Spawn label of class '{repr(self.name)}' is not spawn safe: "
+            "auto-padding with 'TNT1 A 0'! Silence this warning by manually adding a "
+            "'TNT1 A 0' at the start of the Spawn label."
+        )
+
+        new_label = ZDLabel(self, label.name, label.states, False)
+        new_label.states.insert(0, ZDState.tnt1())
+        return new_label
+
     def label_code(self):
         r = TextNode()
 
@@ -416,6 +451,9 @@ class ZDActor(ZDBaseActor):
             r.add_line(decorate(f[1]))
 
         for l in self.labels:
+            if l.name.upper() == "SPAWN":
+                l = self.transform_spawn(l)
+
             r.add_line(decorate(l))
 
         return r
@@ -723,9 +761,12 @@ class ZDClassTemplate(ZDBaseActor):
 
 
 class ZDBlock:
-    def __init__(self, actor, states=()):
+    def __init__(self, actor, states=None):
         self._actor = actor
-        self.states = list(states)
+        self.states: list[ZDStateObject] = states if states is not None else []
+
+    def spawn_safe(self):
+        return self.states[0].spawn_safe()
 
     def clone(self):
         return ZDBlock(self._actor, (s.clone() for s in self.states))
@@ -744,8 +785,11 @@ class ZDIfStatement(object):
     def __init__(self, actor, condition, states=()):
         self._actor = actor
         self.true_condition = condition
-        self.states = list(states)
+        self.states: list[ZDStateObject] = list(states)
         self.else_block = None
+
+    def spawn_safe(self):
+        return False
 
     def clone(self):
         res = ZDIfStatement(
@@ -807,8 +851,11 @@ class ZDIfJumpStatement(object):
     def __init__(self, actor, condition_gen, states=()):
         self._actor = actor
         self.true_condition = condition_gen
-        self.states = list(states)
+        self.states: list[ZDStateObject] = list(states)
         self.else_block = None
+
+    def spawn_safe(self):
+        return False
 
     def clone(self):
         res = ZDIfJumpStatement(
@@ -878,7 +925,7 @@ class ZDSometimes(object):
     def __init__(self, actor, chance, states):
         self._actor = actor
         self.chance = chance
-        self.states = states
+        self.states: list[ZDStateObject] = states
 
     def clone(self):
         return ZDSometimes(self._actor, self.chance, (s.clone() for s in self.states))
@@ -888,6 +935,9 @@ class ZDSometimes(object):
 
     def state_containers(self):
         yield self.states
+
+    def spawn_safe(self):
+        return False
 
     def to_decorate(self):
         num_st = sum(x.num_states() for x in self.states)
@@ -910,7 +960,7 @@ class ZDWhileStatement(object):
     def __init__(self, actor, condition, states=()):
         self._actor = actor
         self.true_condition = condition
-        self.states = list(states)
+        self.states: list[ZDStateObject] = list(states)
         self.else_block = None
 
         global num_whiles
@@ -950,6 +1000,9 @@ class ZDWhileStatement(object):
         else:
             return self.num_block_states() + 3
 
+    def spawn_safe(self):
+        return False
+
     def to_decorate(self):
         num_st_bl = self.num_block_states()
 
@@ -984,7 +1037,7 @@ class ZDWhileJumpStatement(object):
     def __init__(self, actor, condition_gen, states=()):
         self._actor = actor
         self.true_condition = condition_gen
-        self.states = list(states)
+        self.states: list[ZDStateObject] = list(states)
         self.else_block = None
 
         global num_whiles
@@ -1030,6 +1083,9 @@ class ZDWhileJumpStatement(object):
 
         else:
             return self.num_block_states() + 4
+
+    def spawn_safe(self):
+        return False
 
     def to_decorate(self):
         num_st_bl = self.num_block_states()
@@ -1090,6 +1146,9 @@ class ZDSkip:
         return
         yield
 
+    def spawn_safe(self):
+        return False
+
     def to_decorate(self):
         return f"{zerotic} A_Jump(256, {self.context.num_states() - self.ind + 1})"
 
@@ -1132,7 +1191,7 @@ class ZDCodeParseContext(object):
 
         self.actor_lists = list(actors) if actors else []
         self.desc_stack = []
-        self.states = []
+        self.states: list[ZDStateObject | ZDCodeParseContext] = []
         self.remote_children = []
         self.remote_offset = remote_offset
 
@@ -1233,7 +1292,7 @@ class ZDCodeParseContext(object):
         )
 
     def remote_derive(
-        self, desc: str = None, remote_offset: int = 0
+        self, desc: str | None = None, remote_offset: int = 0
     ) -> "ZDCodeParseContext":
         # derives without adding to states
         res = ZDCodeParseContext(
@@ -1254,7 +1313,7 @@ class ZDCodeParseContext(object):
 
         return res
 
-    def derive(self, desc: str = None) -> "ZDCodeParseContext":
+    def derive(self, desc: str | None = None) -> "ZDCodeParseContext":
         res = ZDCodeParseContext(
             self.replacements,
             self.macros,
@@ -2043,7 +2102,7 @@ class ZDCode:
             apply_mod, apply_block = s[1]
 
             try:
-                mod = context.mods[apply_mod.strip().upper()]  # type: List[ZDModClause]
+                mod = context.mods[apply_mod.strip().upper()]  # type: list[ZDModClause]
 
             except KeyError:
                 raise CompilerError(
@@ -2511,7 +2570,7 @@ class ZDCode:
                     try:
                         mod = context.mods[
                             mval.strip().upper()
-                        ]  # type: List[ZDModClause]
+                        ]  # type: list[ZDModClause]
 
                     except KeyError:
                         raise CompilerError(
@@ -2791,8 +2850,8 @@ class ZDCode:
         self.num_anonym_macros = 0
 
     def reorder_inherits(self) -> int:
-        new_order = []
-        positions = {}
+        new_order: list[ZDActor] = []
+        positions: dict[str, int] = {}
         reorders = 0
 
         for actor in self.actors:
@@ -2825,6 +2884,9 @@ class ZDCode:
             res.add_line(a.to_decorate())
 
         return res
+
+    def decorate(self):
+        return decorate(self)
 
     def decorate(self):
         return decorate(self)

@@ -2,15 +2,9 @@ import argparse
 import os
 import sys
 
-try:
-    import zdcode
-    import zdcode.zake as zake
-    from zdcode.bundle import Bundle
-
-except ImportError:
-    import __init__ as zdcode
-    import zake
-    from bundle import Bundle
+import zdcode
+import zdcode.zake as zake
+from zdcode.bundle import Bundle
 
 
 def print_parse_error(e):

@@ -7,11 +7,7 @@ from enum import Enum
 
 import attr
 
-try:
-    from zdcode.bundle import Bundle, BundleOutput
-
-except ImportError:
-    from bundle import Bundle, BundleOutput
+from .bundle import Bundle, BundleOutput
 
 
 class ZakeException(Exception):
