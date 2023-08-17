@@ -350,14 +350,14 @@
                 "Reinstate direct compilation and bundling interface"
             ]
         },
-		
+
 		{
 			"name": "2.13.2",
 			"changes": [
 				"Remove manual bundling interface"
 			]
 		},
-		
+
 		{
 			"name": "2.13.3",
 			"changes": [
@@ -369,6 +369,13 @@
 			"name": "2.13.4",
 			"changes": [
 				"Unstringify parts of formatted strings to fix string + parameter concatenation"
+			]
+		},
+
+    {
+			"name": "2.13.5",
+			"changes": [
+				"Replace all TNT1 A instances with \"####\" \"#\""
 			]
 		}
     ]

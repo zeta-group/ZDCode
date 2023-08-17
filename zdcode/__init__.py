@@ -111,6 +111,10 @@ class ZDState:
         self.action = action
         self.duration = duration
 
+    @classmethod
+    def zerotic(cls, keywords=None, action=None):
+        return cls(keywords=keywords, action=action)
+
     def clone(self):
         return ZDState(
             self.sprite, self.frame, self.duration, list(self.keywords), self.action
@@ -146,6 +150,9 @@ class ZDState:
             ]
         )
 
+    def __str__(self):
+        return str(self.to_decorate())
+
     def __repr__(self):
         return "<ZDState({} {} {}{}{})>".format(
             self.sprite,
@@ -154,6 +161,9 @@ class ZDState:
             "+" if self.keywords else "",
             " ..." if self.action else "",
         )
+
+
+zerotic = ZDState.zerotic()
 
 
 class ZDDummyActor:
@@ -362,11 +372,11 @@ class ZDActor(ZDBaseActor):
                 label = self.make_spawn_label()
 
             label.states = (
-                [ZDState("TNT1", "A")] + self._get_spawn_prelude() + label.states
+                [ZDState.zerotic()] + self._get_spawn_prelude() + label.states
             )
 
         elif label:
-            label.states.insert(0, ZDState("TNT1", "A"))
+            label.states.insert(0, ZDState.zerotic())
 
     def top(self):
         r = TextNode()
@@ -775,24 +785,20 @@ class ZDIfStatement(object):
 
             return TextNode(
                 [
-                    "TNT1 A 0 A_JumpIf({}, {})".format(
-                        self.true_condition, num_st_el + 2
-                    ),
+                    f"{zerotic} A_JumpIf({self.true_condition}, {num_st_el + 2})",
                     self.else_block.to_decorate(),
-                    "TNT1 A 0 A_Jump(256, {})".format(num_st_bl + 1),
+                    f"{zerotic} A 0 A_Jump(256, {num_st_bl + 1})",
                     TextNode([x.to_decorate() for x in self.states]),
-                    "TNT1 A 0",
+                    zerotic,
                 ]
             )
 
         else:
             return TextNode(
                 [
-                    "TNT1 A 0 A_JumpIf(!({}), {})\n".format(
-                        self.true_condition, num_st_bl + 1
-                    ),
+                    f"{zerotic} A_JumpIf(!({self.true_condition}), {num_st_bl + 1})\n",
                     TextNode([x.to_decorate() for x in self.states]),
-                    "TNT1 A 0",
+                    zerotic,
                 ]
             )
 
@@ -849,21 +855,21 @@ class ZDIfJumpStatement(object):
 
             return TextNode(
                 [
-                    "TNT1 A 0 {}".format(self.true_condition(num_st_el + 2)),
+                    f"{zerotic} {self.true_condition(num_st_el + 2)}",
                     self.else_block.to_decorate(),
-                    "TNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 1),
+                    f"{zerotic} A_Jump(256, {num_st_bl + 1})\n",
                     TextNode([x.to_decorate() for x in self.states]),
-                    "TNT1 A 0",
+                    zerotic,
                 ]
             )
 
         else:
             return TextNode(
                 [
-                    "TNT1 A 0 {}".format(self.true_condition(2)),
-                    "TNT1 A 0 A_Jump(256, {})\n".format(num_st_bl + 1),
+                    f"{zerotic} {self.true_condition(2)}",
+                    f"{zerotic} A_Jump(256, {num_st_bl + 1})\n",
                     TextNode([x.to_decorate() for x in self.states]),
-                    "TNT1 A 0",
+                    zerotic,
                 ]
             )
 
@@ -888,13 +894,13 @@ class ZDSometimes(object):
 
         res = TextNode()
         res.add_line(
-            "TNT1 A 0 A_Jump(256-(256*({})/100), {})".format(self.chance, num_st + 1)
+            f"{zerotic} A_Jump(256-(256*({self.chance})/100), {num_st + 1})"
         )
 
         for x in self.states:
             res.add_line(x.to_decorate())
 
-        res.add_line("TNT1 A 0")
+        res.add_line(str(zerotic))
 
         return res
 
@@ -954,32 +960,24 @@ class ZDWhileStatement(object):
 
             return TextNode(
                 [
-                    "TNT1 A 0 A_JumpIf({}, {})".format(
-                        self.true_condition, num_st_el + 2
-                    ),
+                    f"{zerotic} A_JumpIf({self.true_condition}, {num_st_el + 2})",
                     self.else_block.to_decorate(),
-                    "TNT1 A 0 A_Jump(256, {})".format(num_st_bl + 2),
+                    f"{zerotic} A_Jump(256, {num_st_bl + 2})",
                     "{}:".format(self._loop_id),
                     TextNode([x.to_decorate() for x in self.states]),
-                    "TNT1 A 0 A_JumpIf({}, {})".format(
-                        self.true_condition, stringify(self._loop_id)
-                    ),
-                    "TNT1 A 0",
+                    f"{zerotic} A_JumpIf({self.true_condition}, {stringify(self._loop_id)})",
+                    zerotic,
                 ]
             )
 
         else:
             return TextNode(
                 [
-                    "TNT1 A 0 A_JumpIf(!({}), {})".format(
-                        self.true_condition, num_st_bl + 2
-                    ),
+                    f"{zerotic} A_JumpIf(!({self.true_condition}), {num_st_bl + 2})",
                     "{}:".format(self._loop_id),
                     TextNode([x.to_decorate() for x in self.states]),
-                    "TNT1 A 0 A_JumpIf({}, {})".format(
-                        self.true_condition, stringify(self._loop_id)
-                    ),
-                    "TNT1 A 0",
+                    f"{zerotic} A_JumpIf({self.true_condition}, {stringify(self._loop_id)})",
+                    zerotic,
                 ]
             )
 
@@ -1043,25 +1041,25 @@ class ZDWhileJumpStatement(object):
 
             return TextNode(
                 [
-                    "TNT1 A 0 {}".format(self.true_condition(num_st_el, 2)),
+                    f"{zerotic} {}".format(self.true_condition(num_st_el, 2)),
                     self.else_block.to_decorate(),
-                    "TNT1 A 0 A_Jump(256, {})".format(num_st_bl + 2),
+                    f"{zerotic} A_Jump(256, {})".format(num_st_bl + 2),
                     "{}:".format(self._loop_id),
                     TextNode([x.to_decorate() for x in self.states]),
-                    "TNT1 A 0 {}".format(self.true_condition(stringify(self._loop_id))),
-                    "TNT1 A 0",
+                    f"{zerotic} {}".format(self.true_condition(stringify(self._loop_id))),
+                    zerotic,
                 ]
             )
 
         else:
             return TextNode(
                 [
-                    "TNT1 A 0 {}".format(self.true_condition(2)),
-                    "TNT1 A 0 A_Jump(256, {})".format(num_st_bl + 2),
+                    f"{zerotic} {}".format(self.true_condition(2)),
+                    f"{zerotic} A_Jump(256, {})".format(num_st_bl + 2),
                     "{}:".format(self._loop_id),
                     TextNode([x.to_decorate() for x in self.states]),
-                    "TNT1 A 0 {}".format(self.true_condition(stringify(self._loop_id))),
-                    "TNT1 A 0",
+                    f"{zerotic} {}".format(self.true_condition(stringify(self._loop_id))),
+                    zerotic,
                 ]
             )
 
@@ -1095,7 +1093,7 @@ class ZDSkip:
         yield
 
     def to_decorate(self):
-        return "TNT1 A 0 A_Jump(256, {})".format(
+        return f"{zerotic} A_Jump(256, {})".format(
             self.context.num_states() - self.ind + 1
         )
 
