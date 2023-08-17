@@ -14,7 +14,7 @@ class<Size> MSP_Limb extends MSPart {
     set Scale to Size;
 
     label Spawn {
-        TNT1 A 0;
+        invisi 0;
         inject Display;
         Stop;
     };
@@ -58,31 +58,31 @@ class<LimbType> MSGore_FoxLimb {
     var user_limbangle = Random(0, 255);
 
     macro Display {
-        TNT1 A 0 A_SpawnItemEx(LimbType, 0, 0, 0, 0, 0, 0, user_limbangle);
-        TNT1 A 0 A_SetUserVar("user_limbangle", user_limbangle + (velx*velx + vely*vely + velz*velz) * 0.3);
-        TNT1 A 1;
+        invisi 0 A_SpawnItemEx(LimbType, 0, 0, 0, 0, 0, 0, user_limbangle);
+        invisi 0 A_SetUserVar("user_limbangle", user_limbangle + (velx*velx + vely*vely + velz*velz) * 0.3);
+        invisi 1;
     };
 
     label Spawn {
-        TNT1 A 0;
-        TNT1 A 0 x2 A_PlaySound("zdpack/multisprite/animal/fox/gibbed");
+        invisi 0;
+        invisi 0 x2 A_PlaySound("zdpack/multisprite/animal/fox/gibbed");
         goto Thrust;
     };
 
     label Thrust {
-        TNT1 A 0 {
+        invisi 0 {
             A_CheckFloor("Death");
             ThrustThing(random(0, 255), random(3, 17) * 4, 1, 0);
-            ThrustThingZ(0, random(40, 120), 0, 1);
+            x2 ThrustThingZ(0, 4 * random(30, 90), 0, 1);
         };
         goto Fly;
     };
 
     label Fly {
-        TNT1 A 0 A_ScaleVelocity(0.97);
+        invisi 0 A_ScaleVelocity(0.97);
 
         if (velx*velx + vely*vely + velz*velz > 3) {
-            sometimes 35 TNT1 A 0 A_SpawnItemEx("Blood", -4, Random(0, 4) - 2, 2, Random(-2, 2), Random(-2, 2), Random(1, -4));
+            sometimes 35 invisi 0 A_SpawnItemEx("Blood", -4, Random(0, 4) - 2, 2, Random(-2, 2), Random(-2, 2), Random(1, -4));
         };
 
         inject Display;
@@ -95,15 +95,15 @@ class<LimbType> MSGore_FoxLimb {
 
     label Death {
         inject Display;
-        TNT1 A 0 A_CheckFloor(2);
-        TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/gib/bounce");
+        invisi 0 A_CheckFloor(2);
+        invisi 0 A_PlaySound("zdpack/multisprite/animal/fox/gib/bounce");
         goto Fly;
         sometimes 10 goto RealDeath;
         loop;
     };
 
     label RealDeath {
-        TNT1 A 0;
+        invisi 0;
         stop;
     };
 }
@@ -144,7 +144,7 @@ class MSA_Fox {
     is      SLIDESONWALLS;
 
     macro SpawnLimb(height, forward, right, cls) {
-        TNT1 A 0 A_SpawnItemEx(cls, forward, right, height + 5);
+        invisi 0 A_SpawnItemEx(cls, forward, right, height + 5);
     };
 
     macro DrawLegAt_A(forward, right) {
@@ -335,12 +335,12 @@ class MSA_Fox {
                 //   -- avoid getting stuck on walls --
 
                 #IFDEF LOGDEBUG
-                sometimes 50 TNT1 A 0 A_Log("wander: crap! go back!");
+                sometimes 50 invisi 0 A_Log("wander: crap! go back!");
                 #ENDIF
 
                 x 3 {
-                    x 8 TNT1 A 0 A_SetAngle(angle + Random(-2, 2));
-                    TNT1 A 0 A_Recoil(0.25);
+                    x 8 invisi 0 A_SetAngle(angle + Random(-2, 2));
+                    invisi 0 A_Recoil(0.25);
                 };
             };
 
@@ -349,130 +349,182 @@ class MSA_Fox {
 
                 ifjump A_CheckLOF($offset, CLOFF_JUMP_ON_MISS | CLOFF_SKIPTARGET | CLOFF_ALLOWNULL | CLOFF_AIM_VERT_NOOFFSET | CLOFF_MUSTBESOLID | CLOFF_SKIPENEMY | CLOFF_SKIPFRIEND, Radius + 64, 0,  45,  8, 9); else { // ...to the right
                     #IFDEF LOGDEBUG
-                    sometimes 30 TNT1 A 0 A_Log("wander: go left");
+                    sometimes 30 invisi 0 A_Log("wander: go left");
                     #ENDIF
 
-                    TNT1 A 0 A_SetAngle(angle + 10);
-                    x 2 sometimes 50 TNT1 A 0 A_SetAngle(angle + 6);
+                    invisi 0 A_SetAngle(angle + 10);
+                    x 2 sometimes 50 invisi 0 A_SetAngle(angle + 6);
 
-                    TNT1 A 0 A_Recoil(-0.05);
+                    invisi 0 A_Recoil(-0.05);
                 };
 
                 ifjump A_CheckLOF($offset, CLOFF_JUMP_ON_MISS | CLOFF_SKIPTARGET | CLOFF_ALLOWNULL | CLOFF_AIM_VERT_NOOFFSET | CLOFF_MUSTBESOLID | CLOFF_SKIPENEMY | CLOFF_SKIPFRIEND, Radius + 64, 0, -45, -8, 9); else { // ...to the left
                     #IFDEF LOGDEBUG
-                    sometimes 30 TNT1 A 0 A_Log("wander: go right");
+                    sometimes 30 invisi 0 A_Log("wander: go right");
                     #ENDIF
 
-                    TNT1 A 0 A_SetAngle(angle - 10);
-                    x 2 sometimes 50 TNT1 A 0 A_SetAngle(angle - 6);
+                    invisi 0 A_SetAngle(angle - 10);
+                    x 2 sometimes 50 invisi 0 A_SetAngle(angle - 6);
 
-                    TNT1 A 0 A_Recoil(-0.05);
+                    invisi 0 A_Recoil(-0.05);
                 };
 
 
                 //    -- just be careful --
 
                 #IFDEF LOGDEBUG
-                sometimes 8 TNT1 A 0 A_Log("wander: go easy");
+                sometimes 8 invisi 0 A_Log("wander: go easy");
                 #ENDIF
 
-                TNT1 A 0 A_Recoil(0.1);
-                x 5 TNT1 A 0 A_SetAngle(angle + Random(-2, 2));
+                invisi 0 A_Recoil(0.1);
+                x 5 invisi 0 A_SetAngle(angle + Random(-2, 2));
             };
         };
 
         else {
             //   -- don't bother looking around if we can go forward! --
             #IFDEF LOGDEBUG
-            sometimes 5 TNT1 A 0 A_Log("wander: go straight");
+            sometimes 5 invisi 0 A_Log("wander: go straight");
             #ENDIF
 
-            TNT1 A 0 A_Recoil(-0.25);
-            x 3 TNT1 A 0 A_SetAngle(angle + Random(-3, 3));
+            invisi 0 A_Recoil(-0.25);
+            x 3 invisi 0 A_SetAngle(angle + Random(-3, 3));
         };
     };
 
     macro Tick_Chase {
-        TNT1 A 0 A_FaceTarget(2);
+        invisi 0 A_FaceTarget(2);
 
         // bite if possible!
-        TNT1 A 0 A_JumpIfTargetInsideMeleeRange("Melee");
+        invisi 0 A_JumpIfTargetInsideMeleeRange("Melee");
 
         // "more realistic eye movements"
         sometimes 15 ifjump A_JumpIfTargetInLOS($offset, 15) {
-            x 4 TNT1 A 0 A_SetAngle(angle + Random(-5, 5));
+            x 4 invisi 0 A_SetAngle(angle + Random(-5, 5));
         };
 
         // chase!
-        ifjump A_JumpIfTargetInLOS($offset) TNT1 A 0 {
+        ifjump A_JumpIfTargetInLOS($offset) invisi 0 {
             A_FaceTarget(12);
             A_Recoil(-0.55);
         };
 
         // can't see target... :c
         else {
-            TNT1 A 0 A_ClearTarget;
+            invisi 0 A_ClearTarget;
             goto Idle;
         };
     };
 
     macro Tick_Rest {
-        x 5 sometimes 3 TNT1 A 0 A_Recoil(-0.2);
-        x 5 sometimes 3 TNT1 A 0 A_Recoil( 0.2);
+        x 5 sometimes 3 invisi 0 A_Recoil(-0.2);
+        x 5 sometimes 3 invisi 0 A_Recoil( 0.2);
+    };
+
+    macro Tick_PounceWindup {
+        x 2 sometimes 15 invisi 0 A_Recoil(0.08);
+    };
+
+    macro Tick_Pounce {
+        invisi 0 ThrustThingZ(0, random(16, 40), 0, 1);
+        invisi 0 ThrustThing(angle * 256 / 360, 20, 1, 0);
     };
 
     // Behaviours
+    macro FoxPounce(tics_windup, anim_windup, tics_notice, anim_pounce) {
+        x tics_windup {
+            inject @anim_windup;
+            ifjump A_CheckLOF($offset, CLOFF_JUMP_ON_MISS) {
+                x tics_notice {
+                    inject @anim_windup;
+		    invisi 1;
+                };
+                goto See;
+            };
+
+            inject Tick_PounceWindup;
+	    invisi 1;
+        };
+
+        inject Tick_Pounce;
+
+        while (z > floorz + 16) {
+            ifjump A_JumpIfTargetInsideMeleeRange($offset) {
+                inject PounceMeleeAttack;
+                goto See;
+            };
+            invisi 1;
+        };
+
+	x tics_notice {
+	    inject @anim_windup;
+	    invisi 1;
+	};
+
+        goto See;
+    };
+
+    macro MaybeFoxPounce(chance, min_dist, max_dist, tics_windup, anim_windup, tics_notice, anim_pounce) {
+    	if (z < floorz + 4)
+            ifjump A_JumpIfCloser(min_dist, $offset); else
+                ifjump A_JumpIfCloser(max_dist, $offset)
+                    sometimes chance
+                        inject FoxPounce(tics_windup, anim_windup, tics_notice, anim_pounce);
+    };
+
     macro FoxWander(tics, anim, sound_chance, rest_chance) {
         x tics {
             inject @anim;
             inject Tick_Wander;
-            TNT1 A 1 A_Look;
+            invisi 1 A_Look;
         };
 
         sometimes (rest_chance) goto Rest;
-        sometimes (sound_chance * tics) TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
+        sometimes (sound_chance * tics) invisi 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
     };
 
     macro FoxRest(tics, anim, sound_chance) {
         x tics {
             inject @anim;
             inject Tick_Rest;
-            TNT1 A 1 A_Look;
+            invisi 1 A_Look;
         };
 
-        sometimes (sound_chance * tics) TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
+        sometimes (sound_chance * tics) invisi 0 A_PlaySound("zdpack/multisprite/animal/fox/idle");
     };
 
     macro FoxChase(tics, anim, sound_chance) {
         x tics {
             inject @anim;
             inject Tick_Chase;
-            TNT1 A 1;
+            invisi 1;
         };
 
-        sometimes (sound_chance * tics) TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/see");
+        inject MaybeFoxPounce(15, 32, 200, 30, DrawWait2, 16, DrawWait4);
+
+        sometimes (sound_chance * tics) invisi 0 A_PlaySound("zdpack/multisprite/animal/fox/see");
     };
 
     // States
     label Spawn {
         // Tail swinging to a side.
-        x8 { TNT1 A 1; inject DrawWait1; };
-        x6 { TNT1 A 1; inject DrawWait2; };
-        TNT1 A 0 A_Look;
-        x6 { TNT1 A 1; inject DrawWait3; };
-        x6 { TNT1 A 1; inject DrawWait2; };
-        TNT1 A 0 A_Look;
+        x8 { invisi 1; inject DrawWait1; };
+        x6 { invisi 1; inject DrawWait2; };
+        invisi 0 A_Look;
+        x6 { invisi 1; inject DrawWait3; };
+        x6 { invisi 1; inject DrawWait2; };
+        invisi 0 A_Look;
 
         // Tail swinging to the other side.
-        x8 { TNT1 A 1; inject DrawWait1; };
-        x6 { TNT1 A 1; inject DrawWait4; };
-        TNT1 A 0 A_Look;
-        x6 { TNT1 A 1; inject DrawWait5; };
-        x6 { TNT1 A 1; inject DrawWait4; };
-        TNT1 A 0 A_Look;
+        x8 { invisi 1; inject DrawWait1; };
+        x6 { invisi 1; inject DrawWait4; };
+        invisi 0 A_Look;
+        x6 { invisi 1; inject DrawWait5; };
+        x6 { invisi 1; inject DrawWait4; };
+        invisi 0 A_Look;
 
         sometimes 75 {
-            TNT1 A 0 A_ClearTarget;
+            invisi 0 A_ClearTarget;
             goto Idle;
         };
 
@@ -498,12 +550,12 @@ class MSA_Fox {
     };
 
     label Pain {
-        TNT1 A 0 A_PlaySound("zdpack/multisprite/animal/fox/hurt");
-        x3 { TNT1 A 1; inject DrawAttack3; };
-        x2 { TNT1 A 1; inject DrawAttack2; };
-             TNT1 A 1; inject DrawAttack1;
+        invisi 0 A_PlaySound("zdpack/multisprite/animal/fox/hurt");
+        x3 { invisi 1; inject DrawAttack3; };
+        x2 { invisi 1; inject DrawAttack2; };
+             invisi 1; inject DrawAttack1;
 
-        TNT1 A 0 A_JumpIfTargetInLOS("Idle");
+        invisi 0 A_JumpIfTargetInLOS("Idle");
 
         goto See;
     };
@@ -517,32 +569,38 @@ class MSA_Fox {
         loop;
     };
 
+    macro PounceMeleeAttack {
+        invisi 0 A_FaceTarget;
+        // lots of momentum means lots of damage!!! :o
+        invisi 0 A_CustomMeleeAttack(random(4, 24), "zdpack/multisprite/animal/fox/bite");
+    };
+
     macro MeleeAttack {
-        TNT1 A 0 A_FaceTarget;
-        TNT1 A 0 A_CustomMeleeAttack(random(1, 6), "zdpack/multisprite/animal/fox/bite");
+        invisi 0 A_FaceTarget;
+        invisi 0 A_CustomMeleeAttack(random(1, 6), "zdpack/multisprite/animal/fox/bite");
         sometimes 30 goto Idle;
     };
 
     label Melee {
-        x5 { TNT1 A 1; inject DrawAttack1; TNT1 A 0 { A_FaceTarget; A_Recoil(-0.3); }; };
+        x5 { invisi 1; inject DrawAttack1; invisi 0 { A_FaceTarget; A_Recoil(-0.3); }; };
         goto MeleeLoop;
     };
 
     label MeleeLoop {
-        x2 { TNT1 A 1; inject DrawAttack1; TNT1 A 0 { A_FaceTarget; A_Recoil(-0.3); }; inject MeleeAttack; };
-        TNT1 A 0 A_JumpIfTargetOutsideMeleeRange("See");
-        x2 { TNT1 A 1; inject DrawAttack2; TNT1 A 0 { A_FaceTarget; A_Recoil(-0.3); }; };
-        TNT1 A 0 A_JumpIfTargetOutsideMeleeRange("See");
-        x2 { TNT1 A 1; inject DrawAttack4; TNT1 A 0 { A_FaceTarget; A_Recoil(-0.3); }; inject MeleeAttack; };
-        TNT1 A 0 A_JumpIfTargetOutsideMeleeRange("See");
-        x2 { TNT1 A 1; inject DrawAttack3; TNT1 A 0 { A_FaceTarget; A_Recoil(-0.3); }; };
-        TNT1 A 0 A_JumpIfTargetOutsideMeleeRange("See");
-        TNT1 A 0 A_ClearTarget;
+        x2 { invisi 1; inject DrawAttack1; invisi 0 { A_FaceTarget; A_Recoil(-0.3); }; inject MeleeAttack; };
+        invisi 0 A_JumpIfTargetOutsideMeleeRange("See");
+        x2 { invisi 1; inject DrawAttack2; invisi 0 { A_FaceTarget; A_Recoil(-0.3); }; };
+        invisi 0 A_JumpIfTargetOutsideMeleeRange("See");
+        x2 { invisi 1; inject DrawAttack4; invisi 0 { A_FaceTarget; A_Recoil(-0.3); }; inject MeleeAttack; };
+        invisi 0 A_JumpIfTargetOutsideMeleeRange("See");
+        x2 { invisi 1; inject DrawAttack3; invisi 0 { A_FaceTarget; A_Recoil(-0.3); }; };
+        invisi 0 A_JumpIfTargetOutsideMeleeRange("See");
+        invisi 0 A_ClearTarget;
         goto Idle;
     };
 
     label Death {
-        TNT1 A 0 {
+        invisi 0 {
             x4 A_SpawnItemEx("MSG_Leg", 0, 0, height * 1.2);
             A_SpawnItemEx("MSG_Head", 0, 0, height * 1.2);
             A_SpawnItemEx("MSG_Torso", 0, 0, height * 1.2);
@@ -587,8 +645,8 @@ class<PickupSprite, PickupType, Scale> FoxyPickup {
             sometimes 50 keepst 20;
         };
 
-        TNT1 A 0 A_SpawnItemEx("MSA_Fox_Good");
-        TNT1 A 0 A_SpawnItemEx(PickupType);
+        invisi 0 A_SpawnItemEx("MSA_Fox_Good");
+        invisi 0 A_SpawnItemEx(PickupType);
 
         stop;
     };
@@ -601,10 +659,10 @@ class<PickupSprite, PickupType, NormalChance, FoxChance, Scale, MaybeTranslation
 
     macro RandomSpawn(NormalPickupType) {
         sometimes (100 * FoxChance / (NormalChance + FoxChance)) {
-            TNT1 A 0 A_SpawnItemEx(FoxyPickup::(PickupSprite, NormalPickupType, Scale), 0, 0, 4);
+            invisi 0 A_SpawnItemEx(FoxyPickup::(PickupSprite, NormalPickupType, Scale), 0, 0, 4);
             stop;
         };
-        TNT1 A 0 A_SpawnItemEx(NormalPickupType);
+        invisi 0 A_SpawnItemEx(NormalPickupType);
     };
 
     label Spawn {
@@ -623,12 +681,12 @@ derive FoxyCellSpawner          as FoxyPickupSpawner::("CELL", "Cell",          
 
 class<foxtype> BaseFoxyFountain {
     label Spawn {
-        TNT1 A 120;
+        invisi 120;
         goto SpawnLoop;
     };
 
     macro Add(height, addtype, teletype) {
-        TNT1 A 0 {
+        invisi 0 {
             A_SpawnItemEx(addtype, 0, 0, height);
             A_SpawnItemEx(teletype, 0, 0, height);
         };
