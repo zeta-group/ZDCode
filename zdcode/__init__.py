@@ -787,7 +787,7 @@ class ZDIfStatement(object):
                 [
                     f"{zerotic} A_JumpIf({self.true_condition}, {num_st_el + 2})",
                     self.else_block.to_decorate(),
-                    f"{zerotic} A 0 A_Jump(256, {num_st_bl + 1})",
+                    f"{zerotic} A_Jump(256, {num_st_bl + 1})",
                     TextNode([x.to_decorate() for x in self.states]),
                     zerotic,
                 ]
