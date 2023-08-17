@@ -893,9 +893,7 @@ class ZDSometimes(object):
         num_st = sum(x.num_states() for x in self.states)
 
         res = TextNode()
-        res.add_line(
-            f"{zerotic} A_Jump(256-(256*({self.chance})/100), {num_st + 1})"
-        )
+        res.add_line(f"{zerotic} A_Jump(256-(256*({self.chance})/100), {num_st + 1})")
 
         for x in self.states:
             res.add_line(x.to_decorate())
@@ -1041,12 +1039,12 @@ class ZDWhileJumpStatement(object):
 
             return TextNode(
                 [
-                    f"{zerotic} {}".format(self.true_condition(num_st_el, 2)),
+                    f"{zerotic} {self.true_condition(num_st_el, 2)}",
                     self.else_block.to_decorate(),
-                    f"{zerotic} A_Jump(256, {})".format(num_st_bl + 2),
+                    f"{zerotic} A_Jump(256, {num_st_bl + 2})",
                     "{}:".format(self._loop_id),
                     TextNode([x.to_decorate() for x in self.states]),
-                    f"{zerotic} {}".format(self.true_condition(stringify(self._loop_id))),
+                    f"{zerotic} {self.true_condition(stringify(self._loop_id))}",
                     zerotic,
                 ]
             )
@@ -1054,11 +1052,11 @@ class ZDWhileJumpStatement(object):
         else:
             return TextNode(
                 [
-                    f"{zerotic} {}".format(self.true_condition(2)),
-                    f"{zerotic} A_Jump(256, {})".format(num_st_bl + 2),
+                    f"{zerotic} {self.true_condition(2)}",
+                    f"{zerotic} A_Jump(256, {num_st_bl + 2})",
                     "{}:".format(self._loop_id),
                     TextNode([x.to_decorate() for x in self.states]),
-                    f"{zerotic} {}".format(self.true_condition(stringify(self._loop_id))),
+                    f"{zerotic} {self.true_condition(stringify(self._loop_id))}",
                     zerotic,
                 ]
             )
@@ -1093,9 +1091,7 @@ class ZDSkip:
         yield
 
     def to_decorate(self):
-        return f"{zerotic} A_Jump(256, {})".format(
-            self.context.num_states() - self.ind + 1
-        )
+        return f"{zerotic} A_Jump(256, {self.context.num_states() - self.ind + 1})"
 
     def num_states(self):
         return 1
@@ -1398,7 +1394,7 @@ class ZDCode:
     @classmethod
     def parse(cls, code, fname=None, dirname=".", error_handler=None, preproc_defs=()):
         res = cls()
-        success = res.add(code, frame, dirname, error_handler, preproc_defs)
+        success = res.add(code, fname, dirname, error_handler, preproc_defs)
 
         return res if success else None
 
