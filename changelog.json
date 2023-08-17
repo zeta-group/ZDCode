@@ -1,382 +1,340 @@
 {
-    "versions": [
-        {
-            "name": "2.1.0",
-            "changes": [
-                "Start of this changelog, initially used within setup.py, although the format itself was never formalized."
-            ]
-        },
-
-        {
-            "name": "2.1.1",
-            "changes": [
-                "Fixed the function call returning.",
-                "Added return statements for premature returning."
-            ]
-        },
-
-        {
-            "name": "2.1.1.1",
-            "changes": [
-                "Fixed the readme."
-            ]
-        },
-
-        {
-            "name": "2.1.2",
-            "changes": [
-                "Fixed 1 in 256 chance of A_Jump(255, *) failing, changing it onto a goto statement."
-            ]
-        },
-
-        {
-            "name": "2.1.2.1",
-            "changes": [
-                "Slight patch: changed 'Stop' in function without returnable calls into 'TNT1 A -1'. Suggested by Blzut3."
-            ]
-        },
-
-        {
-            "name": "2.2.0",
-            "changes": [
-                "Added 'sometimes' statement.",
-                "Added 'else' statement.",
-                "Fixed if/repeat statement jump offsets."
-            ]
-        },
-
-        {
-            "name": "2.2.1",
-            "changes": [
-                "Fixed piped mode (stdin-to-stdout compilation)."
-            ]
-        },
-
-        {
-            "name": "2.3.0",
-            "changes": [
-                "Rewrote the preprocessor.",
-                "Made error messages more useful."
-            ]
-        },
-
-        {
-            "name": "2.3.1",
-            "changes": [
-                "Separated preprocessor macros and definitions."
-            ]
-        },
-
-        {
-            "name": "2.4.0",
-            "changes": [
-                "Added anonymous classes.",
-                "Made output a bit more readable."
-            ]
-        },
-
-        {
-            "name": "2.5.0",
-            "changes": [
-                "Added macros!"
-            ]
-        },
-
-        {
-            "name": "2.5.1",
-            "changes": [
-                "Fixed macro parameter list.",
-                "Made keywords case insensitive."
-            ]
-        },
-
-        {
-            "name": "2.6.0",
-            "changes": [
-                "Added templated classes!",
-                "Fixed escape characters in string literals",
-                "Added 'ZDCode_' prefix to internal DECORATE labels (functions, calls, etc.)"
-            ]
-        },
-
-        {
-            "name": "2.6.1",
-            "changes": [
-                "Added keeps keyword for keeping previous state",
-                "Added abstract labels and macros in class templates",
-                "Added template derivation bodies, to implement abstract labels and set extra flags",
-                "Added parametric sprites, properties and actions",
-                "Fixed parametric replacement support for repeats and sometimes",
-                "Fixed context inheritance (macros, replacements and templates)"
-            ]
-        },
-
-        {
-            "name": "2.6.1.1",
-            "changes": [
-                "Hotfix to call label names"
-            ]
-        },
-
-        {
-            "name": "2.6.1.2",
-            "changes": [
-                "Hotfix to function names in calls"
-            ]
-        },
-
-        {
-            "name": "2.6.2",
-            "changes": [
-                "Miscellaneous fixes to derivation",
-                "Fixed potentially freezing loop checks after function calls"
-            ]
-        },
-
-        {
-            "name": "2.6.2.1",
-            "changes": [
-                "Fixed anonymous template derivation parameter resolution"
-            ]
-        },
-
-        {
-            "name": "2.6.3",
-            "changes": [
-                "Added inheritance from anonymous template derivation",
-                "Classes are no longer sorted by name in output",
-                "Moved expression resolution from parsing (zdlexer) to compilation",
-                "Fixed control flow missing state count getter"
-            ]
-        },
-
-        {
-            "name": "2.6.4",
-            "changes": [
-                "Added user variables",
-                "Added functioning foxes (MSA_Fox from DoomFox.zc2)",
-                "Added example resources"
-            ]
-        },
-
-        {
-            "name": "2.6.5",
-            "changes": [
-                "Made template inheritance and replacement parametrizable",
-                "Made anonymous class inheritance parametrizable",
-                "Properties can now be template derivations or anonymous classes as well"
-            ]
-        },
-
-        {
-            "name": "2.6.6",
-            "changes": [
-                "Added dynamic expression support to sometimes statement"
-            ]
-        },
-
-        {
-            "name": "2.7.0",
-            "changes": [
-                "Improved mkexamples.py script, mainly bundling",
-                "Added incremental compilation to zdcode.ZDCode (ZDCode.add(...))",
-                "Added user variable initialization",
-                "Added user arrays",
-                "Added implicit Spawn label to actor classes",
-                "Added abstract arrays in class templates",
-                "Inherited classes now go to the Spawn label of the class they inherit by default, unless a Spawn label has already been defined",
-                "Fixed incremental compilation calling ZDCall.post_load twice",
-                "Made preprocessor macros parametrizable (see Terrain.zc2 for examples of that)"
-            ]
-        },
-
-        {
-            "name": "2.7.1",
-            "changes": [
-                "Fixed anonymous class inheritance",
-                "Changed 'invis' to 'invisi' and 'keeps' to 'keepst', to prevent sprite name related ambiguity",
-                "Fixed preprocessor macro resolution"
-            ]
-        },
-
-        {
-            "name": "2.7.2",
-            "changes": [
-                "Fixed minor issue with Spawn labels"
-            ]
-        },
-
-        {
-            "name": "2.8.0",
-            "changes": [
-                "Added 'ifjump' and 'whilejump' statements for state-action-based conditional state flow",
-                "Added '@' pointer-like sigil to inject name for parameterization resolution",
-                "Added 'else' to while and whilejump statements (only executes if the condition is false before the first loop)"
-            ]
-        },
-
-        {
-            "name": "2.9.0",
-            "changes": [
-                "Added class grouping",
-                "Added for loops for iteration",
-                "Added group iteration - 'for classname index iter_idx in my_group {...}'",
-                "Added extern macro injection - 'from OtherClass inject SomeMacro();'",
-                "Added human-readable compilation context description",
-                "Added global scope macros",
-                "Removed named arguments (ZScript-only feature)",
-                "Fixed forced jumps (256 instead of 255)",
-                "Fixed whilejump not being assigned loop IDs and crashing the compiler",
-                "Fixed whilejump's $offset parameter"
-            ]
-        },
-
-        {
-            "name": "2.9.1",
-            "changes": [
-                "Fixed typo-related fatal crash in stdin-stdout compilation"
-            ]
-        },
-
-        {
-            "name": "2.10.0",
-            "changes": [
-                "Rewrote program.py; command syntax now includes bundling from PK3s and folders",
-                "Added for-like index enumeration syntax to repeats - 'x 20 index rep_idx inject SpawnStuff(\"HealthBonus\", 0, 0, rep_idx * 22)'",
-                "Added break and continue support to for, repeat, while and whilejump loops",
-                "Added return support to macros",
-                "Fixed include checking",
-                "Fixed regular class grouping",
-                "Removed mkexamples.py"
-            ]
-        },
-
-        {
-            "name": "2.10.1",
-            "changes": [
-                "Fixed redundant dependency bundling"
-            ]
-        },
-
-        {
-            "name": "2.11.0",
-            "changes": [
-                "Added state modifiers and apply blocks",
-                "Fixed template body + template derivation body resolution; macros in either can now be accessed from either",
-                "Removed functions and function calls - use macros!",
-                "Rewrote DECORATE generation",
-                "Small fixes to the state keyword parser",
-                "Added preprocessor definition argument to the command-line interface.",
-                "Merged subcommands compile and bundle into one single command, supporting any combination of output arguments (see --help)"
-            ]
-        },
-
-        {
-            "name": "2.11.1",
-            "changes": [
-                "Added experimental handling for bundling PK3 assets of same name",
-                "Added ZDCode entrypoint to setuptools script",
-                "Added Zake build system (see Zake.ini for an example)"
-            ]
-        },
-
-        {
-            "name": "2.11.2-pre1",
-            "changes": [
-                "Fixed Zake status messages"
-            ]
-        },
-
-        {
-            "name": "2.12.0",
-            "changes": [
-                "Added range iteration ('for i in range a..=b'), including support for parameters and Rust-like up-to syntax (akin to <= instead of <)",
-                "Changed static template derivation classname to be optional",
-                "Added global static for loops",
-                "Added eval blocks ('e{ 2 + 4 * MY_PARM }'), supporting many different operators, including the ternary conditional operator (cond ? a : b)",
-                "Added format strings ('f{ \"PRE_\" param \"POST\" }')",
-                "Added class-scoped apply statements (also known as 'global apply' statements)"
-            ]
-        },
-
-        {
-            "name": "2.12.1",
-            "changes": [
-                "Made class bodies optional, allowing empty class definitions ('dummy classes')",
-                "Overhauled the Zake build system, and ZDCode bundling in general"
-            ]
-        },
-
-        {
-            "name": "2.12.2",
-            "changes": [
-                "Fix severe error in parsing code",
-                "Added special 'inject' input types",
-                "Removed leftover debug prints"
-            ]
-        },
-
-        {
-            "name": "2.12.3",
-            "changes": [
-                "Fix inject input type syntax parsing in bundle.py",
-                "Allow global filename excluders in Zake.ini"
-            ]
-        },
-
-        {
-            "name": "2.12.4",
-            "changes": [
-                "Fix duplicated actor definitions",
-                "Revert compiling all .zc2 files in input tree (use a 'ZDCODE' file and #include)"
-            ]
-        },
-
-        {
-            "name": "2.13.0",
-            "changes": [
-                "Allow formatting classnames and template names",
-                "Fix eval expressions once and for all",
-                "Add example of for-range, eval and formatted classnames",
-                "Add integer division (//) to evaluation expressions",
-                "Add automatic reordering for class inheritance",
-                "Added class-level for loops"
-            ]
-        },
-
-        {
-            "name": "2.13.1",
-            "changes": [
-                "Reinstate direct compilation and bundling interface"
-            ]
-        },
-
-		{
-			"name": "2.13.2",
-			"changes": [
-				"Remove manual bundling interface"
-			]
-		},
-
-		{
-			"name": "2.13.3",
-			"changes": [
-				"Fix writing DECORATE output in manual compilation interface"
-			]
-		},
-
-		{
-			"name": "2.13.4",
-			"changes": [
-				"Unstringify parts of formatted strings to fix string + parameter concatenation"
-			]
-		},
-
+  "$schema": "https://github.com/zeta-group/ZDCode/raw/master/changelog.schema.json",
+  "versions": [
     {
-			"name": "2.13.5",
-			"changes": [
-				"Replace all TNT1 A instances with \"####\" \"#\""
-			]
-		}
-    ]
+      "name": "2.1.0",
+      "changes": [
+        "Start of this changelog, initially used within setup.py, although the format itself was never formalized."
+      ]
+    },
+    {
+      "name": "2.1.1",
+      "changes": [
+        "Fixed the function call returning.",
+        "Added return statements for premature returning."
+      ]
+    },
+    {
+      "name": "2.1.1.1",
+      "changes": [
+        "Fixed the readme."
+      ]
+    },
+    {
+      "name": "2.1.2",
+      "changes": [
+        "Fixed 1 in 256 chance of A_Jump(255, *) failing, changing it onto a goto statement."
+      ]
+    },
+    {
+      "name": "2.1.2.1",
+      "changes": [
+        "Slight patch: changed 'Stop' in function without returnable calls into 'TNT1 A -1'. Suggested by Blzut3."
+      ]
+    },
+    {
+      "name": "2.2.0",
+      "changes": [
+        "Added 'sometimes' statement.",
+        "Added 'else' statement.",
+        "Fixed if/repeat statement jump offsets."
+      ]
+    },
+    {
+      "name": "2.2.1",
+      "changes": [
+        "Fixed piped mode (stdin-to-stdout compilation)."
+      ]
+    },
+    {
+      "name": "2.3.0",
+      "changes": [
+        "Rewrote the preprocessor.",
+        "Made error messages more useful."
+      ]
+    },
+    {
+      "name": "2.3.1",
+      "changes": [
+        "Separated preprocessor macros and definitions."
+      ]
+    },
+    {
+      "name": "2.4.0",
+      "changes": [
+        "Added anonymous classes.",
+        "Made output a bit more readable."
+      ]
+    },
+    {
+      "name": "2.5.0",
+      "changes": [
+        "Added macros!"
+      ]
+    },
+    {
+      "name": "2.5.1",
+      "changes": [
+        "Fixed macro parameter list.",
+        "Made keywords case insensitive."
+      ]
+    },
+    {
+      "name": "2.6.0",
+      "changes": [
+        "Added templated classes!",
+        "Fixed escape characters in string literals",
+        "Added 'ZDCode_' prefix to internal DECORATE labels (functions, calls, etc.)"
+      ]
+    },
+    {
+      "name": "2.6.1",
+      "changes": [
+        "Added keeps keyword for keeping previous state",
+        "Added abstract labels and macros in class templates",
+        "Added template derivation bodies, to implement abstract labels and set extra flags",
+        "Added parametric sprites, properties and actions",
+        "Fixed parametric replacement support for repeats and sometimes",
+        "Fixed context inheritance (macros, replacements and templates)"
+      ]
+    },
+    {
+      "name": "2.6.1.1",
+      "changes": [
+        "Hotfix to call label names"
+      ]
+    },
+    {
+      "name": "2.6.1.2",
+      "changes": [
+        "Hotfix to function names in calls"
+      ]
+    },
+    {
+      "name": "2.6.2",
+      "changes": [
+        "Miscellaneous fixes to derivation",
+        "Fixed potentially freezing loop checks after function calls"
+      ]
+    },
+    {
+      "name": "2.6.2.1",
+      "changes": [
+        "Fixed anonymous template derivation parameter resolution"
+      ]
+    },
+    {
+      "name": "2.6.3",
+      "changes": [
+        "Added inheritance from anonymous template derivation",
+        "Classes are no longer sorted by name in output",
+        "Moved expression resolution from parsing (zdlexer) to compilation",
+        "Fixed control flow missing state count getter"
+      ]
+    },
+    {
+      "name": "2.6.4",
+      "changes": [
+        "Added user variables",
+        "Added functioning foxes (MSA_Fox from DoomFox.zc2)",
+        "Added example resources"
+      ]
+    },
+    {
+      "name": "2.6.5",
+      "changes": [
+        "Made template inheritance and replacement parametrizable",
+        "Made anonymous class inheritance parametrizable",
+        "Properties can now be template derivations or anonymous classes as well"
+      ]
+    },
+    {
+      "name": "2.6.6",
+      "changes": [
+        "Added dynamic expression support to sometimes statement"
+      ]
+    },
+    {
+      "name": "2.7.0",
+      "changes": [
+        "Improved mkexamples.py script, mainly bundling",
+        "Added incremental compilation to zdcode.ZDCode (ZDCode.add(...))",
+        "Added user variable initialization",
+        "Added user arrays",
+        "Added implicit Spawn label to actor classes",
+        "Added abstract arrays in class templates",
+        "Inherited classes now go to the Spawn label of the class they inherit by default, unless a Spawn label has already been defined",
+        "Fixed incremental compilation calling ZDCall.post_load twice",
+        "Made preprocessor macros parametrizable (see Terrain.zc2 for examples of that)"
+      ]
+    },
+    {
+      "name": "2.7.1",
+      "changes": [
+        "Fixed anonymous class inheritance",
+        "Changed 'invis' to 'invisi' and 'keeps' to 'keepst', to prevent sprite name related ambiguity",
+        "Fixed preprocessor macro resolution"
+      ]
+    },
+    {
+      "name": "2.7.2",
+      "changes": [
+        "Fixed minor issue with Spawn labels"
+      ]
+    },
+    {
+      "name": "2.8.0",
+      "changes": [
+        "Added 'ifjump' and 'whilejump' statements for state-action-based conditional state flow",
+        "Added '@' pointer-like sigil to inject name for parameterization resolution",
+        "Added 'else' to while and whilejump statements (only executes if the condition is false before the first loop)"
+      ]
+    },
+    {
+      "name": "2.9.0",
+      "changes": [
+        "Added class grouping",
+        "Added for loops for iteration",
+        "Added group iteration - 'for classname index iter_idx in my_group {...}'",
+        "Added extern macro injection - 'from OtherClass inject SomeMacro();'",
+        "Added human-readable compilation context description",
+        "Added global scope macros",
+        "Removed named arguments (ZScript-only feature)",
+        "Fixed forced jumps (256 instead of 255)",
+        "Fixed whilejump not being assigned loop IDs and crashing the compiler",
+        "Fixed whilejump's $offset parameter"
+      ]
+    },
+    {
+      "name": "2.9.1",
+      "changes": [
+        "Fixed typo-related fatal crash in stdin-stdout compilation"
+      ]
+    },
+    {
+      "name": "2.10.0",
+      "changes": [
+        "Rewrote program.py; command syntax now includes bundling from PK3s and folders",
+        "Added for-like index enumeration syntax to repeats - 'x 20 index rep_idx inject SpawnStuff(\"HealthBonus\", 0, 0, rep_idx * 22)'",
+        "Added break and continue support to for, repeat, while and whilejump loops",
+        "Added return support to macros",
+        "Fixed include checking",
+        "Fixed regular class grouping",
+        "Removed mkexamples.py"
+      ]
+    },
+    {
+      "name": "2.10.1",
+      "changes": [
+        "Fixed redundant dependency bundling"
+      ]
+    },
+    {
+      "name": "2.11.0",
+      "changes": [
+        "Added state modifiers and apply blocks",
+        "Fixed template body + template derivation body resolution; macros in either can now be accessed from either",
+        "Removed functions and function calls - use macros!",
+        "Rewrote DECORATE generation",
+        "Small fixes to the state keyword parser",
+        "Added preprocessor definition argument to the command-line interface.",
+        "Merged subcommands compile and bundle into one single command, supporting any combination of output arguments (see --help)"
+      ]
+    },
+    {
+      "name": "2.11.1",
+      "changes": [
+        "Added experimental handling for bundling PK3 assets of same name",
+        "Added ZDCode entrypoint to setuptools script",
+        "Added Zake build system (see Zake.ini for an example)"
+      ]
+    },
+    {
+      "name": "2.11.2-pre1",
+      "changes": [
+        "Fixed Zake status messages"
+      ]
+    },
+    {
+      "name": "2.12.0",
+      "changes": [
+        "Added range iteration ('for i in range a..=b'), including support for parameters and Rust-like up-to syntax (akin to <= instead of <)",
+        "Changed static template derivation classname to be optional",
+        "Added global static for loops",
+        "Added eval blocks ('e{ 2 + 4 * MY_PARM }'), supporting many different operators, including the ternary conditional operator (cond ? a : b)",
+        "Added format strings ('f{ \"PRE_\" param \"POST\" }')",
+        "Added class-scoped apply statements (also known as 'global apply' statements)"
+      ]
+    },
+    {
+      "name": "2.12.1",
+      "changes": [
+        "Made class bodies optional, allowing empty class definitions ('dummy classes')",
+        "Overhauled the Zake build system, and ZDCode bundling in general"
+      ]
+    },
+    {
+      "name": "2.12.2",
+      "changes": [
+        "Fix severe error in parsing code",
+        "Added special 'inject' input types",
+        "Removed leftover debug prints"
+      ]
+    },
+    {
+      "name": "2.12.3",
+      "changes": [
+        "Fix inject input type syntax parsing in bundle.py",
+        "Allow global filename excluders in Zake.ini"
+      ]
+    },
+    {
+      "name": "2.12.4",
+      "changes": [
+        "Fix duplicated actor definitions",
+        "Revert compiling all .zc2 files in input tree (use a 'ZDCODE' file and #include)"
+      ]
+    },
+    {
+      "name": "2.13.0",
+      "changes": [
+        "Allow formatting classnames and template names",
+        "Fix eval expressions once and for all",
+        "Add example of for-range, eval and formatted classnames",
+        "Add integer division (//) to evaluation expressions",
+        "Add automatic reordering for class inheritance",
+        "Added class-level for loops"
+      ]
+    },
+    {
+      "name": "2.13.1",
+      "changes": [
+        "Reinstate direct compilation and bundling interface"
+      ]
+    },
+    {
+      "name": "2.13.2",
+      "changes": [
+        "Remove manual bundling interface"
+      ]
+    },
+    {
+      "name": "2.13.3",
+      "changes": [
+        "Fix writing DECORATE output in manual compilation interface"
+      ]
+    },
+    {
+      "name": "2.13.4",
+      "changes": [
+        "Unstringify parts of formatted strings to fix string + parameter concatenation"
+      ]
+    },
+    {
+      "name": "2.13.5",
+      "changes": [
+        "Replace all TNT1 A instances with \"####\" \"#\""
+      ]
+    }
+  ]
 }

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/zeta-group/ZDCode/raw/master/changelog.schema.json",
+  "type": "object",
+  "description": "A machine readable changelog in JSON format. Think of this like a computer-courtesy. Draft 1. Authored by Gustavo Rehermann (rehermann6046@gmail.com).",
+  "properties": {
+    "versions": {
+      "type": "array",
+      "description": "List of release versions, in ascending order. Includes the currently in-development version.",
+      "items": {
+        "type": "object",
+        "description": "Defines a single release version. Its presence here only implies that it has already been finished and released if this is the last item in the list.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The version number. For instance: 2.13.5"
+          },
+          "changes": {
+            "type": "array",
+            "description": "A list of changes in this version. Must be relative to the last version/release in the list.",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["name", "changes"]
+      }
+    }
+  },
+  "required": ["versions"]
+}
