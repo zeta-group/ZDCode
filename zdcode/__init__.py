@@ -430,8 +430,6 @@ class ZDActor(ZDBaseActor):
         if label.states[0].spawn_safe():
             return label
 
-        import pprint
-
         # TODO: more comprehensive error handling and warning handling
         # (sike, ZDCode is not going to get new features!)
         print(
@@ -645,6 +643,7 @@ class ZDClassTemplate(ZDBaseActor):
         provided_array_names=(),
         name=None,
         pending=None,
+        inherits=None,
     ):
         provided_label_names = set(provided_label_names)
         provided_macro_names = dict(provided_macro_names)
@@ -680,7 +679,7 @@ class ZDClassTemplate(ZDBaseActor):
 
         context_new.replacements.update(self.get_init_replacements(parameter_values))
 
-        inh = (
+        inh = inherits or (
             self.inherit
             and context_new.replacements.get(self.inherit.upper(), self.inherit)
             or None
@@ -763,7 +762,7 @@ class ZDClassTemplate(ZDBaseActor):
 class ZDBlock:
     def __init__(self, actor, states=None):
         self._actor = actor
-        self.states: list[ZDStateObject] = states if states is not None else []
+        self.states: list[ZDStateObject] = states or []
 
     def spawn_safe(self):
         return self.states[0].spawn_safe()
@@ -1666,7 +1665,9 @@ class ZDCode:
     def _parse_template_derivation(
         self, deriv, context, pending=None, name=None, do_stringify=True
     ):
-        template_name, template_parms, deriv_body = deriv
+        template_name, template_parms, inherits, deriv_body = deriv
+
+        inheritance = inherits[1] and self._parse_inherit(inherits[1], context
 
         try:
             template = context.templates[template_name]
@@ -1720,6 +1721,7 @@ class ZDCode:
             template_body,
             pending=pending,
             name=name,
+            inherits=inheritance,
         )
 
         if do_stringify:
@@ -2477,6 +2479,7 @@ class ZDCode:
         macros=(),
         arrays=(),
         body=(),
+        inherits=None,
         name=None,
         pending=None,
     ):
@@ -2493,6 +2496,7 @@ class ZDCode:
             {m["name"].upper(): m["args"] for m in macros.values()},
             {a["name"].upper(): len(a["value"][1]) for a in arrays.values()},
             name=name,
+            inherits=inherits,
         )
         new_context = actor.get_context()
 

@@ -515,6 +515,14 @@ def templated_class_derivation():
             | (s("::(").then(wo).then(parameter_list).skip(wo).skip(s(")")))
         ),
         (
+            (whitespace >> (ist("inherits") | ist("extends") | ist("expands")))
+            >> whitespace
+            >> superclass.desc("inherited class")
+        )
+        .optional()
+        .tag("inheritance")
+        .desc("inherited class name"),
+        (
             wo.then(s("{"))
             .then(
                 wo.then(
@@ -618,6 +626,14 @@ def static_template_derivation():
             # anonymous derive
             seq(
                 (ist("derive") >> success(None) << whitespace).tag("classname"),
+                (
+                    ((ist("inherits") | ist("extends") | ist("expands")))
+                    >> whitespace
+                    >> superclass.desc("inherited class")
+                )
+                .optional()
+                .tag("inheritance")
+                .desc("inherited class name"),
                 ((ist("group") << whitespace) >> group_name << whitespace)
                 .optional()
                 .map(lambda x: x or None)
@@ -632,6 +648,15 @@ def static_template_derivation():
                     "classname"
                 )
                 << whitespace,
+                (
+                    ((ist("inherits") | ist("extends") | ist("expands")))
+                    >> whitespace
+                    >> superclass.desc("inherited class")
+                    << whitespace
+                )
+                .optional()
+                .tag("inheritance")
+                .desc("inherited class name"),
                 ((ist("group") << whitespace) >> group_name << whitespace)
                 .optional()
                 .map(lambda x: x or None)

@@ -185,7 +185,7 @@ class LaserGun extends Shotgun {
 class<projectile, monster_translation_1, monster_translation_2, mod_translation, mod_pickup_msg, mod_pickup_name, mod_ammouse> BaseLaserGuy extends ShotgunGuy {
     set Translation to monster_translation_1, monster_translation_2;
     set DropItem    to LaserGun;
-    set DropItem    to BaseLaserModule::(projectile, mod_translation, mod_pickup_msg, mod_pickup_name, mod_ammouse), 40;
+    set DropItem    to BaseLaserModule::(projectile, mod_translation, mod_pickup_msg, mod_pickup_name, mod_ammouse) inherits DefaultLaserModule, 40;
 
     label Missile {
         goto Aim;
