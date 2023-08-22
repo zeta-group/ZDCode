@@ -12,4 +12,5 @@ ZDCode.spec
 venv/
 fastenv/
 dist/
-DECORATE
+DECORATE*
+*.dev
