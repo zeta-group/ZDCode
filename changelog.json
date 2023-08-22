@@ -337,6 +337,13 @@
         "Autopad Spawn labels starting with a zerotic",
 	"Added a pounce to the ZDWorld Fox"
       ]
+    },
+    {
+        "name": "2.13.6",
+        "changes": [
+            "Fix preprocessor definition CLI options (program.py)",
+            "Add print-ast option to CLI (program.py)"
+        ]
     }
   ]
 }
