@@ -96,11 +96,11 @@ def state_modifier_name():
             .tag("replace")
             << s("}")
             | (
-                ist("(").tag("char")
+                ist("(").tag("part")
                 + state_modifier_name.tag("recurse")
-                + ist(")").tag("char")
+                + ist(")").tag("part")
             )
-            | regex(r'[a-zA-Z0-9\'\",\w"]').tag("char")
+            | regex(r'[a-zA-Z0-9\'\",\w"]+').tag("part")
         )
         .many()
         .desc("state keyword")
@@ -624,9 +624,8 @@ def static_template_derivation():
                 .tag("group"),
                 ist("a") >> whitespace >> templated_class_derivation.tag("source"),
             )
-            |
             # named derive
-            seq(
+            | seq(
                 ist("derive")
                 >> whitespace
                 >> (formattable_classname.desc("name of derived class")).tag(
@@ -1919,4 +1918,5 @@ def parse_code(
             raise
 
         else:
+            error_handler(pperr)
             error_handler(pperr)

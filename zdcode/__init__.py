@@ -1941,7 +1941,7 @@ class ZDCode:
                 elif ctype == "recurse":
                     recurse(cval)
 
-                elif ctype == "char":
+                elif ctype == "part":
                     res.append(cval)
 
         recurse(modifier_chars)
