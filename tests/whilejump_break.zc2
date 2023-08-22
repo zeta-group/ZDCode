@@ -1,0 +1,37 @@
+class RegeneratingPillar extends TechPillar {
+	set Health = 100;
+
+	+SHOOTABLE;
+	+NOBLEED;
+
+	macro SpawnDebris {
+		// visible effect just for testing
+		keepst 0 A_SpawnItemEx("Clip",
+			xofs=Random(-5, 5),
+			yofs=Random(-5, 5),
+			velx=Random(-5, 5),
+			vely=Random(-5, 5),
+			velz=15);
+	};
+
+	label Death {
+		x 5 {
+			ELEC A 3;
+			inject SpawnDebris;
+		};
+		stop;
+	};
+
+	label Spawn {
+		ELEC A 3;
+		whilejump A_JumpIfHealthLower(GetSpawnHealth(), $offset) {
+			if (health <= 20) sometimes 20 {
+				inject SpawnDebris;
+				break; // harder to regen at very low health
+			};
+			keepst 2 [bright] A_SetHealth(health + 1);
+			keepst 2;
+		};
+		loop;
+	};
+}
