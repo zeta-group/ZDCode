@@ -522,6 +522,10 @@ def templated_class_derivation():
         .optional()
         .tag("inheritance")
         .desc("inherited class name"),
+        ((ist("group") << whitespace) >> group_name << whitespace)
+        .optional()
+        .map(lambda x: x or None)
+        .tag("group"),
         (
             wo.then(s("{"))
             .then(

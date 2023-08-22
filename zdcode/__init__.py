@@ -633,6 +633,14 @@ class ZDClassTemplate(ZDBaseActor):
         )
         return "{}__deriv_{}".format(self.name, hash)
 
+    def assert_group_exists(
+        self, groupname: str, ctx_str: str, context: "ZDCodeParseContext"
+    ):
+        if groupname not in self.code.groups:
+            raise CompilerError(
+                f"No such group '{groupname}' {ctx_str} (in f{context.describe()})!"
+            )
+
     def generate_init_class(
         self,
         code,
@@ -644,6 +652,7 @@ class ZDClassTemplate(ZDBaseActor):
         name=None,
         pending=None,
         inherits=None,
+        group=None,
     ):
         provided_label_names = set(provided_label_names)
         provided_macro_names = dict(provided_macro_names)
@@ -672,8 +681,17 @@ class ZDClassTemplate(ZDBaseActor):
             )
         )
 
+        ctx_str = (
+            f"in {name and 'derivation ' + name or 'anonymous derivation'} of {self.name}",
+        )
+
         if self.group_name:
+            self.assert_group_exists(self.group_name, ctx_str, context)
             self.code.groups[self.group_name].append(stringify(new_name))
+
+        if group and group != self.group_name:
+            self.assert_group_exists(group, ctx_str, context)
+            self.code.groups[group].append(stringify(new_namez))
 
         context_new = context.derive("derivation of template {}".format(self.name))
 
@@ -1665,9 +1683,12 @@ class ZDCode:
     def _parse_template_derivation(
         self, deriv, context, pending=None, name=None, do_stringify=True
     ):
-        template_name, template_parms, inherits, deriv_body = deriv
+        template_name, template_parms, inherits, group, deriv_body = deriv
 
-        inheritance = inherits[1] and self._parse_inherit(inherits[1], context
+        inheritance = inherits[1] and self._parse_inherit(inherits[1], context)
+        group = group[1] and context.resolve(
+            group[1], "a parametrized group name in a template derivation"
+        )
 
         try:
             template = context.templates[template_name]
@@ -1722,6 +1743,7 @@ class ZDCode:
             pending=pending,
             name=name,
             inherits=inheritance,
+            group=group,
         )
 
         if do_stringify:
@@ -2480,6 +2502,7 @@ class ZDCode:
         arrays=(),
         body=(),
         inherits=None,
+        group=None,
         name=None,
         pending=None,
     ):
@@ -2497,6 +2520,7 @@ class ZDCode:
             {a["name"].upper(): len(a["value"][1]) for a in arrays.values()},
             name=name,
             inherits=inherits,
+            group=group,
         )
         new_context = actor.get_context()
 
@@ -2968,6 +2992,10 @@ class ZDCode:
         return decorate(self)
 
     def decorate(self):
+        return decorate(self)
+        return decorate(self)
+        return decorate(self)
+        return decorate(self)
         return decorate(self)
         return decorate(self)
         return decorate(self)

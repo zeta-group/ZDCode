@@ -346,6 +346,13 @@
                 "Fix behaviour of continue and break in loops",
                 "Make non-state semicolons optional"
             ]
+        },
+        {
+            "name": "2.13.7",
+            "changes": [
+                "Add inheritance override ability for template derivations",
+                "Add frame duration selector for state modifiers"
+            ]
         }
     ]
 }
