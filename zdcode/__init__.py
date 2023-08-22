@@ -697,7 +697,7 @@ class ZDClassTemplate(ZDBaseActor):
 
         if group and group != self.group_name:
             self.assert_group_exists(group, ctx_str, context)
-            self.code.groups[group].append(stringify(new_namez))
+            self.code.groups[group].append(stringify(new_name))
 
         context_new = context.derive("derivation of template {}".format(self.name))
 
