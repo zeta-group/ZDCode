@@ -450,10 +450,10 @@ class MSA_Fox {
 
         inject Tick_Pounce;
 
-	x 2 {
-	    inject @anim_pounce;
-	    invisi 1;
-	}
+        x 2 {
+            inject @anim_pounce;
+            invisi 1;
+        };
 
         while (z > floorz + 1) {
 	    inject @anim_pounce;
