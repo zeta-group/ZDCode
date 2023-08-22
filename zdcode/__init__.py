@@ -1451,13 +1451,29 @@ class ZDCode:
         pass
 
     @classmethod
-    def parse(cls, code, fname=None, dirname=".", error_handler=None, preproc_defs=()):
+    def parse(
+        cls,
+        code,
+        fname=None,
+        dirname=".",
+        error_handler=None,
+        preproc_defs=(),
+        debug=False,
+    ):
         res = cls()
-        success = res.add(code, fname, dirname, error_handler, preproc_defs)
+        success = res.add(code, fname, dirname, error_handler, preproc_defs, debug)
 
         return res if success else None
 
-    def add(self, code, fname=None, dirname=".", error_handler=None, preproc_defs=()):
+    def add(
+        self,
+        code,
+        fname=None,
+        dirname=".",
+        error_handler=None,
+        preproc_defs=(),
+        debug=False,
+    ):
         data = zdlexer.parse_code(
             code.strip(" \t\n"),
             dirname=dirname,
@@ -1469,7 +1485,7 @@ class ZDCode:
 
         if data:
             try:
-                self._parse(data)
+                self._parse(data, debug=debug)
 
             except CompilerError as err:
                 if error_handler:
@@ -2641,7 +2657,7 @@ class ZDCode:
             else:
                 yield from do_else()
 
-    def _parse(self, actors):
+    def _parse(self, actors, debug=False):
         parsed_actors = []
 
         context = ZDCodeParseContext(actors=[parsed_actors], description="global")
@@ -2836,6 +2852,9 @@ class ZDCode:
 
         self.actors.sort(key=lambda actor: actor.name)  # predominantly alphabetic sort
         reorders = self.reorder_inherits()
+
+        if debug:
+            context.print_state_tree()
 
         # print("(Reordered {} actors)".format(reorders))
 

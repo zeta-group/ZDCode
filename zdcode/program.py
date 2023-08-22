@@ -49,6 +49,16 @@ def arg_parser():
     )
 
     aparser.add_argument(
+        "--print-ast",
+        type=bool,
+        nargs="?",
+        dest="print_ast",
+        required=False,
+        default=False,
+        const=True,
+        help="prints AST for the entire compilation unit, helpful for debugging",
+    )
+    aparser.add_argument(
         "-D",
         "--define",
         type=str,
@@ -119,6 +129,7 @@ def do_compile(args, preproc_defs=()):
             os.path.dirname(fp.name),
             preproc_defs=preproc_defs,
             error_handler=print_parse_error,
+            debug=args.print_ast,
         ):
             # Compilation error found - it was already printed.
             return 1
