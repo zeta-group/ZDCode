@@ -597,7 +597,7 @@ def templated_class_derivation():
                     | mod_block.tag("mod")
                 )
                 .skip(wo)
-                .skip(s(";"))
+                .skip(s(";").optional().optional())
                 .skip(wo)
                 .many()
                 .optional()
@@ -639,7 +639,7 @@ def static_template_derivation():
                 ist("as") >> whitespace >> templated_class_derivation.tag("source"),
             )
         )
-        << s(";")
+        << s(";").optional()
         << wo
     )
     yield
@@ -736,7 +736,7 @@ def class_body():
             | global_apply.tag("apply")
             | class_for_loop.tag("for")
         ).skip(wo)
-        << s(";")
+        << s(";").optional()
         << wo
     )
     yield
@@ -748,7 +748,7 @@ def abstract_label_body():
         (ist("abstract label") | ist("abstract state"))
         >> whitespace
         >> regex(r"[a-zA-Z_]+").desc("label name")
-        << s(";")
+        << s(";").optional()
     )
     yield
 
@@ -771,7 +771,7 @@ def abstract_array_body():
             .tag("type"),
         ).map(dict)
         << wo
-        << s(";")
+        << s(";").optional()
         << wo
     )
     yield
@@ -791,7 +791,7 @@ def abstract_macro_body():
             .tag("args"),
         ).map(dict)
         << wo
-        << s(";")
+        << s(";").optional()
         << wo
     )
     yield
@@ -813,15 +813,18 @@ def superclass():
 
 @generate
 def group_declaration():
-    return seq(
-        ((ist("group") << whitespace).desc("group statement") >> wo >> group_name).tag(
-            "name"
-        ),
-        (wo >> s("{") >> regex(r"[a-zA-Z0-9_]+").sep_by(s(",") << wo) << s("}"))
-        .optional()
-        .map(lambda x: x if x and tuple(x) != ("",) else [])
-        .tag("items"),
-    ) << s(";")
+    return (
+        seq(
+            (
+                (ist("group") << whitespace).desc("group statement") >> wo >> group_name
+            ).tag("name"),
+            (wo >> s("{") >> regex(r"[a-zA-Z0-9_]+").sep_by(s(",") << wo) << s("}"))
+            .optional()
+            .map(lambda x: x if x and tuple(x) != ("",) else [])
+            .tag("items"),
+        )
+        << s(";").optional()
+    )
     yield
 
 
@@ -856,7 +859,7 @@ def actor_class():
         .skip(wo),
         (
             (s("{") >> wo >> class_body.many().optional() << wo.then(s("}")).skip(wo))
-            | s(";").map(lambda _: [])
+            | s(";").optional().map(lambda _: [])
         ).tag("body"),
     )
     yield
@@ -983,7 +986,12 @@ def state_action():
 
 @generate
 def action_body():
-    return s("{") >> wo >> (state_action << s(";") << wo).many().optional() << s("}")
+    return (
+        s("{")
+        >> wo
+        >> (state_action << s(";").optional() << wo).many().optional()
+        << s("}")
+    )
     yield
 
 
@@ -1271,7 +1279,7 @@ def modifier_clause():
             | (
                 s("{")
                 >> wo
-                >> (modifier_effect << wo << s(";") << wo).at_least(1)
+                >> (modifier_effect << wo << s(";").optional() << wo).at_least(1)
                 << s("}")
             )
         )
@@ -1283,7 +1291,12 @@ def modifier_clause():
 @generate
 def mod_block_body():
     return modifier_clause.map(lambda a: [a]) | (
-        wo >> s("{") >> wo >> ((modifier_clause << wo << s(";")).many()) << wo << s("}")
+        wo
+        >> s("{")
+        >> wo
+        >> ((modifier_clause << wo << s(";").optional()).many())
+        << wo
+        << s("}")
     )
     yield
 
@@ -1357,6 +1370,7 @@ def if_statement():
         .skip(wo),
         state_body.optional().map(lambda x: x if x is not None else []).skip(wo),
         s(";")
+        .optional()
         .then(wo)
         .then(s("else"))
         .then(wo)
@@ -1431,6 +1445,7 @@ def ifjump_statement():
         .skip(wo),
         state_body.optional().map(lambda x: x if x is not None else []).skip(wo),
         s(";")
+        .optional()
         .then(wo)
         .then(s("else"))
         .then(wo)
@@ -1451,6 +1466,7 @@ def whilejump_statement():
         .skip(wo),
         state_body.optional().map(lambda x: x if x is not None else []).skip(wo),
         s(";")
+        .optional()
         .then(wo)
         .then(s("else"))
         .then(wo)
@@ -1475,6 +1491,7 @@ def while_statement():
         .skip(wo),
         state_body.optional().map(lambda x: x if x is not None else []).skip(wo),
         s(";")
+        .optional()
         .then(wo)
         .then(s("else"))
         .then(wo)
