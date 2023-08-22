@@ -62,7 +62,7 @@ class BundleDependencyError(Exception):
 class BundleInputWalker:
     code: ZDCode = attr.ib()
     bundle: "Bundle" = attr.ib()
-    deps: list[(pathlib.Path, pathlib.PurePath)] = attr.ib(factory=list)
+    deps: list[tuple[pathlib.Path, pathlib.PurePath]] = attr.ib(factory=list)
     bundled: set[str] = attr.ib(factory=set)
     build_tasks: list[typing.Callable[[], bool]] = attr.ib(factory=list)
     error_handler: typing.Optional[
