@@ -111,6 +111,12 @@ class ZDState(ZDStateObject):
     def __init__(
         self, sprite='"####"', frame='"#"', duration=0, keywords=None, action=None
     ):
+        if sprite == "####":
+            sprite = '"####"'
+
+        if frame == "#":
+            frame = '"#"'
+
         if not keywords:
             keywords = []
 
@@ -2061,7 +2067,7 @@ class ZDCode:
 
             name = self._parse_state_sprite(context, sprite)
 
-            if frames == '"#"':
+            if frames in ['"#"', "#"]:
                 frames = ['"#"']
 
             for f in frames:

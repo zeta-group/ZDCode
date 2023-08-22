@@ -828,7 +828,7 @@ def abstract_macro_body():
 
 @generate
 def sprite_name():
-    return (regex(r"[A-Z0-9_]{4}") | s('"#"')).tag("normal") | (
+    return (regex(r"[A-Z0-9_]{4}") | s('"####"') | s("####")).tag("normal") | (
         ist("param") >> whitespace >> regex(r"[a-zA-Z_][a-zA-Z_0-9]*")
     ).tag("parametrized")
     yield
@@ -977,7 +977,9 @@ def normal_state():
     return (
         seq(
             sprite_name.desc("state name").skip(wo),
-            (regex(r"[A-Z_.]").many() | s('"#"')).desc("state sprite").skip(wo),
+            (regex(r"[A-Z_.\#]").many() | s('"#"') | s("#"))
+            .desc("state sprite")
+            .skip(wo),
             regex(r"\-?\d+").map(int).desc("state duration").skip(wo),
             modifier.many().desc("modifier").skip(wo).optional(),
             state_action.optional(),
@@ -1226,11 +1228,7 @@ def selector_name(name):
 
 def selector_duration(duration):
     def _sel(code, ctx, state):
-        return (
-            hasattr(state, "duration")
-            and hasattr(state, "frame")
-            and state.duration * len(state.frame) == duration
-        )
+        return hasattr(state, "duration") and state.duration == duration
 
     return _sel
 
@@ -1985,5 +1983,4 @@ def parse_code(
             raise
 
         else:
-            error_handler(pperr)
             error_handler(pperr)

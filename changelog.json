@@ -351,7 +351,8 @@
             "name": "2.13.7",
             "changes": [
                 "Add inheritance override ability for template derivations",
-                "Add frame duration selector for state modifiers"
+                "Add frame duration selector for state modifiers",
+                "Allow #### (sprite name) and # (frame name)"
             ]
         }
     ]
