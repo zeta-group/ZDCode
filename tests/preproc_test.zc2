@@ -1,0 +1,11 @@
+// This clip is only jumpy when the JUMPYCLIP preprocessor flag is set.
+class MaybeJumpyClip extends Clip replaces Clip {
+	label Spawn {
+	#ifdef JUMPYCLIP
+		CLIP A 10 ThrustThingZ(0, 20, 0, 1);
+		loop;
+	#else
+		goto Super:Spawn;
+	#endif
+	};
+}

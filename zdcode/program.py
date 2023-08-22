@@ -119,8 +119,10 @@ def main_zake():
 # Actions
 
 
-def do_compile(args, preproc_defs=()):
+def do_compile(args):
     code = zdcode.ZDCode()
+
+    preproc_defs = dict(args.prepdefs or [])
 
     for fp in args.input:
         if not code.add(
