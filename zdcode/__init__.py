@@ -8,7 +8,7 @@ import queue
 import random
 import string
 import warnings
-from typing import Generator, Iterable, Protocol
+from typing import Generator, Iterable, Protocol, Literal
 
 from . import zdlexer
 
@@ -1095,7 +1095,7 @@ class ZDWhileJumpStatement(object):
 
             return TextNode(
                 [
-                    f"{zerotic} {self.true_condition(num_st_el, 2)}",
+                    f"{zerotic} {self.true_condition(num_st_el + 2)}",
                     self.else_block.to_decorate(),
                     f"{zerotic} A_Jump(256, {num_st_bl + 2})",
                     "{}:".format(self._loop_id),
@@ -1150,7 +1150,7 @@ class ZDSkip:
         return False
 
     def to_decorate(self):
-        return f"{zerotic} A_Jump(256, {self.context.num_states() - self.ind + 1})"
+        return f"{zerotic} A_Jump(256, {self.context.remote_num_states() - self.ind})"
 
     def num_states(self):
         return 1
@@ -1172,6 +1172,8 @@ class ZDCodeParseContext(object):
         applied_mods=None,
         remote_offset=0,
         description=None,
+        break_ctx=None,
+        loop_ctx=None,
     ):
         self.replacements = (
             replacements.new_child()
@@ -1194,6 +1196,9 @@ class ZDCodeParseContext(object):
         self.states: list[ZDStateObject | ZDCodeParseContext] = []
         self.remote_children = []
         self.remote_offset = remote_offset
+
+        self.break_ctx = self if break_ctx == "self" else break_ctx or self
+        self.loop_ctx = self if loop_ctx == "self" else loop_ctx or self
 
         if description:
             self.add_description(description)
@@ -1292,7 +1297,11 @@ class ZDCodeParseContext(object):
         )
 
     def remote_derive(
-        self, desc: str | None = None, remote_offset: int = 0
+        self,
+        desc: str | None = None,
+        remote_offset: int = 0,
+        break_ctx: "ZDCodeParseContext" | Literal["self"] | None = None,
+        loop_ctx: "ZDCodeParseContext" | Literal["self"] | None = None,
     ) -> "ZDCodeParseContext":
         # derives without adding to states
         res = ZDCodeParseContext(
@@ -1303,6 +1312,8 @@ class ZDCodeParseContext(object):
             self.mods,
             self.applied_mods,
             remote_offset,
+            break_ctx=break_ctx or self.break_ctx,
+            loop_ctx=loop_ctx or self.loop_ctx,
         )
         res.desc_stack = list(self.desc_stack)
 
@@ -1313,7 +1324,12 @@ class ZDCodeParseContext(object):
 
         return res
 
-    def derive(self, desc: str | None = None) -> "ZDCodeParseContext":
+    def derive(
+        self,
+        desc: str | None = None,
+        break_ctx: "ZDCodeParseContext" | Literal["self"] | None = None,
+        loop_ctx: "ZDCodeParseContext" | Literal["self"] | None = None,
+    ) -> "ZDCodeParseContext":
         res = ZDCodeParseContext(
             self.replacements,
             self.macros,
@@ -1321,6 +1337,8 @@ class ZDCodeParseContext(object):
             self.actor_lists,
             self.mods,
             self.applied_mods,
+            break_ctx=break_ctx or self.break_ctx,
+            loop_ctx=loop_ctx or self.loop_ctx,
         )
         res.desc_stack = list(self.desc_stack)
 
@@ -1895,12 +1913,12 @@ class ZDCode:
         # break and continue statements possible.
 
         if state[0] == "continue":
-            return ("skip", loop_context)
+            return ("skip", loop_context.loop_ctx)
 
         if state[0] == "break":
-            return ("skip", break_context)
+            return ("skip", break_context.break_ctx)
 
-        return self._maybe_mutate_block_or_loop(
+        return self._maybe_mutate_block(
             self._mutate_iter_state, state, break_context, loop_context
         )
 
@@ -2084,12 +2102,14 @@ class ZDCode:
         elif s[0] == "repeat":
             cval, xidx, body = s[1]
 
-            break_ctx = context.derive()
+            break_ctx = context.derive("repeat", break_ctx="self")
             count = self._parse_replaceable_number(cval, context)
 
             if count >= 1:
                 for idx in range(count):
-                    loop_ctx = break_ctx.derive()
+                    loop_ctx = break_ctx.derive(
+                        "body #{}".format(idx + 1), loop_ctx="self"
+                    )
 
                     if xidx:
                         loop_ctx.replacements[xidx.upper()] = str(idx)
@@ -2182,7 +2202,7 @@ class ZDCode:
             pop_remote()
 
         elif s[0] == "whilejump":
-            break_ctx = context.remote_derive("whilejump", 4)
+            break_ctx = context.remote_derive("whilejump", 4, break_ctx="self")
             jump, s_yes, s_no = s[1]
 
             @ZDWhileJumpStatement.generate(actor)
@@ -2192,50 +2212,67 @@ class ZDCode:
 
                 return self._parse_state_action(jump, jump_context)
 
-            for a in s_yes:
-                loop_ctx = break_ctx.derive("body")
-                self._parse_state(
-                    actor,
-                    loop_ctx,
-                    whs,
-                    self._mutate_iter_state(a, break_ctx, loop_ctx),
-                    func,
-                )
-
             if s_no is not None:
                 elses = ZDBlock(actor)
+                else_ctx = break_ctx.derive("else of whilejump")
 
                 for a in s_no:
-                    self._parse_state(actor, context, elses, a, func)
+                    self._parse_state(actor, else_ctx, elses, a, func)
 
                 whs.set_else(elses)
+
+            body_ctx = break_ctx.derive("body of whilejump", loop_ctx="self")
+
+            for a in s_yes:
+                self._parse_state(
+                    actor,
+                    body_ctx,
+                    whs,
+                    self._mutate_iter_state(a, break_ctx, body_ctx),
+                    func,
+                )
 
             add_state(whs)
             clear_remotes(break_ctx)
 
         elif s[0] == "while":
-            break_ctx = context.remote_derive("while", 4 if s[1][2] else 3)
+            break_ctx = context.remote_derive(
+                "while", 4 if s[1][2] else 3, break_ctx="self"
+            )
             whs = ZDWhileStatement(
                 actor, self._parse_expression(s[1][0], break_ctx), []
             )
 
+            if s[1][2]:
+                elses = ZDBlock(actor)
+                else_ctx = break_ctx.derive("else of while")
+                for a in s[1][2]:
+                    self._parse_state(
+                        actor,
+                        else_ctx,
+                        elses,
+                        self._mutate_iter_state(a, else_ctx, else_ctx),
+                        func,
+                    )
+
+                whs.set_else(elses)
+
+            body = ZDBlock(actor)
+            body_ctx = break_ctx.derive(
+                "body of while",
+                loop_ctx="self",
+            )
+
             for a in s[1][1]:
-                loop_ctx = break_ctx.derive("body")
                 self._parse_state(
                     actor,
-                    loop_ctx,
-                    whs,
-                    self._mutate_iter_state(a, break_ctx, loop_ctx),
+                    body_ctx,
+                    body,
+                    self._mutate_iter_state(a, break_ctx, body_ctx),
                     func,
                 )
 
-            if s[1][2]:
-                elses = ZDBlock(actor)
-
-                for a in s[1][2]:
-                    self._parse_state(actor, if_ctx, elses, a, func)
-
-                whs.set_else(elses)
+            whs.states.append(body)
 
             add_state(whs)
             clear_remotes(break_ctx)
@@ -2244,10 +2281,12 @@ class ZDCode:
             itername, iteridx, itermode, f_body, f_else = s[1]
 
             def do_for(iterator):
-                break_ctx = context.derive("for")
+                break_ctx = context.derive(f"for {itermode[0]}", break_ctx="self")
 
                 for i, item in enumerate(iterator):
-                    iter_ctx = break_ctx.derive("{} loop body".format(itermode[0]))
+                    iter_ctx = break_ctx.derive(
+                        f"{itermode[0]} loop body #{i + 1}", loop_ctx="self"
+                    )
                     iter_ctx.replacements[itername.upper()] = item
 
                     if iteridx:
@@ -2605,7 +2644,7 @@ class ZDCode:
 
             for i, item in enumerate(iterator):
                 iter_ctx = break_ctx.remote_derive(
-                    "for-{} loop body".format(itermode[0])
+                    "for-{} loop body".format(itermode[0]), loop_ctx="self"
                 )
                 iter_ctx.replacements[itername.upper()] = item
 
@@ -2901,4 +2940,31 @@ class ZDCode:
         return decorate(self)
 
     def decorate(self):
+        return decorate(self)
+
+    def decorate(self):
+        return decorate(self)
+        return decorate(self)
+
+    def decorate(self):
+        return decorate(self)
+
+    def decorate(self):
+        return decorate(self)
+        return decorate(self)
+
+    def decorate(self):
+        return decorate(self)
+
+    def decorate(self):
+        return decorate(self)
+        return decorate(self)
+
+    def decorate(self):
+        return decorate(self)
+
+    def decorate(self):
+        return decorate(self)
+        return decorate(self)
+        return decorate(self)
         return decorate(self)
