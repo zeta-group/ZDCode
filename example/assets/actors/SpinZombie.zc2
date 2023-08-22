@@ -1,4 +1,8 @@
-class SpinZombie extends Zombieman {
+class SpinZombie extends Zombieman
+#ifdef SPINZOMBIE
+replaces Zombieman
+#endif
+{
     mod SpinAndRepeat {
         (!sprite(TNT1)) {
             +flag Bright;
