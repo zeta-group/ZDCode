@@ -8,7 +8,7 @@ import queue
 import random
 import string
 import warnings
-from typing import Generator, Iterable, Protocol, Literal
+from typing import Generator, Iterable, Literal, Protocol
 
 from . import zdlexer
 
