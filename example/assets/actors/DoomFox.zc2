@@ -450,7 +450,13 @@ class MSA_Fox {
 
         inject Tick_Pounce;
 
-        while (z > floorz + 16) {
+	x 2 {
+	    inject @anim_pounce;
+	    invisi 1;
+	}
+
+        while (z > floorz + 1) {
+	    inject @anim_pounce;
             ifjump A_JumpIfTargetInsideMeleeRange($offset) {
                 inject PounceMeleeAttack;
                 goto See;

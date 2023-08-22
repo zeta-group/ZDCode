@@ -1900,7 +1900,7 @@ class ZDCode:
         if state[0] == "break":
             return ("skip", break_context)
 
-        return self._maybe_mutate_block(
+        return self._maybe_mutate_block_or_loop(
             self._mutate_iter_state, state, break_context, loop_context
         )
 
