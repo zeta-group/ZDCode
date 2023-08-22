@@ -1220,14 +1220,35 @@ def selector_name(name):
     return _sel
 
 
+def selector_duration(duration):
+    def _sel(code, ctx, state):
+        return (
+            hasattr(state, "duration")
+            and hasattr(state, "frame")
+            and state.duration * len(state.frame) == duration
+        )
+
+    return _sel
+
+
 @generate
 def modifier_selector_basic():
     # A basic state selector, the building blocks of a
     # state selector in a modifier
 
-    return (ist("flag") >> wo >> s("(") >> state_modifier_name << s(")")).map(
-        selector_flag
-    ) | (ist("sprite") >> wo >> s("(") >> sprite_name << s(")")).map(selector_name)
+    return (
+        (ist("flag") >> wo >> s("(") >> state_modifier_name << s(")")).map(
+            selector_flag
+        )
+        | (ist("sprite") >> wo >> s("(") >> sprite_name << s(")")).map(selector_name)
+        | (
+            ist("duration")
+            >> wo
+            >> s("(")
+            >> regex(r"\d+").optional().map(lambda x: int(x) if x else 0)
+            << s(")")
+        ).map(selector_duration)
+    )
     yield
 
 
