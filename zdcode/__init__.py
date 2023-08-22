@@ -2253,13 +2253,6 @@ class ZDCode:
                     if iteridx:
                         iter_ctx.replacements[iteridx.upper()] = str(i)
 
-                    break_skip_size = len(f_body) * (
-                        len(self.groups[group_name.upper()]) - i
-                    )
-                    continue_skip_size = len(f_body) * (
-                        len(self.groups[group_name.upper()]) - i
-                    )
-
                     for si, a in enumerate(f_body):
                         self._parse_state(
                             actor,
