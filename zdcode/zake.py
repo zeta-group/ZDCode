@@ -2,12 +2,14 @@ import heapq
 import re
 import sys
 import typing
-from configparser import ConfigParser, ExtendedInterpolation
+from configparser import ConfigParser
+from configparser import ExtendedInterpolation
 from enum import Enum
 
 import attr
 
-from .bundle import Bundle, BundleOutput
+from .bundle import Bundle
+from .bundle import BundleOutput
 
 
 class ZakeException(Exception):

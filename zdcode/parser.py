@@ -8,7 +8,13 @@ import sys
 import traceback
 
 import parsy
-from parsy import fail, generate, regex, seq, string, success, whitespace
+from parsy import fail
+from parsy import generate
+from parsy import regex
+from parsy import seq
+from parsy import string
+from parsy import success
+from parsy import whitespace
 
 s = string
 fa = fail

@@ -1,7 +1,8 @@
 from .. import parser as zdlexer
 from ..objects import *
 from ..types import *
-from ..util import TextNode, decorate
+from ..util import TextNode
+from ..util import decorate
 from . import *
 
 
