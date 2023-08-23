@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zdcode"
-version = "2.13.7"
+version = "2.13.8"
 description = "A ZDoom DECORATE transpiler and mod content build system"
 authors = ["wallabra <rehermann6046@gmail.com>"]
 license = "MIT"
