@@ -352,7 +352,8 @@
             "changes": [
                 "Add inheritance override ability for template derivations",
                 "Add frame duration selector for state modifiers",
-                "Allow #### (sprite name) and # (frame name)"
+                "Allow #### (sprite name) and # (frame name)",
+                "Fix parsing of state modifiers with parentheses (e.g. Offset)"
             ]
         }
     ]

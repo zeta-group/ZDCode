@@ -95,11 +95,11 @@ def state_modifier_name():
             .desc("modifier parameter name")
             .tag("replace")
             << s("}")
-            | (
-                ist("(").tag("part")
-                + state_modifier_name.tag("recurse")
-                + ist(")").tag("part")
-            )
+            | seq(
+                ist("(").tag("part"),
+                state_modifier_name.tag("recurse"),
+                ist(")").tag("part"),
+            ).tag("recurse")
             | regex(r'[a-zA-Z0-9\'\",\w"]+').tag("part")
         )
         .many()

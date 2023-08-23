@@ -1,0 +1,6 @@
+class OffsetShotgun extends Shotgun {
+    label Fire {
+        SHOT C 6 [Offset(2,2)];
+        goto Super::Fire;
+    }
+}
