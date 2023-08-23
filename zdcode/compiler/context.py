@@ -1,3 +1,15 @@
+import collections
+import itertools
+from typing import TYPE_CHECKING
+from typing import Literal
+
+from ..types.basic import ZDStateObject
+from .error import CompilerError
+
+if TYPE_CHECKING:
+    from ..objects.actor import ZDActor
+
+
 class ZDCtxDescBlock:
     def __init__(self, ctx: "ZDCodeParseContext", desc: str):
         self.ctx = ctx
@@ -70,12 +82,12 @@ class ZDCodeParseContext(object):
         def _print_top(name):
             _print_low(prefix + name)
 
-        def _branch(l="", end=False):
+        def _branch(line="", end=False):
             if end:
-                _print("'---+ " + l)
+                _print("'---+ " + line)
 
             else:
-                _print("+---+ " + l)
+                _print("+---+ " + line)
 
         def _print_next(line=""):
             if ended == 0:
@@ -210,7 +222,7 @@ class ZDCodeParseContext(object):
         self.templates.maps.insert(-1, other_ctx.templates)
         self.mods.maps.insert(-1, other_ctx.mods)
 
-    def add_actor(self, ac: ZDActor):
+    def add_actor(self, ac: "ZDActor"):
         for al in self.actor_lists:
             al.append(ac)
 

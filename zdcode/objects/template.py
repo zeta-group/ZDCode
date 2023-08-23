@@ -1,4 +1,12 @@
-from ..types import *
+import hashlib
+import itertools
+from typing import Iterable
+
+from ..compiler.error import CompilerError
+from ..util import make_id
+from ..util import stringify
+from .actor import ZDActor
+from .actor import ZDBaseActor
 
 
 class ZDClassTemplate(ZDBaseActor):

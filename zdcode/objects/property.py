@@ -1,4 +1,4 @@
-from ..types import *
+from ..types.basic import ZDObject
 from ..util import TextNode
 
 

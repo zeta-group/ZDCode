@@ -1,9 +1,31 @@
+import queue
+
+from .. import __VERSION__
 from .. import parser as zdlexer
-from ..objects import *
-from ..types import *
+from ..objects.actor import ZDActor
+from ..objects.block import ZDBlock
+from ..objects.dummy import ZDDummyActor
+from ..objects.dummy import ZDDummyLabel
+from ..objects.ifjump import ZDIfJumpStatement
+from ..objects.ifs import ZDIfStatement
+from ..objects.label import ZDLabel
+from ..objects.modclause import ZDModClause
+from ..objects.property import ZDProperty
+from ..objects.raw import ZDRawDecorate
+from ..objects.skip import ZDSkip
+from ..objects.sometimes import ZDSometimes
+from ..objects.state import ZDState
+from ..objects.template import ZDClassTemplate
+from ..objects.whilejump import ZDWhileJumpStatement
+from ..objects.whiles import ZDWhileStatement
 from ..util import TextNode
 from ..util import decorate
-from . import *
+from ..util import make_id
+from ..util import stringify
+from ..util import unstringify
+from .context import ZDCodeParseContext
+from .error import CompilerError
+from .task import pending_task
 
 
 class ZDCode:

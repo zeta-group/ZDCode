@@ -1,3 +1,13 @@
+from typing import TYPE_CHECKING
+from typing import Generator
+from typing import Iterable
+from typing import Protocol
+from typing import Union
+
+if TYPE_CHECKING:
+    from ..compiler.context import ZDCodeParseContext
+
+
 # ZDCode Classes
 class ZDObject(Protocol):
     """Denotes a ZDCode object which can be converted to DECORATE."""
@@ -6,7 +16,7 @@ class ZDObject(Protocol):
         """Cconverts this ZDCode object to DECORATE."""
         ...
 
-    def get_context(self) -> ZDCodeParseContext | None:
+    def get_context(self) -> Union["ZDCodeParseContext", None]:
         """Returns the context of this ZDObject.
 
         If not applicable, returns None."""

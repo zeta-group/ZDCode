@@ -11,7 +11,7 @@ from collections import deque
 
 import attr
 
-from . import ZDCode
+from .compiler.compiler import ZDCode
 
 
 @functools.total_ordering

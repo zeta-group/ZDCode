@@ -2,9 +2,9 @@ import argparse
 import os
 import sys
 
-import zdcode
-import zdcode.zake as zake
-from zdcode.bundle import Bundle
+from . import zake
+from .bundle import Bundle
+from .compiler.compiler import ZDCode
 
 
 def print_parse_error(e):
@@ -22,9 +22,7 @@ def from_stdin():
         print("No data to use! Provide as stdin or as arguments.")
         sys.exit(1)
 
-    print(
-        zdcode.ZDCode.parse("\n".join(data), error_handler=print_parse_error).decorate()
-    )
+    print(ZDCode.parse("\n".join(data), error_handler=print_parse_error).decorate())
 
 
 class TupleTrue(argparse.Action):
@@ -35,12 +33,12 @@ class TupleTrue(argparse.Action):
         super(TupleTrue, self).__init__(option_strings, dest, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        l = getattr(namespace, self.dest, None) or []
+        option = getattr(namespace, self.dest, None) or []
 
-        if not l:
-            setattr(namespace, self.dest, l)
+        if not option:
+            setattr(namespace, self.dest, option)
 
-        l.append((values, True))
+        option.append((values, True))
 
 
 def arg_parser():
@@ -120,7 +118,7 @@ def main_zake():
 
 
 def do_compile(args):
-    code = zdcode.ZDCode()
+    code = ZDCode()
 
     preproc_defs = dict(args.prepdefs or [])
 

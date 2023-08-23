@@ -1,4 +1,5 @@
-from ..types import *
+from ..types.basic import ZDStateObject
+from ..util import TextNode
 
 
 class ZDLabel(ZDStateObject):

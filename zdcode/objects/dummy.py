@@ -1,4 +1,8 @@
-from ..types import *
+from ..compiler.context import ZDCodeParseContext
+from ..types.basic import ZDObject
+from ..types.basic import ZDStateObject
+from ..util import TextNode
+from .actor import ZDBaseActor
 
 
 class ZDDummyActor(ZDObject):

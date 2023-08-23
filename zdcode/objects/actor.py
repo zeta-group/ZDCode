@@ -1,4 +1,18 @@
-from ..types import *
+from typing import TYPE_CHECKING
+
+from .. import _user_array_setters
+from .. import _user_var_setters
+from ..compiler.context import ZDCodeParseContext
+from ..util import TextNode
+from ..util import decorate
+from ..util import make_id
+from ..util import stringify
+from .label import ZDLabel
+from .raw import ZDRawDecorate
+from .state import ZDState
+
+if TYPE_CHECKING:
+    from ..compiler.compiler import ZDCode
 
 
 class ZDBaseActor(object):
@@ -28,13 +42,13 @@ class ZDActor(ZDBaseActor):
         replace=None,
         doomednum=None,
         _id=None,
-        context=None,
+        context: ZDCodeParseContext | None = None,
     ):
         if context:
             self.context = context.derive()
 
         else:
-            self.context = ZDCodeParseContext()
+            raise ValueError("context must be set")
 
         ZDBaseActor.__init__(self, code, name, inherit, replace, doomednum, _id)
 

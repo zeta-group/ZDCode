@@ -15,10 +15,6 @@ from typing import Literal
 from typing import Protocol
 from typing import Self
 
-from .compiler import *
-from .types import *
-from .util import *
-
 _user_var_setters = {
     "int": "A_SetUserVar",
     "float": "A_SetUserVarFloat",

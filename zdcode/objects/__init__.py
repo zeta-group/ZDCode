@@ -11,7 +11,6 @@ from .label import ZDLabel
 from .modclause import ZDModClause
 from .property import ZDProperty
 from .raw import ZDRawDecorate
-from .sometimes import *
 from .state import ZDState
 from .state import zerotic
 from .template import ZDClassTemplate

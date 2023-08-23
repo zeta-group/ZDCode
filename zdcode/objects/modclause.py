@@ -1,13 +1,20 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ..compiler.compiler import ZDCode
+    from ..compiler.context import ZDCodeParseContext
+
+
 class ZDModClause:
     """A clause for a ZDCode state modifier."""
 
-    def __init__(self, code: "ZDCode", ctx: ZDCodeParseContext, selector, effects):
+    def __init__(self, code: "ZDCode", ctx: "ZDCodeParseContext", selector, effects):
         self.code = code
         self.context = ctx
         self.selector = selector
         self.effects = effects
 
-    def apply(self, ctx: ZDCodeParseContext, target_states):
+    def apply(self, ctx: "ZDCodeParseContext", target_states):
         clause_ctx = self.context.derive("mod clause")
         clause_ctx.update(ctx)
 
@@ -17,12 +24,12 @@ class ZDModClause:
             if self.selector(self.code, clause_ctx, s):
                 alist = [s]
 
-                for eff in self.effects:
+                for effect in self.effects:
                     nlist = []
 
                     for a in alist:
-                        l = list(eff(self.code, clause_ctx, a))
-                        nlist.extend(l)
+                        list_part = list(effect(self.code, clause_ctx, a))
+                        nlist.extend(list_part)
 
                     alist = nlist
 

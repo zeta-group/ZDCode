@@ -1,4 +1,11 @@
-from ..types import *
+from typing import Generator
+from typing import Iterable
+from typing import Self
+
+from ..types.basic import ZDStateObject
+from ..util import TextNode
+from ..util import stringify
+from .state import zerotic
 from .whiles import num_whiles
 
 
@@ -24,7 +31,7 @@ class ZDWhileJumpStatement(object):
 
         return res
 
-    def state_containers(self):
+    def state_containers(self) -> Generator[Iterable[ZDStateObject], None, None]:
         yield self.states
 
         if self.else_block:

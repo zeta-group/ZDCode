@@ -1,5 +1,10 @@
+import functools
+
+
 @functools.total_ordering
 class PendingTask:
+    """A compiler task to be queued."""
+
     def __init__(self, priority, func):
         self.priority = priority
         self.func = func
@@ -12,6 +17,8 @@ class PendingTask:
 
 
 def pending_task(priority):
+    """Decorates a function to be a task to be qeuued, a [PendingTask]."""
+
     def _decorator(func):
         return PendingTask(priority, func)
 
