@@ -8,7 +8,7 @@ import queue
 import random
 import string
 import warnings
-from typing import Generator, Iterable, Literal, Protocol
+from typing import Callable, Generator, Iterable, Literal, Protocol, Self
 
 from . import zdlexer
 
@@ -24,6 +24,7 @@ _user_array_setters = {
 
 
 def stringify(content):
+    """Adds quotes around a string."""
     if isinstance(content, str):
         if len(content) > 1 and content[0] in "'\"" and content[-1] == content[0]:
             return content
@@ -34,6 +35,7 @@ def stringify(content):
 
 
 def unstringify(content):
+    """Removes quotes around a string."""
     if content[0] in "'\"" and content[-1] == content[0] and len(content) > 1:
         return content[1:-1]
 
@@ -41,7 +43,9 @@ def unstringify(content):
 
 
 def make_id(length=30):
-    """Returns an ID, which can be stored in the ZDCode
+    """Generates and returns a random ID.
+
+    This generated ID can be stored in a ZDCode object
     to allow namespace compatibility between multiple
     ZDCode mods."""
     return "".join(
@@ -55,11 +59,14 @@ def decorate(o, indent=4):
 
 
 class TextNode:
+    """A recursive line-wise text data structure."""
+
     def __init__(self, lines=(), indent=1):
         self.lines = list(lines)
         self.indent = indent
 
     def add_line(self, line):
+        """Add a line to this TextNode."""
         self.lines.append(line)
 
     def __str__(self):
@@ -75,27 +82,58 @@ class TextNode:
         return self.lines[ind]
 
     def to_string(self, tab_size=4):
+        """Convert this to a string with a custom tab size."""
         return "\n".join(str(l) for l in self.lines).replace("\t", " " * tab_size)
 
 
 # ZDCode Classes
 class ZDObject(Protocol):
+    """Denotes a ZDCode object which can be converted to DECORATE."""
+
     def to_decorate(self) -> str:
+        """Cconverts this ZDCode object to DECORATE."""
+        ...
+
+    def get_context(self) -> ZDCodeParseContext | None:
+        """Returns the context of this ZDObject.
+
+        If not applicable, returns None."""
         ...
 
 
 class ZDStateObject(ZDObject, Protocol):
+    """Denotes a ZDCode object which is or may ccontain DECORATE states."""
+
     def spawn_safe(self) -> bool:
+        """Whether this collection is 'spawn safe'.
+
+        Spawn safety denotes a state which can be used at the start of a Spawn label without causing issues. Non-spawn-safe Spawn labels will be automatically padded with TNT1 A 0 to prevent issues.
+        """
         ...
 
     def num_states(self) -> int:
+        """The number of states in this state object."""
         ...
 
     def state_containers(self) -> Generator[Iterable["ZDStateObject"], None, None]:
+        """A list of mutable state containers with [ZDStateObject]s.
+
+        Some of these are references to this data structure or children thereof. Others are constructed on the fly for the sake of interface compatibility.
+        """
+        ...
+
+
+class ZDStateContainer(ZDStateObject, Protocol):
+    """Denotes a ZDCode object which can hold multiple DECORATE states."""
+
+    def add_state(self, state: ZDStateObject) -> None:
+        """Adds a ZDCode state object to this container."""
         ...
 
 
 class ZDProperty(ZDObject):
+    """A propety of a DECORATE class."""
+
     def __init__(self, actor, name, value):
         self.actor = actor
         self.name = name.strip()
@@ -108,6 +146,8 @@ class ZDProperty(ZDObject):
 
 
 class ZDState(ZDStateObject):
+    """A regular DECORATE state."""
+
     def __init__(
         self, sprite='"####"', frame='"#"', duration=0, keywords=None, action=None
     ):
@@ -131,25 +171,28 @@ class ZDState(ZDStateObject):
 
     @classmethod
     def zerotic(cls, keywords=None, action=None):
+        """Constructs and returns a ''zero tic' state."""
         return cls(keywords=keywords, action=action)
 
     @classmethod
     def tnt1(cls, duration=0, keywords=None, action=None):
+        """Constructs and returns a TNT1 (invisible) state."""
         return cls("TNT1", "A", duration=duration, keywords=keywords, action=action)
 
-    def clone(self):
+    def clone(self) -> Self:
+        """Duplicates this ZDState."""
         return ZDState(
             self.sprite, self.frame, self.duration, list(self.keywords), self.action
         )
 
-    def state_containers(self):
+    def state_containers(self) -> Generator[Iterable[ZDStateObject], None, None]:
         return
         yield
 
-    def num_states(self):
+    def num_states(self) -> int:
         return 1
 
-    def to_decorate(self):
+    def to_decorate(self) -> TextNode:
         if self.keywords:
             keywords = [" "] + self.keywords
 
@@ -188,7 +231,11 @@ class ZDState(ZDStateObject):
 zerotic = ZDState.zerotic()
 
 
-class ZDDummyActor:
+class ZDDummyActor(ZDObject):
+    """A dummy actor.
+
+    Used in internal logic only - cannot be compiled to DECORATE."""
+
     def __init__(self, code, context=None, _id=None):
         if context:
             self.context = context.derive()
@@ -198,14 +245,18 @@ class ZDDummyActor:
 
         ZDBaseActor.__init__(self, code, "__dummy__", None, None, None, _id)
 
-    def get_context(self):
+    def get_context(self) -> ZDCodeParseContext:
         return self.context
 
-    def to_decorate(self):
+    def to_decorate(self) -> TextNode:
         raise NotImplementedError
 
 
-class ZDDummyLabel(object):
+class ZDDummyLabel(ZDObject):
+    """A dummy label.
+
+    Used for internal logic only. Cannot be compiled to DECORATE."""
+
     def __init__(self, actor, states=None):
         if not states:
             states = []
@@ -217,17 +268,25 @@ class ZDDummyLabel(object):
     def __repr__(self):
         return "[dummy state]"
 
-    def label_name(self):
+    def label_name(self) -> str:
         raise NotImplementedError
 
-    def to_decorate(self):
+    def to_decorate(self) -> TextNode:
         raise NotImplementedError
 
-    def add_state(self, state):
+    def get_context(self) -> None:
+        return None
+
+    def add_state(self, state: ZDStateObject) -> None:
         self.states.append(state)
 
 
-class ZDLabel(object):
+class ZDLabel(ZDStateObject):
+    """A label.
+
+    Holds a sequence of states and other DECORATE logic which can be jumped to from any other state, and sometimes by internal ZDoom engine logic.
+    """
+
     def __init__(self, _actor, name, states=None, auto_append=True):
         if not states:
             states = []
@@ -239,7 +298,7 @@ class ZDLabel(object):
         if auto_append:
             self._actor.labels.append(self)
 
-    def spawn_safe(self):
+    def spawn_safe(self) -> bool:
         return self.states[0].spawn_safe()
 
     def __repr__(self):
@@ -247,13 +306,15 @@ class ZDLabel(object):
             type(self).__name__, self.name, repr(self._actor.name)
         )
 
-    def label_name(self):
+    def label_name(self) -> str:
+        """Returns the name of the label."""
         return self.name
 
-    def add_state(self, state):
+    def add_state(self, state) -> None:
+        """Adds a state to this label."""
         self.states.append(state)
 
-    def to_decorate(self):
+    def to_decorate(self) -> TextNode:
         if self.name.startswith("F_"):
             self.name = "_" + self.name
 
@@ -266,27 +327,34 @@ class ZDLabel(object):
         return r
 
 
-class ZDRawDecorate(object):
-    def __init__(self, raw):
+class ZDRawDecorate(ZDStateObject):
+    def __init__(self, raw: str, num_states: int = 0):
         self.raw = raw
+        self.num_states = num_states
 
-    def spawn_safe(self):
+    def spawn_safe(self) -> bool:
         return False
 
-    def state_containers(self):
+    def state_containers(self) -> Generator[Iterable[ZDStateObject], None, None]:
         return
         yield
 
-    def num_states(self):
-        return 0
+    def num_states(self) -> int:
+        return self.num_states
 
-    def to_decorate(self):
+    def to_decorate(self) -> TextNode:
         return TextNode([self.raw], 0)
 
 
 class ZDBaseActor(object):
     def __init__(
-        self, code, name=None, inherit=None, replace=None, doomednum=None, _id=None
+        self,
+        code: "ZDCode",
+        name=None,
+        inherit=None,
+        replace=None,
+        doomednum=None,
+        _id=None,
     ):
         self.code = code
         self.name = name.strip()
@@ -499,18 +567,18 @@ class ZDActor(ZDBaseActor):
 class ZDClassTemplate(ZDBaseActor):
     def __init__(
         self,
-        template_parameters,
+        template_parameters: Iterable[str],
         parse_data,
-        abstract_label_names,
-        abstract_macro_names,
-        abstract_array_names,
-        group_name,
-        code,
-        name,
-        inherit=None,
-        replace=None,
-        doomednum=None,
-        _id=None,
+        abstract_label_names: Iterable[str],
+        abstract_macro_names: dict[str, Iterable[str]],
+        abstract_array_names: dict[str, {"size": int, "type": str}],
+        group_name: str | None,
+        code: "ZDCode",
+        name: str,
+        inherit: str | None = None,
+        replace: str | None = None,
+        doomednum: int | None = None,
+        _id: str | None = None,
     ):
         ZDBaseActor.__init__(self, code, name, inherit, replace, doomednum, _id)
 
@@ -528,9 +596,9 @@ class ZDClassTemplate(ZDBaseActor):
     def duplicate(
         self,
         parameter_values,
-        provided_label_names,
-        provided_macro_names,
-        provided_array_names,
+        provided_label_names: Iterable[str],
+        provided_macro_names: Iterable[str],
+        provided_array_names: Iterable[str],
     ):
         if (
             self.abstract_macro_names
@@ -552,9 +620,9 @@ class ZDClassTemplate(ZDBaseActor):
     def which_duplicate(
         self,
         parameter_values,
-        provided_label_names,
-        provided_macro_names,
-        provided_array_names,
+        provided_label_names: Iterable[str],
+        provided_macro_names: Iterable[str],
+        provided_array_names: Iterable[str],
     ):
         return self.existing[
             self.parameter_hash(
@@ -568,9 +636,9 @@ class ZDClassTemplate(ZDBaseActor):
     def register(
         self,
         parameter_values,
-        provided_label_names,
-        provided_macro_names,
-        provided_array_names,
+        provided_label_names: Iterable[str],
+        provided_macro_names: Iterable[str],
+        provided_array_names: Iterable[str],
         result,
     ):
         self.existing[
@@ -585,9 +653,9 @@ class ZDClassTemplate(ZDBaseActor):
     def parameter_hash(
         self,
         parameter_values,
-        provided_label_names,
-        provided_macro_names,
-        provided_array_names,
+        provided_label_names: Iterable[str],
+        provided_macro_names: Iterable[str],
+        provided_array_names: Iterable[str],
     ) -> str:
         hash = hashlib.sha256()
 
@@ -627,9 +695,9 @@ class ZDClassTemplate(ZDBaseActor):
     def generated_class_name(
         self,
         parameter_values,
-        provided_label_names,
-        provided_macro_names,
-        provided_array_names,
+        provided_label_names: Iterable[str],
+        provided_macro_names: Iterable[str],
+        provided_array_names: Iterable[str],
     ):
         hash = self.parameter_hash(
             parameter_values,
@@ -649,16 +717,16 @@ class ZDClassTemplate(ZDBaseActor):
 
     def generate_init_class(
         self,
-        code,
-        context,
+        code: "ZDCode",
+        context: "ZDCodeParseContext",
         parameter_values,
-        provided_label_names=(),
-        provided_macro_names=(),
-        provided_array_names=(),
-        name=None,
-        pending=None,
-        inherits=None,
-        group=None,
+        provided_label_names: Iterable[str] = (),
+        provided_macro_names: Iterable[str] = (),
+        provided_array_names: Iterable[str] = (),
+        name: str | None = None,
+        pending: str | None = None,
+        inherits: str | None = None,
+        group: str | None = None,
     ):
         provided_label_names = set(provided_label_names)
         provided_macro_names = dict(provided_macro_names)
@@ -783,38 +851,49 @@ class ZDClassTemplate(ZDBaseActor):
         )
 
 
-class ZDBlock:
-    def __init__(self, actor, states=None):
+class ZDBlock(ZDStateContainer):
+    """A block of [ZDStateObject], used as a container."""
+
+    def __init__(self, actor: "ZDActor", states: Iterable[ZDStateObject] | None = None):
         self._actor = actor
         self.states: list[ZDStateObject] = states or []
 
-    def spawn_safe(self):
+    def spawn_safe(self) -> bool:
         return self.states[0].spawn_safe()
 
-    def clone(self):
+    def clone(self) -> Self:
         return ZDBlock(self._actor, (s.clone() for s in self.states))
 
-    def num_states(self):
+    def num_states(self) -> int:
         return sum(x.num_states() for x in self.states)
 
-    def state_containers(self):
+    def state_containers(self) -> Generator[Iterable[ZDStateObject], None, None]:
         yield self.states
 
-    def to_decorate(self):
+    def to_decorate(self) -> TextNode:
         return TextNode(x.to_decorate() for x in self.states)
 
 
-class ZDIfStatement(object):
-    def __init__(self, actor, condition, states=()):
+class ZDIfStatement(ZDStateContainer):
+    """A ZDCode if block.
+
+    Internally uses A_JumpIf."""
+
+    def __init__(
+        self,
+        actor: "ZDActor",
+        condition: str | None,
+        states: Iterable[ZDStateObject] | None = (),
+    ):
         self._actor = actor
         self.true_condition = condition
-        self.states: list[ZDStateObject] = list(states)
+        self.states: list[ZDStateObject] = list(states or [])
         self.else_block = None
 
     def spawn_safe(self):
         return False
 
-    def clone(self):
+    def clone(self) -> Self:
         res = ZDIfStatement(
             self._actor, self.true_condition, (s.clone() for s in self.states)
         )
@@ -828,23 +907,29 @@ class ZDIfStatement(object):
         if self.else_block:
             yield from self.else_block.state_containers()
 
-    def set_else(self, else_block):
+    def set_else(self, else_block: ZDStateObject):
+        """Set a state object or container to act as an 'else' block."""
         self.else_block = else_block
 
     def num_block_states(self):
+        """Number of states in the if block (not counting the else block)."""
         return sum(x.num_states() for x in self.states)
 
     def num_else_states(self):
+        """Number of states in the else block only."""
         return self.else_block.num_states()
 
     def num_states(self):
+        """Total number of states.
+
+        Includes the else block if applicable."""
         if self.else_block:
             return self.num_block_states() + self.num_else_states() + 3
 
         else:
             return self.num_block_states() + 2
 
-    def to_decorate(self):
+    def to_decorate(self) -> TextNode:
         num_st_bl = self.num_block_states()
 
         if self.else_block:
@@ -870,17 +955,27 @@ class ZDIfStatement(object):
             )
 
 
-class ZDIfJumpStatement(object):
-    def __init__(self, actor, condition_gen, states=()):
-        self._actor = actor
-        self.true_condition = condition_gen
-        self.states: list[ZDStateObject] = list(states)
-        self.else_block = None
+class ZDIfJumpStatement(ZDStateContainer):
+    """A ZDCode ifjump statement.
+
+    Allows the use of any DECORATE jump action (e.g. A_JumpIfTargetCloser) as a ZDCode block.
+    """
+
+    def __init__(
+        self,
+        actor: "ZDActor",
+        condition_gen: Callable[[int], str],
+        states: Iterable[ZDStateObject] | None = (),
+    ):
+        self._actor: ZDActor = actor
+        self.true_condition: Callable[[int], str] = condition_gen
+        self.states: list[ZDStateObject] = list(states or [])
+        self.else_block: list[ZDStateObject] | None = None
 
     def spawn_safe(self):
         return False
 
-    def clone(self):
+    def clone(self) -> Self:
         res = ZDIfJumpStatement(
             self._actor, self.true_condition, (s.clone() for s in self.states)
         )
@@ -888,36 +983,38 @@ class ZDIfJumpStatement(object):
 
         return res
 
-    def state_containers(self):
+    def state_containers(self) -> Generator[Iterable[ZDStateObject], None, None]:
         yield self.states
 
         if self.else_block:
             yield from self.else_block.state_containers()
 
-    def set_else(self, else_block):
+    def set_else(self, else_block: Iterable[ZDStateObject] | None):
         self.else_block = else_block
 
     @classmethod
-    def generate(cls, actor, states=()):
+    def generate(cls, actor: "ZDActor", states: Iterable[ZDStateObject] | None = ()):
         def _decorator(condition_gen):
             return cls(actor, condition_gen, states)
 
         return _decorator
 
-    def num_block_states(self):
+    def num_block_states(self) -> int:
+        """The number of states in this block, not counting the else block if applicable."""
         return sum(x.num_states() for x in self.states)
 
-    def num_else_states(self):
-        return self.else_block.num_states()
+    def num_else_states(self) -> int:
+        """The number of states in the else block if applicable, or 0 otherwise."""
+        return self.else_block and self.else_block.num_states() or 0
 
-    def num_states(self):
+    def num_states(self) -> int:
         if self.else_block:
             return self.num_block_states() + self.num_else_states() + 3
 
         else:
             return self.num_block_states() + 3
 
-    def to_decorate(self):
+    def to_decorate(self) -> TextNode:
         num_st_bl = self.num_block_states()
 
         if self.else_block:
@@ -944,25 +1041,32 @@ class ZDIfJumpStatement(object):
             )
 
 
-class ZDSometimes(object):
-    def __init__(self, actor, chance, states):
+class ZDSometimes(ZDStateContainer):
+    """A ZDCode sometimes statement."""
+
+    def __init__(
+        self,
+        actor: "ZDActor",
+        chance: float,
+        states: Iterable[ZDStateObject] | None = None,
+    ):
         self._actor = actor
         self.chance = chance
-        self.states: list[ZDStateObject] = states
+        self.states: list[ZDStateObject] = list(states or [])
 
-    def clone(self):
+    def clone(self) -> Self:
         return ZDSometimes(self._actor, self.chance, (s.clone() for s in self.states))
 
-    def num_states(self):
+    def num_states(self) -> int:
         return sum(x.num_states() for x in self.states) + 2
 
-    def state_containers(self):
+    def state_containers(self) -> Generator[Iterable[ZDStateObject], None, None]:
         yield self.states
 
-    def spawn_safe(self):
+    def spawn_safe(self) -> bool:
         return False
 
-    def to_decorate(self):
+    def to_decorate(self) -> TextNode:
         num_st = sum(x.num_states() for x in self.states)
 
         res = TextNode()
@@ -979,7 +1083,11 @@ class ZDSometimes(object):
 num_whiles = 0
 
 
-class ZDWhileStatement(object):
+class ZDWhileStatement(ZDStateContainer):
+    """A ZDCode while statemet.
+
+    Uses jumps to run a segment of DECORATE states until a condition becomes true."""
+
     def __init__(self, actor, condition, states=()):
         self._actor = actor
         self.true_condition = condition
@@ -993,7 +1101,7 @@ class ZDWhileStatement(object):
 
         self._loop_id = "_loop_while_" + str(self._while_id)
 
-    def clone(self):
+    def clone(self) -> Self:
         res = ZDWhileStatement(
             self._actor, self.true_condition, (s.clone() for s in self.states)
         )
@@ -1001,7 +1109,7 @@ class ZDWhileStatement(object):
 
         return res
 
-    def state_containers(self):
+    def state_containers(self) -> Generator[Iterable[ZDStateObject], None, None]:
         yield self.states
 
         if self.else_block:
@@ -1070,7 +1178,7 @@ class ZDWhileJumpStatement(object):
 
         self._loop_id = "_loop_while_" + str(self._while_id)
 
-    def clone(self):
+    def clone(self) -> Self:
         res = ZDWhileJumpStatement(
             self._actor, self.true_condition, (s.clone() for s in self.states)
         )
@@ -1142,7 +1250,7 @@ class ZDWhileJumpStatement(object):
 
 
 class ZDInventory(object):
-    def __init__(self, code, name):
+    def __init__(self, code: "ZDCode", name):
         self.name = name.strip()
         self.code = code
 
@@ -1155,12 +1263,12 @@ class ZDInventory(object):
 
 
 class ZDSkip:
-    def __init__(self, code, skip_context, curr_ind):
+    def __init__(self, code: "ZDCode", skip_context, curr_ind):
         self.code = code
         self.context = skip_context
         self.ind = curr_ind
 
-    def clone(self):
+    def clone(self) -> Self:
         raise NotImplementedError(
             "State group skipping (e.g. return in macros) could not be cloned. Injected macros cannot be cloned - please don't inject them until all else is resolved!"
         )
