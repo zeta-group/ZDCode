@@ -828,7 +828,7 @@ def abstract_macro_body():
 
 @generate
 def sprite_name():
-    return (regex(r"[A-Z0-9_]{4}") | s('"####"') | s("####")).tag("normal") | (
+    return (s("####") | s('"####"') | regex(r"[A-Z0-9_]{4}")).tag("normal") | (
         ist("param") >> whitespace >> regex(r"[a-zA-Z_][a-zA-Z_0-9]*")
     ).tag("parametrized")
     yield
@@ -977,16 +977,24 @@ def normal_state():
     return (
         seq(
             sprite_name.desc("state name").skip(wo),
-            (regex(r"[A-Z_.\#]").many() | s('"#"') | s("#"))
+            (regex(r"[A-Z_.]").many() | s('"#"') | s("#"))
             .desc("state sprite")
             .skip(wo),
-            regex(r"\-?\d+").map(int).desc("state duration").skip(wo),
+            regex(r"\-?\d+")
+            .map(int)
+            .desc("state duration")
+            .skip(wo)
+            .map(lambda x: x or 0),
             modifier.many().desc("modifier").skip(wo).optional(),
             state_action.optional(),
         )
         | seq(
             ist("keepst").desc("'keepst' state").skip(whitespace)
-            >> regex(r"\-?\d+").map(int).desc("state duration").skip(wo),
+            >> regex(r"\-?\d+")
+            .map(int)
+            .desc("state duration")
+            .skip(wo)
+            .map(lambda x: x or 0),
             modifier.many().desc("modifier").skip(wo).optional(),
             state_action.optional(),
         ).map(lambda l: [("normal", '"####"'), '"#"', *l])
@@ -1928,7 +1936,9 @@ def preprocess_code(
                 if key in defines:
                     defines.pop(key)
 
-        if not check_line.startswith("#") and cond_active:
+        if (
+            (not check_line.startswith("#")) or check_line.startswith("##")
+        ) and cond_active:
             l = preprocess_for_macros(l, defines, this_fname, i)
             src_l = preprocess_for_macros(src_l, defines, this_fname, i)
 

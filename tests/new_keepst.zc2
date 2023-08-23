@@ -1,8 +1,10 @@
 class JumpyTorch extends RedTorch {
     macro Jump {
-        #### BAB 3 [Bright] ThrustThingZ(0, 30, 0, 1);
+        #### A 0 ThrustThingZ(0, 50, 0, 1);
+        #### BAB 3 [Bright];
         #### A 5 [Bright];
         #### A 20;
+        TRED A 2;
     }
 
     label Spawn {
