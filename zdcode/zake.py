@@ -1,26 +1,31 @@
-import heapq
+"""The Zake build system.
+
+Zake can walk your project, gathering assets and compiling ZDCode, and specify
+multiple output types, automatically setting the appropriate paths and preprocessor
+definitions for those.
+
+It can also be used in non-ZDCode projects, as well as in conjunction with other
+build system tools, such as Ninja or a C toolchain."""
 import re
 import sys
-import typing
 from configparser import ConfigParser
 from configparser import ExtendedInterpolation
-from enum import Enum
-
-import attr
 
 from .bundle import Bundle
 from .bundle import BundleOutput
 
 
 class ZakeException(Exception):
-    pass
+    """An error in Zake."""
 
 
 class ZakeConfigError(ZakeException):
-    pass
+    """An error with Zake's configuration; the Zake.ini file."""
 
 
 class ZakeTarget:
+    """A target as specified in Zake configuration."""
+
     def __init__(self, name: str):
         self.name = name
         self.definitions: dict[str, str] = {}
@@ -28,12 +33,15 @@ class ZakeTarget:
         self.outputs: dict[str, BundleOutput] = {}
 
     def add_input(self, inp):
+        """Adds an input specification to this target."""
         self.inputs.append(inp)
 
     def add_definition(self, key, value):
+        """Adds a preprocessor definition to this target."""
         self.definitions[key] = value
 
     def bundle(self, **kwargs):
+        """Execute the bundling process for this target."""
         bundle = Bundle(*self.inputs, outputs=self.outputs)
 
         return bundle.bundle(
@@ -42,19 +50,25 @@ class ZakeTarget:
 
 
 class Zake:
+    """The Zake build system.
+
+    Handles the entire configuration file."""
+
     inj_field_pat = re.compile(r"^\"(.+)\":\"(.+)\"$")
 
     def __init__(self):
         self.targets: dict[str, ZakeTarget] = {}
 
     def add_target(self, name: str) -> ZakeTarget:
+        """Creates and registers a target, before returning it."""
         return self.targets.setdefault(name, ZakeTarget(name))
 
-    def read(self, fn, **kwargs):
+    def read(self, filename, **kwargs):
+        """Read a Zake configuration file."""
         config = ConfigParser(
             interpolation=ExtendedInterpolation(), **kwargs, strict=False
         )
-        config.read(fn)
+        config.read(filename)
 
         c_general = config["General"]
 
@@ -124,7 +138,7 @@ class Zake:
                     interp["defaults"] = ""
 
                     if key in pats:
-                        interp["defaults"] = pats[k]
+                        interp["defaults"] = pats[key]
 
                     pats[key] = config.get(s_pats, key, vars=interp)
 
@@ -134,9 +148,8 @@ class Zake:
             # fetch inputs and outputs
             if "inputs" not in pats:
                 raise ZakeConfigError(
-                    "Required Zake field 'inputs' missing from section Paths while reading target {}.".format(
-                        tname
-                    )
+                    "Required Zake field 'inputs' missing from section Paths "
+                    f"while reading target {tname}."
                 )
 
             for inp in pats["inputs"].strip().split():
@@ -148,9 +161,8 @@ class Zake:
 
                     if not match:
                         raise ZakeConfigError(
-                            "Malformed value found in given Zake field 'injects': {}".format(
-                                injs
-                            )
+                            "Malformed value found in given Zake field 'injects': "
+                            + injs
                         )
 
                     inp, out = match.groups()
@@ -180,9 +192,8 @@ class Zake:
 
                 else:
                     raise ZakeConfigError(
-                        "Required Zake field '{}' missing from section Paths while reading target {}.".format(
-                            out_name, tname
-                        )
+                        f"Required Zake field '{out_name}' missing from section Paths "
+                        f"while reading target {tname}."
                     )
 
                 matchers = get_bundle_cfg(s_bundle_cfg, matchers_name)
@@ -202,26 +213,23 @@ class Zake:
                         targ.outputs[bundle].add_excluder(excluder)
 
             # preprocessor definitions
-            for k, v in defs.items():
-                targ.add_definition(k.strip(), v.strip())
+            for name, value in defs.items():
+                targ.add_definition(name.strip(), value.strip())
 
         # return parsed targets
         return targs
 
     def execute(self, **kwargs):
-        print(
-            "Starting ZDCode bundling barrage with {} targets.".format(
-                len(self.targets)
-            )
-        )
+        """Execute the build process."""
+        print(f"Starting ZDCode bundling barrage with {len(self.targets)} targets.")
 
         for name, target in self.targets.items():
             print("\n-- Bundling target: " + name)
             yield name, target.bundle(**kwargs)
 
 
-# main function for Zake
 def main(print_status_code=True):
+    """Main entry point for Zake."""
     filename = "Zake.ini"
 
     if len(sys.argv) > 1:
@@ -251,23 +259,21 @@ def main(print_status_code=True):
 
         total += 1
 
-        print(" - {}: {}".format(tname, message))
+        print(f" - {tname}: {message}")
 
-    print(
-        "{tot} targets processed ({successes}).{status}".format(
-            tot=total,
-            successes=(
-                "{} successful, {} failed".format(success, error)
-                if error
-                else ("all successful" if success else "nothing done")
-            ),
-            status=(
-                " Final status {}.".format(acc_status) if print_status_code else ""
-            ),
-        )
+    short_status = (
+        f"{success} successful, {error} failed"
+        if error
+        else "all successful"
+        if success
+        else "nothing done"
     )
 
-    exit(acc_status)
+    acc_status = f" Final status {acc_status}." if print_status_code else ""
+
+    print(f"{total} targets processed ({short_status}).{acc_status}")
+
+    sys.exit(acc_status)
 
 
 if __name__ == "__main__":

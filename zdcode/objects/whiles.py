@@ -73,7 +73,7 @@ class ZDWhileStatement(ZDStateContainer):
                     f"{zerotic} A_JumpIf({self.true_condition}, {num_st_el + 2})",
                     self.else_block.to_decorate(),
                     f"{zerotic} A_Jump(256, {num_st_bl + 2})",
-                    "{}:".format(self._loop_id),
+                    f"{self._loop_id}:",
                     TextNode([x.to_decorate() for x in self.states]),
                     f"{zerotic} A_JumpIf({self.true_condition}, {stringify(self._loop_id)})",
                     zerotic,
@@ -84,7 +84,7 @@ class ZDWhileStatement(ZDStateContainer):
             return TextNode(
                 [
                     f"{zerotic} A_JumpIf(!({self.true_condition}), {num_st_bl + 2})",
-                    "{}:".format(self._loop_id),
+                    f"{self._loop_id}:",
                     TextNode([x.to_decorate() for x in self.states]),
                     f"{zerotic} A_JumpIf({self.true_condition}, {stringify(self._loop_id)})",
                     zerotic,

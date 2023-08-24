@@ -100,9 +100,7 @@ class ZDCodeParseContext(object):
                 _print("    " + line)
 
         _print_top(
-            "{} ({}/{})".format(
-                self.desc_stack[-1], self.num_states(), self.remote_num_states()
-            )
+            f"{self.desc_stack[-1]} ({self.num_states()}/{self.remote_num_states()})"
         )
 
         if self.states:
@@ -119,7 +117,7 @@ class ZDCodeParseContext(object):
                     )
 
                 else:
-                    _branch("{} ({})".format(type(s).__name__, s.num_states()), ended)
+                    _branch(f"{type(s).__name__} ({s.num_states()})", ended)
 
                 if not ended:
                     _print("|")
@@ -211,7 +209,7 @@ class ZDCodeParseContext(object):
         return res
 
     def __repr__(self):
-        return "ZDCodeParseContext({})".format(self.repr_describe())
+        return f"ZDCodeParseContext({self.repr_describe()})"
 
     def desc_block(self, desc: str):
         return ZDCtxDescBlock(self, desc)
@@ -247,9 +245,7 @@ class ZDCodeParseContext(object):
 
             else:
                 raise CompilerError(
-                    "No such replacement {} while trying to resolve {} in {}!".format(
-                        repr(name), repr(casename), self.describe()
-                    )
+                    f"No such replacement {repr(name)} while trying to resolve {repr(casename)} in {self.describe()}!"
                 )
 
         return name

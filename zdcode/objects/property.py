@@ -1,3 +1,4 @@
+"""The DECORATE actor property."""
 from ..types.basic import ZDObject
 from ..util import TextNode
 
@@ -13,4 +14,4 @@ class ZDProperty(ZDObject):
         self.actor.properties.append(self)
 
     def to_decorate(self):
-        return TextNode(["{} {}".format(self.name, self.value)])
+        return TextNode([f"{self.name} {self.value}"])

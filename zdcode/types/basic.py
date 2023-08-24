@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING
 from typing import Generator
 from typing import Iterable
 from typing import Protocol
+from typing import Self
 from typing import Union
 
 if TYPE_CHECKING:
@@ -25,6 +26,10 @@ class ZDObject(Protocol):
 
 class ZDStateObject(ZDObject, Protocol):
     """Denotes a ZDCode object which is or may ccontain DECORATE states."""
+
+    def clone(self) -> Self:
+        """Clone this state object."""
+        ...
 
     def spawn_safe(self) -> bool:
         """Whether this collection is 'spawn safe'.

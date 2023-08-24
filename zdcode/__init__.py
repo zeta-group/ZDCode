@@ -1,3 +1,15 @@
+"""ZDCode is a language which compilers to DECORATE.
+
+DECORATE is a legacy scripting language used by the ZDoom family of source ports. While
+modern source ports support ZScript, a more advanced scripting language which is much
+more powerful and superior to both DECORATE and ZDCode, using DECORATE allows other
+source ports to be supported by a mod as well. ZDCode makes the process of writing
+DECORATE code less tedious,
+
+This project is available in the MIT License. For more info, see the LICENSE.md file.
+
+(c)2023 Gustavo Ramos Rehermann and contributors."""
+
 __VERSION__ = "2.13.3"
 
 import collections

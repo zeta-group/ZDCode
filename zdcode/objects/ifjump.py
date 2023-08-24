@@ -1,3 +1,4 @@
+"""The ZDCode ifjump statement."""
 from typing import Callable
 from typing import Generator
 from typing import Iterable
@@ -13,7 +14,8 @@ from .state import zerotic
 class ZDIfJumpStatement(ZDStateContainer):
     """A ZDCode ifjump statement.
 
-    Allows the use of any DECORATE jump action (e.g. A_JumpIfTargetCloser) as a ZDCode block.
+    Allows the use of any DECORATE jump action (e.g. A_JumpIfTargetCloser)
+    as a ZDCode block.
     """
 
     def __init__(
@@ -55,7 +57,8 @@ class ZDIfJumpStatement(ZDStateContainer):
         return _decorator
 
     def num_block_states(self) -> int:
-        """The number of states in this block, not counting the else block if applicable."""
+        """The number of states in this block,
+        not counting the else block if applicable."""
         return sum(x.num_states() for x in self.states)
 
     def num_else_states(self) -> int:

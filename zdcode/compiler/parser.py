@@ -1687,9 +1687,7 @@ def preprocess_for_macros(code, defines=(), this_fname=None, i=0):
                 print()
 
                 raise PreprocessingError(
-                    "Unexpected parse error using parametrized preprocessor alias '{}' ({})".format(
-                        key, e
-                    ),
+                    f"Unexpected parse error using parametrized preprocessor alias '{key}' ({e})",
                     i,
                     this_fname,
                     code + "\n\n",
@@ -1697,9 +1695,7 @@ def preprocess_for_macros(code, defines=(), this_fname=None, i=0):
 
             if len(d_args) != len(args):
                 raise PreprocessingError(
-                    "Bad number of arguments using parametrized preprocessor alias '{}': expected {}, got {}!".format(
-                        key, len(d_args), len(args)
-                    ),
+                    f"Bad number of arguments using parametrized preprocessor alias '{key}': expected {len(d_args)}, got {len(args)}!",
                     i,
                     this_fname,
                     code,
@@ -1709,7 +1705,7 @@ def preprocess_for_macros(code, defines=(), this_fname=None, i=0):
 
             for aname, aval in zip(d_args, args):
                 # ov = v
-                v = re.sub(r"\({}\)".format(re.escape(aname)), "({})".format(aval), v)
+                v = re.sub(r"\({}\)".format(re.escape(aname)), f"({aval})", v)
 
             res = preprocess_for_macros(v, defines, this_fname, i)
             nl += res
@@ -1853,7 +1849,7 @@ def preprocess_code(
                     for fname in gname:
                         if not os.path.isfile(fname):
                             raise PreprocessingError(
-                                "The module '{}' was not found".format(fname),
+                                f"The module '{fname}' was not found",
                                 i,
                                 this_fname,
                                 check_line_case,
@@ -1861,9 +1857,7 @@ def preprocess_code(
 
                         if imports.get(fname, object()) == this_fname:
                             raise PreprocessingError(
-                                "The module '{}' was found in an infinite import cycle!".format(
-                                    fname
-                                ),
+                                f"The module '{fname}' was found in an infinite import cycle!",
                                 i,
                                 this_fname,
                                 check_line_case,
@@ -1888,7 +1882,7 @@ def preprocess_code(
 
                 else:
                     raise PreprocessingError(
-                        "No module matching '{}' was found".format(gfname),
+                        f"No module matching '{gfname}' was found",
                         i,
                         this_fname,
                         check_line_case,
@@ -1922,7 +1916,7 @@ def preprocess_code(
 
                 if value == "":
                     raise PreprocessingError(
-                        "Empty preprocessor macros ('{}') are not allowed!".format(key),
+                        f"Empty preprocessor macros ('{key}') are not allowed!",
                         i,
                         this_fname,
                         check_line_case,

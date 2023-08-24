@@ -1,3 +1,6 @@
+"""The ZDCode whilejump statement."""
+from typing import TYPE_CHECKING
+from typing import Callable
 from typing import Generator
 from typing import Iterable
 from typing import Self
@@ -5,12 +8,20 @@ from typing import Self
 from ..types.basic import ZDStateObject
 from ..util import TextNode
 from ..util import stringify
+from .actor import ZDActor
 from .state import zerotic
 from .whiles import num_whiles
 
 
 class ZDWhileJumpStatement(object):
-    def __init__(self, actor, condition_gen, states=()):
+    """The ZDCode whilejump statement.
+
+    Allows any conditional jump state action (such as A_JumpIfTargetCloser) to be used
+    to run a segment of states until said condition is reached."""
+
+    def __init__(
+        self, actor: "ZDActor", condition_gen: Callable[[int], str], states=()
+    ):
         self._actor = actor
         self.true_condition = condition_gen
         self.states: list[ZDStateObject] = list(states)
@@ -74,7 +85,7 @@ class ZDWhileJumpStatement(object):
                     f"{zerotic} {self.true_condition(num_st_el + 2)}",
                     self.else_block.to_decorate(),
                     f"{zerotic} A_Jump(256, {num_st_bl + 2})",
-                    "{}:".format(self._loop_id),
+                    f"{self._loop_id}:",
                     TextNode([x.to_decorate() for x in self.states]),
                     f"{zerotic} {self.true_condition(stringify(self._loop_id))}",
                     zerotic,
@@ -86,7 +97,7 @@ class ZDWhileJumpStatement(object):
                 [
                     f"{zerotic} {self.true_condition(2)}",
                     f"{zerotic} A_Jump(256, {num_st_bl + 2})",
-                    "{}:".format(self._loop_id),
+                    f"{self._loop_id}:",
                     TextNode([x.to_decorate() for x in self.states]),
                     f"{zerotic} {self.true_condition(stringify(self._loop_id))}",
                     zerotic,

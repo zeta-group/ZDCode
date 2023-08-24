@@ -150,7 +150,7 @@ class ZDClassTemplate(ZDBaseActor):
             provided_macro_names,
             provided_array_names,
         )
-        return "{}__deriv_{}".format(self.name, hash)
+        return f"{self.name}__deriv_{hash}"
 
     def assert_group_exists(
         self, groupname: str, ctx_str: str, context: "ZDCodeParseContext"
@@ -212,7 +212,7 @@ class ZDClassTemplate(ZDBaseActor):
             self.assert_group_exists(group, ctx_str, context)
             self.code.groups[group].append(stringify(new_name))
 
-        context_new = context.derive("derivation of template {}".format(self.name))
+        context_new = context.derive(f"derivation of template {self.name}")
 
         context_new.replacements.update(self.get_init_replacements(parameter_values))
 
@@ -234,47 +234,29 @@ class ZDClassTemplate(ZDBaseActor):
         for l in self.abstract_label_names:
             if l not in provided_label_names:
                 raise CompilerError(
-                    "Tried to derive template {} in {}, but abstract label {} does not have a definition!".format(
-                        self.name, context.describe(), l
-                    )
+                    f"Tried to derive template {self.name} in {context.describe()}, but abstract label {l} does not have a definition!"
                 )
 
         for m, a in self.abstract_macro_names.items():
             if m not in provided_macro_names.keys():
                 raise CompilerError(
-                    "Tried to derive template {} in {}, but abstract macro {} does not have a definition!".format(
-                        self.name, context.describe(), m
-                    )
+                    f"Tried to derive template {self.name} in {context.describe()}, but abstract macro {m} does not have a definition!"
                 )
 
             if len(a) != len(provided_macro_names[m]):
                 raise CompilerError(
-                    "Tried to derive template {} in {}, but abstract macro {} has the wrong number of arguments: expected {}, got {}!".format(
-                        self.name,
-                        context.describe(),
-                        m,
-                        len(a),
-                        len(provided_macro_names[m]),
-                    )
+                    f"Tried to derive template {self.name} in {context.describe()}, but abstract macro {m} has the wrong number of arguments: expected {len(a)}, got {len(provided_macro_names[m])}!"
                 )
 
         for m, a in self.abstract_array_names.items():
             if m not in provided_array_names.keys():
                 raise CompilerError(
-                    "Tried to derive template {} in {}, but abstract array {} is not defined!".format(
-                        self.name, context.describe(), m
-                    )
+                    f"Tried to derive template {self.name} in {context.describe()}, but abstract array {m} is not defined!"
                 )
 
             if a["size"] != "any" and a["size"] != provided_array_names[m]:
                 raise CompilerError(
-                    "Tried to derive template {} in {}, but abstract array {} has a size constraint; expected {} array elements, got {}!".format(
-                        self.name,
-                        context.describe(),
-                        m,
-                        a["size"],
-                        provided_array_names[m],
-                    )
+                    f"Tried to derive template {self.name} in {context.describe()}, but abstract array {m} has a size constraint; expected {a['size']} array elements, got {provided_array_names[m]}!"
                 )
 
         self.register(

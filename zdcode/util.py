@@ -1,3 +1,4 @@
+"""Miscellaneous utilities used by ZDCode internally."""
 import random
 import string
 
@@ -32,9 +33,9 @@ def make_id(length=30):
     )
 
 
-def decorate(o, indent=4):
+def decorate(obj, indent=4):
     """Get the object's compiled DECORATE code."""
-    return o.to_decorate().to_string(indent)
+    return obj.to_decorate().to_string(indent)
 
 
 class TextNode:

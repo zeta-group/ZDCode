@@ -66,13 +66,7 @@ class ZDState(ZDStateObject):
 
         return TextNode(
             [
-                "{} {} {}{}{}".format(
-                    self.sprite.upper(),
-                    self.frame.upper(),
-                    str(self.duration),
-                    " ".join(keywords),
-                    action,
-                )
+                f"{self.sprite.upper()} {self.frame.upper()} {str(self.duration)}{' '.join(keywords)}{action}"
             ]
         )
 
@@ -80,13 +74,7 @@ class ZDState(ZDStateObject):
         return str(self.to_decorate())
 
     def __repr__(self):
-        return "<ZDState({} {} {}{}{})>".format(
-            self.sprite,
-            self.frame,
-            self.duration,
-            "+" if self.keywords else "",
-            " ..." if self.action else "",
-        )
+        return f"<ZDState({self.sprite} {self.frame} {self.duration}{'+' if self.keywords else ''}{' ...' if self.action else ''})>"
 
 
 zerotic = ZDState.zerotic()

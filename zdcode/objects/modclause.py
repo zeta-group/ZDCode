@@ -1,3 +1,4 @@
+"""The clause for ZDCode state modifiers."""
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -15,31 +16,32 @@ class ZDModClause:
         self.effects = effects
 
     def apply(self, ctx: "ZDCodeParseContext", target_states):
+        """Apply this modifier clause to a set of states."""
         clause_ctx = self.context.derive("mod clause")
         clause_ctx.update(ctx)
 
         res = []
 
-        for s in target_states:
-            if self.selector(self.code, clause_ctx, s):
-                alist = [s]
+        for state in target_states:
+            if self.selector(self.code, clause_ctx, state):
+                processing_states = [state]
 
                 for effect in self.effects:
-                    nlist = []
+                    new_processing_states = []
 
-                    for a in alist:
-                        list_part = list(effect(self.code, clause_ctx, a))
-                        nlist.extend(list_part)
+                    for proc_state in processing_states:
+                        new_states = list(effect(self.code, clause_ctx, proc_state))
+                        new_processing_states.extend(new_states)
 
-                    alist = nlist
+                    processing_states = new_processing_states
 
-                res.extend(alist)
+                res.extend(processing_states)
 
             else:
-                for container in s.state_containers():
+                for container in state.state_containers():
                     self.apply(ctx, container)
 
-                res.append(s)
+                res.append(state)
 
         target_states.clear()
         target_states.extend(res)

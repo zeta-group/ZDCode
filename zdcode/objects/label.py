@@ -1,3 +1,4 @@
+"""The ZDCode label object."""
 from ..types.basic import ZDStateObject
 from ..util import TextNode
 
@@ -5,7 +6,8 @@ from ..util import TextNode
 class ZDLabel(ZDStateObject):
     """A label.
 
-    Holds a sequence of states and other DECORATE logic which can be jumped to from any other state, and sometimes by internal ZDoom engine logic.
+    Holds a sequence of states and other DECORATE logic which can be jumped to from any
+    other state, and sometimes by internal ZDoom engine logic.
     """
 
     def __init__(self, _actor, name, states=None, auto_append=True):
@@ -23,9 +25,7 @@ class ZDLabel(ZDStateObject):
         return self.states[0].spawn_safe()
 
     def __repr__(self):
-        return "{}({} of {})".format(
-            type(self).__name__, self.name, repr(self._actor.name)
-        )
+        return f"{type(self).__name__}({self.name} of {repr(self._actor.name)})"
 
     def label_name(self) -> str:
         """Returns the name of the label."""
@@ -39,10 +39,10 @@ class ZDLabel(ZDStateObject):
         if self.name.startswith("F_"):
             self.name = "_" + self.name
 
-        r = TextNode()
-        r.add_line("{}:".format(self.name))
+        text = TextNode()
+        text.add_line(f"{self.name}:")
 
-        for s in self.states:
-            r.add_line(s.to_decorate())
+        for state in self.states:
+            text.add_line(state.to_decorate())
 
-        return r
+        return text

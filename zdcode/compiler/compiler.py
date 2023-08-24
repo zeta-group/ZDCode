@@ -1,7 +1,6 @@
 import queue
 
 from .. import __VERSION__
-from .. import parser as zdlexer
 from ..objects.actor import ZDActor
 from ..objects.block import ZDBlock
 from ..objects.dummy import ZDDummyActor
@@ -23,6 +22,7 @@ from ..util import decorate
 from ..util import make_id
 from ..util import stringify
 from ..util import unstringify
+from . import parser as zdlexer
 from .context import ZDCodeParseContext
 from .error import CompilerError
 from .task import pending_task
@@ -96,9 +96,7 @@ class ZDCode:
             return self._parse_operation(econt, context)
 
         raise CompilerError(
-            "Could not parse evaluation {} in {}".format(
-                repr(evaluation), context.describe()
-            )
+            f"Could not parse evaluation {repr(evaluation)} in {context.describe()}"
         )
 
     def _parse_expression(self, expr, context):
@@ -122,7 +120,7 @@ class ZDCode:
             return "(" + self._parse_expression(exval, context) + ")"
 
         raise CompilerError(
-            "Could not parse expression {} in {}".format(repr(expr), context.describe())
+            f"Could not parse expression {repr(expr)} in {context.describe()}"
         )
 
     def _parse_argument(self, arg, context, name=None):
@@ -147,9 +145,7 @@ class ZDCode:
             return self._parse_anonym_macro(*pval, context, name)
 
     def _parse_anonym_macro(self, args, body, context, name=None):
-        name = name or "ANONYMMACRO_{}_{}".format(
-            self.id.upper(), self.num_anonym_macros
-        )
+        name = name or f"ANONYMMACRO_{self.id.upper()}_{self.num_anonym_macros}"
         self.num_anonym_macros += 1
 
         context.macros[name.upper()] = (args, body)
@@ -171,15 +167,11 @@ class ZDCode:
                 return float(context.replacements[literal[1].upper()])
 
             raise CompilerError(
-                "Cannot get compile-time variable for evaluation, {}, in {}".format(
-                    repr(literal[1]), context.describe()
-                )
+                f"Cannot get compile-time variable for evaluation, {repr(literal[1])}, in {context.describe()}"
             )
 
         raise CompilerError(
-            "Could not parse numeric expression {} at {}".format(
-                repr(literal), context.describe()
-            )
+            f"Could not parse numeric expression {repr(literal)} at {context.describe()}"
         )
 
     def _parse_literal(self, literal, context):
@@ -215,7 +207,7 @@ class ZDCode:
             return self._parse_template_derivation(literal[1], context)
 
         raise CompilerError(
-            "Could not parse literal {} in {}".format(repr(literal), context.describe())
+            f"Could not parse literal {repr(literal)} in {context.describe()}"
         )
 
     def _parse_array(self, arr, context):
@@ -242,19 +234,12 @@ class ZDCode:
 
         except KeyError:
             raise CompilerError(
-                "Unknown template '{}' to derive in {}".format(
-                    template_name, context.describe()
-                )
+                f"Unknown template '{template_name}' to derive in {context.describe()}"
             )
 
         if len(template_parms) != len(template.template_parameters):
             raise CompilerError(
-                "Bad number of template parameters for '{}' in {}: expected {}, got {}".format(
-                    template_name,
-                    context.describe(),
-                    len(template.template_parameters),
-                    len(template_parms),
-                )
+                f"Bad number of template parameters for '{template_name}' in {context.describe()}: expected {len(template.template_parameters)}, got {len(template_parms)}"
             )
 
         template_parms = [
@@ -311,7 +296,7 @@ class ZDCode:
         args = [self._parse_argument(x, context) for x in args]
         args = ", ".join(a for a in args if a)
 
-        return "{}({})".format(aname, args)
+        return f"{aname}({args})"
 
     def _parse_state_action_or_body(self, a, context):
         if a[0] == "action":
@@ -352,7 +337,7 @@ class ZDCode:
         args = ", ".join(a for a in args if a)
 
         if len(args) > 0:
-            return "{}({})".format(a[0], args)
+            return f"{a[0]}({args})"
 
         else:
             return a[0]
@@ -375,9 +360,7 @@ class ZDCode:
 
                 else:
                     raise CompilerError(
-                        "Replacement {} not found while formatting string in {}".format(
-                            pval, context.describe()
-                        )
+                        f"Replacement {pval} not found while formatting string in {context.describe()}"
                     )
 
         return "".join(unstringify(x) for x in res)
@@ -390,9 +373,7 @@ class ZDCode:
             return self._parse_formatted_string(cval[1], context)
 
         raise CompilerError(
-            "Could not parse formattable string {} in {}".format(
-                repr(cval), context.describe()
-            )
+            f"Could not parse formattable string {repr(cval)} in {context.describe()}"
         )
 
     def _parse_replaceable_number(self, cval, context: ZDCodeParseContext):
@@ -404,9 +385,7 @@ class ZDCode:
 
         except ValueError:
             raise CompilerError(
-                "Invalid repeat count in {}: expected valid integer, got {}".format(
-                    context.describe(), repr(cval)
-                )
+                f"Invalid repeat count in {context.describe()}: expected valid integer, got {repr(cval)}"
             )
 
         else:
@@ -504,9 +483,7 @@ class ZDCode:
 
                     except KeyError:
                         raise CompilerError(
-                            "No parameter {} for replacement within modifier, in {}!".format(
-                                cval, context.describe()
-                            )
+                            f"No parameter {cval} for replacement within modifier, in {context.describe()}!"
                         )
 
                 elif ctype == "recurse":
@@ -549,18 +526,14 @@ class ZDCode:
 
                 else:
                     raise CompilerError(
-                        "Parametrized sprite '{}' in {} needs to be passed a string; got {}".format(
-                            sprite_name, context.describe(), repr(new_name)
-                        )
+                        f"Parametrized sprite '{sprite_name}' in {context.describe()} needs to be passed a string; got {repr(new_name)}"
                     )
 
                 name = new_name
 
             except KeyError:
                 raise CompilerError(
-                    "No parameter {} for parametrized sprite name, in {}!".format(
-                        repr(sprite_name), context.describe()
-                    )
+                    f"No parameter {repr(sprite_name)} for parametrized sprite name, in {context.describe()}!"
                 )
 
         return name
@@ -631,17 +604,17 @@ class ZDCode:
 
         elif s[0] == "return":
             raise CompilerError(
-                "Return statements are not valid in {}!".format(context.describe())
+                f"Return statements are not valid in {context.describe()}!"
             )
 
         elif s[0] == "continue":
             raise CompilerError(
-                "Continue statements are not valid in {}!".format(context.describe())
+                f"Continue statements are not valid in {context.describe()}!"
             )
 
         elif s[0] == "break":
             raise CompilerError(
-                "Break statements are not valid in {}!".format(context.describe())
+                f"Break statements are not valid in {context.describe()}!"
             )
 
         elif s[0] == "skip":
@@ -655,14 +628,12 @@ class ZDCode:
 
         elif s[0] == "call":
             raise CompilerError(
-                "Functions and calls have been removed since ZDCode 2.11.0! ({})".format(
-                    context.describe()
-                )
+                f"Functions and calls have been removed since ZDCode 2.11.0! ({context.describe()})"
             )
 
         elif s[0] == "flow":
             if s[1].upper().rstrip(";") == "LOOP":
-                add_state(ZDRawDecorate("goto {}".format(label.name)))
+                add_state(ZDRawDecorate(f"goto {label.name}"))
 
             else:
                 sf = s[1].rstrip(";").split(" ")
@@ -678,9 +649,7 @@ class ZDCode:
 
             if count >= 1:
                 for idx in range(count):
-                    loop_ctx = break_ctx.derive(
-                        "body #{}".format(idx + 1), loop_ctx="self"
-                    )
+                    loop_ctx = break_ctx.derive(f"body #{idx + 1}", loop_ctx="self")
 
                     if xidx:
                         loop_ctx.replacements[xidx.upper()] = str(idx)
@@ -713,9 +682,7 @@ class ZDCode:
 
             except KeyError:
                 raise CompilerError(
-                    "Tried to apply unkown state mod {} in apply statement inside {}!".format(
-                        repr(apply_mod), context.describe()
-                    )
+                    f"Tried to apply unkown state mod {repr(apply_mod)} in apply statement inside {context.describe()}!"
                 )
 
             apply_ctx = context.derive("apply block")
@@ -883,9 +850,7 @@ class ZDCode:
 
                 if group_name.upper() not in self.groups:
                     raise CompilerError(
-                        "No such group {} to 3 in a for loop in {}!".format(
-                            repr(group_name), context.describe()
-                        )
+                        f"No such group {repr(group_name)} to 3 in a for loop in {context.describe()}!"
                     )
 
                 elif self.groups[group_name.upper()]:
@@ -908,9 +873,7 @@ class ZDCode:
 
             else:
                 raise CompilerError(
-                    "Unknown internal for loop iteration mode '{}' in {}! Please report this issue to the author.".format(
-                        itermode[0], context.describe()
-                    )
+                    f"Unknown internal for loop iteration mode '{itermode[0]}' in {context.describe()}! Please report this issue to the author."
                 )
 
         elif s[0] == "inject":
@@ -927,9 +890,7 @@ class ZDCode:
 
                 else:
                     raise CompilerError(
-                        "Unknown extern macro classname {} in {}!".format(
-                            repr(r_from), context.describe()
-                        )
+                        f"Unknown extern macro classname {repr(r_from)} in {context.describe()}!"
                     )
 
                 macros = dict(act.context.macros)
@@ -939,23 +900,19 @@ class ZDCode:
 
             if r_name.upper() in macros:
                 if r_from:
-                    new_context = context.derive(
-                        "macro '{}' from {}".format(r_name, act.name)
-                    )
+                    new_context = context.derive(f"macro '{r_name}' from {act.name}")
                     new_context.update(act.context)
-                    r_qualname = "{}.{}".format(r_from, r_name)
+                    r_qualname = f"{r_from}.{r_name}"
 
                 else:
-                    new_context = context.derive("macro '{}'".format(r_name))
+                    new_context = context.derive(f"macro '{r_name}'")
                     r_qualname = r_name
 
                 (m_args, m_body) = macros[r_name.upper()]
 
                 if len(m_args) != len(r_args):
                     raise CompilerError(
-                        "Bad number of arguments while trying to inject macro {}; expected {}, got {}! (in {})".format(
-                            r_qualname, len(m_args), len(r_args), context.describe()
-                        )
+                        f"Bad number of arguments while trying to inject macro {r_qualname}; expected {len(m_args)}, got {len(r_args)}! (in {context.describe()})"
                     )
 
                 for rn, an in zip(r_args, m_args):
@@ -975,14 +932,12 @@ class ZDCode:
             else:
                 if r_from:
                     raise CompilerError(
-                        "Unknown macro {}.{} in {}!".format(
-                            r_from, r_name, context.describe()
-                        )
+                        f"Unknown macro {r_from}.{r_name} in {context.describe()}!"
                     )
 
                 else:
                     raise CompilerError(
-                        "Unknown macro {} in {}!".format(r_name, context.describe())
+                        f"Unknown macro {r_name} in {context.describe()}!"
                     )
 
     def _parse_inherit(self, inh, context):
@@ -1007,7 +962,7 @@ class ZDCode:
         a = dict(anonym_class)
         new_context = context.derive("anonymous class")
 
-        classname = "_AnonymClass_{}_{}".format(self.id, len(self.anonymous_classes))
+        classname = f"_AnonymClass_{self.id}_{len(self.anonymous_classes)}"
 
         if a["group"]:
             g = unstringify(a["group"])
@@ -1017,9 +972,7 @@ class ZDCode:
 
             else:
                 raise CompilerError(
-                    "Group '{}' not found while compiling anonymous class in {}!".format(
-                        g, context.describe()
-                    )
+                    f"Group '{g}' not found while compiling anonymous class in {context.describe()}!"
                 )
 
         anonym_actor = ZDActor(
@@ -1089,11 +1042,7 @@ class ZDCode:
 
                             except KeyError:
                                 raise CompilerError(
-                                    "Tried to define an array {} in {} that is not abstractly declared in the template {}!".format(
-                                        repr(bdata["name"]),
-                                        new_ctx.describe(),
-                                        repr(template.name),
-                                    )
+                                    f"Tried to define an array {repr(bdata['name'])} in {new_ctx.describe()} that is not abstractly declared in the template {repr(template.name)}!"
                                 )
 
                             act.uservars.append(
@@ -1127,9 +1076,7 @@ class ZDCode:
             return self._parse_array(vval, context)
 
         raise CompilerError(
-            "Could not parse user var value {} in {}".format(
-                repr(vval), context.describe()
-            )
+            f"Could not parse user var value {repr(vval)} in {context.describe()}"
         )
 
     def _parse_class_body(self, actor, context, body):
@@ -1175,15 +1122,13 @@ class ZDCode:
             elif btype == "label":
                 label = ZDLabel(actor, bdata["name"])
 
-                with context.desc_block("label '{}'".format(label.name)):
+                with context.desc_block(f"label '{label.name}'"):
                     for s in bdata["body"]:
                         self._parse_state(actor, context, label, s, None)
 
             elif btype == "function":
                 raise CompilerError(
-                    "Functions have been removed since ZDCode 2.11.0! ({})".format(
-                        context.describe()
-                    )
+                    f"Functions have been removed since ZDCode 2.11.0! ({context.describe()})"
                 )
 
             elif btype == "apply":
@@ -1197,9 +1142,7 @@ class ZDCode:
 
                     except KeyError:
                         raise CompilerError(
-                            "Tried to apply unkown state mod {} in global apply statement inside {}!".format(
-                                repr(mval.strip()), context.describe()
-                            )
+                            f"Tried to apply unkown state mod {repr(mval.strip())} in global apply statement inside {context.describe()}!"
                         )
 
                 elif mtype == "body":
@@ -1219,7 +1162,7 @@ class ZDCode:
 
             for i, item in enumerate(iterator):
                 iter_ctx = break_ctx.remote_derive(
-                    "for-{} loop body".format(itermode[0]), loop_ctx="self"
+                    f"for-{itermode[0]} loop body", loop_ctx="self"
                 )
                 iter_ctx.replacements[itername.upper()] = item
 
@@ -1240,9 +1183,7 @@ class ZDCode:
 
             if group_name.upper() not in self.groups:
                 raise CompilerError(
-                    "No such group {} to 3 in a for loop in {}!".format(
-                        repr(group_name), context.describe()
-                    )
+                    f"No such group {repr(group_name)} to 3 in a for loop in {context.describe()}!"
                 )
 
             elif self.groups[group_name.upper()]:
@@ -1332,9 +1273,7 @@ class ZDCode:
 
                     if g.upper() not in self.groups:
                         raise CompilerError(
-                            "Group '{}' not found while compiling template class {}!".format(
-                                g, classname
-                            )
+                            f"Group '{g}' not found while compiling template class {classname}!"
                         )
 
                     g = g.upper()
@@ -1377,7 +1316,7 @@ class ZDCode:
                 a = dict(a)
                 classname = self._parse_formattable_string(a["classname"], actx)
 
-                with actx.desc_block("class '{}'".format(classname)):
+                with actx.desc_block(f"class '{classname}'"):
                     actor = ZDActor(
                         self,
                         classname,
@@ -1396,9 +1335,7 @@ class ZDCode:
 
                         else:
                             raise CompilerError(
-                                "Group '{}' not found while compiling class '{}'!".format(
-                                    g, classname
-                                )
+                                f"Group '{g}' not found while compiling class '{classname}'!"
                             )
 
                     def pending_oper_gen():
@@ -1426,9 +1363,7 @@ class ZDCode:
 
                 new_name = self._parse_formattable_string(new_name, actx)
 
-                with actx.desc_block(
-                    "static template derivation '{}'".format(new_name)
-                ):
+                with actx.desc_block(f"static template derivation '{new_name}'"):
                     self._parse_template_derivation(
                         a["source"][1],
                         actx,
@@ -1442,9 +1377,7 @@ class ZDCode:
 
                         if g.upper() not in self.groups:
                             raise CompilerError(
-                                "No such group {} to add the derivation {} to!".format(
-                                    repr(g), new_name
-                                )
+                                f"No such group {repr(g)} to add the derivation {new_name} to!"
                             )
 
                         self.groups[g.upper()].append(new_name)
@@ -1500,7 +1433,7 @@ class ZDCode:
     def to_decorate(self):
         res = TextNode(indent=0)
 
-        res.add_line("// :ZDCODE version='{}' id='{}' ".format(__VERSION__, self.id))
+        res.add_line(f"// :ZDCODE version='{__VERSION__}' id='{self.id}' ")
 
         if self.inventories:
             for i in self.inventories:

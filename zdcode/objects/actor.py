@@ -1,8 +1,10 @@
 from typing import TYPE_CHECKING
+from typing import Iterable
 
 from .. import _user_array_setters
 from .. import _user_var_setters
 from ..compiler.context import ZDCodeParseContext
+from ..types.basic import ZDStateObject
 from ..util import TextNode
 from ..util import decorate
 from ..util import make_id
@@ -16,6 +18,8 @@ if TYPE_CHECKING:
 
 
 class ZDBaseActor(object):
+    """A basic actor-like class."""
+
     def __init__(
         self,
         code: "ZDCode",
@@ -34,6 +38,8 @@ class ZDBaseActor(object):
 
 
 class ZDActor(ZDBaseActor):
+    """A DECORATE class."""
+
     def __init__(
         self,
         code,
@@ -71,18 +77,17 @@ class ZDActor(ZDBaseActor):
 
         # code.actor_names[name.upper()] = self
 
-    def __repr__(self):
-        return "<ZDActor({}{}{}{})>".format(
-            self.name,
-            self.inherit and ("extends " + self.inherit) or "",
-            self.replace and ("replaces " + self.replace or "") or "",
-            self.doomednum and ("#" + str(self.doomednum)) or "",
-        )
+    def __repr__(self) -> str:
+        return f"<ZDActor({self.name}{self.inherit and 'extends ' + self.inherit or ''}{self.replace and ('replaces ' + self.replace or '') or ''}{self.doomednum and '#' + str(self.doomednum) or ''})>"
 
-    def get_context(self):
+    def get_context(self) -> ZDCodeParseContext:
+        """Returns the [ZDCodeParseContext] of this Actor."""
         return self.context
 
-    def make_spawn_label(self):
+    def make_spawn_label(self) -> ZDLabel:
+        """Creates a dummy Spawn label.
+
+        It is not registered."""
         return ZDLabel(
             self,
             "Spawn",
@@ -90,36 +95,35 @@ class ZDActor(ZDBaseActor):
             auto_append=False,
         )
 
-    def get_spawn_label(self):
-        for l in self.labels:
-            if l.name.upper() == "SPAWN":
-                return self.transform_spawn(l)
+    def get_spawn_label(self) -> ZDLabel | None:
+        """Returns the Spawn label, if there is one."""
+        for label in self.labels:
+            if label.name.upper() == "SPAWN":
+                return self.transform_spawn(label)
 
         return None
 
-    def _set_user_var_state(self, var):
+    def _set_user_var_state(self, var) -> Iterable[ZDState]:
+        """Returns states that set the initial values of the actor's user vars."""
         vtype, vlit = var["value"]
 
         if vtype == "val":
             return [
                 ZDState(
-                    action="{}({}, {})".format(
-                        _user_var_setters[var["type"]], stringify(var["name"]), vlit
-                    )
+                    action=f"{_user_var_setters[var['type']]}({stringify(var['name'])}, {vlit})"
                 )
             ]
 
         elif vtype == "arr":
             return [
                 ZDState(
-                    action="{}({}, {}, {})".format(
-                        _user_array_setters[var["type"]], stringify(var["name"]), i, v
-                    )
+                    action=f"{_user_array_setters[var['type']]}({stringify(var['name'])}, {i}, {v})"
                 )
                 for i, v in enumerate(vlit)
             ]
 
-    def _get_spawn_prelude(self):
+    def _get_spawn_prelude(self) -> Iterable[ZDStateObject]:
+        """Returns the prelude of the Spawn funtion."""
         return sum(
             [
                 self._set_user_var_state(var)
@@ -130,6 +134,7 @@ class ZDActor(ZDBaseActor):
         )
 
     def prepare_spawn_label(self):
+        """Prepares the Spawn label by adding a prelude."""
         label = self.get_spawn_label()
 
         if not label:
@@ -139,6 +144,11 @@ class ZDActor(ZDBaseActor):
             label.states = self._get_spawn_prelude() + label.states
 
     def top(self):
+        """Returns the 'top' section of the class code.
+
+        The top holds every property, flag, combo, and user variable declaration in
+        the DECORATE class.
+        """
         r = TextNode()
 
         for p in sorted(self.properties, key=lambda p: p.name):
@@ -156,10 +166,10 @@ class ZDActor(ZDBaseActor):
             )
 
         for f in self.flags:
-            r.add_line("+{}".format(f))
+            r.add_line(f"+{f}")
 
         for a in self.antiflags:
-            r.add_line("-{}".format(a))
+            r.add_line(f"-{a}")
 
         for rd in self.raw:
             r.add_line(rd)
@@ -169,12 +179,15 @@ class ZDActor(ZDBaseActor):
 
         return r
 
-    def transform_spawn(self, label: ZDLabel):
+    def transform_spawn(self, label: ZDLabel) -> ZDLabel:
+        """Transforms the Spawn label, making it spawn safe."""
         if label.states[0].spawn_safe():
             return label
 
-        # TODO: more comprehensive error handling and warning handling
+        # WIP: more comprehensive error handling and warning handling
         # (sike, ZDCode is not going to get new features!)
+
+        # WIP: add "strict mode", error out here in sttict mode
         print(
             f"Warning: Spawn label of class '{repr(self.name)}' is not spawn safe: "
             "auto-padding with 'TNT1 A 0'! Silence this warning by manually adding a "
@@ -185,33 +198,43 @@ class ZDActor(ZDBaseActor):
         new_label.states.insert(0, ZDState.tnt1())
         return new_label
 
-    def label_code(self):
+    def label_code(self) -> TextNode:
+        """Returns a single TextNode holding DECORATE for the class's label code.
+
+        Any code that isn't the class declaration or the top is considered 'label code'.
+        """
         r = TextNode()
 
         for f in self.funcs:
             r.add_line(decorate(f[1]))
 
-        for l in self.labels:
-            if l.name.upper() == "SPAWN":
-                l = self.transform_spawn(l)
+        for label in self.labels:
+            if label.name.upper() == "SPAWN":
+                label = self.transform_spawn(label)
 
-            r.add_line(decorate(l))
+            r.add_line(decorate(label))
 
         return r
 
-    def header(self):
+    def header(self) -> str:
+        """Returns the header of the class.
+
+        The header is the portion that comes right after the classname in
+        DECCORATE. It contains informatino such as inheritancce, replacement,
+        and the editor number (DoomEdNum).
+        """
         r = self.name
 
         if self.inherit:
-            r += " : {}".format(self.inherit)
+            r += f" : {self.inherit}"
         if self.replace:
-            r += " replaces {}".format(self.replace)
+            r += f" replaces {self.replace}"
         if self.num:
-            r += " {}".format(str(self.num))
+            r += f" {str(self.num)}"
 
         return r
 
-    def to_decorate(self):
+    def to_decorate(self) -> TextNode:
         if self.labels + self.funcs:
             return TextNode(
                 [

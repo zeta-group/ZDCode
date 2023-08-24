@@ -1,3 +1,6 @@
+"""Handles the bundling of multiple outputs.
+
+Used by Zake to produce the output artifacts."""
 import fnmatch
 import functools
 import heapq
@@ -8,6 +11,7 @@ import tempfile
 import typing
 import zipfile
 from collections import deque
+from typing import Callable
 
 import attr
 
@@ -17,6 +21,10 @@ from .compiler.compiler import ZDCode
 @functools.total_ordering
 @attr.s(order=False)
 class BundleOutput:
+    """Holds information on an output and what should be used to construct it.
+
+    This is somewhat similar to a stripped down Make rule."""
+
     name: str = attr.ib()
     output: str = attr.ib()
     priority: float = attr.ib(default=1.0)
@@ -24,12 +32,15 @@ class BundleOutput:
     excluders: list[str] = attr.ib(factory=list)
 
     def add_matcher(self, matcher: str):
+        """Adds a file path matcher."""
         self.matchers.append(matcher)
 
     def add_excluder(self, excluder: str):
+        """Adds a file path excluder."""
         self.excluders.append(excluder)
 
     def matches(self, rel_path: str) -> bool:
+        """Returns whether a file path matches this output's criteria."""
         for excluder in self.excluders:
             if fnmatch.fnmatch(rel_path, excluder):
                 return False
@@ -55,11 +66,13 @@ class BundleOutput:
 
 
 class BundleDependencyError(Exception):
-    pass
+    """An error relating to Zake's dependency resolution."""
 
 
 @attr.s
 class BundleInputWalker:
+    """Walks file trees specified by a Zake project as relevant to a build process."""
+
     code: ZDCode = attr.ib()
     bundle: "Bundle" = attr.ib()
     deps: list[tuple[pathlib.Path, pathlib.PurePath]] = attr.ib(factory=list)
@@ -72,8 +85,14 @@ class BundleInputWalker:
     collected: typing.Deque[tuple[str, str, bytes]] = attr.ib(factory=list)
 
     @classmethod
-    def new(self, bundle, error_handler=None, preproc_defs=None) -> "BundleInputWalker":
-        return BundleInputWalker(
+    def new(
+        cls,
+        bundle: "Bundle",
+        error_handler: Callable[[str], None] = None,
+        preproc_defs: dict[str, str] = None,
+    ) -> "BundleInputWalker":
+        """Makes a walker for a bundle."""
+        return cls(
             bundled=set(),
             deps=[],
             code=ZDCode(),
@@ -85,14 +104,17 @@ class BundleInputWalker:
         )
 
     def add_dep(self, url: pathlib.Path, target: pathlib.PurePath) -> None:
+        """Registers a dependency to be later resolved."""
         self.deps.append((url, target))
 
     def scan_deps(self):
+        """Scan the registered dependencies."""
         while self.deps:
             mod, target = self.deps.pop()
             self.scan_dep(mod, target)
 
     def build(self) -> typing.Optional[tuple[int, str]]:
+        """Perform the build tasks."""
         while self.build_tasks:
             task = self.build_tasks.pop()
 
@@ -107,6 +129,7 @@ class BundleInputWalker:
         return None
 
     def store_collected(self, out_zip: zipfile.ZipFile, target: str, data: bytes):
+        """Store the collected build and bundle results in an output path."""
         # check if file already exists in target;
         # if so, add extension
 
@@ -124,6 +147,8 @@ class BundleInputWalker:
         out_zip.writestr(out_path, data)
 
     def assemble(self):
+        """Internally assemble a zip file to then store at an output path."""
+
         zips: dict[str, zipfile.ZipFile] = {}
         zipfiles = set()
 
@@ -139,7 +164,12 @@ class BundleInputWalker:
             out_zip = zips[oname.lower()]
             self.store_collected(out_zip, target, data)
 
+        for zipf in zips.values():
+            zipf.close()
+
     def scan_dep(self, url: pathlib.Path, target: pathlib.PurePath):
+        """Scan for a single dependency."""
+
         url_str = str(url)
 
         if url_str in self.bundled:
@@ -151,6 +181,7 @@ class BundleInputWalker:
     def scan_dep_url(
         self, url: pathlib.Path, target: pathlib.PurePath, relative: pathlib.PurePath
     ):
+        """Scan a dependency which is a path."""
         if url.is_dir():
             self.scan_dep_dir(url, target, relative)
 
@@ -160,6 +191,7 @@ class BundleInputWalker:
     def scan_dep_zip(
         self, url: pathlib.Path, target: pathlib.PurePath, relative: pathlib.PurePath
     ):
+        """Scan a dependency which is a ZIP file."""
         with tempfile.TemporaryDirectory() as extract_out:
             extractdest = pathlib.Path(extract_out)
 
@@ -171,6 +203,7 @@ class BundleInputWalker:
     def scan_dep_file(
         self, url: pathlib.Path, target: pathlib.PurePath, relative: pathlib.PurePath
     ):
+        """Scan a dependency which is a file."""
         if url.stem.split(".")[0].upper() == "ZDCODE":
             self.build_tasks.append(self._compile_task(url))
 
@@ -182,12 +215,15 @@ class BundleInputWalker:
         self.collect(opath, url.read_bytes())
 
     def collect(self, out_path: pathlib.PurePath, data: bytes):
+        """Collect the output of the bundling process."""
         output = self.bundle.find_output(out_path.name)
 
         if output:
             self.collected.append((str(out_path), output.name.lower(), data))
 
     def _compile_task(self, zdc):
+        """Decorates a function into a compilation task."""
+
         def compile_mod_zdcode():
             with zdc.open() as zdc_fp:
                 return self.code.add(
@@ -203,6 +239,8 @@ class BundleInputWalker:
     def scan_dep_dir(
         self, url: pathlib.Path, target: pathlib.PurePath, relative: pathlib.PurePath
     ):
+        """Scan a dependency which is a directory."""
+
         for filepath in url.rglob("*"):
             if filepath.is_file() and filepath.name != "DEPINDEX":
                 self.scan_dep_file(
@@ -214,24 +252,28 @@ class BundleInputWalker:
         if indx_path.is_file():
             lines = indx_path.read().splitlines()
 
-            for l in lines:
-                l = l.strip()
+            for line in lines:
+                line = line.strip()
 
-                if l:
-                    dep_path = url.parent / l
+                if line:
+                    dep_path = url.parent / line
 
                     if not dep_path.exists():
-                        dep_path = pathlib.Path.cwd() / l
+                        dep_path = pathlib.Path.cwd() / line
 
                     if not dep_path.exists():
                         raise BundleDependencyError(
-                            "The file {} depends on {}, which does not exist, neither as a sibling of the dependent's dir, nor under the working one!"
+                            "The file {} depends on {}, which does not exist, "
+                            "neither as a sibling of the dependent's dir, "
+                            "nor under the working one!"
                         )
 
                     self.deps.append(dep_path)
 
 
 class Bundle:
+    """A bundling process. Can have multiple outputs."""
+
     def __init__(self, *mods: list[tuple[str, str]], outputs=None, error_handler=None):
         self.mods = list(mods)
         self.error_handler = error_handler
@@ -242,6 +284,7 @@ class Bundle:
         self.output_heap.sort()
 
     def add_output(self, name: str, output: str, priority: float = 1.0) -> BundleOutput:
+        """Creates and registers a new output for this bundle."""
         res = self.outputs.setdefault(
             name, BundleOutput(name=name, output=output, priority=priority)
         )
@@ -253,6 +296,7 @@ class Bundle:
         return res
 
     def find_output(self, rel_path: str) -> typing.Optional[BundleOutput]:
+        """Finds a [BundleOutput] in this bundle by name."""
         for bundle in self.output_heap:
             if bundle.matches(rel_path):
                 return bundle
@@ -264,6 +308,7 @@ class Bundle:
         error_handler=None,
         preproc_defs=(),
     ):
+        """Executes the bundling process."""
         walker = BundleInputWalker.new(
             error_handler=error_handler or self.error_handler,
             preproc_defs=dict(preproc_defs),
@@ -285,7 +330,7 @@ class Bundle:
             return err
 
         # count files bundled
-        print("Collected {} files.".format(len(walker.collected)))
+        print(f"Collected {len(walker.collected)} files.")
 
         # assemble outputs
         print("Assembling...")
