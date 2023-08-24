@@ -1,3 +1,4 @@
+"""The ZDCode verbatim text object. For internal use only."""
 from typing import Generator
 from typing import Iterable
 
@@ -6,6 +7,8 @@ from ..util import TextNode
 
 
 class ZDRawDecorate(ZDStateObject):
+    """Verbatim text, to be pasted directly. Internal use only."""
+
     def __init__(self, raw: str, num_states: int = 0):
         self.raw = raw
         self._num_states = num_states

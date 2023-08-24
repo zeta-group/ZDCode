@@ -1,3 +1,4 @@
+"""ZDCode processing context."""
 import collections
 import itertools
 from typing import TYPE_CHECKING
@@ -11,6 +12,8 @@ if TYPE_CHECKING:
 
 
 class ZDCtxDescBlock:
+    """ZDCode context description block."""
+
     def __init__(self, ctx: "ZDCodeParseContext", desc: str):
         self.ctx = ctx
         self.desc = desc
@@ -22,7 +25,12 @@ class ZDCtxDescBlock:
         assert self.ctx.desc_stack.pop() == self.desc
 
 
-class ZDCodeParseContext(object):
+class ZDCodeParseContext:
+    """A ZDCode processing and transform context.
+
+    Used to group states and other objects, to count relevant gruopings of states,
+    and to help with debugging."""
+
     def __init__(
         self,
         replacements=None,
@@ -65,16 +73,18 @@ class ZDCodeParseContext(object):
             self.add_description(description)
 
     def add_description(self, desc):
+        """Appends to the description stack of this context."""
         self.desc_stack.append(desc)
 
     def get_applied_mods(self):
+        """Returns an iterator on the state modifiers active in this context."""
         if self.always_applied_mods is None:
             return iter(self.applied_mods)
 
-        else:
-            return itertools.chain(self.always_applied_mods, self.applied_mods)
+        return itertools.chain(self.always_applied_mods, self.applied_mods)
 
     def print_state_tree(self, _print_low=print, _print=print, prefix="+ "):
+        """Print a tree of everything in this context."""
         ended = 0
 
         _print_low = _print_low or print
@@ -108,16 +118,16 @@ class ZDCodeParseContext(object):
 
             imax = len(self.states)
 
-            for i, s in enumerate(self.states):
-                ended = 1 if i >= imax - 1 else 0
+            for index, state in enumerate(self.states):
+                ended = 1 if index >= imax - 1 else 0
 
-                if isinstance(s, ZDCodeParseContext):
-                    s.print_state_tree(
+                if isinstance(state, ZDCodeParseContext):
+                    state.print_state_tree(
                         _print, _print_next, "'---+ " if ended > 0 else "+---+ "
                     )
 
                 else:
-                    _branch(f"{type(s).__name__} ({s.num_states()})", ended)
+                    _branch(f"{type(state).__name__} ({state.num_states()})", ended)
 
                 if not ended:
                     _print("|")
@@ -128,10 +138,10 @@ class ZDCodeParseContext(object):
 
             imax = len(self.remote_children)
 
-            for i, ch in enumerate(self.remote_children):
-                ended = 2 if i >= imax - 1 else 1
+            for index, child in enumerate(self.remote_children):
+                ended = 2 if index >= imax - 1 else 1
 
-                ch.print_state_tree(
+                child.print_state_tree(
                     _print,
                     _print_next,
                     "^---* (remote) " if ended > 1 else "%---* (remote) ",
@@ -141,16 +151,18 @@ class ZDCodeParseContext(object):
                     _print(":")
 
     def num_states(self):
+        """Counts every state in this context and children, except remotely derived."""
         return sum(s.num_states() for s in self.states)
 
     def remote_num_states(self):
+        """Counts every state in this context and its children."""
         return (
             self.remote_offset
             + sum(
-                s.remote_num_states()
-                if isinstance(s, ZDCodeParseContext)
-                else s.num_states()
-                for s in self.states
+                state.remote_num_states()
+                if isinstance(state, ZDCodeParseContext)
+                else state.num_states()
+                for state in self.states
             )
             + sum(c.remote_num_states() for c in self.remote_children)
         )
@@ -162,6 +174,13 @@ class ZDCodeParseContext(object):
         break_ctx: "ZDCodeParseContext" | Literal["self"] | None = None,
         loop_ctx: "ZDCodeParseContext" | Literal["self"] | None = None,
     ) -> "ZDCodeParseContext":
+        """Creates a new context, which 'remotely' derives from this one.
+
+        Remote derivation is special in that a remotely derived context does not
+        actually count as a child of the current one. Its states are not counted
+        towards this one's total, unless using [remote_num_states].
+        """
+
         # derives without adding to states
         res = ZDCodeParseContext(
             self.replacements,
@@ -189,6 +208,7 @@ class ZDCodeParseContext(object):
         break_ctx: "ZDCodeParseContext" | Literal["self"] | None = None,
         loop_ctx: "ZDCodeParseContext" | Literal["self"] | None = None,
     ) -> "ZDCodeParseContext":
+        """Creates a child context deriving from this one, and returns it."""
         res = ZDCodeParseContext(
             self.replacements,
             self.macros,
@@ -212,25 +232,31 @@ class ZDCodeParseContext(object):
         return f"ZDCodeParseContext({self.repr_describe()})"
 
     def desc_block(self, desc: str):
+        """Returns a context description block to use with 'with'."""
         return ZDCtxDescBlock(self, desc)
 
     def update(self, other_ctx: "ZDCodeParseContext"):
+        """Update ChainMaps to also point to the other context's information."""
         self.macros.maps.insert(-1, other_ctx.macros)
         self.replacements.maps.insert(-1, other_ctx.replacements)
         self.templates.maps.insert(-1, other_ctx.templates)
         self.mods.maps.insert(-1, other_ctx.mods)
 
     def add_actor(self, ac: "ZDActor"):
-        for al in self.actor_lists:
-            al.append(ac)
+        """Append an actor to every actor list tracked by this context."""
+        for actor_list in self.actor_lists:
+            actor_list.append(ac)
 
-    def describe(self):
+    def describe(self) -> str:
+        """Describes this context."""
         return " at ".join(self.desc_stack[::-1])
 
-    def repr_describe(self):
+    def repr_describe(self) -> str:
+        """Describes this context, but comma separated. Used in __repr__."""
         return ", ".join(self.desc_stack[::-1])
 
     def resolve(self, name, desc="a parametrizable name"):
+        """Resolve a name, applying replacements in this context when applicable."""
         while name[0] == "@":
             resolves = len(name) - len(name.lstrip("@"))
             casename = name[resolves:]
@@ -245,7 +271,8 @@ class ZDCodeParseContext(object):
 
             else:
                 raise CompilerError(
-                    f"No such replacement {repr(name)} while trying to resolve {repr(casename)} in {self.describe()}!"
+                    f"No such replacement {repr(name)} "
+                    f"while trying to resolve {repr(casename)} in {self.describe()}!"
                 )
 
         return name

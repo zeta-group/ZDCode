@@ -1,22 +1,43 @@
+"""A ZDCode class template."""
 import hashlib
 import itertools
+from typing import TYPE_CHECKING
 from typing import Iterable
+from typing import TypedDict
 
 from ..compiler.error import CompilerError
 from ..util import make_id
 from ..util import stringify
 from .actor import ZDActor
 from .actor import ZDBaseActor
+from .actor import ZDObject
+
+if TYPE_CHECKING:
+    from ..compiler.compiler import ZDCode
+    from ..compiler.context import ZDCodeParseContext
 
 
-class ZDClassTemplate(ZDBaseActor):
+class UserArrayDefinition(TypedDict):
+    """An internal object defining an abstract user array.
+
+    Used in class templates only to allow overriding an array used by the template in
+    the derivation."""
+
+    name: str
+    size: str
+    type: str
+
+
+class ZDClassTemplate(ZDBaseActor, ZDObject):
+    """A ZDCode class template."""
+
     def __init__(
         self,
         template_parameters: Iterable[str],
         parse_data,
         abstract_label_names: Iterable[str],
         abstract_macro_names: dict[str, Iterable[str]],
-        abstract_array_names: dict[str, {"size": int, "type": str}],
+        abstract_array_names: dict[str, UserArrayDefinition],
         group_name: str | None,
         code: "ZDCode",
         name: str,
@@ -45,6 +66,7 @@ class ZDClassTemplate(ZDBaseActor):
         provided_macro_names: Iterable[str],
         provided_array_names: Iterable[str],
     ):
+        """Duplicates this class template."""
         if (
             self.abstract_macro_names
             or self.abstract_label_names
@@ -69,6 +91,7 @@ class ZDClassTemplate(ZDBaseActor):
         provided_macro_names: Iterable[str],
         provided_array_names: Iterable[str],
     ):
+        """Find a class template with these exact parameter  definitions."""
         return self.existing[
             self.parameter_hash(
                 parameter_values,
@@ -86,6 +109,7 @@ class ZDClassTemplate(ZDBaseActor):
         provided_array_names: Iterable[str],
         result,
     ):
+        """Register the hash of these parameter definitions."""
         self.existing[
             self.parameter_hash(
                 parameter_values,
@@ -102,77 +126,70 @@ class ZDClassTemplate(ZDBaseActor):
         provided_macro_names: Iterable[str],
         provided_array_names: Iterable[str],
     ) -> str:
-        hash = hashlib.sha256()
+        """Hashes parameter definitions."""
+        hashed = hashlib.sha256()
 
-        hash.update(self.name.encode("utf-8"))
-        hash.update(b"|")
+        hashed.update(self.name.encode("utf-8"))
+        hashed.update(b"|")
 
-        hash.update(self.id.encode("utf-8"))
-        hash.update(b"|")
+        hashed.update(self.identifier.encode("utf-8"))
+        hashed.update(b"|")
 
         if (
             self.abstract_macro_names
             or self.abstract_label_names
             or self.abstract_array_names
         ):
-            hash.update(make_id(80).encode("utf-8"))
+            hashed.update(make_id(80).encode("utf-8"))
 
         else:
             for parm in parameter_values:
-                hash.update(parm.encode("utf-8"))
-                hash.update(b"-")
+                hashed.update(parm.encode("utf-8"))
+                hashed.update(b"-")
 
-            hash.update(b"|")
+            hashed.update(b"|")
 
             for name in itertools.chain(provided_label_names, provided_array_names):
-                hash.update(name.encode("utf-8"))
-                hash.update(b"-")
+                hashed.update(name.encode("utf-8"))
+                hashed.update(b"-")
 
-            hash.update(b"|")
+            hashed.update(b"|")
 
             for name, args in provided_macro_names.items():
-                hash.update(hex(len(args)).encode("utf-8"))
-                hash.update(name.encode("utf-8"))
-                hash.update(b"-")
+                hashed.update(hex(len(args)).encode("utf-8"))
+                hashed.update(name.encode("utf-8"))
+                hashed.update(b"-")
 
-        return hash.hexdigest()
+        return hashed.hexdigest()
 
-    def generated_class_name(
+    def generate_class_name(
         self,
         parameter_values,
         provided_label_names: Iterable[str],
         provided_macro_names: Iterable[str],
         provided_array_names: Iterable[str],
     ):
-        hash = self.parameter_hash(
+        """Generates a class name for an anonymous class template."""
+        hashed = self.parameter_hash(
             parameter_values,
             provided_label_names,
             provided_macro_names,
             provided_array_names,
         )
-        return f"{self.name}__deriv_{hash}"
-
-    def assert_group_exists(
-        self, groupname: str, ctx_str: str, context: "ZDCodeParseContext"
-    ):
-        if groupname not in self.code.groups:
-            raise CompilerError(
-                f"No such group '{groupname}' {ctx_str} (in f{context.describe()})!"
-            )
+        return f"{self.name}__deriv_{hashed}"
 
     def generate_init_class(
         self,
-        code: "ZDCode",
         context: "ZDCodeParseContext",
         parameter_values,
         provided_label_names: Iterable[str] = (),
         provided_macro_names: Iterable[str] = (),
         provided_array_names: Iterable[str] = (),
         name: str | None = None,
-        pending: str | None = None,
         inherits: str | None = None,
         group: str | None = None,
     ):
+        """Generates an initial ZDCode class object from this template."""
         provided_label_names = set(provided_label_names)
         provided_macro_names = dict(provided_macro_names)
 
@@ -192,7 +209,7 @@ class ZDClassTemplate(ZDBaseActor):
         new_name = (
             name
             if name is not None
-            else self.generated_class_name(
+            else self.generate_class_name(
                 parameter_values,
                 provided_label_names,
                 provided_macro_names,
@@ -201,15 +218,16 @@ class ZDClassTemplate(ZDBaseActor):
         )
 
         ctx_str = (
-            f"in {name and 'derivation ' + name or 'anonymous derivation'} of {self.name}",
+            f"in {name and 'derivation ' + name or 'anonymous derivation'} "
+            "of {self.name}",
         )
 
         if self.group_name:
-            self.assert_group_exists(self.group_name, ctx_str, context)
+            self.code.assert_group_exists(self.group_name, ctx_str, context)
             self.code.groups[self.group_name].append(stringify(new_name))
 
         if group and group != self.group_name:
-            self.assert_group_exists(group, ctx_str, context)
+            self.code.assert_group_exists(group, ctx_str, context)
             self.code.groups[group].append(stringify(new_name))
 
         context_new = context.derive(f"derivation of template {self.name}")
@@ -231,32 +249,44 @@ class ZDClassTemplate(ZDBaseActor):
 
         res = ZDActor(self.code, new_name, inh, rep, self.num, context=context_new)
 
-        for l in self.abstract_label_names:
-            if l not in provided_label_names:
+        for label_name in self.abstract_label_names:
+            if label_name not in provided_label_names:
                 raise CompilerError(
-                    f"Tried to derive template {self.name} in {context.describe()}, but abstract label {l} does not have a definition!"
+                    f"Tried to derive template {self.name} in {context.describe()}, "
+                    f"but abstract label {label_name} does not have a definition!"
                 )
 
-        for m, a in self.abstract_macro_names.items():
-            if m not in provided_macro_names.keys():
+        for macro_name, macro_defs in self.abstract_macro_names.items():
+            if macro_name not in provided_macro_names:
                 raise CompilerError(
-                    f"Tried to derive template {self.name} in {context.describe()}, but abstract macro {m} does not have a definition!"
+                    f"Tried to derive template {self.name} in {context.describe()}, "
+                    f"but abstract macro {macro_name} does not have a definition!"
                 )
 
-            if len(a) != len(provided_macro_names[m]):
+            if len(macro_defs) != len(provided_macro_names[macro_name]):
                 raise CompilerError(
-                    f"Tried to derive template {self.name} in {context.describe()}, but abstract macro {m} has the wrong number of arguments: expected {len(a)}, got {len(provided_macro_names[m])}!"
+                    f"Tried to derive template {self.name} in {context.describe()}, "
+                    f"but abstract macro {macro_name} has the "
+                    f"wrong number of arguments: expected {len(macro_defs)}, "
+                    f"got {len(provided_macro_names[macro_name])}!"
                 )
 
-        for m, a in self.abstract_array_names.items():
-            if m not in provided_array_names.keys():
+        for macro_name, macro_defs in self.abstract_array_names.items():
+            if macro_name not in provided_array_names:
                 raise CompilerError(
-                    f"Tried to derive template {self.name} in {context.describe()}, but abstract array {m} is not defined!"
+                    f"Tried to derive template {self.name} in {context.describe()}, "
+                    f"but abstract array {macro_name} is not defined!"
                 )
 
-            if a["size"] != "any" and a["size"] != provided_array_names[m]:
+            if (
+                macro_defs["size"] != "any"
+                and macro_defs["size"] != provided_array_names[macro_name]
+            ):
                 raise CompilerError(
-                    f"Tried to derive template {self.name} in {context.describe()}, but abstract array {m} has a size constraint; expected {a['size']} array elements, got {provided_array_names[m]}!"
+                    f"Tried to derive template {self.name} in {context.describe()}, "
+                    f"but abstract array {macro_name} has a size constraint; "
+                    f"expected {macro_defs['size']} array elements, "
+                    f"got {provided_array_names[macro_name]}!"
                 )
 
         self.register(
@@ -273,6 +303,7 @@ class ZDClassTemplate(ZDBaseActor):
         return True, res
 
     def get_init_replacements(self, parameter_values):
+        """Corresponds the list of values to the template's parameters."""
         return dict(
             zip((p.upper() for p in self.template_parameters), parameter_values)
         )

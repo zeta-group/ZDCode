@@ -149,23 +149,19 @@ class BundleInputWalker:
     def assemble(self):
         """Internally assemble a zip file to then store at an output path."""
 
-        zips: dict[str, zipfile.ZipFile] = {}
-        zipfiles = set()
+        routing = {}
+
+        while self.collected:
+            target, oname, data = self.collected.popleft()
+            oname = oname.lower()
+            routing.setdefault(oname, []).append((target, data))
 
         for oname, out in self.bundle.outputs.items():
             oname = oname.lower()
 
-            zipf = zipfile.ZipFile(out.output, mode="w")
-            zips[oname] = zipf
-            zipfiles.add(zipf)
-
-        while self.collected:
-            target, oname, data = self.collected.popleft()
-            out_zip = zips[oname.lower()]
-            self.store_collected(out_zip, target, data)
-
-        for zipf in zips.values():
-            zipf.close()
+            with zipfile.ZipFile(out.output, mode="w") as zipf:
+                for item in routing[oname]:
+                    self.store_collected(zipf, *item)
 
     def scan_dep(self, url: pathlib.Path, target: pathlib.PurePath):
         """Scan for a single dependency."""

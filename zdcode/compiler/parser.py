@@ -1,4 +1,5 @@
 # pylint: disable=unreachable
+"""The parser. Uses parsy as the backend."""
 import glob
 import json
 import math
@@ -16,14 +17,14 @@ from parsy import string
 from parsy import success
 from parsy import whitespace
 
-s = string
+st = string
 fa = fail
 whitespace = whitespace.desc("whitespace")
 wo = whitespace.optional()
 
 
-def istring(st):
-    return s(st, transform=lambda s: s.upper())
+def istring(stringen):
+    return st(stringen, transform=lambda s: s.upper())
 
 
 ist = istring
@@ -38,14 +39,14 @@ string_esc = string("\\") >> (
     | regex(r"u[0-9a-fA-F]{4}").map(lambda s: chr(int(s[1:], 16)))
     | regex(r"x[0-9a-fA-F]{2}").map(lambda s: chr(int(s[1:], 16)))
 )
-string_delim_1 = s('"')
-string_delim_2 = s("'")
+string_delim_1 = st('"')
+string_delim_2 = st("'")
 string_body_plex_1 = (string_body_1 | string_esc).many().concat()
 string_body_plex_2 = (string_body_2 | string_esc).many().concat()
 string_literal = (string_delim_1 >> string_body_plex_1 << string_delim_1) | (
     string_delim_2 >> string_body_plex_2 << string_delim_2
 )
-lwhitespace = whitespace | s("\n") | s("\r")
+lwhitespace = whitespace | st("\n") | st("\r")
 
 ifneq = re.compile(r"^\#IF(N|NOT)EQ(UALS?)?$")
 ifundef = re.compile(r"^\#IF(U?N|NOT)DEF(INED)?$")
@@ -96,11 +97,11 @@ class ZDParseError(BaseException):
 def state_modifier_name():
     return (
         (
-            s("{")
+            st("{")
             >> regex(r"[a-zA-Z_][a-zA-Z_0-9]*")
             .desc("modifier parameter name")
             .tag("replace")
-            << s("}")
+            << st("}")
             | seq(
                 ist("(").tag("part"),
                 state_modifier_name.tag("recurse"),
@@ -117,7 +118,7 @@ def state_modifier_name():
 @generate
 def modifier():
     # State modifier. Not to be confused with the 'mod' modifier block.
-    return string("[").then(state_modifier_name).skip(s("]"))
+    return string("[").then(state_modifier_name).skip(st("]"))
     yield
 
 
@@ -164,7 +165,7 @@ def p_group_name():
 def p_range_vals():
     return seq(
         (replaceable_number | success(0)) << wo,
-        ist("..") >> wo >> (s("=") >> wo >> replaceable_number).tag(1)
+        ist("..") >> wo >> (st("=") >> wo >> replaceable_number).tag(1)
         | replaceable_number.tag(0),
     )
     yield
@@ -181,7 +182,7 @@ def format_string_literal():
     return (
         ist("f")
         >> wo
-        >> s("{")
+        >> st("{")
         >> wo
         >> (
             (
@@ -191,7 +192,7 @@ def format_string_literal():
             ).sep_by(wo)
         )
         << wo
-        << s("}")
+        << st("}")
     )
     yield
 
@@ -326,7 +327,7 @@ def eval_operation():
 
 @generate
 def numeric_eval():
-    return ist("e") >> wo >> s("{") >> eval_body << s("}")
+    return ist("e") >> wo >> st("{") >> eval_body << st("}")
     yield
 
 
@@ -345,7 +346,7 @@ def literal():
 
 @generate
 def array_literal():
-    return (wo >> s("{") >> wo >> expression.sep_by(s(",") << wo) << s("}")).tag(
+    return (wo >> st("{") >> wo >> expression.sep_by(st(",") << wo) << st("}")).tag(
         "array"
     )
     yield
@@ -353,7 +354,7 @@ def array_literal():
 
 @generate
 def paren_expr():
-    return s("(") >> expression << s(")")
+    return st("(") >> expression << st(")")
     yield
 
 
@@ -415,7 +416,7 @@ def template_parameter_list():
 
 @generate
 def expr_argument_list():
-    return arg_expression.sep_by(s(",") >> wo)
+    return arg_expression.sep_by(st(",") >> wo)
     yield
 
 
@@ -433,7 +434,7 @@ def parameter():
 def specialized_parameter_list(ptype):
     @generate
     def plist():
-        return ptype.sep_by(s(",") >> wo, min=1)
+        return ptype.sep_by(st(",") >> wo, min=1)
         yield
 
     return plist
@@ -456,7 +457,7 @@ def actor_function_call():
 def state_call():
     return seq(
         regex(r"[a-zA-Z_][a-zA-Z_0-9]*").desc("called state function name").skip(wo),
-        s("(").then(wo).then(expr_argument_list).skip(wo).skip(s(")")).optional(),
+        st("(").then(wo).then(expr_argument_list).skip(wo).skip(st(")")).optional(),
     )
     yield
 
@@ -483,7 +484,7 @@ def break_statement():
 def call_literal():
     return seq(
         regex(r"[a-zA-Z_][a-zA-Z_0-9]*").desc("called expression function name") << wo,
-        (s("(") >> wo >> expr_argument_list << wo << s(")")),
+        (st("(") >> wo >> expr_argument_list << wo << st(")")),
     )
     yield
 
@@ -517,8 +518,8 @@ def templated_class_derivation():
     return seq(
         regex(r"[a-zA-Z_][a-zA-Z_0-9]*").desc("name of templated class").skip(wo),
         (
-            (s("::()") >> success([]))
-            | (s("::(").then(wo).then(parameter_list).skip(wo).skip(s(")")))
+            (st("::()") >> success([]))
+            | (st("::(").then(wo).then(parameter_list).skip(wo).skip(st(")")))
         ),
         (
             (whitespace >> (ist("inherits") | ist("extends") | ist("expands")))
@@ -533,7 +534,7 @@ def templated_class_derivation():
         .map(lambda x: x or None)
         .tag("group"),
         (
-            wo.then(s("{"))
+            wo.then(st("{"))
             .then(
                 wo.then(
                     (
@@ -551,7 +552,7 @@ def templated_class_derivation():
                             regex(r"[a-zA-Z\_][a-zA-Z\_0-9]*")
                             .desc("macro name")
                             .tag("name"),
-                            (wo >> s("(") >> macro_argument_list << s(")") << wo)
+                            (wo >> st("(") >> macro_argument_list << st(")") << wo)
                             .optional()
                             .map(lambda a: a or [])
                             .tag("args"),
@@ -565,9 +566,9 @@ def templated_class_derivation():
                         >> regex(r"[a-zA-Z0-9\_\.]+").tag("name"),
                         (
                             (whitespace >> ist("to") << whitespace)
-                            | (wo >> s("=") << wo)
+                            | (wo >> st("=") << wo)
                         ).desc("'to' or equal sign")
-                        >> parameter.sep_by((s(",") << wo)).tag("value"),
+                        >> parameter.sep_by((st(",") << wo)).tag("value"),
                     )
                     .map(dict)
                     .tag("property")
@@ -576,12 +577,12 @@ def templated_class_derivation():
                         (ist("var") << whitespace)
                         >> seq(
                             regex(r"user_[a-zA-Z0-9_]+").desc("var name").tag("name"),
-                            (wo.then(s("[")).then(replaceable_number).skip(s("]")))
+                            (wo.then(st("[")).then(replaceable_number).skip(st("]")))
                             .optional()
                             .map(lambda x: int(x or 0))
                             .tag("size"),
                             (
-                                wo.then(s(":"))
+                                wo.then(st(":"))
                                 .then(wo)
                                 .then(regex(r"[a-zA-Z_.][a-zA-Z0-9_]+"))
                             )
@@ -590,7 +591,7 @@ def templated_class_derivation():
                             .map(lambda t: t or "int")
                             .tag("type"),
                             (
-                                wo.then(s("=")).then(
+                                wo.then(st("=")).then(
                                     expression.tag("val") | array_literal.tag("arr")
                                 )
                             )
@@ -604,7 +605,7 @@ def templated_class_derivation():
                         (ist("array") << whitespace)
                         >> seq(
                             regex(r"user_[a-zA-Z0-9_]+").desc("array name").tag("name"),
-                            (wo >> s("=") >> wo >> array_literal)
+                            (wo >> st("=") >> wo >> array_literal)
                             .desc("array values")
                             .tag("value"),
                         )
@@ -615,12 +616,12 @@ def templated_class_derivation():
                     | mod_block.tag("mod")
                 )
                 .skip(wo)
-                .skip(s(";").optional().optional())
+                .skip(st(";").optional().optional())
                 .skip(wo)
                 .many()
                 .optional()
             )
-            .skip(s("}"))
+            .skip(st("}"))
         )
         .optional()
         .map(lambda x: x or []),
@@ -674,7 +675,7 @@ def static_template_derivation():
                 ist("as") >> whitespace >> templated_class_derivation.tag("source"),
             )
         )
-        << s(";").optional()
+        << st(";").optional()
         << wo
     )
     yield
@@ -699,7 +700,7 @@ def mod_block():
 
 @generate
 def nested_class_body():
-    return s("{") >> class_body.many().optional() << s("}")
+    return st("{") >> class_body.many().optional() << st("}")
     yield
 
 
@@ -711,7 +712,7 @@ def class_body():
                 ist("macro")
                 >> whitespace
                 >> regex(r"[a-zA-Z_][a-zA-Z_0-9]*").desc("macro name").tag("name"),
-                (wo >> s("(") >> macro_argument_list << s(")") << wo)
+                (wo >> st("(") >> macro_argument_list << st(")") << wo)
                 .optional()
                 .map(lambda a: a or [])
                 .tag("args"),
@@ -722,10 +723,10 @@ def class_body():
             | seq(
                 (ist("set") >> whitespace).desc("'set' keyword")
                 >> regex(r"[a-zA-Z0-9_\.]+").tag("name"),
-                ((whitespace >> ist("to") << whitespace) | (wo >> s("=") << wo)).desc(
+                ((whitespace >> ist("to") << whitespace) | (wo >> st("=") << wo)).desc(
                     "'to' or equal sign"
                 )
-                >> parameter.sep_by((s(",") << wo)).tag("value"),
+                >> parameter.sep_by((st(",") << wo)).tag("value"),
             )
             .map(dict)
             .tag("property")
@@ -736,17 +737,17 @@ def class_body():
             | (ist("var") << whitespace)
             >> seq(
                 regex(r"user_[a-zA-Z0-9_]+").desc("var name").tag("name"),
-                (wo >> s("[") >> replaceable_number << s("]"))
+                (wo >> st("[") >> replaceable_number << st("]"))
                 .desc("array size")
                 .optional()
                 .map(lambda x: int(x or 0))
                 .tag("size"),
-                (wo >> s(":") >> wo >> regex(r"[a-zA-Z_.][a-zA-Z0-9_]+"))
+                (wo >> st(":") >> wo >> regex(r"[a-zA-Z_.][a-zA-Z0-9_]+"))
                 .desc("var type")
                 .optional()
                 .map(lambda t: t or "int")
                 .tag("type"),
-                (wo >> s("=") >> (expression.tag("val") | array_literal.tag("arr")))
+                (wo >> st("=") >> (expression.tag("val") | array_literal.tag("arr")))
                 .optional()
                 .tag("value"),
             )
@@ -771,7 +772,7 @@ def class_body():
             | global_apply.tag("apply")
             | class_for_loop.tag("for")
         ).skip(wo)
-        << s(";").optional()
+        << st(";").optional()
         << wo
     )
     yield
@@ -783,7 +784,7 @@ def abstract_label_body():
         (ist("abstract label") | ist("abstract state"))
         >> whitespace
         >> regex(r"[a-zA-Z_]+").desc("label name")
-        << s(";").optional()
+        << st(";").optional()
     )
     yield
 
@@ -795,18 +796,18 @@ def abstract_array_body():
             ist("abstract array")
             >> whitespace
             >> regex(r"user_[a-zA-Z0-9_]+").desc("array name").tag("name"),
-            (wo >> s("[") >> replaceable_number << s("]"))
+            (wo >> st("[") >> replaceable_number << st("]"))
             .optional()
             .map(lambda x: int(x) if x else "any")
             .tag("size"),
-            (wo >> s(":") >> wo >> regex(r"[a-zA-Z_.][a-zA-Z0-9_]+"))
+            (wo >> st(":") >> wo >> regex(r"[a-zA-Z_.][a-zA-Z0-9_]+"))
             .desc("var type")
             .optional()
             .map(lambda t: t or "int")
             .tag("type"),
         ).map(dict)
         << wo
-        << s(";").optional()
+        << st(";").optional()
         << wo
     )
     yield
@@ -820,13 +821,13 @@ def abstract_macro_body():
             >> whitespace
             >> regex(r"[a-zA-Z_]+").desc("macro name").tag("name")
             << wo,
-            (s("(") >> wo >> macro_argument_list << wo << s(")"))
+            (st("(") >> wo >> macro_argument_list << wo << st(")"))
             .optional()
             .map(lambda x: x or [])
             .tag("args"),
         ).map(dict)
         << wo
-        << s(";").optional()
+        << st(";").optional()
         << wo
     )
     yield
@@ -834,7 +835,7 @@ def abstract_macro_body():
 
 @generate
 def sprite_name():
-    return (s("####") | s('"####"') | regex(r"[A-Z0-9_]{4}")).tag("normal") | (
+    return (st("####") | st('"####"') | regex(r"[A-Z0-9_]{4}")).tag("normal") | (
         ist("param") >> whitespace >> regex(r"[a-zA-Z_][a-zA-Z_0-9]*")
     ).tag("parametrized")
     yield
@@ -853,12 +854,12 @@ def group_declaration():
             (
                 (ist("group") << whitespace).desc("group statement") >> wo >> group_name
             ).tag("name"),
-            (wo >> s("{") >> regex(r"[a-zA-Z0-9_]+").sep_by(s(",") << wo) << s("}"))
+            (wo >> st("{") >> regex(r"[a-zA-Z0-9_]+").sep_by(st(",") << wo) << st("}"))
             .optional()
             .map(lambda x: x if x and tuple(x) != ("",) else [])
             .tag("items"),
         )
-        << s(";").optional()
+        << st(";").optional()
     )
     yield
 
@@ -885,7 +886,7 @@ def actor_class():
         .optional()
         .tag("replacement")
         .desc("replacement"),
-        (whitespace >> s("#") >> regex(r"[0-9]+"))
+        (whitespace >> st("#") >> regex(r"[0-9]+"))
         .desc("class number")
         .map(int)
         .optional()
@@ -893,8 +894,8 @@ def actor_class():
         .desc("class number")
         .skip(wo),
         (
-            (s("{") >> wo >> class_body.many().optional() << wo.then(s("}")).skip(wo))
-            | s(";").optional().map(lambda _: [])
+            (st("{") >> wo >> class_body.many().optional() << wo.then(st("}")).skip(wo))
+            | st(";").optional().map(lambda _: [])
         ).tag("body"),
     )
     yield
@@ -904,9 +905,9 @@ def actor_class():
 def templated_actor_class():
     return seq(
         (ist("actor") | ist("class") | ist("template")).desc("class template")
-        >> s("<")
+        >> st("<")
         >> template_parameter_list.tag("parameters")
-        << s(">")
+        << st(">")
         << wo,
         formattable_classname.desc("class name").tag("classname"),
         ((whitespace >> ist("group") << whitespace).desc("group keyword") >> group_name)
@@ -926,7 +927,7 @@ def templated_actor_class():
         .optional()
         .tag("replacement")
         .desc("replacement"),
-        (whitespace >> s("#") >> regex(r"[0-9]+"))
+        (whitespace >> st("#") >> regex(r"[0-9]+"))
         .desc("class number")
         .map(int)
         .optional()
@@ -934,7 +935,7 @@ def templated_actor_class():
         .desc("class number")
         .skip(wo),
         (
-            s("{")
+            st("{")
             >> wo
             >> (
                 abstract_macro_body.desc("abstract macro").tag("abstract macro")
@@ -944,7 +945,7 @@ def templated_actor_class():
             )
             .many()
             .optional()
-            << wo.then(s("}")).skip(wo)
+            << wo.then(st("}")).skip(wo)
         ).tag("body"),
     )
     yield
@@ -983,7 +984,7 @@ def normal_state():
     return (
         seq(
             sprite_name.desc("state name").skip(wo),
-            (regex(r"[A-Z_.]").many() | s('"#"') | s("#"))
+            (regex(r"[A-Z_.]").many() | st('"#"') | st("#"))
             .desc("state sprite")
             .skip(wo),
             regex(r"\-?\d+")
@@ -1032,10 +1033,10 @@ def state_action():
 @generate
 def action_body():
     return (
-        s("{")
+        st("{")
         >> wo
-        >> (state_action << s(";").optional() << wo).many().optional()
-        << s("}")
+        >> (state_action << st(";").optional() << wo).many().optional()
+        << st("}")
     )
     yield
 
@@ -1095,7 +1096,7 @@ def macro_call():
         .then(whitespace)
         .then(regex(r"\@*[a-zA-Z_][a-zA-Z_0-9]*").desc("injected macro name"))
         .skip(wo),
-        (s("(") >> expr_argument_list.desc("macro arguments") << s(")"))
+        (st("(") >> expr_argument_list.desc("macro arguments") << st(")"))
         .optional()
         .map(lambda x: x or []),
     )
@@ -1104,7 +1105,7 @@ def macro_call():
 
 @generate
 def state():
-    return state_no_colon << s(";")
+    return state_no_colon << st(";")
     yield
 
 
@@ -1253,16 +1254,16 @@ def modifier_selector_basic():
     # state selector in a modifier
 
     return (
-        (ist("flag") >> wo >> s("(") >> state_modifier_name << s(")")).map(
+        (ist("flag") >> wo >> st("(") >> state_modifier_name << st(")")).map(
             selector_flag
         )
-        | (ist("sprite") >> wo >> s("(") >> sprite_name << s(")")).map(selector_name)
+        | (ist("sprite") >> wo >> st("(") >> sprite_name << st(")")).map(selector_name)
         | (
             ist("duration")
             >> wo
-            >> s("(")
+            >> st("(")
             >> regex(r"\d+").optional().map(lambda x: int(x) if x else 0)
-            << s(")")
+            << st(")")
         ).map(selector_duration)
     )
     yield
@@ -1280,7 +1281,7 @@ def modifier_selector_expr():
             lambda a: (lambda code, ctx, state: not a(code, ctx, state))
         )
         | (
-            s("(")
+            st("(")
             >> (
                 (
                     (
@@ -1325,7 +1326,7 @@ def modifier_selector_expr():
                 )
                 | modifier_selector_expr.skip(wo)
             )
-            << s(")")
+            << st(")")
         )
     )
     yield
@@ -1339,10 +1340,10 @@ def modifier_clause():
         (
             modifier_effect.map(lambda e: [e])
             | (
-                s("{")
+                st("{")
                 >> wo
-                >> (modifier_effect << wo << s(";").optional() << wo).at_least(1)
-                << s("}")
+                >> (modifier_effect << wo << st(";").optional() << wo).at_least(1)
+                << st("}")
             )
         )
         << wo,
@@ -1354,11 +1355,11 @@ def modifier_clause():
 def mod_block_body():
     return modifier_clause.map(lambda a: [a]) | (
         wo
-        >> s("{")
+        >> st("{")
         >> wo
-        >> ((modifier_clause << wo << s(";").optional()).many())
+        >> ((modifier_clause << wo << st(";").optional()).many())
         << wo
-        << s("}")
+        << st("}")
     )
     yield
 
@@ -1374,10 +1375,10 @@ def state_body():
 @generate
 def sometimes_statement():
     return seq(
-        s("sometimes")
+        st("sometimes")
         >> whitespace
         >> (
-            s("(") >> wo >> expression << wo << s(")")
+            st("(") >> wo >> expression << wo << st(")")
             | replaceable_number.map(
                 lambda r: (
                     "expr",
@@ -1390,7 +1391,7 @@ def sometimes_statement():
                 )
             )
         ).tag("chance")
-        << s("%").optional()
+        << st("%").optional()
         << wo,
         state_body.optional().map(lambda x: x if x is not None else []).tag("body"),
     )
@@ -1431,10 +1432,10 @@ def if_statement():
         .skip(string(")"))
         .skip(wo),
         state_body.optional().map(lambda x: x if x is not None else []).skip(wo),
-        s(";")
+        st(";")
         .optional()
         .then(wo)
-        .then(s("else"))
+        .then(st("else"))
         .then(wo)
         .then(state_body.optional().map(lambda x: x if x is not None else []))
         .skip(wo)
@@ -1506,10 +1507,10 @@ def ifjump_statement():
         .then(state_call)
         .skip(wo),
         state_body.optional().map(lambda x: x if x is not None else []).skip(wo),
-        s(";")
+        st(";")
         .optional()
         .then(wo)
-        .then(s("else"))
+        .then(st("else"))
         .then(wo)
         .then(state_body.optional().map(lambda x: x if x is not None else []))
         .skip(wo)
@@ -1527,10 +1528,10 @@ def whilejump_statement():
         .then(state_call)
         .skip(wo),
         state_body.optional().map(lambda x: x if x is not None else []).skip(wo),
-        s(";")
+        st(";")
         .optional()
         .then(wo)
-        .then(s("else"))
+        .then(st("else"))
         .then(wo)
         .then(state_body.optional().map(lambda x: x if x is not None else []))
         .skip(wo)
@@ -1552,10 +1553,10 @@ def while_statement():
         .skip(string(")"))
         .skip(wo),
         state_body.optional().map(lambda x: x if x is not None else []).skip(wo),
-        s(";")
+        st(";")
         .optional()
         .then(wo)
-        .then(s("else"))
+        .then(st("else"))
         .then(wo)
         .then(state_body.optional().map(lambda x: x if x is not None else []))
         .skip(wo)
@@ -1586,7 +1587,7 @@ def repeat_statement():
 def anonymous_macro():
     return seq(
         ist("macro")
-        >> (s("(") >> macro_argument_list << s(")") << wo)
+        >> (st("(") >> macro_argument_list << st(")") << wo)
         .optional()
         .map(lambda a: a or []),
         state_body,
@@ -1601,7 +1602,7 @@ def macro_def():
             ist("macro")
             >> whitespace
             >> regex(r"[a-zA-Z_][a-zA-Z_0-9]*").desc("macro name").tag("name"),
-            (wo >> s("(") >> macro_argument_list << s(")") << wo)
+            (wo >> st("(") >> macro_argument_list << st(")") << wo)
             .optional()
             .map(lambda a: a or [])
             .tag("args"),
@@ -1648,7 +1649,7 @@ def rpcont(i=0):
         return (
             (
                 (regex(r"[^\(\)]") if i else regex(r"[^\(\)\,]"))
-                | (s("(") + rpcont(i + 1)) + s(")")
+                | (st("(") + rpcont(i + 1)) + st(")")
             )
             .many()
             .concat()
@@ -1659,35 +1660,37 @@ def rpcont(i=0):
 
 
 def preprocess_for_macros(code, defines=(), this_fname=None, i=0):
-    l = code
+    curr_line = code
 
     for key, (val, d_args) in defines.items():
-        nl = ""
+        new_lines = ""
 
         while True:
-            j = re.search(r"\b" + re.escape(key.upper()) + r"\(", l.upper())
+            macro_pos = re.search(
+                r"\b" + re.escape(key.upper()) + r"\(", curr_line.upper()
+            )
 
-            if not j:
-                nl += l
+            if not macro_pos:
+                new_lines += curr_line
                 break
 
-            j = j.start()
-            nl += l[:j]
-            l = l[j + len(key) :]
+            macro_pos = macro_pos.start()
+            new_lines += curr_line[:macro_pos]
+            curr_line = curr_line[macro_pos + len(key) :]
 
             try:
-                args, l = (
-                    s("(") >> rpcont().sep_by(s(",") << wo) << s(")")
-                ).parse_partial(l)
+                args, curr_line = (
+                    st("(") >> rpcont().sep_by(st(",") << wo) << st(")")
+                ).parse_partial(curr_line)
                 args = [x for x in args if x]
 
-            except parsy.ParseError as e:
+            except parsy.ParseError as err:
                 print("\n")
                 traceback.print_exc()
                 print()
 
                 raise PreprocessingError(
-                    f"Unexpected parse error using parametrized preprocessor alias '{key}' ({e})",
+                    f"Unexpected parse error using parametrized preprocessor alias '{key}' ({err})",
                     i,
                     this_fname,
                     code + "\n\n",
@@ -1701,18 +1704,15 @@ def preprocess_for_macros(code, defines=(), this_fname=None, i=0):
                     code,
                 )
 
-            v = val
-
             for aname, aval in zip(d_args, args):
-                # ov = v
-                v = re.sub(r"\({}\)".format(re.escape(aname)), f"({aval})", v)
+                val = re.sub(r"\({}\)".format(re.escape(aname)), f"({aval})", val)
 
-            res = preprocess_for_macros(v, defines, this_fname, i)
-            nl += res
+            res = preprocess_for_macros(val, defines, this_fname, i)
+            new_lines += res
 
-        l = nl
+        curr_line = new_lines
 
-    return l
+    return curr_line
 
 
 def preprocess_code(
@@ -1905,9 +1905,9 @@ def preprocess_code(
                 (key, args), _ = seq(
                     regex(r"[a-zA-Z_][a-zA-Z0-9_]*"),
                     (
-                        s("(")
-                        >> (regex(r"[a-zA-Z_][a-zA-Z0-9_]*").sep_by(s(",")))
-                        << s(")")
+                        st("(")
+                        >> (regex(r"[a-zA-Z_][a-zA-Z0-9_]*").sep_by(st(",")))
+                        << st(")")
                     )
                     .optional()
                     .map(lambda x: x or []),

@@ -1,3 +1,4 @@
+"""The ZDCode sometimes statement."""
 from typing import Generator
 from typing import Iterable
 from typing import Self

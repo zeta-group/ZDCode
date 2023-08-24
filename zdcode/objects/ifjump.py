@@ -47,10 +47,18 @@ class ZDIfJumpStatement(ZDStateContainer):
             yield from self.else_block.state_containers()
 
     def set_else(self, else_block: Iterable[ZDStateObject] | None):
+        """Sets a state object or container to act as the 'else' block.
+
+        Passing None unsets the else block."""
         self.else_block = else_block
 
     @classmethod
     def generate(cls, actor: "ZDActor", states: Iterable[ZDStateObject] | None = ()):
+        """Decorates a function to produce an ifjump block.
+
+        The decorated function is used to generate the code for the condition check;
+        that is, the jump itself."""
+
         def _decorator(condition_gen):
             return cls(actor, condition_gen, states)
 
@@ -69,8 +77,7 @@ class ZDIfJumpStatement(ZDStateContainer):
         if self.else_block:
             return self.num_block_states() + self.num_else_states() + 3
 
-        else:
-            return self.num_block_states() + 3
+        return self.num_block_states() + 3
 
     def to_decorate(self) -> TextNode:
         num_st_bl = self.num_block_states()
@@ -88,12 +95,11 @@ class ZDIfJumpStatement(ZDStateContainer):
                 ]
             )
 
-        else:
-            return TextNode(
-                [
-                    f"{zerotic} {self.true_condition(2)}",
-                    f"{zerotic} A_Jump(256, {num_st_bl + 1})\n",
-                    TextNode([x.to_decorate() for x in self.states]),
-                    zerotic,
-                ]
-            )
+        return TextNode(
+            [
+                f"{zerotic} {self.true_condition(2)}",
+                f"{zerotic} A_Jump(256, {num_st_bl + 1})\n",
+                TextNode([x.to_decorate() for x in self.states]),
+                zerotic,
+            ]
+        )

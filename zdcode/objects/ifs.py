@@ -1,3 +1,4 @@
+"""The ZDCode if statement."""
 from typing import Generator
 from typing import Iterable
 from typing import Self
@@ -43,7 +44,9 @@ class ZDIfStatement(ZDStateContainer):
             yield from self.else_block.state_containers()
 
     def set_else(self, else_block: ZDStateObject):
-        """Set a state object or container to act as an 'else' block."""
+        """Sets a state object or container to act as the 'else' block.
+
+        Passing None unsets the else block."""
         self.else_block = else_block
 
     def num_block_states(self):
@@ -61,8 +64,7 @@ class ZDIfStatement(ZDStateContainer):
         if self.else_block:
             return self.num_block_states() + self.num_else_states() + 3
 
-        else:
-            return self.num_block_states() + 2
+        return self.num_block_states() + 2
 
     def to_decorate(self) -> TextNode:
         num_st_bl = self.num_block_states()
@@ -80,11 +82,10 @@ class ZDIfStatement(ZDStateContainer):
                 ]
             )
 
-        else:
-            return TextNode(
-                [
-                    f"{zerotic} A_JumpIf(!({self.true_condition}), {num_st_bl + 1})\n",
-                    TextNode([x.to_decorate() for x in self.states]),
-                    zerotic,
-                ]
-            )
+        return TextNode(
+            [
+                f"{zerotic} A_JumpIf(!({self.true_condition}), {num_st_bl + 1})\n",
+                TextNode([x.to_decorate() for x in self.states]),
+                zerotic,
+            ]
+        )

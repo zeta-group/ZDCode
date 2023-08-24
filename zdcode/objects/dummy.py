@@ -1,3 +1,4 @@
+"""Dummy objects, for internal use only."""
 from ..compiler.context import ZDCodeParseContext
 from ..types.basic import ZDObject
 from ..types.basic import ZDStateObject
@@ -5,7 +6,7 @@ from ..util import TextNode
 from .actor import ZDBaseActor
 
 
-class ZDDummyActor(ZDObject):
+class ZDDummyActor(ZDBaseActor, ZDObject):
     """A dummy actor.
 
     Used in internal logic only - cannot be compiled to DECORATE."""
@@ -43,13 +44,18 @@ class ZDDummyLabel(ZDObject):
         return "[dummy state]"
 
     def label_name(self) -> str:
+        """Returns the name of this label."""
         raise NotImplementedError
 
     def to_decorate(self) -> TextNode:
         raise NotImplementedError
 
     def get_context(self) -> None:
+        """Returns the context of this label.
+
+        Since this is a dummy label. returns simply None."""
         return None
 
     def add_state(self, state: ZDStateObject) -> None:
+        """Adds a state to this label."""
         self.states.append(state)

@@ -1,2 +1,5 @@
+"""ZDCode compiler errors."""
+
+
 class CompilerError(Exception):
-    pass
+    """An error encountered during compilation."""

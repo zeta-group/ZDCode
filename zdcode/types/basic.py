@@ -1,3 +1,4 @@
+"""Basic type interfaces for ZDCode."""
 from typing import TYPE_CHECKING
 from typing import Generator
 from typing import Iterable
@@ -15,13 +16,11 @@ class ZDObject(Protocol):
 
     def to_decorate(self) -> str:
         """Cconverts this ZDCode object to DECORATE."""
-        ...
 
     def get_context(self) -> Union["ZDCodeParseContext", None]:
         """Returns the context of this ZDObject.
 
         If not applicable, returns None."""
-        ...
 
 
 class ZDStateObject(ZDObject, Protocol):
@@ -29,25 +28,24 @@ class ZDStateObject(ZDObject, Protocol):
 
     def clone(self) -> Self:
         """Clone this state object."""
-        ...
 
     def spawn_safe(self) -> bool:
         """Whether this collection is 'spawn safe'.
 
-        Spawn safety denotes a state which can be used at the start of a Spawn label without causing issues. Non-spawn-safe Spawn labels will be automatically padded with TNT1 A 0 to prevent issues.
+        Spawn safety denotes a state which can be used at the start of a Spawn label
+        without causing issues. Non-spawn-safe Spawn labels will be automatically padded
+        with TNT1 A 0 to prevent issues.
         """
-        ...
 
     def num_states(self) -> int:
         """The number of states in this state object."""
-        ...
 
     def state_containers(self) -> Generator[Iterable["ZDStateObject"], None, None]:
         """A list of mutable state containers with [ZDStateObject]s.
 
-        Some of these are references to this data structure or children thereof. Others are constructed on the fly for the sake of interface compatibility.
+        Some of these are references to this data structure or children thereof. Others
+        are constructed on the fly for the sake of interface compatibility.
         """
-        ...
 
 
 class ZDStateContainer(ZDStateObject, Protocol):
@@ -55,4 +53,3 @@ class ZDStateContainer(ZDStateObject, Protocol):
 
     def add_state(self, state: ZDStateObject) -> None:
         """Adds a ZDCode state object to this container."""
-        ...

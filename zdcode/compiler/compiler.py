@@ -145,7 +145,7 @@ class ZDCode:
             return self._parse_anonym_macro(*pval, context, name)
 
     def _parse_anonym_macro(self, args, body, context, name=None):
-        name = name or f"ANONYMMACRO_{self.id.upper()}_{self.num_anonym_macros}"
+        name = name or f"ANONYMMACRO_{self.identifier.upper()}_{self.num_anonym_macros}"
         self.num_anonym_macros += 1
 
         context.macros[name.upper()] = (args, body)
@@ -167,11 +167,13 @@ class ZDCode:
                 return float(context.replacements[literal[1].upper()])
 
             raise CompilerError(
-                f"Cannot get compile-time variable for evaluation, {repr(literal[1])}, in {context.describe()}"
+                "Cannot get compile-time variable for evaluation, "
+                f"{repr(literal[1])}, in {context.describe()}"
             )
 
         raise CompilerError(
-            f"Could not parse numeric expression {repr(literal)} at {context.describe()}"
+            "Could not parse numeric expression "
+            f"{repr(literal)} at {context.describe()}"
         )
 
     def _parse_literal(self, literal, context):
@@ -239,7 +241,9 @@ class ZDCode:
 
         if len(template_parms) != len(template.template_parameters):
             raise CompilerError(
-                f"Bad number of template parameters for '{template_name}' in {context.describe()}: expected {len(template.template_parameters)}, got {len(template_parms)}"
+                f"Bad number of template parameters for '{template_name}' "
+                f"in {context.describe()}: expected "
+                f"{len(template.template_parameters)}, got {len(template_parms)}"
             )
 
         template_parms = [
@@ -360,7 +364,8 @@ class ZDCode:
 
                 else:
                     raise CompilerError(
-                        f"Replacement {pval} not found while formatting string in {context.describe()}"
+                        f"Replacement {pval} not found "
+                        f"while formatting string in {context.describe()}"
                     )
 
         return "".join(unstringify(x) for x in res)
@@ -385,7 +390,8 @@ class ZDCode:
 
         except ValueError:
             raise CompilerError(
-                f"Invalid repeat count in {context.describe()}: expected valid integer, got {repr(cval)}"
+                f"Invalid repeat count in {context.describe()}: "
+                f"expected valid integer, got {repr(cval)}"
             )
 
         else:
@@ -483,7 +489,8 @@ class ZDCode:
 
                     except KeyError:
                         raise CompilerError(
-                            f"No parameter {cval} for replacement within modifier, in {context.describe()}!"
+                            f"No parameter {cval} for replacement within modifier, "
+                            f"in {context.describe()}!"
                         )
 
                 elif ctype == "recurse":
@@ -526,14 +533,16 @@ class ZDCode:
 
                 else:
                     raise CompilerError(
-                        f"Parametrized sprite '{sprite_name}' in {context.describe()} needs to be passed a string; got {repr(new_name)}"
+                        f"Parametrized sprite '{sprite_name}' in {context.describe()} "
+                        f"needs to be passed a string; got {repr(new_name)}"
                     )
 
                 name = new_name
 
             except KeyError:
                 raise CompilerError(
-                    f"No parameter {repr(sprite_name)} for parametrized sprite name, in {context.describe()}!"
+                    f"No parameter {repr(sprite_name)} for parametrized sprite name, "
+                    f"in {context.describe()}!"
                 )
 
         return name
@@ -628,7 +637,8 @@ class ZDCode:
 
         elif s[0] == "call":
             raise CompilerError(
-                f"Functions and calls have been removed since ZDCode 2.11.0! ({context.describe()})"
+                "Functions and calls have been removed since ZDCode 2.11.0! "
+                f"({context.describe()})"
             )
 
         elif s[0] == "flow":
@@ -682,7 +692,8 @@ class ZDCode:
 
             except KeyError:
                 raise CompilerError(
-                    f"Tried to apply unkown state mod {repr(apply_mod)} in apply statement inside {context.describe()}!"
+                    f"Tried to apply unkown state mod {repr(apply_mod)} "
+                    f"in apply statement inside {context.describe()}!"
                 )
 
             apply_ctx = context.derive("apply block")
@@ -962,7 +973,7 @@ class ZDCode:
         a = dict(anonym_class)
         new_context = context.derive("anonymous class")
 
-        classname = f"_AnonymClass_{self.id}_{len(self.anonymous_classes)}"
+        classname = f"_AnonymClass_{self.identifier}_{len(self.anonymous_classes)}"
 
         if a["group"]:
             g = unstringify(a["group"])
@@ -994,7 +1005,7 @@ class ZDCode:
 
     def _derive_class_from_template(
         self,
-        template,
+        template: ZDClassTemplate,
         param_values,
         context,
         labels=(),
@@ -1012,7 +1023,6 @@ class ZDCode:
         body = list(body)
 
         needs_init, actor = template.generate_init_class(
-            self,
             context,
             param_values,
             {l.upper() for l in labels.keys()},
@@ -1205,6 +1215,15 @@ class ZDCode:
             else:
                 yield from do_else()
 
+    def assert_group_exists(
+        self, groupname: str, ctx_str: str, context: "ZDCodeParseContext"
+    ):
+        """Raises an error if this group does not exist."""
+        if groupname not in self.groups:
+            raise CompilerError(
+                f"No such group '{groupname}' {ctx_str} (in f{context.describe()})!"
+            )
+
     def _parse(self, actors, debug=False):
         parsed_actors = []
 
@@ -1391,12 +1410,10 @@ class ZDCode:
         self.actors.extend(parsed_actors)
 
         self.actors.sort(key=lambda actor: actor.name)  # predominantly alphabetic sort
-        reorders = self.reorder_inherits()
+        self.reorder_inherits()
 
         if debug:
             context.print_state_tree()
-
-        # print("(Reordered {} actors)".format(reorders))
 
     def __init__(self):
         self.includes = {}
@@ -1405,7 +1422,7 @@ class ZDCode:
         self.actors = []
         self.actor_names = {}
         self.groups = {}
-        self.id = make_id(35)
+        self.identifier = make_id(35)
         self.num_anonym_macros = 0
 
     def reorder_inherits(self) -> int:
@@ -1433,7 +1450,7 @@ class ZDCode:
     def to_decorate(self):
         res = TextNode(indent=0)
 
-        res.add_line(f"// :ZDCODE version='{__VERSION__}' id='{self.id}' ")
+        res.add_line(f"// :ZDCODE version='{__VERSION__}' id='{self.identifier}' ")
 
         if self.inventories:
             for i in self.inventories:

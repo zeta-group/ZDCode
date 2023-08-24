@@ -1,9 +1,11 @@
+"""The DECORATE actor class and related classes."""
 from typing import TYPE_CHECKING
 from typing import Iterable
 
 from .. import _user_array_setters
 from .. import _user_var_setters
 from ..compiler.context import ZDCodeParseContext
+from ..types.basic import ZDObject
 from ..types.basic import ZDStateObject
 from ..util import TextNode
 from ..util import decorate
@@ -17,7 +19,7 @@ if TYPE_CHECKING:
     from ..compiler.compiler import ZDCode
 
 
-class ZDBaseActor(object):
+class ZDBaseActor:
     """A basic actor-like class."""
 
     def __init__(
@@ -34,10 +36,10 @@ class ZDBaseActor(object):
         self.inherit = inherit
         self.replace = replace
         self.num = doomednum
-        self.id = _id or make_id(30)
+        self.identifier = _id or make_id(30)
 
 
-class ZDActor(ZDBaseActor):
+class ZDActor(ZDBaseActor, ZDObject):
     """A DECORATE class."""
 
     def __init__(
@@ -78,7 +80,11 @@ class ZDActor(ZDBaseActor):
         # code.actor_names[name.upper()] = self
 
     def __repr__(self) -> str:
-        return f"<ZDActor({self.name}{self.inherit and 'extends ' + self.inherit or ''}{self.replace and ('replaces ' + self.replace or '') or ''}{self.doomednum and '#' + str(self.doomednum) or ''})>"
+        return (
+            f"<ZDActor({self.name}{self.inherit and 'extends ' + self.inherit or ''}"
+            f"{self.replace and ('replaces ' + self.replace or '') or ''}"
+            f"{self.doomednum and '#' + str(self.doomednum) or ''})>"
+        )
 
     def get_context(self) -> ZDCodeParseContext:
         """Returns the [ZDCodeParseContext] of this Actor."""
@@ -110,17 +116,21 @@ class ZDActor(ZDBaseActor):
         if vtype == "val":
             return [
                 ZDState(
-                    action=f"{_user_var_setters[var['type']]}({stringify(var['name'])}, {vlit})"
+                    action=f"{_user_var_setters[var['type']]}"
+                    f"({stringify(var['name'])}, {vlit})"
                 )
             ]
 
-        elif vtype == "arr":
+        if vtype == "arr":
             return [
                 ZDState(
-                    action=f"{_user_array_setters[var['type']]}({stringify(var['name'])}, {i}, {v})"
+                    action=f"{_user_array_setters[var['type']]}"
+                    f"({stringify(var['name'])}, {i}, {v})"
                 )
                 for i, v in enumerate(vlit)
             ]
+
+        raise ValueError(f"Unknown user var type: {vtype}")
 
     def _get_spawn_prelude(self) -> Iterable[ZDStateObject]:
         """Returns the prelude of the Spawn funtion."""
@@ -149,35 +159,30 @@ class ZDActor(ZDBaseActor):
         The top holds every property, flag, combo, and user variable declaration in
         the DECORATE class.
         """
-        r = TextNode()
+        text = TextNode()
 
-        for p in sorted(self.properties, key=lambda p: p.name):
-            r.add_line(decorate(p))
+        for prop in sorted(self.properties, key=lambda prop: prop.name):
+            text.add_line(decorate(prop))
 
-        r.add_line("")
+        text.add_line("")
 
-        for u in self.uservars:
-            r.add_line(
-                "var {} {}{};".format(
-                    u["type"],
-                    u["name"],
-                    "[{}]".format(u["size"]) if u.get("size", 0) else "",
-                )
-            )
+        for user_var in self.uservars:
+            array_suffix = f"[{user_var['size']}]" if user_var.get("size", 0) else ""
+            text.add_line(f"var {user_var['type']} {user_var['name']}{array_suffix};")
 
-        for f in self.flags:
-            r.add_line(f"+{f}")
+        for flag in self.flags:
+            text.add_line(f"+{flag}")
 
-        for a in self.antiflags:
-            r.add_line(f"-{a}")
+        for antiflag in self.antiflags:
+            text.add_line(f"-{antiflag}")
 
-        for rd in self.raw:
-            r.add_line(rd)
+        for verbatim in self.raw:
+            text.add_line(verbatim)
 
-        if len(r) == 1 and r[0].strip() == "":
+        if len(text) == 1 and text[0].strip() == "":
             return "    "
 
-        return r
+        return text
 
     def transform_spawn(self, label: ZDLabel) -> ZDLabel:
         """Transforms the Spawn label, making it spawn safe."""
@@ -203,18 +208,18 @@ class ZDActor(ZDBaseActor):
 
         Any code that isn't the class declaration or the top is considered 'label code'.
         """
-        r = TextNode()
+        text = TextNode()
 
-        for f in self.funcs:
-            r.add_line(decorate(f[1]))
+        for func in self.funcs:
+            text.add_line(decorate(func[1]))
 
         for label in self.labels:
             if label.name.upper() == "SPAWN":
                 label = self.transform_spawn(label)
 
-            r.add_line(decorate(label))
+            text.add_line(decorate(label))
 
-        return r
+        return text
 
     def header(self) -> str:
         """Returns the header of the class.
@@ -223,16 +228,16 @@ class ZDActor(ZDBaseActor):
         DECCORATE. It contains informatino such as inheritancce, replacement,
         and the editor number (DoomEdNum).
         """
-        r = self.name
+        text = self.name
 
         if self.inherit:
-            r += f" : {self.inherit}"
+            text += f" : {self.inherit}"
         if self.replace:
-            r += f" replaces {self.replace}"
+            text += f" replaces {self.replace}"
         if self.num:
-            r += f" {str(self.num)}"
+            text += f" {str(self.num)}"
 
-        return r
+        return text
 
     def to_decorate(self) -> TextNode:
         if self.labels + self.funcs:

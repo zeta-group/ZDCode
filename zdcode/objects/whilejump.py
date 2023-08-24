@@ -1,19 +1,19 @@
 """The ZDCode whilejump statement."""
-from typing import TYPE_CHECKING
 from typing import Callable
 from typing import Generator
 from typing import Iterable
 from typing import Self
 
+from ..types.basic import ZDStateContainer
 from ..types.basic import ZDStateObject
 from ..util import TextNode
 from ..util import stringify
 from .actor import ZDActor
 from .state import zerotic
-from .whiles import num_whiles
+from .whiles import ZDWhileStatement
 
 
-class ZDWhileJumpStatement(object):
+class ZDWhileJumpStatement(ZDStateContainer):
     """The ZDCode whilejump statement.
 
     Allows any conditional jump state action (such as A_JumpIfTargetCloser) to be used
@@ -27,10 +27,8 @@ class ZDWhileJumpStatement(object):
         self.states: list[ZDStateObject] = list(states)
         self.else_block = None
 
-        global num_whiles
-
-        self._while_id = num_whiles
-        num_whiles += 1
+        self._while_id = ZDWhileStatement.num_whiles
+        ZDWhileStatement.num_whiles += 1
 
         self._loop_id = "_loop_while_" + str(self._while_id)
 
@@ -49,27 +47,37 @@ class ZDWhileJumpStatement(object):
             yield from self.else_block.state_containers()
 
     def set_else(self, else_block):
+        """Sets a state object or container to act as the 'else' block.
+
+        Passing None unsets the else block."""
         self.else_block = else_block
 
     @classmethod
     def generate(cls, actor, states=()):
+        """Decorate a function to produce a while jump statement.
+
+        Uses the decorated function to produce the code for the condition check."""
+
         def _decorator(condition_gen):
             return cls(actor, condition_gen, states)
 
         return _decorator
 
     def num_block_states(self):
+        """Returns the number of states in the block.
+
+        Does not count the else block, if applicable."""
         return sum(x.num_states() for x in self.states)
 
     def num_else_states(self):
+        """Returns the number of states in the else block only."""
         return self.else_block.num_states()
 
     def num_states(self):
         if self.else_block:
             return self.num_block_states() + self.num_else_states() + 4
 
-        else:
-            return self.num_block_states() + 4
+        return self.num_block_states() + 4
 
     def spawn_safe(self):
         return False
@@ -92,14 +100,13 @@ class ZDWhileJumpStatement(object):
                 ]
             )
 
-        else:
-            return TextNode(
-                [
-                    f"{zerotic} {self.true_condition(2)}",
-                    f"{zerotic} A_Jump(256, {num_st_bl + 2})",
-                    f"{self._loop_id}:",
-                    TextNode([x.to_decorate() for x in self.states]),
-                    f"{zerotic} {self.true_condition(stringify(self._loop_id))}",
-                    zerotic,
-                ]
-            )
+        return TextNode(
+            [
+                f"{zerotic} {self.true_condition(2)}",
+                f"{zerotic} A_Jump(256, {num_st_bl + 2})",
+                f"{self._loop_id}:",
+                TextNode([x.to_decorate() for x in self.states]),
+                f"{zerotic} {self.true_condition(stringify(self._loop_id))}",
+                zerotic,
+            ]
+        )
