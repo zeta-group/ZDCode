@@ -1,18 +1,21 @@
+"""The command line interface for ZDCode and its build system Zake."""
 import argparse
 import os
 import sys
 
-import zdcode
-import zdcode.zake as zake
-from zdcode.bundle import Bundle
+from . import zake
+from .bundle import Bundle
+from .compiler.compiler import ZDCode
 
 
-def print_parse_error(e):
-    print("{}: {}".format(type(e).__name__, str(e)))
+def print_parse_error(error):
+    """Prints a parsing error."""
+    print(f"{type(error).__name__}: {str(error)}")
     sys.exit(2)
 
 
 def from_stdin():
+    """Compiles ZDCode from the standard input."""
     data = []
 
     for line in iter(sys.stdin.readline, ""):
@@ -22,30 +25,33 @@ def from_stdin():
         print("No data to use! Provide as stdin or as arguments.")
         sys.exit(1)
 
-    print(
-        zdcode.ZDCode.parse("\n".join(data), error_handler=print_parse_error).decorate()
-    )
+    print(ZDCode.parse("\n".join(data), error_handler=print_parse_error).decorate())
 
 
 class TupleTrue(argparse.Action):
+    """Sets an item as true by passing a tuple (<item>, True)."""
+
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
         if nargs != 1:
             raise ValueError("Invalid nargs for TupleTrue action (only 1 available)")
 
-        super(TupleTrue, self).__init__(option_strings, dest, **kwargs)
+        super().__init__(option_strings, dest, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        l = getattr(namespace, self.dest, None) or []
+        option = getattr(namespace, self.dest, None) or []
 
-        if not l:
-            setattr(namespace, self.dest, l)
+        if not option:
+            setattr(namespace, self.dest, option)
 
-        l.append((values, True))
+        option.append((values, True))
 
 
 def arg_parser():
+    """Produces the argument parser for the ZDCode command line interface."""
     aparser = argparse.ArgumentParser(
-        description="ZDCode compilation and bundling engine. The following is the direct compilation and bundling interface - if no arguments are passed, Zake is run instead. If possible, use Zake to define a project's build."
+        description="ZDCode compilation and bundling engine. The following is the "
+        "direct compilation and bundling interface - if no arguments are passed, "
+        "Zake is run instead. If possible, use Zake to define a project's build."
     )
 
     aparser.add_argument(
@@ -104,6 +110,7 @@ def arg_parser():
 
 
 def main():
+    """The main entry point."""
     if len(sys.argv) > 1:
         args = arg_parser().parse_args()
         return args.func(args)
@@ -113,6 +120,7 @@ def main():
 
 
 def main_zake():
+    """Calls Zake's main entry point."""
     return zake.main(print_status_code=False)
 
 
@@ -120,15 +128,16 @@ def main_zake():
 
 
 def do_compile(args):
-    code = zdcode.ZDCode()
+    """This argparse action calls the ZDCode compiler directly instead of Zake."""
+    code = ZDCode()
 
     preproc_defs = dict(args.prepdefs or [])
 
-    for fp in args.input:
+    for file_obj in args.input:
         if not code.add(
-            fp.read(),
-            os.path.basename(fp.name),
-            os.path.dirname(fp.name),
+            file_obj.read(),
+            os.path.basename(file_obj.name),
+            os.path.dirname(file_obj.name),
             preproc_defs=preproc_defs,
             error_handler=print_parse_error,
             debug=args.print_ast,
@@ -139,3 +148,5 @@ def do_compile(args):
     dec = code.decorate()
     args.out_compile.write(dec)
     print("Output compiled successfully.")
+
+    return 0

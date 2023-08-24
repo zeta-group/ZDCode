@@ -355,6 +355,16 @@
                 "Allow #### (sprite name) and # (frame name)",
                 "Fix parsing of state modifiers with parentheses (e.g. Offset)"
             ]
+        },
+        {
+            "name": "2.13.8",
+            "changes": [
+                "Fix frames with '####' not being processed"
+            ]
+        },
+        {
+            "name": "2.14.0",
+            "changes": []
         }
     ]
 }
