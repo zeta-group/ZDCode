@@ -383,14 +383,14 @@ class ZDActor(ZDBaseActor):
                 )
             )
 
+        for rd in self.raw:
+            r.add_line(rd)
+
         for f in self.flags:
             r.add_line("+{}".format(f))
 
         for a in self.antiflags:
             r.add_line("-{}".format(a))
-
-        for rd in self.raw:
-            r.add_line(rd)
 
         if len(r) == 1 and r[0].strip() == "":
             return "    "
