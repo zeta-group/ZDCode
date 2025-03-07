@@ -356,7 +356,7 @@ class ZDActor(ZDBaseActor):
     def get_spawn_label(self):
         for l in self.labels:
             if l.name.upper() == "SPAWN":
-                return self.transform_spawn(l)
+                return l
 
         return None
 
@@ -432,22 +432,6 @@ class ZDActor(ZDBaseActor):
 
         return r
 
-    def transform_spawn(self, label: ZDLabel):
-        if label.states[0].spawn_safe():
-            return label
-
-        # TODO: more comprehensive error handling and warning handling
-        # (sike, ZDCode is not going to get new features!)
-        print(
-            f"Warning: Spawn label of class '{repr(self.name)}' is not spawn safe: "
-            "auto-padding with 'TNT1 A 0'! Silence this warning by manually adding a "
-            "'TNT1 A 0' at the start of the Spawn label."
-        )
-
-        new_label = ZDLabel(self, label.name, label.states, False)
-        new_label.states.insert(0, ZDState.tnt1())
-        return new_label
-
     def label_code(self):
         r = TextNode()
 
@@ -455,9 +439,6 @@ class ZDActor(ZDBaseActor):
             r.add_line(decorate(f[1]))
 
         for l in self.labels:
-            if l.name.upper() == "SPAWN":
-                l = self.transform_spawn(l)
-
             r.add_line(decorate(l))
 
         return r
