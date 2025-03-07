@@ -360,46 +360,11 @@ class ZDActor(ZDBaseActor):
 
         return None
 
-    def _set_user_var_state(self, var):
-        vtype, vlit = var["value"]
-
-        if vtype == "val":
-            return [
-                ZDState(
-                    action="{}({}, {})".format(
-                        _user_var_setters[var["type"]], stringify(var["name"]), vlit
-                    )
-                )
-            ]
-
-        elif vtype == "arr":
-            return [
-                ZDState(
-                    action="{}({}, {}, {})".format(
-                        _user_array_setters[var["type"]], stringify(var["name"]), i, v
-                    )
-                )
-                for i, v in enumerate(vlit)
-            ]
-
-    def _get_spawn_prelude(self):
-        return sum(
-            [
-                self._set_user_var_state(var)
-                for var in self.uservars
-                if var.get("value", None)
-            ],
-            [],
-        )
-
     def prepare_spawn_label(self):
         label = self.get_spawn_label()
 
         if not label:
             label = self.make_spawn_label()
-
-        if self.uservars:
-            label.states = self._get_spawn_prelude() + label.states
 
     def top(self):
         r = TextNode()
@@ -2557,21 +2522,6 @@ class ZDCode:
 
         return actor
 
-    def _parse_var_value(self, vval, context):
-        vvtype, vvbody = vval
-
-        if vvtype == "val":
-            return ("val", self._parse_expression(vvbody, context))
-
-        if vvtype == "arr":
-            return self._parse_array(vval, context)
-
-        raise CompilerError(
-            "Could not parse user var value {} in {}".format(
-                repr(vval), context.describe()
-            )
-        )
-
     def _parse_class_body(self, actor, context, body):
         for btype, bdata in body:
             if btype == "for":
@@ -2603,10 +2553,6 @@ class ZDCode:
                 actor.raw.append(bdata)
 
             elif btype == "user var":
-                bdata = {
-                    **bdata,
-                    "value": self._parse_var_value(bdata["value"], context),
-                }
                 actor.uservars.append(bdata)
 
             elif btype == "unflag":

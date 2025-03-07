@@ -583,25 +583,12 @@ def templated_class_derivation():
                             .optional()
                             .map(lambda t: t or "int")
                             .tag("type"),
-                            (
-                                wo.then(s("=")).then(
-                                    expression.tag("val") | array_literal.tag("arr")
-                                )
-                            )
-                            .optional()
-                            .tag("value"),
                         )
                         .map(dict)
                         .tag("user var")
                     )
                     | (
                         (ist("array") << whitespace)
-                        >> seq(
-                            regex(r"user_[a-zA-Z0-9_]+").desc("array name").tag("name"),
-                            (wo >> s("=") >> wo >> array_literal)
-                            .desc("array values")
-                            .tag("value"),
-                        )
                         .map(dict)
                         .desc("override array")
                         .tag("array")
@@ -740,9 +727,6 @@ def class_body():
                 .optional()
                 .map(lambda t: t or "int")
                 .tag("type"),
-                (wo >> s("=") >> (expression.tag("val") | array_literal.tag("arr")))
-                .optional()
-                .tag("value"),
             )
             .map(dict)
             .tag("user var")
