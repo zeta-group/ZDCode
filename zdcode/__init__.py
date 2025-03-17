@@ -356,50 +356,15 @@ class ZDActor(ZDBaseActor):
     def get_spawn_label(self):
         for l in self.labels:
             if l.name.upper() == "SPAWN":
-                return self.transform_spawn(l)
+                return l
 
         return None
-
-    def _set_user_var_state(self, var):
-        vtype, vlit = var["value"]
-
-        if vtype == "val":
-            return [
-                ZDState(
-                    action="{}({}, {})".format(
-                        _user_var_setters[var["type"]], stringify(var["name"]), vlit
-                    )
-                )
-            ]
-
-        elif vtype == "arr":
-            return [
-                ZDState(
-                    action="{}({}, {}, {})".format(
-                        _user_array_setters[var["type"]], stringify(var["name"]), i, v
-                    )
-                )
-                for i, v in enumerate(vlit)
-            ]
-
-    def _get_spawn_prelude(self):
-        return sum(
-            [
-                self._set_user_var_state(var)
-                for var in self.uservars
-                if var.get("value", None)
-            ],
-            [],
-        )
 
     def prepare_spawn_label(self):
         label = self.get_spawn_label()
 
         if not label:
             label = self.make_spawn_label()
-
-        if self.uservars:
-            label.states = self._get_spawn_prelude() + label.states
 
     def top(self):
         r = TextNode()
@@ -418,35 +383,19 @@ class ZDActor(ZDBaseActor):
                 )
             )
 
+        for rd in self.raw:
+            r.add_line(rd)
+
         for f in self.flags:
             r.add_line("+{}".format(f))
 
         for a in self.antiflags:
             r.add_line("-{}".format(a))
 
-        for rd in self.raw:
-            r.add_line(rd)
-
         if len(r) == 1 and r[0].strip() == "":
             return "    "
 
         return r
-
-    def transform_spawn(self, label: ZDLabel):
-        if label.states[0].spawn_safe():
-            return label
-
-        # TODO: more comprehensive error handling and warning handling
-        # (sike, ZDCode is not going to get new features!)
-        print(
-            f"Warning: Spawn label of class '{repr(self.name)}' is not spawn safe: "
-            "auto-padding with 'TNT1 A 0'! Silence this warning by manually adding a "
-            "'TNT1 A 0' at the start of the Spawn label."
-        )
-
-        new_label = ZDLabel(self, label.name, label.states, False)
-        new_label.states.insert(0, ZDState.tnt1())
-        return new_label
 
     def label_code(self):
         r = TextNode()
@@ -455,9 +404,6 @@ class ZDActor(ZDBaseActor):
             r.add_line(decorate(f[1]))
 
         for l in self.labels:
-            if l.name.upper() == "SPAWN":
-                l = self.transform_spawn(l)
-
             r.add_line(decorate(l))
 
         return r
@@ -2576,21 +2522,6 @@ class ZDCode:
 
         return actor
 
-    def _parse_var_value(self, vval, context):
-        vvtype, vvbody = vval
-
-        if vvtype == "val":
-            return ("val", self._parse_expression(vvbody, context))
-
-        if vvtype == "arr":
-            return self._parse_array(vval, context)
-
-        raise CompilerError(
-            "Could not parse user var value {} in {}".format(
-                repr(vval), context.describe()
-            )
-        )
-
     def _parse_class_body(self, actor, context, body):
         for btype, bdata in body:
             if btype == "for":
@@ -2622,10 +2553,6 @@ class ZDCode:
                 actor.raw.append(bdata)
 
             elif btype == "user var":
-                bdata = {
-                    **bdata,
-                    "value": self._parse_var_value(bdata["value"], context),
-                }
                 actor.uservars.append(bdata)
 
             elif btype == "unflag":
